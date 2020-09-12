@@ -40,6 +40,7 @@ const store = createStore(rootReducer, composeWithDevTools())
 
 // react-redux-firebase config
 const rrfConfig = {
+  preserveOnLogout: ['questions'],
   userProfile: 'users'
   // useFirestoreForProfile: true // Firestore for Profile instead of Realtime DB
   // enableClaims: true // Get custom claims along with the profile
