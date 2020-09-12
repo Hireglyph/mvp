@@ -2,6 +2,7 @@ import React from 'react';
 import PageLanding from './pages/PageLanding';
 import PageProfile from './pages/PageProfile';
 import PageQuestion from './pages/PageQuestion';
+import PageTp from './pages/PageTp';
 
 import { Switch, Route } from 'react-router-dom';
 
@@ -17,6 +18,11 @@ function App() {
       <Route exact path="/q/:questId">
         <PageQuestion />
       </Route>
+
+      <Route exact path="/tp/:questId/:tpId">
+        <PageTp />
+      </Route>
+
       <Route>
         <div>Page not found</div>
       </Route>
