@@ -1,4 +1,5 @@
 import React from 'react';
+import TpPreview from '../components/TpPreview.js';
 
 import { Link, withRouter } from 'react-router-dom';
 import { firebaseConnect, isLoaded, isEmpty, populate } from 'react-redux-firebase';
@@ -11,12 +12,8 @@ class PageQuestion extends React.Component {
     this.state = {correctTps: true};
   }
 
-  showCorrect = () => {
-    this.setState({correctTps: true});
-  }
-
-  showWrong = () => {
-    this.setState({correctTps: false});
+  handleTps = () => {
+    this.setState({correctTps: !this.state.correctTps});
   }
 
   render() {
@@ -35,49 +32,25 @@ class PageQuestion extends React.Component {
       Object.keys(this.props.tps).map(tpId => {
         const tp = this.props.tps[tpId];
 
-        if(tp.type==="correct"){
-        
+        if (tp.type === "correct"){
           return (
-            <div key={tpId}>
-              <div>Initial thoughts: {tp.initial}</div>
-              <div>Approaches tried: {tp.approach}</div>
-              <div>Final solution: {tp.solution}</div>
-              <div>
-                <Link to={`/tp/${this.props.questId}/${tpId}`}>View full Thought Process</Link>
-              </div>
-              <br />
-            </div>
+            <TpPreview tp={tp} tpId={tpId} questId={this.props.questId}/>
           );
         }
+        return;
 
-        else{
-          return(null)
-        }
-    
     });
 
     const helpTps = this.props.tps &&
       Object.keys(this.props.tps).map(tpId => {
         const tp = this.props.tps[tpId];
 
-        if(tp.type==="help") {
-
+        if (tp.type === "help") {
           return (
-            <div key={tpId}>
-              <div>Initial thoughts: {tp.initial}</div>
-              <div>Approaches tried: {tp.approach}</div>
-              <div>Final solution: {tp.solution}</div>
-              <div>
-                <Link to={`/tp/${this.props.questId}/${tpId}`}>View full Thought Process</Link>
-              </div>
-              <br />
-            </div>
+            <TpPreview tp={tp} tpId={tpId} questId={this.props.questId}/>
           );
         }
-
-        else{
-          return(null)
-        }
+        return;
 
     });
 
@@ -89,11 +62,21 @@ class PageQuestion extends React.Component {
         <div>Topics: {topics}</div>
         <br />
         <div>
-          <button disabled={this.state.correctTps} onClick={this.showCorrect} >CORRECT TPs</button>
-          <button disabled={!this.state.correctTps} onClick={this.showWrong} >HELP</button>
+          <button
+            disabled={this.state.correctTps}
+            onClick={this.handleTps}
+          >
+              CORRECT TPs
+          </button>
+          <button
+            disabled={!this.state.correctTps}
+            onClick={this.handleTps}
+          >
+              HELP
+          </button>
         </div>
-        <hr></hr>
-        
+        <hr />
+
         <div>{this.state.correctTps ? correctTps : helpTps}</div>
       </div>
     );
