@@ -40,6 +40,8 @@ class PageLanding extends React.Component {
           { this.props.uid ? (
             <div>
               <div>{this.props.email}</div>
+              <Link to={`/profile`}>My Profile</Link>
+              <br />
               <button onClick={() => this.props.firebase.logout()}>Logout</button>
             </div>
           ) : (
