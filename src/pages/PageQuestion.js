@@ -55,6 +55,7 @@ class PageQuestion extends React.Component {
   }
 
   render() {
+
     if (!isLoaded(this.props.title) || !isLoaded(this.props.tps)) {
       return (<div>Loading...</div>);
     }
@@ -225,13 +226,13 @@ const mapStateToProps = (state, props) => {
   const topics = question && question.topics;
   const difficulty = question && question.difficulty;
   const tps = question && question.tps;
-  
-  const user = state.firebase.data.users && state.firebase.data.users[state.firebase.auth.uid];
-  //const userTp = user && user.tpHistory[questId];
-  //const userTp = "blah";
-  const solved = user && questId && (questId in user.tpHistory);
-  const viewed = user && questId && (questId in user.viewedTps);
-  return { questId, title, description, definitive, topics, difficulty, tps, isLoggedIn: state.firebase.auth.uid, solved, viewed};
+  if(state.firebase.auth.uid){
+    const user = state.firebase.data.users && state.firebase.data.users[state.firebase.auth.uid];
+    const solved = user && questId && (questId in user.tpHistory);
+    const viewed = user && questId && (questId in user.viewedTps);
+    return { questId, title, description, definitive, topics, difficulty, tps, isLoggedIn: state.firebase.auth.uid, solved, viewed};
+  }
+  return { questId, title, description, definitive, topics, difficulty, tps, isLoggedIn: state.firebase.auth.uid};
 
 }
 

@@ -8,12 +8,12 @@ class PageProfile extends React.Component {
 
     render() {
 
-    	if(!isLoaded(this.props.email) || !isLoaded(this.props.tpHistory)) {
-    		return <div>Loading...</div>;
-    	}
-
     	if(!this.props.uid){
       		return <Redirect to="/register" />
+    	}
+
+    	if(!isLoaded(this.props.email) || !isLoaded(this.props.tpHistory)) {
+    		return <div>Loading...</div>;
     	}
 
     	const history = this.props.expanded && this.props.tpHistory && 
