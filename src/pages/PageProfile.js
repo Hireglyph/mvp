@@ -16,10 +16,10 @@ class PageProfile extends React.Component {
     		return <div>Loading...</div>;
     	}
 
-    	const history = this.props.expanded && this.props.tpHistory && 
+    	const history = this.props.expanded && this.props.tpHistory &&
     	Object.keys(this.props.tpHistory).map( (questId, index) => {
     		return(
-    			(questId!=="test") ? 
+    			(questId!=="test") ?
 	    			<div key={index}>
 	    				<h4>This is your thought process to question "{questId}"</h4>
 	    				<p>{this.props.tpHistory[questId].initial}</p>
@@ -32,7 +32,7 @@ class PageProfile extends React.Component {
     		);
     	})
 
-        return (<div>User profile! 
+        return (<div>User profile!
         		<br />
         		<br />
         		{this.props.email}
@@ -45,7 +45,6 @@ class PageProfile extends React.Component {
 
 
 const mapStateToProps = (state, props) => {
-
 	const uid = state.firebase.auth.uid;
 	const users = state.firebase.data.users;
 	const user = users && users[uid];

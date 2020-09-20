@@ -18,6 +18,7 @@ export default class TpPreview extends Component {
         <div>Initial thoughts: {tp.initial}</div>
         <div>Approaches tried: {tp.approach}</div>
         <div>Final solution: {tp.solution}</div>
+        <div>Upvotes: {tp.votes}</div>
         <div>
           <Link to={`/tp/${this.props.questId}/${tpId}`}>
             View full Thought Process
