@@ -10,28 +10,18 @@ class PageQuestion extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      setting: 3,
+      setting: 1,
       initial: '',
       approach: '',
       solution: '',
-      type: 'help',
     };
   }
 
   handleTps = number => {
     this.setState({ setting: number });
-    if (number != 3 && !this.props.viewed) {
-      const updates = {};
-      const tp = { viewed: true, };
-      updates[`/users/${this.props.isLoggedIn}/viewedTps/${this.props.questId}`] = tp;
-      this.props.firebase.update('/', updates);
-    }
   }
 
   handleChange = event => this.setState({ [event.target.name]: event.target.value });
-
-  handleCheckboxChange = event =>
-    this.setState({ [event.target.name]: (event.target.value ? 'correct' : 'help') });
 
   createTp = () => {
     const tpId = this.props.firebase.push(`/tps/${this.props.questId}`).key;
@@ -40,12 +30,12 @@ class PageQuestion extends React.Component {
       initial: this.state.initial,
       approach: this.state.approach,
       solution: this.state.solution,
-      type: this.state.type,
-      creator: this.props.isLoggedIn
+      creator: this.props.isLoggedIn,
+      total: 0
     };
 
     updates[`/tps/${this.props.questId}/${tpId}`] = tp;
-    updates[`/users/${this.props.isLoggedIn}/tpHistory/${this.props.questId}`] = {tpId: tpId};
+    updates[`/users/${this.props.isLoggedIn}/tpHistory/${tpId}`] = {questId: this.props.questId};
     const onComplete = () => {
       this.props.history.push(`/tp/${this.props.questId}/${tpId}`);
     }
@@ -58,6 +48,22 @@ class PageQuestion extends React.Component {
       return (<div>Loading...</div>);
     }
 
+    const tps = this.props.tps;
+    var keys = (tps) ? Object.keys(tps) : [];
+    keys.sort((a, b) => tps[b].total - tps[a].total);
+
+    //let length = keys.length;
+    //for (let i = 1; i < length; i++) {
+    //    let key = tps[keys[i]].total;
+    //    let key2 = keys[i];
+    //    let j = i - 1;
+    //    while (j >= 0 && tps[keys[j]].total < key) {
+    //        keys[j + 1] = keys[j];
+    //        j = j - 1;
+    //    }
+    //    keys[j + 1] = key2;
+    //}
+
     const topics = this.props.topics &&
       Object.keys(this.props.topics).map(topicId => {
         return (
@@ -65,28 +71,12 @@ class PageQuestion extends React.Component {
         );
     });
 
-    const correctTps = this.props.tps &&
-      Object.keys(this.props.tps).map(tpId => {
+    const Tps = this.props.tps &&
+      keys.map(tpId => {
         const tp = this.props.tps[tpId];
-
-        if (tp.type === "correct"){
-          return (
-            <TpPreview tp={tp} tpId={tpId} questId={this.props.questId}/>
+        return (
+            <TpPreview tp={tp} tpId={tpId} questId={this.props.questId} key={tpId}/>
           );
-        }
-        return;
-
-    });
-
-    const helpTps = this.props.tps &&
-      Object.keys(this.props.tps).map(tpId => {
-        const tp = this.props.tps[tpId];
-
-        if (tp.type === "help") {
-          return (
-            <TpPreview tp={tp} tpId={tpId} questId={this.props.questId}/>
-          );
-        }
         return;
 
     });
@@ -116,14 +106,6 @@ class PageQuestion extends React.Component {
         value={this.state.solution}
         />
         <br />
-        <p>Is your TP correct?</p>
-        <input
-        name="type"
-        type="checkbox"
-        onChange={this.handleCheckboxChange}
-        value={this.state.type}
-        />
-        <br />
         <br />
         <button
         disabled=
@@ -135,33 +117,13 @@ class PageQuestion extends React.Component {
       </div>
 
       );
-    const tpsViewed = (
-      <div>
-        <p>Because you have already viewed other TPs to this problem, you cannot submit your own TP to this problem.</p>
-      </div>
-    );
-
-    const noTp = (
-      <div>
-        <p>Because you have already submitted a TP, you cannot submit a TP to this problem anymore.</p>
-      </div>
-    );
 
     let section;
     if (this.state.setting === 1) {
-      section = correctTps;
+      section = myTp;
     }
     if (this.state.setting === 2) {
-      section = helpTps
-    }
-    if (!this.props.solved && !this.props.viewed && this.state.setting === 3) {
-      section = myTp
-    }
-    if (!this.props.solved && this.props.viewed && this.state.setting === 3) {
-      section = tpsViewed;
-    }
-    if (this.props.solved && this.state.setting === 3) {
-      section = noTp;
+      section = Tps;
     }
 
     if (!this.props.isLoggedIn) {
@@ -184,23 +146,16 @@ class PageQuestion extends React.Component {
         <br />
         <div>
           <button
-            disabled={this.state.setting === 3}
-            onClick={() => this.handleTps(3)}
+            disabled={this.state.setting === 1}
+            onClick={() => this.handleTps(1)}
           >
               MY TP
           </button>
           <button
-            disabled={this.state.setting === 1}
-            onClick={() => this.handleTps(1)}
-          >
-              CORRECT TPs
-          </button>
-
-          <button
             disabled={this.state.setting === 2}
             onClick={() => this.handleTps(2)}
           >
-              HELP
+              Community TPs
           </button>
         </div>
         <hr />
@@ -214,6 +169,10 @@ class PageQuestion extends React.Component {
   }
 }
 
+
+const populates =
+  [{child: 'creator', root: 'users'}];
+
 const mapStateToProps = (state, props) => {
   const questId = props.match.params.questId
   const question = state.firebase.data[questId];
@@ -223,15 +182,8 @@ const mapStateToProps = (state, props) => {
   const definitive = question && question.definitive;
   const topics = question && question.topics;
   const difficulty = question && question.difficulty;
-  const tps = question && question.tps;
-
-  if (state.firebase.auth.uid) {
-    const user = state.firebase.data.users && state.firebase.data.users[state.firebase.auth.uid];
-    const solved = user && user.tpHistory && questId && (questId in user.tpHistory);
-    const viewed = user && user.tpHistory && questId && (questId in user.viewedTps);
-    return { questId, title, description, definitive, topics, difficulty, tps, isLoggedIn: state.firebase.auth.uid, solved, viewed};
-  }
-
+  //const tps = question && question.tps;
+  const tps = question && populate(state.firebase, `/tps/${questId}`, populates)
   return { questId, title, description, definitive, topics, difficulty, tps, isLoggedIn: state.firebase.auth.uid};
 
 }
@@ -242,8 +194,8 @@ export default compose(
   firebaseConnect(props => {
     const questId = props.match.params.questId;
     return [{path: `/questions/${questId}`, storeAs: questId},
-            {path: `/tps/${questId}`, storeAs: `${questId}/tps`},
-            {path: '/users'} ];
+            //{path: `/tps/${questId}`, storeAs: `${questId}/tps`},  
+            {path: `/tps/${questId}`, populates } ];
   }),
   connect(mapStateToProps)
 )(PageQuestion);

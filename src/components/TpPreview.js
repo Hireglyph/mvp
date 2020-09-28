@@ -14,11 +14,12 @@ export default class TpPreview extends Component {
     const questId = this.props.questId;
 
     return (
-      <div key={tpId}>
-        <div>Initial thoughts: {tp.initial}</div>
-        <div>Approaches tried: {tp.approach}</div>
-        <div>Final solution: {tp.solution}</div>
-        <div>Upvotes: {tp.votes}</div>
+      <div key={tpId}> 
+        <div>TP created by @{tp.creator.username}</div>
+        <div>Initial thoughts: {tp.initial.slice(0,20)}...</div>
+        <div>Approaches tried: {tp.approach.slice(0,20)}...</div>
+        <div>Final solution: {tp.solution.slice(0,20)}...</div>
+        <div>Score: {tp.total}</div>
         <div>
           <Link to={`/tp/${this.props.questId}/${tpId}`}>
             View full Thought Process

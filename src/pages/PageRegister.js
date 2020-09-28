@@ -27,7 +27,6 @@ class PageRegister extends React.Component {
       email: this.state.email,
       username: this.state.username,
       tpHistory: {test: "tpHistory!"},
-      viewedTps: {test: "viewedTps!"},
     }
 
     try {

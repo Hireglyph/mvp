@@ -8,23 +8,22 @@ class PageProfile extends React.Component {
 
     render() {
 
+      if(!isLoaded(this.props.email) || !isLoaded(this.props.tpHistory)) {
+        return <div>Loading...</div>;
+      }
+
     	if(!this.props.uid){
       		return <Redirect to="/register" />
     	}
 
-    	if(!isLoaded(this.props.email) || !isLoaded(this.props.tpHistory)) {
-    		return <div>Loading...</div>;
-    	}
 
-    	const history = this.props.expanded && this.props.tpHistory &&
-    	Object.keys(this.props.tpHistory).map( (questId, index) => {
+    	const history = this.props.tpHistory &&
+    	Object.keys(this.props.tpHistory).map( (tpId, index) => {
     		return(
-    			(questId!=="test") ?
+    			(tpId!=="test" && this.props.tpHistory[tpId].questId && this.props.tpHistory[tpId]) ?
 	    			<div key={index}>
-	    				<h4>This is your thought process to question "{questId}"</h4>
-	    				<p>{this.props.tpHistory[questId].initial}</p>
-	    				<p>{this.props.tpHistory[questId].approach}</p>
-	    				<p>{this.props.tpHistory[questId].solution}</p>
+	    				<h4>Go to your thought process to question "{this.props.tpHistory[tpId].questId}"</h4>
+              <Link to={`/tp/${this.props.tpHistory[tpId].questId}/${tpId}`}>Click HERE</Link>
 	    				<hr />
 	    			</div>
 	    			:
@@ -42,8 +41,6 @@ class PageProfile extends React.Component {
     }
 }
 
-
-
 const mapStateToProps = (state, props) => {
 	const uid = state.firebase.auth.uid;
 	const users = state.firebase.data.users;
@@ -52,20 +49,14 @@ const mapStateToProps = (state, props) => {
 
 	const tps = state.firebase.data.tps;
 	//console.log(tps);
-
-	const expanded = tpHistory && tps && Object.keys(tpHistory).map(questId => {
-		if(tpHistory[questId].tpId){
-			tpHistory[questId] = tps[questId][tpHistory[questId].tpId];
-		}
-	});
 	const email = user && user.email;
-	return { tpHistory, email, uid, tps, expanded}
+	return { tpHistory, email, uid, tps}
 };
 
 export default compose(
   withRouter,
   firebaseConnect(props => {
-    return [ {path: '/users'} , {path: '/tps'} ];
+    return [ {path: '/users'} ];
   }),
   connect(mapStateToProps)
 )(PageProfile);
