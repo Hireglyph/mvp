@@ -9,9 +9,18 @@ class PageTp extends React.Component{
     super(props);
     this.state = {
       feedback: '',
-      sort: true,
+      loading: true,
       keys: [],
     };
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    if (prevState.loading && this.props.feedbacks) {
+      let keys = this.props.feedbacks ? Object.keys(this.props.feedbacks) : [];
+      keys.sort((a, b) => this.props.feedbacks[b].score - this.props.feedbacks[a].score);
+
+      this.setState({ loading: false, keys });
+    }
   }
 
   handleChange = event => this.setState({ [event.target.name]: event.target.value });
@@ -26,26 +35,15 @@ class PageTp extends React.Component{
     };
     updates[`/feedbacks/${this.props.tpId}/${feedbackId}`] = feedback;
     this.setState({ feedback: '', })
-    
+
     const onComplete = () => {
-      //const keys2 = this.state.keys.slice().unshift(feedbackId);
-      const keys2 = this.state.keys;
-      //console.log(keys2);
-      keys2.unshift(feedbackId);
-      //console.log(keys2);
-      this.setState({ keys: keys2 });
-      //this.setState({ keys: keys2 });
+      const keys = this.state.keys;
+      keys.unshift(feedbackId);
+      this.setState({ keys });
     }
 
     this.props.firebase.update('/', updates, onComplete);
-    
-  }
 
-  sortarray = array => {
-    if(this.state.sort){
-      array.sort((a, b) => this.props.feedbacks[b].score - this.props.feedbacks[a].score);
-      this.setState({sort: false, keys: array})
-    }
   }
 
   upvote = () => {
@@ -55,7 +53,7 @@ class PageTp extends React.Component{
       updates[`/tps/${this.props.questId}/${this.props.tpId}/users/${this.props.isLoggedIn}`] = 1
       this.props.firebase.update('/', updates);
     }
-    
+
     if(this.props.isUpvoted){
       updates[`/tps/${this.props.questId}/${this.props.tpId}/total`] = this.props.total - 1;
       updates[`/tps/${this.props.questId}/${this.props.tpId}/users/${this.props.isLoggedIn}`] = 0
@@ -77,7 +75,7 @@ class PageTp extends React.Component{
       updates[`/tps/${this.props.questId}/${this.props.tpId}/users/${this.props.isLoggedIn}`] = -1
       this.props.firebase.update('/', updates);
     }
-    
+
     if(this.props.isUpvoted){
       updates[`/tps/${this.props.questId}/${this.props.tpId}/total`] = this.props.total - 2;
       updates[`/tps/${this.props.questId}/${this.props.tpId}/users/${this.props.isLoggedIn}`] = -1
@@ -142,27 +140,10 @@ class PageTp extends React.Component{
       return <Redirect to="/register" />
     }
 
-    //const feedbacks = this.props.feedbacks;
-    //var keys = (feedbacks) ? Object.keys(feedbacks) : [];
-    //let length = keys.length;
+    // if(this.state.loading) {
+    //   this.sortKeys();
+    // }
 
-    //const feedbacks = this.props.feedbacks;
-    //const keys = (feedbacks) ? Object.keys(feedbacks) : [];
-    //keys.sort((a, b) => feedbacks[b].score - feedbacks[a].score);
-
-    const keys = (this.props.feedbacks) ? this.sortarray(Object.keys(this.props.feedbacks)) : this.sortarray([]);
-      //let length = keys.length;
-      //for (let i = 1; i < length; i++) {
-        //  let key = feedbacks[keys[i]].score;
-          //let key2 = keys[i];
-        //  let j = i - 1;
-         // while (j >= 0 && feedbacks[keys[j]].score < key) {
-          //    keys[j + 1] = keys[j];
-         //     j = j - 1;
-        //  }
-        //  keys[j + 1] = key2;
-      //} 
-    console.log(this.state.keys);
     const Feedbacks = this.props.feedbacks &&
       this.state.keys.map(feedbackId => {
         const feedback = this.props.feedbacks[feedbackId];
@@ -239,9 +220,9 @@ const mapStateToProps = (state, props) => {
   const approach = tp && tp.approach;
   const solution = tp && tp.solution;
   const total = tp && tp.total;
-  const isUpvoted = tp && tp.users && (state.firebase.auth.uid in tp.users) && (tp.users[state.firebase.auth.uid]===1);
+  const isUpvoted = tp && tp.users && (state.firebase.auth.uid in tp.users) && (tp.users[state.firebase.auth.uid] === 1);
   const isDownvoted = tp && tp.users && (state.firebase.auth.uid in tp.users) && (tp.users[state.firebase.auth.uid] === -1);
-  return { questId, tpId, initial, approach, solution, isLoggedIn: state.firebase.auth.uid, questId, feedbacks, total, isUpvoted, isDownvoted, username};
+  return { questId, tpId, initial, approach, solution, isLoggedIn: state.firebase.auth.uid, questId, feedbacks, total, isUpvoted, isDownvoted, username };
 }
 
 export default compose(
