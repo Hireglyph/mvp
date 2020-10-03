@@ -146,18 +146,23 @@ class PageTp extends React.Component{
 
     const Feedbacks = this.props.feedbacks &&
       this.state.keys.map(feedbackId => {
+        //console.log(this.props.feedbacks);
+        //console.log(feedbackId);
         const feedback = this.props.feedbacks[feedbackId];
-        return (
-            <div key={feedbackId}>
-              <p>Feedback by: @{feedback.creator.username}</p>
-              <p>Feedback: {feedback.feedback} </p>
-              <p>Score: {feedback.score} </p>
-              <div>
-                <button onClick={() => this.upvoteFeedback(feedbackId)}> ↑ </button>
-                <button onClick={() => this.downvoteFeedback(feedbackId)}> ↓ </button>
+        //console.log(feedback);
+        if (feedback){
+          return (
+              <div key={feedbackId}>
+                <p>Feedback by: @{feedback.creator.username}</p>
+                <p>Feedback: {feedback.feedback} </p>
+                <p>Score: {feedback.score} </p>
+                <div>
+                  <button onClick={() => this.upvoteFeedback(feedbackId)}> ↑ </button>
+                  <button onClick={() => this.downvoteFeedback(feedbackId)}> ↓ </button>
+                </div>
               </div>
-            </div>
-          );
+            );
+        }
         return;
     });
 
