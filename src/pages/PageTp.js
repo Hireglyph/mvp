@@ -20,6 +20,7 @@ class PageTp extends React.Component{
       keys.sort((a, b) => this.props.feedbacks[b].score - this.props.feedbacks[a].score);
 
       this.setState({ loading: false, keys });
+      //console.log("meep");
     }
   }
 
@@ -37,9 +38,18 @@ class PageTp extends React.Component{
     this.setState({ feedback: '', })
 
     const onComplete = () => {
-      const keys = this.state.keys;
-      keys.unshift(feedbackId);
-      this.setState({ keys });
+      if( this.state.keys[0] && this.state.keys[0] != feedbackId ) {
+        //console.log( (feedbackId in this.state.keys) );
+        //console.log(this.state.keys);
+        //console.log(feedbackId);
+        
+        const keys = this.state.keys;
+        keys.unshift(feedbackId);
+        this.setState({ keys });
+        
+        //console.log(this.state.keys);
+        //console.log("bop");
+      }
     }
 
     this.props.firebase.update('/', updates, onComplete);
@@ -146,6 +156,8 @@ class PageTp extends React.Component{
 
     const Feedbacks = this.props.feedbacks &&
       this.state.keys.map(feedbackId => {
+        //console.log(feedbackId);
+        //console.log(this.state.keys);
         //console.log(this.props.feedbacks);
         //console.log(feedbackId);
         const feedback = this.props.feedbacks[feedbackId];
