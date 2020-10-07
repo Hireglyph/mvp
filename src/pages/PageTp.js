@@ -146,6 +146,10 @@ class PageTp extends React.Component{
       return (<div>Loading...</div>);
     }
 
+   // if (isEmpty(this.props.initial)){
+   //   return <div>Page not found!</div>;
+   // }
+
     if(!this.props.isLoggedIn){
       return <Redirect to="/register" />
     }
@@ -153,6 +157,10 @@ class PageTp extends React.Component{
     // if(this.state.loading) {
     //   this.sortKeys();
     // }
+    
+    if (isEmpty(this.props.initial)){
+     return <div>Page not found!</div>;
+    }
 
     const Feedbacks = this.props.feedbacks &&
       this.state.keys.map(feedbackId => {

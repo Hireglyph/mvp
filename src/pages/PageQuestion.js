@@ -48,6 +48,10 @@ class PageQuestion extends React.Component {
       return (<div>Loading...</div>);
     }
 
+    if (isEmpty(this.props.title)){
+      return <div>Page not found!</div>;
+    }
+
     const tps = this.props.tps;
     var keys = (tps) ? Object.keys(tps) : [];
     keys.sort((a, b) => tps[b].total - tps[a].total);
