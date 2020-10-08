@@ -14,9 +14,21 @@ class PageQuestion extends React.Component {
       initial: '',
       approach: '',
       solution: '',
+      loading: true,
+      keys: [],
     };
   }
 
+  componentDidUpdate(prevProps, prevState){
+    if (prevState.loading && isLoaded(this.props.tps)) {
+      let keys = this.props.tps ? Object.keys(this.props.tps) : [];
+      keys.sort((a, b) => this.props.tps[b].total - this.props.tps[a].total);
+
+      this.setState({ loading: false, keys });
+      //console.log("meep");
+    }
+  }
+  
   handleTps = number => {
     this.setState({ setting: number });
   }
@@ -52,22 +64,6 @@ class PageQuestion extends React.Component {
       return <div>Page not found!</div>;
     }
 
-    const tps = this.props.tps;
-    var keys = (tps) ? Object.keys(tps) : [];
-    keys.sort((a, b) => tps[b].total - tps[a].total);
-
-    //let length = keys.length;
-    //for (let i = 1; i < length; i++) {
-    //    let key = tps[keys[i]].total;
-    //    let key2 = keys[i];
-    //    let j = i - 1;
-    //    while (j >= 0 && tps[keys[j]].total < key) {
-    //        keys[j + 1] = keys[j];
-    //        j = j - 1;
-    //    }
-    //    keys[j + 1] = key2;
-    //}
-
     const topics = this.props.topics &&
       Object.keys(this.props.topics).map(topicId => {
         return (
@@ -76,7 +72,7 @@ class PageQuestion extends React.Component {
     });
 
     const Tps = this.props.tps &&
-      keys.map(tpId => {
+      this.state.keys.map(tpId => {
         const tp = this.props.tps[tpId];
         return (
             <TpPreview tp={tp} tpId={tpId} questId={this.props.questId} key={tpId}/>
