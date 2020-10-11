@@ -3,6 +3,7 @@ import { Link, withRouter, Redirect } from 'react-router-dom';
 import { firebaseConnect, isLoaded, isEmpty, populate } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import './PageTp.css';
 
 class PageTp extends React.Component{
   constructor(props){
@@ -155,21 +156,18 @@ class PageTp extends React.Component{
 
     const Feedbacks = this.props.feedbacks &&
       this.state.keys.map(feedbackId => {
-        //console.log(feedbackId);
-        //console.log(this.state.keys);
-        //console.log(this.props.feedbacks);
-        //console.log(feedbackId);
         const feedback = this.props.feedbacks[feedbackId];
-        //console.log(feedback);
         if (feedback){
+          const isUpvoted = feedback.users && (this.props.isLoggedIn in feedback.users) && (feedback.users[this.props.isLoggedIn]===1);
+          const isDownvoted = feedback.users && (this.props.isLoggedIn in feedback.users) && (feedback.users[this.props.isLoggedIn]===-1);
           return (
               <div key={feedbackId}>
                 <p>Feedback by: @{feedback.creator.username}</p>
                 <p>Feedback: {feedback.feedback} </p>
                 <p>Score: {feedback.score} </p>
                 <div>
-                  <button onClick={() => this.upvoteFeedback(feedbackId)}> ↑ </button>
-                  <button onClick={() => this.downvoteFeedback(feedbackId)}> ↓ </button>
+                  <button className={isUpvoted ? 'upvoted' : 'neutral'} onClick={() => this.upvoteFeedback(feedbackId)}> ↑ </button>
+                  <button className={isDownvoted ? 'downvoted' : 'neutral'} onClick={() => this.downvoteFeedback(feedbackId)}> ↓ </button>
                 </div>
               </div>
             );
@@ -205,8 +203,8 @@ class PageTp extends React.Component{
   			<div>Final solution: {this.props.solution}</div>
         <div>Score: {this.props.total}</div>
         <div>
-          <button onClick={this.upvote}> ↑ </button>
-          <button onClick={this.downvote}> ↓ </button>
+          <button className={this.props.isUpvoted ? 'upvoted' : 'neutral'} onClick={this.upvote}> ↑ </button>
+          <button className={this.props.isDownvoted ? 'downvoted' : 'neutral'} onClick={this.downvote}> ↓ </button>
         </div>
         <hr />
         <div> {myFeedback}</div>
