@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Offside';
+  src: url('../assets/fonts/Offside-Regular.ttf')  format('truetype');
+}
+
 .register-container {
     position: relative;
     width: 100%;
@@ -24,7 +29,7 @@
     position: relative;
     text-align: center;
 
-    font-family: Offside;
+    font-family: 'Offside';
     font-style: normal;
     font-weight: normal;
     font-size: 48px;
