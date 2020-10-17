@@ -1,0 +1,38 @@
+.register-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+
+    background: #F6F0ED;
+}
+
+.register-block {
+    position: relative;
+    width: 40%;
+    height: 40%;
+    margin: auto;
+    display: block;
+    overflow: auto;
+
+    background: #FFFFFF;
+    box-shadow: 5px 10px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+}
+
+.register-title {
+    position: relative;
+    text-align: center;
+
+    font-family: Offside;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 48px;
+    line-height: 61px;
+    /* identical to box height */
+
+    display: flex;
+    align-items: center;
+
+    color: #000000;
+}

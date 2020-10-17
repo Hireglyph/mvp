@@ -3,6 +3,7 @@ import { firebaseConnect } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Redirect, Link } from 'react-router-dom';
+import '../styles/PageRegister.css';
 
 class PageRegister extends React.Component {
   constructor(props) {
@@ -43,40 +44,44 @@ class PageRegister extends React.Component {
     }
 
     return (
-      <div>
-        <h2>Register</h2>
-        <div>
-          <div>{this.state.error}</div>
-          <input
-            name="email"
-            onChange={this.handleChange}
-            placeholder="Email"
-            value={this.state.email}
-          />
+      <div className='register-container'>
+        <div className='register-block'>
+          <div className='register-title'>
+            <h2>join the community!</h2>
+          </div>
+          <div>
+            <div>{this.state.error}</div>
+            <input
+              name="email"
+              onChange={this.handleChange}
+              placeholder="Email"
+              value={this.state.email}
+            />
+            <br />
+            <input
+              name="password"
+              onChange={this.handleChange}
+              placeholder="Password"
+              type="password"
+              value={this.state.password}
+            />
+            <br />
+            <input
+              name="username"
+              onChange={this.handleChange}
+              placeholder="Username"
+              value={this.state.username}
+            />
+          </div>
           <br />
-          <input
-            name="password"
-            onChange={this.handleChange}
-            placeholder="Password"
-            type="password"
-            value={this.state.password}
-          />
+          <button disabled={!this.state.username.trim()} onClick={this.register}>
+            Register!
+          </button>
+          <hr />
+          <Link to="/">Home</Link>
           <br />
-          <input
-            name="username"
-            onChange={this.handleChange}
-            placeholder="Username"
-            value={this.state.username}
-          />
+          <Link to="/login">Login</Link>
         </div>
-        <br />
-        <button disabled={!this.state.username.trim()} onClick={this.register}>
-          Register!
-        </button>
-        <hr />
-        <Link to="/">Home</Link>
-        <br />
-        <Link to="/login">Login</Link>
       </div>
     );
   }
