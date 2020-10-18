@@ -8,11 +8,11 @@ class PageProfile extends React.Component {
 
     render() {
 
-      if(!isLoaded(this.props.email) || !isLoaded(this.props.tpHistory)) {
+      if(!isLoaded(this.props.profile)) {
         return <div>Loading...</div>;
       }
 
-    	if(!this.props.uid){
+    	if(isEmpty(this.props.profile)){
       		return <Redirect to="/register" />
     	}
 
@@ -43,20 +43,15 @@ class PageProfile extends React.Component {
 
 const mapStateToProps = (state, props) => {
 	const uid = state.firebase.auth.uid;
-	const users = state.firebase.data.users;
-	const user = users && users[uid];
-	const tpHistory = user && user.tpHistory;
+  const profile = state.firebase.profile;
+	const tpHistory = profile && profile.tpHistory;
 
-	const tps = state.firebase.data.tps;
-	//console.log(tps);
-	const email = user && user.email;
-	return { tpHistory, email, uid, tps}
+	const email = profile && profile.email;
+	return { tpHistory, email, uid, profile }
 };
 
 export default compose(
   withRouter,
-  firebaseConnect(props => {
-    return [ {path: '/users'} ];
-  }),
+  firebaseConnect(),
   connect(mapStateToProps)
 )(PageProfile);
