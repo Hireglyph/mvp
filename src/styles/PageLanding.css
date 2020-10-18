@@ -7,10 +7,6 @@
   src: url('../assets/fonts/Roboto-Regular.ttf')  format('truetype');
 }
 
-body {
-    background-color: #F5FCFF;
-}
-
 .background{
     position:relative;
     margin-top:0;
