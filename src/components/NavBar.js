@@ -12,9 +12,9 @@ class NavBar extends React.Component{
         if(!this.props.uid){
             return (
                 <div className='navbar'>
-                    <div className='title'> <a className='text' href="/">Hireglyph</a> </div>
-                    <div className='text2'> <a className='text21' href="/register">Register</a> </div>
-                    <div className='t4'> <button className='text31' onClick={() => window.location.href="/login"}>Login</button> </div>
+                    <div className='title'> <a className='title-text' href="/">Hireglyph</a> </div>
+                    <div className='link-click'> <a className='link-text' href="/register">Register</a> </div>
+                    <div className='button-click'> <button className='button-text' onClick={() => window.location.href="/login"}>Login</button> </div>
                 </div>
             );
         }
@@ -22,9 +22,9 @@ class NavBar extends React.Component{
 //<a href="/register">Register</a>
         return (
             <div className='navbar'>
-                <div className='title'> <a className='text' href="/">Hireglyph</a> </div>
-                <div className='text2'> <a className='text21' href="/profile">Profile</a> </div>
-                <div className='t4'><button className='text31' onClick={() => {this.props.firebase.logout();window.location.href="/"}} >Logout</button> </div>
+                <div className='title'> <a className='title-text' href="/">Hireglyph</a> </div>
+                <div className='link-click'> <a className='link-text' href="/profile">Profile</a> </div>
+                <div className='button-click'><button className='button-text' onClick={() => {this.props.firebase.logout();window.location.href="/"}} >Logout</button> </div>
             </div>
             //   <a href="/profile">Profile</a>
                 //<a onClick={() => this.props.firebase.logout()}>Logout</a>

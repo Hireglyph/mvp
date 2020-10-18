@@ -18,7 +18,7 @@
 	margin-left: 30px;
 	margin-top: 30px;
 }
-.text{
+.title-text{
 	font-family: Sora;
 	font-style: normal;
 	font-weight: 800;
@@ -31,14 +31,14 @@
 	text-decoration: none;
 }
 
-.text2{
+.link-click{
 	position: absolute;
 	margin-left: 70%;
 	top: 65px;
 
 }
 
-.text21{
+.link-text{
 	font-family: Nunito;
 	font-style: normal;
 	font-weight: bold;
@@ -49,16 +49,13 @@
 	text-decoration: none;
 }
 
-.t4{
+.button-click{
 	position: absolute;
 	margin-left: 85%;
-	top: 65px;
-	height: 40px;
-	width: 80px;
-
+	top: 60px;
 }
 
-.text31{
+.button-text{
 	font-family: Nunito;
 	font-style: normal;
 	font-weight: bold;
@@ -69,5 +66,7 @@
 	text-decoration: none;
 	text-align: center;
 	background-color: #C2948A;
+	height: 40px;
+	width: 100px;
 }
 

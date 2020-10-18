@@ -52,6 +52,7 @@ class PageRegister extends React.Component {
           <div>
             <div>{this.state.error}</div>
             <input
+              className="input"
               name="email"
               onChange={this.handleChange}
               placeholder="Email"
@@ -59,6 +60,7 @@ class PageRegister extends React.Component {
             />
             <br />
             <input
+              className="input"
               name="password"
               onChange={this.handleChange}
               placeholder="Password"
@@ -67,6 +69,7 @@ class PageRegister extends React.Component {
             />
             <br />
             <input
+              className="input"
               name="username"
               onChange={this.handleChange}
               placeholder="Username"
@@ -74,11 +77,9 @@ class PageRegister extends React.Component {
             />
           </div>
           <br />
-          <button disabled={!this.state.username.trim()} onClick={this.register}>
+          <button className='button' disabled={!this.state.username.trim()} onClick={this.register}>
             register!
           </button>
-          <br />
-          <Link to="/">Home</Link>
           <br />
           <button className='login'>
             <Link to="/login" className='link'>login</Link>

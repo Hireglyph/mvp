@@ -9,7 +9,7 @@ import '../styles/PageLanding.css';
 class PageLanding extends React.Component {
     render() {
       if (!isLoaded(this.props.questions)) {
-        return (<div>Loading...</div>);
+        return (<div >Loading...</div>);
       }
 
       const easy = (
@@ -79,21 +79,7 @@ class PageLanding extends React.Component {
           <div className='questions'>
             <h1 className='header'>Quantitative Analysis Questions</h1>
             <div>{quests}</div>
-            <h3>Account</h3>
-            { this.props.uid ? (
-              <div>
-                <div>{this.props.email}</div>
-                <Link to={`/profile`}>My Profile</Link>
-                <br />
-                <button onClick={() => this.props.firebase.logout()}>Logout</button>
-              </div>
-            ) : (
-              <div>
-                <Link to="/register">Register</Link>
-                <br />
-                <Link to="/login">Login</Link>
-              </div>
-            )}
+            
           </div>
         </div>
       );

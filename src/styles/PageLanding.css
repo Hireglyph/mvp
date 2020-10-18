@@ -6,9 +6,17 @@
   font-family: 'Roboto';
   src: url('../assets/fonts/Roboto-Regular.ttf')  format('truetype');
 }
+
+body {
+    background-color: #F5FCFF;
+}
+
 .background{
     position:relative;
-    margin:0;
+    margin-top:0;
+    margin-right:0;
+    margin-left:0;
+    margin-bottom:50px;
     top:0;
     left:0;
     padding-top:50px;
