@@ -9,14 +9,14 @@
 
 .navbar{
 	background: #28536B;
-	height:100px;
-	padding:20px;
+	height: 100px;
+	padding: 20px;
 }
 
 .title{
-	
-	margin-left:30px;
-	margin-top:30px;
+
+	margin-left: 30px;
+	margin-top: 30px;
 }
 .text{
 	font-family: Sora;
@@ -24,7 +24,7 @@
 	font-weight: 800;
 	font-size: 50px;
 	line-height: 38px;
-	
+
 	letter-spacing: 0.05em;
 	color: #F6F0ED;
 	border: 1px solid rgba(40, 83, 107, 0.73);
@@ -32,9 +32,9 @@
 }
 
 .text2{
-	position:absolute;
-	margin-left:70%;
-	top:65px;
+	position: absolute;
+	margin-left: 70%;
+	top: 65px;
 
 }
 
@@ -50,12 +50,12 @@
 }
 
 .t4{
-	position:absolute;
-	margin-left:85%;
-	top:65px;
-	height:40px;
-	width:80px;
-	
+	position: absolute;
+	margin-left: 85%;
+	top: 65px;
+	height: 40px;
+	width: 80px;
+
 }
 
 .text31{
@@ -67,7 +67,7 @@
 	/* identical to box height */
 	color: #FFFFFF;
 	text-decoration: none;
-	text-align:center;
+	text-align: center;
 	background-color: #C2948A;
 }
 

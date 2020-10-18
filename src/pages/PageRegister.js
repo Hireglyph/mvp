@@ -75,12 +75,14 @@ class PageRegister extends React.Component {
           </div>
           <br />
           <button disabled={!this.state.username.trim()} onClick={this.register}>
-            Register!
+            register!
           </button>
-          <hr />
+          <br />
           <Link to="/">Home</Link>
           <br />
-          <Link to="/login">Login</Link>
+          <button className='login'>
+            <Link to="/login" className='link'>login</Link>
+          </button>
         </div>
       </div>
     );
