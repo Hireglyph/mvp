@@ -18,7 +18,7 @@ class PageProfile extends React.Component {
 
 
     	const history = this.props.tpHistory &&
-    	Object.keys(this.props.tpHistory).map( (tpId, index) => {
+    	Object.keys(this.props.tpHistory).slice(0).reverse().map( (tpId, index) => {
     		return(
     			(tpId!=="test" && this.props.tpHistory[tpId].questId && this.props.tpHistory[tpId]) ?
 	    			<div key={index}>

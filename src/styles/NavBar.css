@@ -1,0 +1,73 @@
+@font-face {
+  font-family: 'Sora';
+  src: url('../assets/fonts/Sora-Regular.ttf')  format('truetype');
+}
+@font-face {
+  font-family: 'Nunito';
+  src: url('../assets/fonts/Nunito-Regular.ttf')  format('truetype');
+}
+
+.navbar{
+	background: #28536B;
+	height:100px;
+	padding:20px;
+}
+
+.title{
+	
+	margin-left:30px;
+	margin-top:30px;
+}
+.text{
+	font-family: Sora;
+	font-style: normal;
+	font-weight: 800;
+	font-size: 50px;
+	line-height: 38px;
+	
+	letter-spacing: 0.05em;
+	color: #F6F0ED;
+	border: 1px solid rgba(40, 83, 107, 0.73);
+	text-decoration: none;
+}
+
+.text2{
+	position:absolute;
+	margin-left:70%;
+	top:65px;
+
+}
+
+.text21{
+	font-family: Nunito;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 20px;
+	line-height: 27px;
+	/* identical to box height */
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+.t4{
+	position:absolute;
+	margin-left:85%;
+	top:65px;
+	height:40px;
+	width:80px;
+	
+}
+
+.text31{
+	font-family: Nunito;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 20px;
+	line-height: 27px;
+	/* identical to box height */
+	color: #FFFFFF;
+	text-decoration: none;
+	text-align:center;
+	background-color: #C2948A;
+}
+
