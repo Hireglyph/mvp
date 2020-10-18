@@ -81,8 +81,8 @@ class PageRegister extends React.Component {
             register!
           </button>
           <br />
-          <button className='login'>
-            <Link to="/login" className='link'>login</Link>
+          <button className='login' onClick={() => window.location.href="/login"}>
+            login
           </button>
         </div>
       </div>

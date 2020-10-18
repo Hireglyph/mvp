@@ -3,6 +3,7 @@ import { firebaseConnect } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Redirect, Link } from 'react-router-dom';
+import '../styles/PageRegister.css';
 
 class PageLogin extends React.Component {
   constructor(props) {
@@ -36,31 +37,37 @@ class PageLogin extends React.Component {
     }
 
     return (
-      <div>
-        <h2>Login</h2>
-        <div>
-          <div>{this.state.error}</div>
-          <input
-            name="email"
-            onChange={this.handleChange}
-            placeholder="Email"
-            value={this.state.email}
-          />
+      <div className='register-container'>
+        <div className='register-block'>
+          <div className='register-title'>
+            <h2>welcome back!</h2>
+          </div>
+          <div>
+            <div>{this.state.error}</div>
+            <input
+              className="input"
+              name="email"
+              onChange={this.handleChange}
+              placeholder="Email"
+              value={this.state.email}
+            />
+            <br />
+            <input
+              className="input"
+              name="password"
+              onChange={this.handleChange}
+              placeholder="Password"
+              type="password"
+              value={this.state.password}
+            />
+          </div>
           <br />
-          <input
-            name="password"
-            onChange={this.handleChange}
-            placeholder="Password"
-            type="password"
-            value={this.state.password}
-          />
+          <button className='button' onClick={this.login}>login!</button> 
+          <br />
+          <button className='login' onClick={() => window.location.href="/register"}>
+            register
+          </button>
         </div>
-        <br />
-        <button onClick={this.login}>Login!</button>
-        <hr />
-        <Link to="/">Home</Link>
-        <br />
-        <Link to="/register">Register</Link>
       </div>
     );
   }
