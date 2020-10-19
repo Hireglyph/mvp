@@ -3,6 +3,8 @@ import { Link, withRouter, Redirect } from 'react-router-dom';
 import { firebaseConnect, isLoaded, isEmpty, populate } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import '../styles/PageProfile.css';
+
 
 class PageProfile extends React.Component {
 
@@ -21,22 +23,19 @@ class PageProfile extends React.Component {
     	Object.keys(this.props.tpHistory).slice(0).reverse().map( (tpId, index) => {
     		return(
     			(tpId!=="test" && this.props.tpHistory[tpId].questId && this.props.tpHistory[tpId]) ?
-	    			<div key={index}>
-	    				<h4>Go to your thought process to question "{this.props.tpHistory[tpId].questId}"</h4>
-              <Link to={`/tp/${this.props.tpHistory[tpId].questId}/${tpId}`}>Click HERE</Link>
-	    				<hr />
+	    			<div className='tp-box' key={index}>
+              <Link className='goto-text' to={`/tp/${this.props.tpHistory[tpId].questId}/${tpId}`}>Go to your TP for Question #{this.props.tpHistory[tpId].questId}</Link>
+	    				
 	    			</div>
 	    			:
 	    			<div key={index}></div>
     		);
     	})
 
-        return (<div>User profile!
+        return (<div className='background2'>
+            <div className='intro2'>Your profile, @{this.props.username} </div>
         		<br />
-        		<br />
-        		{this.props.email}
         		{history}
-              	<Link to="/">Home</Link>
    	     		</div>);
     }
 }
@@ -44,10 +43,11 @@ class PageProfile extends React.Component {
 const mapStateToProps = (state, props) => {
 	const uid = state.firebase.auth.uid;
   const profile = state.firebase.profile;
+  const username = profile && profile.username;
 	const tpHistory = profile && profile.tpHistory;
 
 	const email = profile && profile.email;
-	return { tpHistory, email, uid, profile }
+	return { tpHistory, email, uid, profile, username }
 };
 
 export default compose(
