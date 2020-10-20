@@ -1,0 +1,205 @@
+@font-face {
+  font-family: 'Nunito';
+  src: url('../assets/fonts/Nunito-Regular.ttf')  format('truetype');
+}
+
+.upvoted{
+	background-color: green;
+}
+.downvoted{
+	background-color: red;
+}
+.neutral{
+	background-color: ;
+}
+
+.full-tp{
+    position:relative;
+    margin-left: auto;
+    margin-right:auto;
+    margin-top:50px;
+    margin-bottom:50px;
+    width: 70%;
+    height: auto;
+    
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.input-feedback {
+    background: #FFFDF9;;
+    border-radius: 15px;
+    border: 1px solid #000000;
+	box-sizing: border-box;
+	border-radius: 10px;
+
+    width:calc(95% - 65px);
+    margin-left:65px;
+
+    font-family: Nunito;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 15px;
+	line-height: 33px;
+	/* identical to box height */
+
+	display: flex;
+	align-items: center;
+
+    color: #000000;
+}
+
+.tp-submit-button {
+	background: #92C502;
+	box-shadow: 2px 4px 4px 1px rgba(0, 0, 0, 0.25);
+	border-radius: 10px;
+	margin-left: 65px;
+	height:40px;
+	width:100px;
+
+	font-family: Nunito;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 33px;
+	/* identical to box height */
+
+
+	color: #000000;
+}
+
+.label-text {
+	font-family: Nunito;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 15px;
+	line-height: 27px;
+	display: flex;
+	align-items: center;
+
+	color: #000000;
+	margin-left:65px;
+	margin-right:5%;
+
+
+}
+
+.body-text {
+	font-family: Nunito;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 25px;
+	line-height: 27px;
+	display: flex;
+	align-items: center;
+
+	color: #000000;
+	margin-left:65px;
+	margin-right:5%;
+}
+
+.question-identification{
+	font-family: Nunito;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 15px;
+	line-height: 27px;
+	display: flex;
+	align-items: center;
+
+	color: #000000;
+	margin-left:65px;
+	margin-right:5%;
+	margin-top:50px;
+}
+
+.link-to-quest{
+	color: #000000;
+	font-style: normal;
+	font-size: 20px;
+}
+
+.score-text{
+	position:absolute;
+	top:45px;
+	left:15px;
+
+	font-family: Nunito;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 30px;
+	line-height: 41px;
+	/* identical to box height */
+
+	display: flex;
+	align-items: center;
+
+	color: #000000;
+}
+
+.upvote-button{
+	position:absolute;
+	top:25px;
+	left:8px;
+
+}
+
+.downvote-button{
+	position:absolute;
+	top:80px;
+	left:8px;
+
+}
+
+.user-feedback{
+	position:relative;
+}
+
+.feedback-text{
+	font-family: Nunito;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 15px;
+	line-height: 27px;
+	display: flex;
+	align-items: center;
+
+	color: #000000;
+	margin-left:65px;
+	margin-right:5%;
+	margin-top:10px;
+}
+
+.feedback-score-text{
+	position:absolute;
+
+	font-family: Nunito;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 20px;
+	line-height: 41px;
+	/* identical to box height */
+
+	display: flex;
+	align-items: center;
+	left:17px;
+	color: #000000;
+	top:18px;
+}
+
+.feedback-upvote-button{
+	position:absolute;
+	top:0px;
+	left:7px;
+}
+
+.feedback-downvote-button{
+	position:absolute;
+	top:50px;
+	left:7px;
+
+}
+.feedback-content{
+	position:relative;
+	top:25px;
+}

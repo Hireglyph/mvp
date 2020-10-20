@@ -3,7 +3,11 @@ import { Link, withRouter, Redirect } from 'react-router-dom';
 import { firebaseConnect, isLoaded, isEmpty, populate } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import './PageTp.css';
+import '../styles/PageTp.css';
+import red from '../assets/images/red-downvote.png';
+import green from '../assets/images/green-upvote.png';
+import upvote from '../assets/images/upvote.png';
+import downvote from '../assets/images/downvote.png';
 
 class PageTp extends React.Component{
   constructor(props){
@@ -25,7 +29,7 @@ class PageTp extends React.Component{
     }
   }
 
-  handleChange = event => this.setState({ [event.target.name]: event.target.value });
+  handleChange = event => {this.setState({ [event.target.name]: event.target.value });}
 
   createFeedback = () => {
     const feedbackId = this.props.firebase.push(`/feedbacks/${this.props.tpId}`).key;
@@ -161,14 +165,18 @@ class PageTp extends React.Component{
           const isUpvoted = feedback.users && (this.props.isLoggedIn in feedback.users) && (feedback.users[this.props.isLoggedIn]===1);
           const isDownvoted = feedback.users && (this.props.isLoggedIn in feedback.users) && (feedback.users[this.props.isLoggedIn]===-1);
           return (
-              <div key={feedbackId}>
-                <p>Feedback by: @{feedback.creator.username}</p>
-                <p>Feedback: {feedback.feedback} </p>
-                <p>Score: {feedback.score} </p>
-                <div>
-                  <button className={isUpvoted ? 'upvoted' : 'neutral'} onClick={() => this.upvoteFeedback(feedbackId)}> ↑ </button>
-                  <button className={isDownvoted ? 'downvoted' : 'neutral'} onClick={() => this.downvoteFeedback(feedbackId)}> ↓ </button>
+              <div className='user-feedback' key={feedbackId}>
+                <div className='feedback-content'>
+                  <div className='feedback-text'>@{feedback.creator.username}</div>
+                  <div className='feedback-text'>{feedback.feedback} </div>
                 </div>
+                <br/>
+                <br/>
+                <img className='feedback-upvote-button' src={isUpvoted ? green : upvote} onClick={() => this.upvoteFeedback(feedbackId)}/>
+                <div className='feedback-score-text'>{feedback.score} </div>
+                <img className='feedback-downvote-button' src={isDownvoted ? red : downvote} onClick={() => this.downvoteFeedback(feedbackId)}/>
+
+                <br/>
               </div>
             );
         }
@@ -177,15 +185,16 @@ class PageTp extends React.Component{
 
     const myFeedback = (
       <div>
-        <input
+        <textarea
+        className='input-feedback'
         name = "feedback"
         placeholder="Your feedback..."
         onChange = {this.handleChange}
         value={this.state.feedback}
-        />
+        >feedback here</textarea>
         <br/>
-        <br />
         <button
+        className='tp-submit-button'
         disabled={this.state.feedback.trim()===''}
         onClick={this.createFeedback}
         >
@@ -196,23 +205,27 @@ class PageTp extends React.Component{
       );
 
 		return(
-			<div>
-        <div>TP created by: @{this.props.username}</div>
-  			<div>Initial thoughts: {this.props.initial}</div>
-  			<div>Approaches tried: {this.props.approach}</div>
-  			<div>Final solution: {this.props.solution}</div>
-        <div>Score: {this.props.total}</div>
-        <div>
-          <button className={this.props.isUpvoted ? 'upvoted' : 'neutral'} onClick={this.upvote}> ↑ </button>
-          <button className={this.props.isDownvoted ? 'downvoted' : 'neutral'} onClick={this.downvote}> ↓ </button>
-        </div>
-        <hr />
-        <div> {myFeedback}</div>
-        <hr />
-        <div>{Feedbacks}</div>
-        <Link to={`/q/${this.props.questId}`}>Back to Question "{this.props.questId}"</Link>
+			<div className='full-tp'>
+        <div className='question-identification'>@{this.props.username} in response to--<Link className='link-to-quest' to={`/q/${this.props.questId}`}> Question #{this.props.questId}</Link></div>
         <br />
-        <Link to="/">Home</Link>
+  			<div className='label-text'>Initial Thoughts:</div>
+        <div className='body-text'>{this.props.initial}</div>
+        <br />
+  			<div className='label-text'>Approaches Tried:</div>
+        <div className='body-text'>{this.props.approach}</div>
+        <br />
+  			<div className='label-text'>Final Solution:</div>
+        <div className='body-text'>{this.props.solution}</div>
+        <br />
+        <img className='upvote-button' src={this.props.isUpvoted ? green : upvote} onClick={this.upvote}/>
+        <div className='score-text'>{this.props.total}</div>
+        <img className='downvote-button' src={this.props.isDownvoted ? red : downvote} onClick={this.downvote}/>
+        
+        <br />
+        <div> {myFeedback}</div>
+        <br />
+        <br />
+        <div>{Feedbacks}</div>
 			</div>
 		);
 	}
