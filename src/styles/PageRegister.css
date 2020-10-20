@@ -2,12 +2,16 @@
   font-family: 'Offside';
   src: url('../assets/fonts/Offside-Regular.ttf')  format('truetype');
 }
+@font-face {
+  font-family: 'Nunito';
+  src: url('../assets/fonts/Nunito-Regular.ttf')  format('truetype');
+}
 
 .register-container {
     position: absolute;
     
     text-align: center;
-    background-color: #F6F0ED;
+    background-color: #F5FCFF;
     
     margin:0;
     top:150px;
@@ -28,14 +32,14 @@
     overflow: auto;
 
     background: #FFFFFF;
-    box-shadow: 5px 10px 4px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(0, 0, 0, 0.25);
     border-radius: 15px;
 }
 
 .register-title {
     position: relative;
 
-    font-family: 'Offside';
+    font-family: Nunito;
     font-style: normal;
     font-weight: normal;
     font-size: 24px;
@@ -56,11 +60,11 @@
     line-height: 33px;
     width: 40%;
 
-    color: #888888;
+    color: #000000;
 }
 
 .button {
-    font-family: Offside;
+    font-family: Nunito;
     font-style: normal;
     font-weight: normal;
     font-size: 22px;
@@ -74,7 +78,7 @@
 }
 
 .login {
-    font-family: Offside;
+    font-family: Nunito;
     font-style: normal;
     font-weight: normal;
     font-size: 22px;

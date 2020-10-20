@@ -40,7 +40,7 @@ class PageLogin extends React.Component {
       <div className='register-container'>
         <div className='register-block'>
           <div className='register-title'>
-            <h2>welcome back!</h2>
+            <h2>Welcome back!</h2>
           </div>
           <div>
             <div>{this.state.error}</div>

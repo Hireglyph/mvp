@@ -47,7 +47,7 @@ class PageRegister extends React.Component {
       <div className='register-container'>
         <div className='register-block'>
           <div className='register-title'>
-            <h2>join the community!</h2>
+            <h2>Join the community!</h2>
           </div>
           <div>
             <div>{this.state.error}</div>
