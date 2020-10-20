@@ -5,6 +5,7 @@ import { Link, withRouter, Redirect } from 'react-router-dom';
 import { firebaseConnect, isLoaded, isEmpty, populate } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import '../styles/PageQuestion.css'
 
 class PageQuestion extends React.Component {
   constructor(props){
@@ -25,10 +26,9 @@ class PageQuestion extends React.Component {
       keys.sort((a, b) => this.props.tps[b].total - this.props.tps[a].total);
 
       this.setState({ loading: false, keys });
-      //console.log("meep");
     }
   }
-  
+
   handleTps = number => {
     this.setState({ setting: number });
   }
@@ -70,6 +70,35 @@ class PageQuestion extends React.Component {
           <span key={topicId}>{this.props.topics[topicId]} </span>
         );
     });
+
+    let bars;
+    if (this.props.difficulty && this.props.difficulty === 'easy') {
+      bars = (
+        <div>
+          <div className='level1'></div>
+          <div className='level2n'></div>
+          <div className='level3n'></div>
+        </div>
+      );
+    }
+    if (this.props.difficulty && this.props.difficulty === 'medium') {
+      bars = (
+        <div>
+          <div className='level1'></div>
+          <div className='level2y'></div>
+          <div className='level3n'></div>
+        </div>
+      );
+    }
+    if (this.props.difficulty && this.props.difficulty === 'hard') {
+      bars = (
+        <div>
+          <div className='level1'></div>
+          <div className='level2y'></div>
+          <div className='level3y'></div>
+        </div>
+      );
+    }
 
     const Tps = this.props.tps &&
       this.state.keys.map(tpId => {
@@ -139,10 +168,16 @@ class PageQuestion extends React.Component {
 
     return(
       <div>
-        <h1>{this.props.title}</h1>
-        <p>{this.props.description}</p>
-        <div>Difficulty: {this.props.difficulty}</div>
-        <div>Topics: {topics}</div>
+        <div className='question-block'>
+          <div className='question-title'>
+              <h1>{this.props.title}</h1>
+          </div>
+          <div className='question-description'>
+            <p>{this.props.description}</p>
+          </div>
+          <div>{bars}</div>
+          <div>Topics: {topics}</div>
+        </div>
         <br />
         <div>
           <button
@@ -194,7 +229,7 @@ export default compose(
   firebaseConnect(props => {
     const questId = props.match.params.questId;
     return [{path: `/questions/${questId}`, storeAs: questId},
-            //{path: `/tps/${questId}`, storeAs: `${questId}/tps`},  
+            //{path: `/tps/${questId}`, storeAs: `${questId}/tps`},
             {path: `/tps/${questId}`, populates } ];
   }),
   connect(mapStateToProps)
