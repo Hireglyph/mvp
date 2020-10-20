@@ -73,6 +73,7 @@ class PageLanding extends React.Component {
           <div className='infobox'>
               <div className='intro'>Welcome to Hireglyph!</div>
               <div className='info'>Hireglyph is the future of collaborative interview preparation. Using Hireglyph, you can view other users’ thought processes (TPs) so that you can understand the correct logic behind solving complicated interview problems. Additionally, you can receive feedback on your own TPs from college students and financial professionals alike.</div>
+              <div className='info-email'>Questions, comments, or concerns? Email us at <a className='email-link' href = "mailto: admin@hireglyph.com">admin@hireglyph.com</a>.</div>
           </div>
           <br />
           <br />
