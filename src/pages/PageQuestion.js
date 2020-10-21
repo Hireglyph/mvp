@@ -67,7 +67,7 @@ class PageQuestion extends React.Component {
     const topics = this.props.topics &&
       Object.keys(this.props.topics).map(topicId => {
         return (
-          <span key={topicId}>{this.props.topics[topicId]} </span>
+          <span className='topic-2' key={topicId}>{this.props.topics[topicId]} </span>
         );
     });
 
@@ -75,27 +75,27 @@ class PageQuestion extends React.Component {
     if (this.props.difficulty && this.props.difficulty === 'easy') {
       bars = (
         <div>
-          <div className='level1'></div>
-          <div className='level2n'></div>
-          <div className='level3n'></div>
+          <div className='level12'></div>
+          <div className='level2n2'></div>
+          <div className='level3n2'></div>
         </div>
       );
     }
     if (this.props.difficulty && this.props.difficulty === 'medium') {
       bars = (
         <div>
-          <div className='level1'></div>
-          <div className='level2y'></div>
-          <div className='level3n'></div>
+          <div className='level12'></div>
+          <div className='level2y2'></div>
+          <div className='level3n2'></div>
         </div>
       );
     }
     if (this.props.difficulty && this.props.difficulty === 'hard') {
       bars = (
         <div>
-          <div className='level1'></div>
-          <div className='level2y'></div>
-          <div className='level3y'></div>
+          <div className='level12'></div>
+          <div className='level2y2'></div>
+          <div className='level3y2'></div>
         </div>
       );
     }
@@ -111,32 +111,35 @@ class PageQuestion extends React.Component {
     });
 
     const myTp = (
-      <div>
-        <input
+      <div className='my-tp-submit'>
+        <p className='tp-instructions-text'>Enter your Thought Process below:</p>
+        <textarea
+        className='tp-input-box'
         name = "initial"
-        placeholder="initial"
+        placeholder="What were your initial thoughts?"
         onChange = {this.handleChange}
         value={this.state.initial}
         />
-        <br/>
-
-        <input
+      
+        <textarea
+        className='tp-input-box'
         name = "approach"
-        placeholder="approach"
+        placeholder="Different approaches you tried..."
         onChange = {this.handleChange}
         value={this.state.approach}
         />
-        <br/>
 
-        <input
+        <textarea
+        className='tp-input-box'
         name = "solution"
-        placeholder="solution"
+        placeholder="Final solution!"
         onChange = {this.handleChange}
         value={this.state.solution}
         />
         <br />
         <br />
         <button
+        className='tp-submit-green'
         disabled=
         {this.state.initial.trim()===''||this.state.approach.trim()===''||this.state.solution.trim()===''}
         onClick={this.createTp}
@@ -157,11 +160,8 @@ class PageQuestion extends React.Component {
 
     if (!this.props.isLoggedIn) {
       section = (
-        <div>
+        <div className='login-message'>
           <p>You need to log in or register to view TPs or write your own.</p>
-          <Link to="/register">Register</Link>
-          <br />
-          <Link to="/login">Login</Link>
         </div>
         )
     }
@@ -169,35 +169,34 @@ class PageQuestion extends React.Component {
     return(
       <div>
         <div className='question-block'>
-          <div className='question-title'>
-              <h1>{this.props.title}</h1>
+          <div className='question-title-2'>
+              <h1>#{this.props.questId}: {this.props.title}</h1>
           </div>
           <div className='question-description'>
             <p>{this.props.description}</p>
           </div>
           <div>{bars}</div>
-          <div>Topics: {topics}</div>
+          <div className='topics-2'>{topics}</div>
         </div>
-        <br />
         <div>
           <button
+            className='my-tp-button-1'
             disabled={this.state.setting === 1}
             onClick={() => this.handleTps(1)}
           >
-              MY TP
+              My TP
           </button>
           <button
+            className='community-tp-button-1'
             disabled={this.state.setting === 2}
             onClick={() => this.handleTps(2)}
           >
               Community TPs
           </button>
+          <hr className={this.state.setting === 1 ? 'divider-line' : 'divider-line-2'}/>
         </div>
-        <hr />
         <div>
           {section}
-          <hr />
-          <Link to="/">Home</Link>
         </div>
       </div>
     );
