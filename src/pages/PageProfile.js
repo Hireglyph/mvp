@@ -1,4 +1,5 @@
 import React from 'react';
+import PreviewPractice from '../components/PreviewPractice.js';
 import { Link, withRouter, Redirect } from 'react-router-dom';
 import { firebaseConnect, isLoaded, isEmpty, populate } from 'react-redux-firebase';
 import { connect } from 'react-redux';
@@ -18,6 +19,17 @@ class PageProfile extends React.Component {
       		return <Redirect to="/register" />
     	}
 
+      const Tps = this.props.tpHistory &&
+      Object.keys(this.props.tpHistory).slice(0).reverse().map(tpId => {
+        const tp = this.props.tpHistory[tpId].tp &&  this.props.tpHistory[tpId].tp;
+        if(tp){
+          return (
+              <PreviewPractice tp={tp} tpId={tpId} questId={this.props.tpHistory[tpId].questId} key={tpId}/>
+            );
+        }
+        return;
+
+    });
 
     	const history = this.props.tpHistory &&
     	Object.keys(this.props.tpHistory).slice(0).reverse().map( (tpId, index) => {
@@ -35,7 +47,7 @@ class PageProfile extends React.Component {
         return (<div className='background2'>
             <div className='intro2'>Your profile, @{this.props.username} </div>
         		<br />
-        		{history}
+        		{Tps}
    	     		</div>);
     }
 }

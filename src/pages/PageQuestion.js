@@ -47,7 +47,7 @@ class PageQuestion extends React.Component {
     };
 
     updates[`/tps/${this.props.questId}/${tpId}`] = tp;
-    updates[`/users/${this.props.isLoggedIn}/tpHistory/${tpId}`] = {questId: this.props.questId};
+    updates[`/users/${this.props.isLoggedIn}/tpHistory/${tpId}`] = {questId: this.props.questId, tp:tp };
     const onComplete = () => {
       this.props.history.push(`/tp/${this.props.questId}/${tpId}`);
     }
