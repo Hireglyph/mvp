@@ -206,7 +206,7 @@ class PageTp extends React.Component{
 
 		return(
 			<div className='full-tp'>
-        <div className='question-identification'>@{this.props.username} in response to--<Link className='link-to-quest' to={`/q/${this.props.questId}`}> Question #{this.props.questId}</Link></div>
+        <div className='question-identification'>@{this.props.username} in response to: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Link className='link-to-quest' to={`/q/${this.props.questId}`}> Question #{this.props.questId}</Link></div>
         <br />
   			<div className='label-text'>Initial Thoughts:</div>
         <div className='body-text'>{this.props.initial}</div>

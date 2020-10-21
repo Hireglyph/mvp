@@ -195,7 +195,7 @@ class PageQuestion extends React.Component {
           </button>
           <hr className={this.state.setting === 1 ? 'divider-line' : 'divider-line-2'}/>
         </div>
-        <div>
+        <div className={this.state.setting === 1 ? 'px-break' : 'px-break-2'}>
           {section}
         </div>
       </div>

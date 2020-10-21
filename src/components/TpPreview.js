@@ -2,6 +2,7 @@ import React from 'react';
 import { Component } from 'react';
 
 import { Link } from 'react-router-dom';
+import '../styles/PageQuestion.css'
 
 export default class TpPreview extends Component {
   constructor(props){
@@ -14,17 +15,20 @@ export default class TpPreview extends Component {
     const questId = this.props.questId;
 
     return (
-      <div key={tpId}> 
-        <div>TP created by @{tp.creator.username}</div>
-        <div>Initial thoughts: {tp.initial.slice(0,20)}...</div>
-        <div>Approaches tried: {tp.approach.slice(0,20)}...</div>
-        <div>Final solution: {tp.solution.slice(0,20)}...</div>
-        <div>Score: {tp.total}</div>
-        <div>
-          <Link to={`/tp/${this.props.questId}/${tpId}`}>
-            View full Thought Process
+      <div className='individual-tp-preview' key={tpId}> 
+        <div className='main-tp-text'>
+          <div className='tp-preview-username'>@{tp.creator.username}</div>
+          <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Initial:</span><span className='tp-preview-tail'> {tp.initial.slice(0,60)}...</span></div>
+          <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;Approaches:</span><span className='tp-preview-tail'>  {tp.approach.slice(0,60)}...</span></div>
+          <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'> {tp.solution.slice(0,60)}...</span></div>
+
+          <div className='align-right'>
+          <Link className='tp-full-goto' to={`/tp/${this.props.questId}/${tpId}`}>
+            Go to full TP
           </Link>
         </div>
+        </div>
+        <div className='main-tp-score'>{tp.total}</div>
         <br />
       </div>
     );

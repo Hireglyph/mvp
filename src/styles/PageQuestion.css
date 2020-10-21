@@ -301,3 +301,86 @@
 
     color: #000000;
 }
+
+.individual-tp-preview{
+    margin-left:15%;
+    margin-right:15%;
+    position:relative;
+    width:70%;
+
+}
+
+.main-tp-text{
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+    margin-left:50px;
+    padding:10px;
+}
+
+.px-break{
+    margin-top:97px;
+}
+
+.px-break-2{
+    margin-top:120px;
+}
+
+.main-tp-score{
+    position:absolute;
+    top:0px;
+    margin-left:15px;
+
+    font-family: Nunito;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 33px;
+
+    color: #000000;
+}
+
+.tp-preview-username{
+    font-family: Nunito;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 25px;
+    /* identical to box height */
+
+    color: #000000;
+}
+
+.tp-preview-head{
+    font-family: Nunito;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 19px;
+    /* identical to box height */
+
+    color: #000000;
+}
+
+.tp-preview-tail{
+    font-family: Nunito;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 25px;
+
+    color: #000000;
+}
+.tp-full-goto{
+    font-family: Nunito;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 25px;
+    /* identical to box height */
+
+    color: #000000;
+}
+.align-right{
+    text-align:right;
+}
