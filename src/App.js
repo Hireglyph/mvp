@@ -7,6 +7,7 @@ import PageRegister from './pages/PageRegister';
 import PageLogin from './pages/PageLogin';
 import NavBar from './components/NavBar';
 
+
 import { Switch, Route } from 'react-router-dom';
 
 function App() {
