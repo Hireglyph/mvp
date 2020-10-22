@@ -8,7 +8,7 @@
 }
 
 .navbar{
-	background: #28536B;
+	background: #ffc224;
 	height: 100px;
 	padding: 20px;
 }
@@ -27,7 +27,6 @@
 
 	letter-spacing: 0.05em;
 	color: #F6F0ED;
-	border: 1px solid rgba(40, 83, 107, 0.73);
 	text-decoration: none;
 }
 
@@ -65,7 +64,7 @@
 	color: #FFFFFF;
 	text-decoration: none;
 	text-align: center;
-	background-color: #C2948A;
+	background-color: blue;
 	height: 40px;
 	width: 100px;
 }
