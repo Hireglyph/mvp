@@ -16,14 +16,14 @@ import {
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAYqCxpFJLywRpUCu4qRhCy3A51RA0Ak_c",
-  authDomain: "quivia-mvp.firebaseapp.com",
-  databaseURL: "https://quivia-mvp.firebaseio.com",
-  projectId: "quivia-mvp",
-  storageBucket: "quivia-mvp.appspot.com",
-  messagingSenderId: "674335150395",
-  appId: "1:674335150395:web:100d6e63d678415f85e71e",
-  measurementId: "G-TNYM7DDDXF"
+  apiKey: "AIzaSyCHBwhWkJ5HJK7ysF-1Lm1am2nNSVpgu2k",
+  authDomain: "hireglyph-mvp.firebaseapp.com",
+  databaseURL: "https://hireglyph-mvp.firebaseio.com",
+  projectId: "hireglyph-mvp",
+  storageBucket: "hireglyph-mvp.appspot.com",
+  messagingSenderId: "586323933398",
+  appId: "1:586323933398:web:9d76ec76de22fbb61ff177",
+  measurementId: "G-MJ44J6CCBK"
 };
 
 firebase.initializeApp(firebaseConfig);
