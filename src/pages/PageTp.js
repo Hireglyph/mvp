@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, withRouter, Redirect } from 'react-router-dom';
-import { firebaseConnect, isLoaded, isEmpty, populate } from 'react-redux-firebase';
+import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import '../styles/PageTp.css';
@@ -37,7 +37,8 @@ class PageTp extends React.Component{
     const feedback = {
       feedback: this.state.feedback,
       creator: this.props.isLoggedIn,
-      score: 0
+      score: 0,
+      username: this.props.username2,
     };
     updates[`/feedbacks/${this.props.tpId}/${feedbackId}`] = feedback;
     this.setState({ feedback: '', })
@@ -164,10 +165,11 @@ class PageTp extends React.Component{
         if (feedback){
           const isUpvoted = feedback.users && (this.props.isLoggedIn in feedback.users) && (feedback.users[this.props.isLoggedIn]===1);
           const isDownvoted = feedback.users && (this.props.isLoggedIn in feedback.users) && (feedback.users[this.props.isLoggedIn]===-1);
+          const feedback_username = feedback.username ? feedback.username : feedback.creator;
           return (
               <div className='user-feedback' key={feedbackId}>
                 <div className='feedback-content'>
-                  <div className='feedback-text'>@{feedback.creator.username}</div>
+                  <div className='feedback-text'>@{feedback_username}</div>
                   <div className='feedback-text'>{feedback.feedback} </div>
                 </div>
                 <br/>
@@ -232,24 +234,26 @@ class PageTp extends React.Component{
 }
 
 
-const populates =
-  [{child: 'creator', root: 'users'}];
+//const populates =
+  //[{child: 'creator', root: 'users'}];
 
 const mapStateToProps = (state, props) => {
   const questId = props.match.params.questId;
   const tpId = props.match.params.tpId;
   //const tp = state.firebase.data[tpId];
-  const tp = populate(state.firebase, tpId, populates)
-  const username = tp && tp.creator && tp.creator.username;
+  const tp = state.firebase.data[tpId];
+  const username = tp && (tp.username ? tp.username : tp.creator);
   //const feedbacks = tpId && state.firebase.data.feedbacks && state.firebase.data.feedbacks[tpId];
-  const feedbacks = tpId && populate(state.firebase, `/feedbacks/${tpId}`, populates);
+  //const feedbacks = tpId && populate(state.firebase, `/feedbacks/${tpId}`, populates);
+  const feedbacks = tpId && state.firebase.data.feedbacks && state.firebase.data.feedbacks[tpId];
   const initial = tp && tp.initial;
   const approach = tp && tp.approach;
   const solution = tp && tp.solution;
   const total = tp && tp.total;
   const isUpvoted = tp && tp.users && (state.firebase.auth.uid in tp.users) && (tp.users[state.firebase.auth.uid] === 1);
   const isDownvoted = tp && tp.users && (state.firebase.auth.uid in tp.users) && (tp.users[state.firebase.auth.uid] === -1);
-  return { questId, tpId, initial, approach, solution, isLoggedIn: state.firebase.auth.uid, questId, feedbacks, total, isUpvoted, isDownvoted, username };
+  const username2 = state.firebase.profile && state.firebase.profile.username;
+  return { questId, tpId, initial, approach, solution, isLoggedIn: state.firebase.auth.uid, questId, feedbacks, total, isUpvoted, isDownvoted, username, username2 };
 }
 
 export default compose(
@@ -259,8 +263,8 @@ export default compose(
     const tpId = props.match.params.tpId;
 
     return [ //{path: `/questions/${questId}`, storeAs: questId},
-            {path: `/tps/${questId}/${tpId}`, storeAs: tpId, populates } ,
-            {path: `/feedbacks/${tpId}`, populates}];
+            {path: `/tps/${questId}/${tpId}`, storeAs: tpId } ,
+            {path: `/feedbacks/${tpId}` }];
   }),
   connect(mapStateToProps)
 )(PageTp);

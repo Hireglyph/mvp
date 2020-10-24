@@ -2,7 +2,7 @@ import React from 'react';
 import TpPreview from '../components/TpPreview.js';
 
 import { Link, withRouter, Redirect } from 'react-router-dom';
-import { firebaseConnect, isLoaded, isEmpty, populate } from 'react-redux-firebase';
+import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import '../styles/PageQuestion.css'
@@ -43,6 +43,7 @@ class PageQuestion extends React.Component {
       approach: this.state.approach,
       solution: this.state.solution,
       creator: this.props.isLoggedIn,
+      username: this.props.username,
       total: 0
     };
     const tp2 = {
@@ -209,8 +210,8 @@ class PageQuestion extends React.Component {
 }
 
 
-const populates =
-  [{child: 'creator', root: 'users'}];
+//const populates =
+//  [{child: 'creator', root: 'users'}];
 
 const mapStateToProps = (state, props) => {
   const questId = props.match.params.questId
@@ -222,8 +223,10 @@ const mapStateToProps = (state, props) => {
   const topics = question && question.topics;
   const difficulty = question && question.difficulty;
   //const tps = question && question.tps;
-  const tps = question && populate(state.firebase, `/tps/${questId}`, populates)
-  return { questId, title, description, definitive, topics, difficulty, tps, isLoggedIn: state.firebase.auth.uid};
+  //const tps = question && populate(state.firebase, `/tps/${questId}`, populates)
+  const tps = question && state.firebase.data.tps && state.firebase.data.tps[questId];
+  const username = state.firebase.profile && state.firebase.profile.username;
+  return { questId, title, description, definitive, topics, difficulty, tps, username, isLoggedIn: state.firebase.auth.uid};
 
 }
 
@@ -234,7 +237,7 @@ export default compose(
     const questId = props.match.params.questId;
     return [{path: `/questions/${questId}`, storeAs: questId},
             //{path: `/tps/${questId}`, storeAs: `${questId}/tps`},
-            {path: `/tps/${questId}`, populates } ];
+            {path: `/tps/${questId}` } ];
   }),
   connect(mapStateToProps)
 )(PageQuestion);
