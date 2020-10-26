@@ -32,9 +32,19 @@
 
 .link-click{
 	position: absolute;
-	margin-left: 65%;
+	margin-left: 600px;
 	top: 65px;
 
+}
+
+
+@media (min-width: 900px) {
+	.link-click{
+		position: absolute;
+		margin-left: calc(100% - 300px );
+		top: 65px;
+
+	}
 }
 
 .link-text{
@@ -50,8 +60,15 @@
 
 .button-click{
 	position: absolute;
-	margin-left: 80%;
+	margin-left: 700px;
 	top: 60px;
+}
+@media (min-width: 900px) {
+	.button-click{
+		position: absolute;
+		margin-left: calc(100% - 200px );
+		top: 60px;
+	}
 }
 
 .button-text{
