@@ -7,10 +7,42 @@ import { compose } from 'redux';
 import '../styles/PageLanding.css';
 
 class PageLanding extends React.Component {
+    constructor(props){
+      super(props);
+      this.state = {titles: '', loaded: false};
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+      if(!this.state.loaded){
+        const results = this.props.firebase.database().ref('questions').on('value', data => {
+        if(data.val() !== null) {
+          let obj = data.val();
+          let titles = Object.keys(obj).map(key => {
+            return {
+              title: obj[key].title
+            }
+          });
+          this.setState({titles, loaded: true});
+         }
+       });
+      }
+    }
+
     render() {
-      if (!isLoaded(this.props.questions)) {
+      if (!isLoaded(this.props.questions) || !this.state.loaded) {
         return (<div >Loading...</div>);
       }
+
+      var db = this.props.firebase.database();
+    var ref = db.ref("questions");
+    ref.on("value", function(snapshot) {
+      console.log(Object.keys(snapshot.val()));
+      var bop = Object.keys(snapshot.val())}, function (errorObject) {
+      console.log("The read failed: " + errorObject.code);
+      })
+
+      console.log(this.state.titles);
+    
 
       const easy = (
         <div>
@@ -74,6 +106,8 @@ class PageLanding extends React.Component {
               <div className='intro'>Welcome to Hireglyph!</div>
               <div className='info'>Hireglyph is the future of collaborative interview preparation. Using Hireglyph, you can view other users’ thought processes (TPs) so that you can understand the correct logic behind solving complicated interview problems. Additionally, you can receive feedback on your own TPs from college students and financial professionals alike.</div>
               <div className='info-email'>Questions, comments, or concerns? Email us at <a className='email-link' href = "mailto: admin@hireglyph.com">admin@hireglyph.com</a>.</div>
+              <br />
+              <div> {this.state.titles[0].title}</div>
           </div>
           <br />
           <br />
