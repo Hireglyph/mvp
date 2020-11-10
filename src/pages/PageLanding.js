@@ -12,6 +12,7 @@ class PageLanding extends React.Component {
       this.state = {titles: '', loaded: false};
     }
 
+
     componentDidUpdate(prevProps, prevState) {
       if(!this.state.loaded){
         const results = this.props.firebase.database().ref('questions').on('value', data => {
@@ -26,6 +27,7 @@ class PageLanding extends React.Component {
          }
        });
       }
+      console.log('hi');
     }
 
     render() {
@@ -42,7 +44,7 @@ class PageLanding extends React.Component {
       })
 
       console.log(this.state.titles);
-    
+
 
       const easy = (
         <div>
@@ -114,7 +116,7 @@ class PageLanding extends React.Component {
           <div className='questions'>
             <h1 className='header'>Quantitative Analysis Questions</h1>
             <div>{quests}</div>
-            
+
           </div>
         </div>
       );
