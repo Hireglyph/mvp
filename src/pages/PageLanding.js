@@ -15,17 +15,9 @@ class PageLanding extends React.Component {
     componentDidMount() {
       if (!this.state.loaded) {
         const results = this.props.firebase.database().ref('questions').on('value', data => {
-        if (data.val() !== null) {
-          let obj = data.val();
-          let questions = Object.keys(obj).map(key => {
-            return {
-              title: obj[key].title,
-              difficulty: obj[key].difficulty,
-              topics: obj[key].topics,
-            }
-          });
-          this.setState({questions, loaded: true});
-         }
+          if (data.val()) {
+            this.setState({questions: data.val(), loaded: true});
+          }
        });
       }
     }
