@@ -70,10 +70,10 @@ class PageQuestion extends React.Component {
       return <div>Page not found!</div>;
     }
 
-    const topics = this.props.topics &&
-      Object.keys(this.props.topics).map(topicId => {
+    const topics = this.props.tags &&
+      Object.keys(this.props.tags).map(tag => {
         return (
-          <span className='topic-2' key={topicId}>{this.props.topics[topicId]} </span>
+          <span className='topic-2' key={tag}>{tag} </span>
         );
     });
 
@@ -221,12 +221,13 @@ const mapStateToProps = (state, props) => {
   const description = question && question.description;
   const definitive = question && question.definitive;
   const topics = question && question.topics;
+  const tags = question && question.tags;
   const difficulty = question && question.difficulty;
   //const tps = question && question.tps;
   //const tps = question && populate(state.firebase, `/tps/${questId}`, populates)
   const tps = question && state.firebase.data.tps && state.firebase.data.tps[questId];
   const username = state.firebase.profile && state.firebase.profile.username;
-  return { questId, title, description, definitive, topics, difficulty, tps, username, isLoggedIn: state.firebase.auth.uid};
+  return { questId, title, description, definitive, topics, difficulty, tps, username, isLoggedIn: state.firebase.auth.uid, tags};
 
 }
 

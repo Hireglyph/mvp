@@ -71,10 +71,10 @@ class PageLanding extends React.Component {
           .map(questId => {
             const quest = this.state.questions[questId];
 
-            const topics = quest.topics &&
-              Object.keys(quest.topics).map(topicId => {
+            const topics = quest.tags &&
+              Object.keys(quest.tags).map(tag => {
                 return (
-                  <span className='topic' key={topicId}>{quest.topics[topicId]} </span>
+                  <span className='topic' key={tag}>{tag} </span>
                 );
             });
 
