@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import '../styles/PageLanding.css';
 
+const tags = ['geometry', 'algebra', 'divisibility']
+
 class PageLanding extends React.Component {
     constructor(props){
       super(props);
@@ -22,26 +24,18 @@ class PageLanding extends React.Component {
       }
     }
 
-    handleChange = diff => {
-      this.setState({sortBy: diff});
-    }
+    handleDiffFilter = difficulty => {
+      this.setState({ difficulty, tag: '' });
+    };
+
+    handleTagFilter = tag => {
+      this.setState({ tag, difficulty: '' })
+    };
 
     render() {
       if (!this.state.loaded) {
-        console.log(this.state)
         return (<div >Loading...</div>);
       }
-
-      // var db = this.props.firebase.database();
-      // var ref = db.ref("questions");
-      // ref.on("value", function(snapshot) {
-      //   console.log(Object.keys(snapshot.val()));
-      //   var bop = Object.keys(snapshot.val())}, function (errorObject) {
-      //   console.log("The read failed: " + errorObject.code);
-      // });
-
-      console.log(this.state.questions);
-
 
       const easy = (
         <div>
@@ -67,7 +61,8 @@ class PageLanding extends React.Component {
 
       const quests =
         Object.keys(this.state.questions)
-          .filter(questId => !this.state.sortBy || this.state.questions[questId].difficulty == this.state.sortBy)
+          .filter(questId => !this.state.difficulty || this.state.questions[questId].difficulty == this.state.difficulty)
+          .filter(questId => !this.state.tag || this.state.questions[questId].tags[this.state.tag])
           .map(questId => {
             const quest = this.state.questions[questId];
 
@@ -100,7 +95,13 @@ class PageLanding extends React.Component {
               </div>
             );
           });
-        //<div>&nbsp;&nbsp;Difficulty: {quest.difficulty}</div>
+
+      const tagButtons = tags.map(tag => {
+        return (
+          <button onClick={() => this.handleTagFilter(tag)}>Filter by {tag}</button>
+        )
+      });
+
       return (
         <div className='background'>
           <div className='infobox'>
@@ -113,10 +114,12 @@ class PageLanding extends React.Component {
           <br />
           <div className='questions'>
           <h1 className='header'>Quantitative Analysis Questions</h1>
-          <button onClick={() => this.handleChange('')}>Original list</button>
-          <button onClick={() => this.handleChange('easy')}>Filter by easy</button>
-          <button onClick={() => this.handleChange('medium')}>Filter by medium</button>
-          <button onClick={() => this.handleChange('hard')}>Filter by hard</button>
+          <button onClick={() => this.handleDiffFilter('')}>Original list</button>
+          <button onClick={() => this.handleDiffFilter('easy')}>Filter by easy</button>
+          <button onClick={() => this.handleDiffFilter('medium')}>Filter by medium</button>
+          <button onClick={() => this.handleDiffFilter('hard')}>Filter by hard</button>
+          <br />
+          <div>{tagButtons}</div>
           <div>{quests}</div>
 
           </div>
