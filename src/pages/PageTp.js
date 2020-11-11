@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link, withRouter, Redirect } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
+import { HashLink as Link } from 'react-router-hash-link';
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -41,6 +42,9 @@ class PageTp extends React.Component{
       username: this.props.username2,
     };
     updates[`/feedbacks/${this.props.tpId}/${feedbackId}`] = feedback;
+    updates[`/users/${this.props.isLoggedIn}/feedbackHistory/${feedbackId}`] = {tpId: this.props.tpId, feedback: this.state.feedback, 
+      questId: this.props.questId, username: this.props.username };
+    
     this.setState({ feedback: '', })
 
     const onComplete = () => {
@@ -168,6 +172,7 @@ class PageTp extends React.Component{
           const feedback_username = feedback.username ? feedback.username : feedback.creator;
           return (
               <div className='user-feedback' key={feedbackId}>
+                <a id={`${feedbackId}`} > </a>
                 <div className='feedback-content'>
                   <div className='feedback-text'>@{feedback_username}</div>
                   <div className='feedback-text'>{feedback.feedback} </div>
