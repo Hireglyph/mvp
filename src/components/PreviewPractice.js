@@ -1,7 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
 
-import { Link } from 'react-router-dom';
+import { HashLink as Link } from 'react-router-hash-link';
 import '../styles/PageQuestion.css'
 
 export default class TpPreview extends Component {

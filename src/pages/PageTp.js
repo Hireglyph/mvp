@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link, withRouter, Redirect } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
+import { HashLink as Link } from 'react-router-hash-link';
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -25,7 +26,6 @@ class PageTp extends React.Component{
       keys.sort((a, b) => this.props.feedbacks[b].score - this.props.feedbacks[a].score);
 
       this.setState({ loading: false, keys });
-      //console.log("meep");
     }
   }
 
@@ -41,12 +41,15 @@ class PageTp extends React.Component{
       username: this.props.username2,
     };
     updates[`/feedbacks/${this.props.tpId}/${feedbackId}`] = feedback;
+    updates[`/users/${this.props.isLoggedIn}/feedbackHistory/${feedbackId}`] = {tpId: this.props.tpId, feedback: this.state.feedback,
+      questId: this.props.questId, username: this.props.username };
+
     this.setState({ feedback: '', })
 
     const onComplete = () => {
         const keys = this.state.keys;
         keys.unshift(feedbackId);
-        this.setState({ keys });        
+        this.setState({ keys });
     }
 
     this.props.firebase.update('/', updates, onComplete);
@@ -143,18 +146,10 @@ class PageTp extends React.Component{
       return (<div>Loading...</div>);
     }
 
-   // if (isEmpty(this.props.initial)){
-   //   return <div>Page not found!</div>;
-   // }
-
     if(!this.props.isLoggedIn){
       return <Redirect to="/register" />
     }
 
-    // if(this.state.loading) {
-    //   this.sortKeys();
-    // }
-    
     if (isEmpty(this.props.initial)){
      return <div>Page not found!</div>;
     }
@@ -168,6 +163,7 @@ class PageTp extends React.Component{
           const feedback_username = feedback.username ? feedback.username : feedback.creator;
           return (
               <div className='user-feedback' key={feedbackId}>
+                <a id={`${feedbackId}`} > </a>
                 <div className='feedback-content'>
                   <div className='feedback-text'>@{feedback_username}</div>
                   <div className='feedback-text'>{feedback.feedback} </div>
@@ -204,7 +200,7 @@ class PageTp extends React.Component{
         </button>
       </div>
 
-      );
+    );
 
 		return(
 			<div className='full-tp'>
@@ -222,7 +218,7 @@ class PageTp extends React.Component{
         <img className='upvote-button' src={this.props.isUpvoted ? green : upvote} onClick={this.upvote}/>
         <div className='score-text'>{this.props.total}</div>
         <img className='downvote-button' src={this.props.isDownvoted ? red : downvote} onClick={this.downvote}/>
-        
+
         <br />
         <div> {myFeedback}</div>
         <br />
@@ -234,17 +230,11 @@ class PageTp extends React.Component{
 }
 
 
-//const populates =
-  //[{child: 'creator', root: 'users'}];
-
 const mapStateToProps = (state, props) => {
   const questId = props.match.params.questId;
   const tpId = props.match.params.tpId;
-  //const tp = state.firebase.data[tpId];
   const tp = state.firebase.data[tpId];
   const username = tp && (tp.username ? tp.username : tp.creator);
-  //const feedbacks = tpId && state.firebase.data.feedbacks && state.firebase.data.feedbacks[tpId];
-  //const feedbacks = tpId && populate(state.firebase, `/feedbacks/${tpId}`, populates);
   const feedbacks = tpId && state.firebase.data.feedbacks && state.firebase.data.feedbacks[tpId];
   const initial = tp && tp.initial;
   const approach = tp && tp.approach;
@@ -262,8 +252,7 @@ export default compose(
     const questId = props.match.params.questId;
     const tpId = props.match.params.tpId;
 
-    return [ //{path: `/questions/${questId}`, storeAs: questId},
-            {path: `/tps/${questId}/${tpId}`, storeAs: tpId } ,
+    return [{path: `/tps/${questId}/${tpId}`, storeAs: tpId },
             {path: `/feedbacks/${tpId}` }];
   }),
   connect(mapStateToProps)
