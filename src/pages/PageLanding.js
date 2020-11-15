@@ -74,13 +74,13 @@ class PageLanding extends React.Component {
             });
 
             let bars;
-            if(quest.difficulty && quest.difficulty === 'easy'){
+            if (quest.difficulty && quest.difficulty === 'easy') {
               bars = easy;
             }
-            if(quest.difficulty && quest.difficulty === 'medium'){
+            if (quest.difficulty && quest.difficulty === 'medium') {
               bars = medium;
             }
-            if(quest.difficulty && quest.difficulty === 'hard'){
+            if (quest.difficulty && quest.difficulty === 'hard') {
               bars = hard;
             }
 

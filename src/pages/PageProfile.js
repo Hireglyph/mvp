@@ -30,7 +30,7 @@ class PageProfile extends React.Component {
       		return <Redirect to="/register" />
     	}
 
-      const Tps = this.props.tpHistory &&
+      const tps = this.props.tpHistory &&
       Object.keys(this.props.tpHistory).slice(0).reverse().map(tpId => {
         const tp = this.props.tpHistory[tpId].tp &&  this.props.tpHistory[tpId].tp;
         if(tp){
@@ -42,68 +42,73 @@ class PageProfile extends React.Component {
 
     });
 
-    const Feedbacks = this.props.feedbackHistory &&
+    const feedbacks = this.props.feedbackHistory &&
       Object.keys(this.props.feedbackHistory).slice(0).reverse().map(feedbackId => {
-        const feedback = this.props.feedbackHistory[feedbackId].feedback && this.props.feedbackHistory[feedbackId].feedback;
-        const questId = this.props.feedbackHistory[feedbackId].questId && this.props.feedbackHistory[feedbackId].questId;
-        const username = this.props.feedbackHistory[feedbackId].username && this.props.feedbackHistory[feedbackId].username;
-        const tpId = this.props.feedbackHistory[feedbackId].tpId && this.props.feedbackHistory[feedbackId].tpId;
-        if(feedback){
+        const feedback = this.props.feedbackHistory[feedbackId].feedback;
+        const questId = this.props.feedbackHistory[feedbackId].questId;
+        const username = this.props.feedbackHistory[feedbackId].username;
+        const tpId = this.props.feedbackHistory[feedbackId].tpId;
+        if (feedback && username && questId && tpId) {
           return (
               <div className='individual-tp-preview'>
                 <div className='main-tp-text'>
                   <div className='tp-preview-username'>Feedback to @{username}'s TP to Question #{questId}</div>
-                  <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Feedback:</span><span className='tp-preview-tail'> {feedback.slice(0,45)}...</span></div>
-                <div className='align-right'>
-                <Link className='tp-full-goto' to={`/tp/${questId}/${tpId}#${feedbackId}`}>
-                  Go to Feedback
-                </Link>
-                </div>
+                  <div>
+                    <span className='tp-preview-head'>
+                      nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Feedback:
+                    </span>
+                    <span className='tp-preview-tail'>{feedback.slice(0,45)}...</span>
+                  </div>
+                  <div className='align-right'>
+                    <Link className='tp-full-goto' to={`/tp/${questId}/${tpId}#${feedbackId}`}>
+                      Go to Feedback
+                    </Link>
+                  </div>
                 </div>
                 <br />
               </div>
             );
         }
         return;
-
     });
 
-    const Display = (this.state.setting == 1) ? Tps : Feedbacks;  
+    const display = (this.state.setting == 1) ? tps : feedbacks;
 
-    	const history = this.props.tpHistory &&
-    	Object.keys(this.props.tpHistory).slice(0).reverse().map( (tpId, index) => {
-    		return(
-    			(tpId!=="test" && this.props.tpHistory[tpId].questId && this.props.tpHistory[tpId]) ?
-	    			<div className='tp-box' key={index}>
-              <Link className='goto-text' to={`/tp/${this.props.tpHistory[tpId].questId}/${tpId}`}>Go to your TP for Question #{this.props.tpHistory[tpId].questId}</Link>
-	    				
-	    			</div>
-	    			:
-	    			<div key={index}></div>
-    		);
-    	})
+  	const history = this.props.tpHistory &&
+  	Object.keys(this.props.tpHistory).slice(0).reverse().map((tpId, index) => {
+  		return(
+  			(tpId!=="test" && this.props.tpHistory[tpId].questId && this.props.tpHistory[tpId]) ?
+    			<div className='tp-box' key={index}>
+            <Link className='goto-text' to={`/tp/${this.props.tpHistory[tpId].questId}/${tpId}`}>Go to your TP for Question #{this.props.tpHistory[tpId].questId}</Link>
 
-        return (<div className='background2'>
-            <div className='intro2'>Your profile, @{this.props.username} </div>
+    			</div>
+    			:
+    			<div key={index}></div>
+  		);
+  	});
 
-            <div>
-              <button
-                disabled={this.state.setting === 1}
-                onClick={() => this.handleTps(1)}
-              >
-                  My TP History
-              </button>
-              <button
-                disabled={this.state.setting === 2}
-                onClick={() => this.handleTps(2)}
-              >
-                  My Feedback History
-              </button>
-            </div>
-        		<br />
-        		{Display}
-   	     		</div>);
-    }
+    return (
+      <div className='background2'>
+        <div className='intro2'>Your profile, @{this.props.username} </div>
+        <div>
+          <button
+            disabled={this.state.setting === 1}
+            onClick={() => this.handleTps(1)}
+          >
+              My TP History
+          </button>
+          <button
+            disabled={this.state.setting === 2}
+            onClick={() => this.handleTps(2)}
+          >
+              My Feedback History
+          </button>
+        </div>
+    		<br />
+    		{display}
+	   </div>
+    );
+  }
 }
 
 const mapStateToProps = (state, props) => {
