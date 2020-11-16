@@ -16,7 +16,9 @@ class PageQuestion extends React.Component {
       approach: '',
       solution: '',
       loading: true,
+      order: 1,
       keys: [],
+      time: [],
     };
   }
 
@@ -25,9 +27,13 @@ class PageQuestion extends React.Component {
       let keys = this.props.tps ? Object.keys(this.props.tps) : [];
       keys.sort((a, b) => this.props.tps[b].total - this.props.tps[a].total);
 
-      this.setState({ loading: false, keys });
+      this.setState({ loading: false, keys, time: Object.keys(this.props.tps).reverse(), });
     }
   }
+
+  changeOrder = number => {
+      this.setState({ order: number });
+    }
 
   handleTps = number => {
     this.setState({ setting: number });
@@ -116,6 +122,33 @@ class PageQuestion extends React.Component {
 
     });
 
+    const tpsByTime = this.props.tps &&
+      this.state.time.map(tpId => {
+        const tp = this.props.tps[tpId];
+        return (
+            <TpPreview tp={tp} tpId={tpId} questId={this.props.questId} key={tpId}/>
+          );
+        return;
+
+    });
+
+    const communityTps = 
+      <div>
+        <button
+          disabled={this.state.order === 1}
+          onClick={() => this.changeOrder(1)}
+        >
+          Top TPs
+        </button>
+        <button
+          disabled={this.state.order === 2}
+          onClick={() => this.changeOrder(2)}
+        >
+          New TPs
+        </button>
+        {this.state.order == 1 ? Tps : tpsByTime}
+      </div>
+
     const myTp = (
       <div className='my-tp-submit'>
         <p className='tp-instructions-text'>Enter your Thought Process below:</p>
@@ -161,7 +194,7 @@ class PageQuestion extends React.Component {
       section = myTp;
     }
     if (this.state.setting === 2) {
-      section = Tps;
+      section = communityTps;
     }
 
     if (!this.props.isLoggedIn) {
