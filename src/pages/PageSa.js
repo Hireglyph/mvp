@@ -10,7 +10,7 @@ import green from '../assets/images/green-upvote.png';
 import upvote from '../assets/images/upvote.png';
 import downvote from '../assets/images/downvote.png';
 
-class PageTp extends React.Component{
+class PageSa extends React.Component{
   constructor(props){
     super(props);
     this.state = {
@@ -32,7 +32,7 @@ class PageTp extends React.Component{
   handleChange = event => {this.setState({ [event.target.name]: event.target.value });}
 
   createFeedback = () => {
-    const feedbackId = this.props.firebase.push(`/feedbacks/${this.props.tpId}`).key;
+    const feedbackId = this.props.firebase.push(`/feedbacks/${this.props.saId}`).key;
     const updates = {};
     const feedback = {
       feedback: this.state.feedback,
@@ -40,8 +40,8 @@ class PageTp extends React.Component{
       score: 0,
       username: this.props.username2,
     };
-    updates[`/feedbacks/${this.props.tpId}/${feedbackId}`] = feedback;
-    updates[`/users/${this.props.isLoggedIn}/feedbackHistory/${feedbackId}`] = {tpId: this.props.tpId, feedback: this.state.feedback,
+    updates[`/feedbacks/${this.props.saId}/${feedbackId}`] = feedback;
+    updates[`/users/${this.props.isLoggedIn}/feedbackHistory/${feedbackId}`] = {saId: this.props.saId, feedback: this.state.feedback,
       questId: this.props.questId, username: this.props.username };
 
     this.setState({ feedback: '', })
@@ -59,20 +59,20 @@ class PageTp extends React.Component{
   upvote = () => {
     const updates = {};
     if(!this.props.isUpvoted && !this.props.isDownvoted){
-      updates[`/tps/${this.props.questId}/${this.props.tpId}/total`] = this.props.total + 1;
-      updates[`/tps/${this.props.questId}/${this.props.tpId}/users/${this.props.isLoggedIn}`] = 1
+      updates[`/sas/${this.props.questId}/${this.props.saId}/total`] = this.props.total + 1;
+      updates[`/sas/${this.props.questId}/${this.props.saId}/users/${this.props.isLoggedIn}`] = 1
       this.props.firebase.update('/', updates);
     }
 
     if(this.props.isUpvoted){
-      updates[`/tps/${this.props.questId}/${this.props.tpId}/total`] = this.props.total - 1;
-      updates[`/tps/${this.props.questId}/${this.props.tpId}/users/${this.props.isLoggedIn}`] = 0
+      updates[`/sas/${this.props.questId}/${this.props.saId}/total`] = this.props.total - 1;
+      updates[`/sas/${this.props.questId}/${this.props.saId}/users/${this.props.isLoggedIn}`] = 0
       this.props.firebase.update('/', updates);
     }
 
     if(this.props.isDownvoted){
-      updates[`/tps/${this.props.questId}/${this.props.tpId}/total`] = this.props.total + 2;
-      updates[`/tps/${this.props.questId}/${this.props.tpId}/users/${this.props.isLoggedIn}`] = 1
+      updates[`/sas/${this.props.questId}/${this.props.saId}/total`] = this.props.total + 2;
+      updates[`/sas/${this.props.questId}/${this.props.saId}/users/${this.props.isLoggedIn}`] = 1
       this.props.firebase.update('/', updates);
     }
 
@@ -81,20 +81,20 @@ class PageTp extends React.Component{
   downvote = () => {
     const updates = {};
     if(!this.props.isUpvoted && !this.props.isDownvoted){
-      updates[`/tps/${this.props.questId}/${this.props.tpId}/total`] = this.props.total - 1;
-      updates[`/tps/${this.props.questId}/${this.props.tpId}/users/${this.props.isLoggedIn}`] = -1
+      updates[`/sas/${this.props.questId}/${this.props.saId}/total`] = this.props.total - 1;
+      updates[`/sas/${this.props.questId}/${this.props.saId}/users/${this.props.isLoggedIn}`] = -1
       this.props.firebase.update('/', updates);
     }
 
     if(this.props.isUpvoted){
-      updates[`/tps/${this.props.questId}/${this.props.tpId}/total`] = this.props.total - 2;
-      updates[`/tps/${this.props.questId}/${this.props.tpId}/users/${this.props.isLoggedIn}`] = -1
+      updates[`/sas/${this.props.questId}/${this.props.saId}/total`] = this.props.total - 2;
+      updates[`/sas/${this.props.questId}/${this.props.saId}/users/${this.props.isLoggedIn}`] = -1
       this.props.firebase.update('/', updates);
     }
 
     if(this.props.isDownvoted){
-      updates[`/tps/${this.props.questId}/${this.props.tpId}/total`] = this.props.total + 1;
-      updates[`/tps/${this.props.questId}/${this.props.tpId}/users/${this.props.isLoggedIn}`] = 0
+      updates[`/sas/${this.props.questId}/${this.props.saId}/total`] = this.props.total + 1;
+      updates[`/sas/${this.props.questId}/${this.props.saId}/users/${this.props.isLoggedIn}`] = 0
       this.props.firebase.update('/', updates);
     }
   }
@@ -104,18 +104,18 @@ class PageTp extends React.Component{
     const isUpvoted = this.props.feedbacks[feedbackId].users && (this.props.isLoggedIn in this.props.feedbacks[feedbackId].users) && (this.props.feedbacks[feedbackId].users[this.props.isLoggedIn]===1);
     const isDownvoted = this.props.feedbacks[feedbackId].users && (this.props.isLoggedIn in this.props.feedbacks[feedbackId].users) && (this.props.feedbacks[feedbackId].users[this.props.isLoggedIn]===-1);
     if(!isUpvoted && !isDownvoted){
-      updates[`/feedbacks/${this.props.tpId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score + 1;
-      updates[`/feedbacks/${this.props.tpId}/${feedbackId}/users/${this.props.isLoggedIn}`] = 1;
+      updates[`/feedbacks/${this.props.saId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score + 1;
+      updates[`/feedbacks/${this.props.saId}/${feedbackId}/users/${this.props.isLoggedIn}`] = 1;
       this.props.firebase.update('/', updates);
     }
     if(isUpvoted){
-      updates[`/feedbacks/${this.props.tpId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score - 1;
-      updates[`/feedbacks/${this.props.tpId}/${feedbackId}/users/${this.props.isLoggedIn}`] = 0;
+      updates[`/feedbacks/${this.props.saId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score - 1;
+      updates[`/feedbacks/${this.props.saId}/${feedbackId}/users/${this.props.isLoggedIn}`] = 0;
       this.props.firebase.update('/', updates);
     }
     if(isDownvoted){
-      updates[`/feedbacks/${this.props.tpId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score + 2;
-      updates[`/feedbacks/${this.props.tpId}/${feedbackId}/users/${this.props.isLoggedIn}`] = 1;
+      updates[`/feedbacks/${this.props.saId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score + 2;
+      updates[`/feedbacks/${this.props.saId}/${feedbackId}/users/${this.props.isLoggedIn}`] = 1;
       this.props.firebase.update('/', updates);
     }
   }
@@ -125,24 +125,24 @@ class PageTp extends React.Component{
     const isUpvoted = this.props.feedbacks[feedbackId].users && (this.props.isLoggedIn in this.props.feedbacks[feedbackId].users) && (this.props.feedbacks[feedbackId].users[this.props.isLoggedIn]===1);
     const isDownvoted = this.props.feedbacks[feedbackId].users && (this.props.isLoggedIn in this.props.feedbacks[feedbackId].users) && (this.props.feedbacks[feedbackId].users[this.props.isLoggedIn]===-1);
     if(!isUpvoted && !isDownvoted){
-      updates[`/feedbacks/${this.props.tpId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score - 1;
-      updates[`/feedbacks/${this.props.tpId}/${feedbackId}/users/${this.props.isLoggedIn}`] = -1;
+      updates[`/feedbacks/${this.props.saId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score - 1;
+      updates[`/feedbacks/${this.props.saId}/${feedbackId}/users/${this.props.isLoggedIn}`] = -1;
       this.props.firebase.update('/', updates);
     }
     if(isUpvoted){
-      updates[`/feedbacks/${this.props.tpId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score - 2;
-      updates[`/feedbacks/${this.props.tpId}/${feedbackId}/users/${this.props.isLoggedIn}`] = -1;
+      updates[`/feedbacks/${this.props.saId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score - 2;
+      updates[`/feedbacks/${this.props.saId}/${feedbackId}/users/${this.props.isLoggedIn}`] = -1;
       this.props.firebase.update('/', updates);
     }
     if(isDownvoted){
-      updates[`/feedbacks/${this.props.tpId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score + 1;
-      updates[`/feedbacks/${this.props.tpId}/${feedbackId}/users/${this.props.isLoggedIn}`] = 0;
+      updates[`/feedbacks/${this.props.saId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score + 1;
+      updates[`/feedbacks/${this.props.saId}/${feedbackId}/users/${this.props.isLoggedIn}`] = 0;
       this.props.firebase.update('/', updates);
     }
   }
 
 	render(){
-    if (!isLoaded(this.props.initial) || !isLoaded(this.props.feedbacks)) {
+    if (!isLoaded(this.props.answer) || !isLoaded(this.props.feedbacks)) {
       return (<div>Loading...</div>);
     }
 
@@ -150,7 +150,7 @@ class PageTp extends React.Component{
       return <Redirect to="/register" />
     }
 
-    if (isEmpty(this.props.initial)){
+    if (isEmpty(this.props.answer)){
      return <div>Page not found!</div>;
     }
 
@@ -204,16 +204,10 @@ class PageTp extends React.Component{
 
 		return(
 			<div className='full-tp'>
-        <div className='question-identification'>@{this.props.username} in response to: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Link className='link-to-quest' to={`/q/${this.props.questId}`}> Question #{this.props.questId}</Link></div>
+        <div className='question-identification'>@{this.props.username} in response to: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Link className='link-to-quest' to={`/eq/${this.props.questId}`}> Question #{this.props.questId}</Link></div>
         <br />
-  			<div className='label-text'>Initial Thoughts:</div>
-        <div className='body-text'>{this.props.initial}</div>
-        <br />
-  			<div className='label-text'>Approaches Tried:</div>
-        <div className='body-text'>{this.props.approach}</div>
-        <br />
-  			<div className='label-text'>Final Solution:</div>
-        <div className='body-text'>{this.props.solution}</div>
+  			<div className='label-text'>Short Answer:</div>
+        <div className='body-text'>{this.props.answer}</div>
         <br />
         <img className='upvote-button' src={this.props.isUpvoted ? green : upvote} onClick={this.upvote}/>
         <div className='score-text'>{this.props.total}</div>
@@ -232,28 +226,26 @@ class PageTp extends React.Component{
 
 const mapStateToProps = (state, props) => {
   const questId = props.match.params.questId;
-  const tpId = props.match.params.tpId;
-  const tp = state.firebase.data[tpId];
-  const username = tp && (tp.username ? tp.username : tp.creator);
-  const feedbacks = tpId && state.firebase.data.feedbacks && state.firebase.data.feedbacks[tpId];
-  const initial = tp && tp.initial;
-  const approach = tp && tp.approach;
-  const solution = tp && tp.solution;
-  const total = tp && tp.total;
-  const isUpvoted = tp && tp.users && (state.firebase.auth.uid in tp.users) && (tp.users[state.firebase.auth.uid] === 1);
-  const isDownvoted = tp && tp.users && (state.firebase.auth.uid in tp.users) && (tp.users[state.firebase.auth.uid] === -1);
+  const saId = props.match.params.saId;
+  const sa = state.firebase.data[saId];
+  const username = sa && (sa.username ? sa.username : sa.creator);
+  const feedbacks = saId && state.firebase.data.feedbacks && state.firebase.data.feedbacks[saId];
+  const answer = sa && sa.answer;
+  const total = sa && sa.total;
+  const isUpvoted = sa && sa.users && (state.firebase.auth.uid in sa.users) && (sa.users[state.firebase.auth.uid] === 1);
+  const isDownvoted = sa && sa.users && (state.firebase.auth.uid in sa.users) && (sa.users[state.firebase.auth.uid] === -1);
   const username2 = state.firebase.profile && state.firebase.profile.username;
-  return { questId, tpId, initial, approach, solution, isLoggedIn: state.firebase.auth.uid, feedbacks, total, isUpvoted, isDownvoted, username, username2 };
+  return { questId, saId, answer, isLoggedIn: state.firebase.auth.uid, feedbacks, total, isUpvoted, isDownvoted, username, username2 };
 }
 
 export default compose(
   withRouter,
   firebaseConnect(props => {
     const questId = props.match.params.questId;
-    const tpId = props.match.params.tpId;
+    const saId = props.match.params.saId;
 
-    return [{path: `/tps/${questId}/${tpId}`, storeAs: tpId },
-            {path: `/feedbacks/${tpId}` }];
+    return [{path: `/sas/${questId}/${saId}`, storeAs: saId },
+            {path: `/feedbacks/${saId}` }];
   }),
   connect(mapStateToProps)
-)(PageTp);
+)(PageSa);

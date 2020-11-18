@@ -7,14 +7,12 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import '../styles/PageQuestion.css'
 
-class PageQuestion extends React.Component {
+class PageEasyQuestion extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       setting: 1,
-      initial: '',
-      approach: '',
-      solution: '',
+      answer: '',
       loading: true,
       order: 1,
       keys: [],
@@ -23,12 +21,12 @@ class PageQuestion extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState){
-    if (prevState.loading && isLoaded(this.props.tps)) {
-      let keys = this.props.tps ? Object.keys(this.props.tps) : [];
-      keys.sort((a, b) => this.props.tps[b].total - this.props.tps[a].total);
+    if (prevState.loading && isLoaded(this.props.sas)) {
+      let keys = this.props.sas ? Object.keys(this.props.sas) : [];
+      keys.sort((a, b) => this.props.sas[b].total - this.props.sas[a].total);
       this.setState({ loading: false, keys, });
-      if (this.props.tps){
-        this.setState({ time: Object.keys(this.props.tps).reverse() , })
+      if (this.props.sas){
+        this.setState({ time: Object.keys(this.props.sas).reverse() , })
       }
     }
   }
@@ -37,40 +35,35 @@ class PageQuestion extends React.Component {
       this.setState({ order: number });
     }
 
-  handleTps = number => {
+  handleSas = number => {
     this.setState({ setting: number });
   }
 
   handleChange = event => this.setState({ [event.target.name]: event.target.value });
 
-  createTp = () => {
-    const tpId = this.props.firebase.push(`/tps/${this.props.questId}`).key;
+  createSa = () => {
+    const saId = this.props.firebase.push(`/sas/${this.props.questId}`).key;
     const updates = {};
-    const tp = {
-      initial: this.state.initial,
-      approach: this.state.approach,
-      solution: this.state.solution,
+    const sa = {
+      answer: this.state.answer,
       creator: this.props.isLoggedIn,
       username: this.props.username,
       total: 0
     };
-    const tp2 = {
-      initial: this.state.initial,
-      approach: this.state.approach,
-      solution: this.state.solution,
-    };
+    //TODO: add to saHistory, but will be done during database restructuring
 
-    updates[`/tps/${this.props.questId}/${tpId}`] = tp;
-    updates[`/users/${this.props.isLoggedIn}/tpHistory/${tpId}`] = {questId: this.props.questId, tp:tp2 };
+    updates[`/sas/${this.props.questId}/${saId}`] = sa;
     const onComplete = () => {
-      this.props.history.push(`/tp/${this.props.questId}/${tpId}`);
+     //TODO: FIX!!! (link) v BELOW v
+     // this.props.history.push(`/sa/${this.props.questId}/${saId}`);
+      this.props.history.push(`/sa/${this.props.questId}/${saId}`);
     }
     this.props.firebase.update('/', updates, onComplete);
   }
 
   render() {
 
-    if (!isLoaded(this.props.title) || !isLoaded(this.props.tps)) {
+    if (!isLoaded(this.props.title) || !isLoaded(this.props.sas)) {
       return (<div>Loading...</div>);
     }
 
@@ -78,8 +71,8 @@ class PageQuestion extends React.Component {
       return <div>Page not found!</div>;
     }
 
-    if(this.props.difficulty && this.props.questId && this.props.difficulty === 'easy'){
-      return <Redirect to={`/eq/${this.props.questId}`} />
+    if(this.props.difficulty && this.props.questId && this.props.difficulty !== 'easy'){
+      return <Redirect to={`/q/${this.props.questId}`} />
     }
 
     const topics = this.props.tags &&
@@ -118,76 +111,89 @@ class PageQuestion extends React.Component {
       );
     }
 
-    const Tps = this.props.tps &&
-      this.state.keys.map(tpId => {
-        const tp = this.props.tps[tpId];
+    const Sas = this.props.sas &&
+      this.state.keys.map(saId => {
+        const sa = this.props.sas[saId];
+        const answer = this.props.sas[saId].answer;
+        const username = this.props.sas[saId].username;
+        const total = this.props.sas[saId].total;
+          //FIX LINK!!!!!!!!!
         return (
-            <TpPreview tp={tp} tpId={tpId} questId={this.props.questId} key={tpId}/>
-          );
-        return;
+          <div className='individual-tp-preview' key={saId}> 
+            <div className='main-tp-text'>
+              <div className='tp-preview-username'>@{username}</div>
+              <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Answer:</span><span className='tp-preview-tail'> {answer.slice(0,45)}...</span></div>
 
+              <div className='align-right'>
+              <Link className='tp-full-goto' to={`/sa/${this.props.questId}/${saId}`}>
+                Go to full SA
+              </Link>
+            </div>
+            </div>
+            <div className='main-tp-score'>{total}</div>
+            <br />
+          </div>
+        );
     });
 
-    const tpsByTime = this.props.tps &&
-      this.state.time.map(tpId => {
-        const tp = this.props.tps[tpId];
+    const sasByTime = this.props.sas &&
+      this.state.time.map(saId => {
+        const sa = this.props.sas[saId];
+        const answer = this.props.sas[saId].answer;
+        const username = this.props.sas[saId].username;
+        const total = this.props.sas[saId].total;
         return (
-            <TpPreview tp={tp} tpId={tpId} questId={this.props.questId} key={tpId}/>
-          );
-        return;
+          <div className='individual-tp-preview' key={saId}> 
+            <div className='main-tp-text'>
+              <div className='tp-preview-username'>@{username}</div>
+              <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Answer:</span><span className='tp-preview-tail'> {answer.slice(0,45)}...</span></div>
 
+              <div className='align-right'>
+              <Link className='tp-full-goto' to={`/sa/${this.props.questId}/${saId}`}>
+                Go to full SA
+              </Link>
+            </div>
+            </div>
+            <div className='main-tp-score'>{total}</div>
+            <br />
+          </div>
+        );
     });
 
-    const communityTps = 
+    const communitySas = 
       <div>
         <button
           disabled={this.state.order === 1}
           onClick={() => this.changeOrder(1)}
         >
-          Top TPs
+          Top SAs
         </button>
         <button
           disabled={this.state.order === 2}
           onClick={() => this.changeOrder(2)}
         >
-          New TPs
+          New SAs
         </button>
-        {this.state.order === 1 ? Tps : tpsByTime}
+        {this.state.order === 1 ? Sas : sasByTime}
       </div>
 
-    const myTp = (
+    const mySa = (
       <div className='my-tp-submit'>
-        <p className='tp-instructions-text'>Enter your Thought Process below:</p>
+        <p className='tp-instructions-text'>Enter your Short Answer below:</p>
         <textarea
         className='tp-input-box'
-        name = "initial"
-        placeholder="What were your initial thoughts?"
+        name = "answer"
+        placeholder="Enter your short answer here!"
         onChange = {this.handleChange}
-        value={this.state.initial}
-        />
-      
-        <textarea
-        className='tp-input-box'
-        name = "approach"
-        placeholder="Different approaches you tried..."
-        onChange = {this.handleChange}
-        value={this.state.approach}
-        />
-
-        <textarea
-        className='tp-input-box'
-        name = "solution"
-        placeholder="Final solution!"
-        onChange = {this.handleChange}
-        value={this.state.solution}
+        value={this.state.answer}
         />
         <br />
         <br />
         <button
         className='tp-submit-green'
         disabled=
-        {this.state.initial.trim()===''||this.state.approach.trim()===''||this.state.solution.trim()===''}
-        onClick={this.createTp}
+        {this.state.answer.trim()===''}
+        onClick={this.createSa}
         >
         Submit
         </button>
@@ -197,16 +203,16 @@ class PageQuestion extends React.Component {
 
     let section;
     if (this.state.setting === 1) {
-      section = myTp;
+      section = mySa;
     }
     if (this.state.setting === 2) {
-      section = communityTps;
+      section = communitySas;
     }
 
     if (!this.props.isLoggedIn) {
       section = (
         <div className='login-message'>
-          <p>You need to log in or register to view TPs or write your own.</p>
+          <p>You need to log in or register to view SAs or write your own.</p>
         </div>
         )
     }
@@ -227,16 +233,16 @@ class PageQuestion extends React.Component {
           <button
             className='my-tp-button-1'
             disabled={this.state.setting === 1}
-            onClick={() => this.handleTps(1)}
+            onClick={() => this.handleSas(1)}
           >
-              My TP
+              My SA
           </button>
           <button
             className='community-tp-button-1'
             disabled={this.state.setting === 2}
-            onClick={() => this.handleTps(2)}
+            onClick={() => this.handleSas(2)}
           >
-              Community TPs
+              Community SAs
           </button>
           <hr className={this.state.setting === 1 ? 'divider-line' : 'divider-line-2'}/>
         </div>
@@ -264,9 +270,9 @@ const mapStateToProps = (state, props) => {
   const difficulty = question && question.difficulty;
   //const tps = question && question.tps;
   //const tps = question && populate(state.firebase, `/tps/${questId}`, populates)
-  const tps = question && state.firebase.data.tps && state.firebase.data.tps[questId];
+  const sas = question && state.firebase.data.sas && state.firebase.data.sas[questId];
   const username = state.firebase.profile && state.firebase.profile.username;
-  return { questId, title, description, definitive, topics, difficulty, tps, username, isLoggedIn: state.firebase.auth.uid, tags};
+  return { questId, title, description, definitive, topics, difficulty, sas, username, isLoggedIn: state.firebase.auth.uid, tags};
 
 }
 
@@ -277,8 +283,7 @@ export default compose(
     const questId = props.match.params.questId;
     return [{path: `/questions/${questId}`, storeAs: questId},
             //{path: `/tps/${questId}`, storeAs: `${questId}/tps`},
-            {path: `/tps/${questId}` } ];
+            {path: `/sas/${questId}` } ];
   }),
   connect(mapStateToProps)
-)(PageQuestion);
-
+)(PageEasyQuestion);

@@ -61,7 +61,7 @@ class PageLanding extends React.Component {
 
       const quests =
         Object.keys(this.state.questions)
-          .filter(questId => !this.state.difficulty || this.state.questions[questId].difficulty == this.state.difficulty)
+          .filter(questId => !this.state.difficulty || this.state.questions[questId].difficulty === this.state.difficulty)
           .filter(questId => !this.state.tag || this.state.questions[questId].tags[this.state.tag])
           .map(questId => {
             const quest = this.state.questions[questId];
@@ -86,7 +86,7 @@ class PageLanding extends React.Component {
 
             return (
               <div className='question' key={questId}>
-                <div><Link className='question-title' to={`/q/${questId}`}>#{questId}: {quest.title}</Link></div>
+                <div><Link className='question-title' to={quest.difficulty === 'easy' ? `/eq/${questId}` : `/q/${questId}`}>#{questId}: {quest.title}</Link></div>
                 <br />
                 <div className='topics'>&nbsp;&nbsp;{topics}</div>
                 <div>{bars}</div>
