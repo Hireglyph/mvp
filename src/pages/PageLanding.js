@@ -13,16 +13,6 @@ class PageLanding extends React.Component {
       this.state = {titles: '', loaded: false};
     }
 
-    componentDidMount() {
-      if (!this.state.loaded) {
-        const results = this.props.firebase.database().ref('questions').on('value', data => {
-          if (data.val()) {
-            this.setState({questions: data.val(), loaded: true});
-          }
-       });
-      }
-    }
-
     handleDiffFilter = difficulty => {
       this.setState({ difficulty, tag: '' });
     };
@@ -32,7 +22,7 @@ class PageLanding extends React.Component {
     };
 
     render() {
-      if (!this.state.loaded) {
+      if (!isLoaded(this.props.questions)) {
         return (<div >Loading...</div>);
       }
 
@@ -59,11 +49,11 @@ class PageLanding extends React.Component {
       );
 
       const quests =
-        Object.keys(this.state.questions)
-          .filter(questId => !this.state.difficulty || this.state.questions[questId].difficulty === this.state.difficulty)
-          .filter(questId => !this.state.tag || this.state.questions[questId].tags[this.state.tag])
+        Object.keys(this.props.questions)
+          .filter(questId => !this.state.difficulty || this.props.questions[questId].difficulty === this.state.difficulty)
+          .filter(questId => !this.state.tag || this.props.questions[questId].tags[this.state.tag])
           .map(questId => {
-            const quest = this.state.questions[questId];
+            const quest = this.props.questions[questId];
 
             const topics = quest.tags &&
               Object.keys(quest.tags).map(tag => {
@@ -97,7 +87,7 @@ class PageLanding extends React.Component {
 
       const tagButtons = tags.map(tag => {
         return (
-          <button onClick={() => this.handleTagFilter(tag)}>Filter by {tag}</button>
+          <button onClick={() => this.handleTagFilter(tag)} key={tag}>Filter by {tag}</button>
         )
       });
 
@@ -129,12 +119,13 @@ class PageLanding extends React.Component {
 
 const mapStateToProps = state => {
   return {
+    questions: state.firebase.data.questions,
     email: state.firebase.auth.email,
     uid: state.firebase.auth.uid,
   };
 }
 
 export default compose(
-  firebaseConnect(),
+  firebaseConnect(['/questions']),
   connect(mapStateToProps)
 )(PageLanding);
