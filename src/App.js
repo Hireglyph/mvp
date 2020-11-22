@@ -7,6 +7,7 @@ import PageTp from './pages/PageTp';
 import PageSa from './pages/PageSa';
 import PageRegister from './pages/PageRegister';
 import PageLogin from './pages/PageLogin';
+import PageAddQuestion from './pages/PageAddQuestion';
 import NavBar from './components/NavBar';
 
 
@@ -40,6 +41,9 @@ function App() {
         </Route>
         <Route exact path="/login">
           <PageLogin />
+        </Route>
+        <Route exact path="/addquestion">
+          <PageAddQuestion />
         </Route>
         <Route>
           <div>Page not found</div>
