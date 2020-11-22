@@ -112,18 +112,22 @@ class PageProfile extends React.Component {
 }
 
 const mapStateToProps = (state, props) => {
-	const uid = state.firebase.auth.uid;
   const profile = state.firebase.profile;
   const username = profile && profile.username;
-	const tpHistory = profile && profile.tpHistory;
   const feedbackHistory = profile && profile.feedbackHistory;
 	const email = profile && profile.email;
+  const tpHistory = state.firebase.data.tpHistory
 
-	return { tpHistory, email, uid, profile, username, feedbackHistory }
+	return { email, profile, username, tpHistory, feedbackHistory }
 };
 
 export default compose(
   withRouter,
-  firebaseConnect(),
+  firebaseConnect(props => [
+    {
+      path: '/tpHistory/' + props.uid,
+      storeAs: 'tpHistory'
+    }
+  ]),
   connect(mapStateToProps)
 )(PageProfile);
