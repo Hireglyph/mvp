@@ -14,6 +14,7 @@ class PageAddQuestion extends React.Component {
       description: '',
       answer: '',
       tags: {},
+      difficulty: 'easy',
     };
   }
 
@@ -36,18 +37,27 @@ class PageAddQuestion extends React.Component {
       description: this.state.description,
       answer: this.state.answer,
       tags: this.state.tags,
+      difficulty: this.state.difficulty,
     };
 
     updates[`/questions/${this.props.questionCount}`] = question;
     updates['/questionCount'] = this.props.questionCount + 1;
 
-    this.setState({ title: '', description: '', answer: '' });
+    this.setState({ title: '', description: '', answer: '', tags: {}, difficulty: 'easy' });
 
     this.props.firebase.update('/', updates);
   }
 
   render() {
-    if (!isLoaded(this.props.admin) || !isLoaded(this.props.questionCount)) {
+    if (!isLoaded(this.props.questionCount)) {
+      return (<div>Loading...</div>);
+    }
+
+    if (!this.props.isLoggedIn) {
+      return <Redirect to="/" />;
+    }
+
+    if (!isLoaded(this.props.admin)) {
       return (<div>Loading...</div>);
     }
 
@@ -62,6 +72,7 @@ class PageAddQuestion extends React.Component {
           type = "checkbox"
           onChange = {this.handleChange}
           name={tag}
+          checked={this.state.tags[tag]}
           />
           {tag}
         </div>
@@ -91,6 +102,13 @@ class PageAddQuestion extends React.Component {
         value={this.state.answer}
         />
         <br/>
+        Difficulty:
+        <select name="difficulty" value={this.state.difficulty} onChange={this.handleChange}>
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+        <br/>
         Tags:
         <br/>
         {checkboxes}
@@ -107,8 +125,7 @@ class PageAddQuestion extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    email: state.firebase.auth.email,
-    uid: state.firebase.auth.uid,
+    isLoggedIn: state.firebase.auth.uid,
     admin: state.firebase.profile.admin,
     questionCount: state.firebase.data.questionCount,
   };
