@@ -11,10 +11,10 @@ class PageEasyQuestion extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      setting: 1,
+      isMySa: true,
       answer: '',
       loading: true,
-      order: 1,
+      orderByTop: true,
       keys: [],
       time: [],
     };
@@ -31,12 +31,12 @@ class PageEasyQuestion extends React.Component {
     }
   }
 
-  changeOrder = number => {
-      this.setState({ order: number });
-    }
+  changeOrder = () => {
+    this.setState({ orderByTop: !this.state.orderByTop });
+  }
 
-  handleSas = number => {
-    this.setState({ setting: number });
+  handleSas = () => {
+    this.setState({ isMySa: !this.state.isMySa });
   }
 
   handleChange = event => this.setState({ [event.target.name]: event.target.value });
@@ -62,7 +62,6 @@ class PageEasyQuestion extends React.Component {
   }
 
   render() {
-
     if (!isLoaded(this.props.title) || !isLoaded(this.props.sas)) {
       return (<div>Loading...</div>);
     }
@@ -119,7 +118,7 @@ class PageEasyQuestion extends React.Component {
         const total = this.props.sas[saId].total;
           //FIX LINK!!!!!!!!!
         return (
-          <div className='individual-tp-preview' key={saId}> 
+          <div className='individual-tp-preview' key={saId}>
             <div className='main-tp-text'>
               <div className='tp-preview-username'>@{username}</div>
               <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Answer:</span><span className='tp-preview-tail'> {answer.slice(0,45)}...</span></div>
@@ -143,7 +142,7 @@ class PageEasyQuestion extends React.Component {
         const username = this.props.sas[saId].username;
         const total = this.props.sas[saId].total;
         return (
-          <div className='individual-tp-preview' key={saId}> 
+          <div className='individual-tp-preview' key={saId}>
             <div className='main-tp-text'>
               <div className='tp-preview-username'>@{username}</div>
               <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Answer:</span><span className='tp-preview-tail'> {answer.slice(0,45)}...</span></div>
@@ -160,21 +159,21 @@ class PageEasyQuestion extends React.Component {
         );
     });
 
-    const communitySas = 
+    const communitySas =
       <div>
         <button
-          disabled={this.state.order === 1}
-          onClick={() => this.changeOrder(1)}
+          disabled={this.state.orderByTop}
+          onClick={() => this.changeOrder()}
         >
           Top SAs
         </button>
         <button
-          disabled={this.state.order === 2}
-          onClick={() => this.changeOrder(2)}
+          disabled={!this.state.orderByTop}
+          onClick={() => this.changeOrder()}
         >
           New SAs
         </button>
-        {this.state.order === 1 ? Sas : sasByTime}
+        {this.state.orderByTop ? Sas : sasByTime}
       </div>
 
     const mySa = (
@@ -202,10 +201,10 @@ class PageEasyQuestion extends React.Component {
       );
 
     let section;
-    if (this.state.setting === 1) {
+    if (this.state.isMySa) {
       section = mySa;
     }
-    if (this.state.setting === 2) {
+    if (!this.state.isMySa) {
       section = communitySas;
     }
 
@@ -214,7 +213,7 @@ class PageEasyQuestion extends React.Component {
         <div className='login-message'>
           <p>You need to log in or register to view SAs or write your own.</p>
         </div>
-        )
+      );
     }
 
     return(
@@ -232,31 +231,27 @@ class PageEasyQuestion extends React.Component {
         <div>
           <button
             className='my-tp-button-1'
-            disabled={this.state.setting === 1}
-            onClick={() => this.handleSas(1)}
+            disabled={this.state.isMySa}
+            onClick={() => this.handleSas()}
           >
               My SA
           </button>
           <button
             className='community-tp-button-1'
-            disabled={this.state.setting === 2}
-            onClick={() => this.handleSas(2)}
+            disabled={!this.state.isMySa}
+            onClick={() => this.handleSas()}
           >
               Community SAs
           </button>
-          <hr className={this.state.setting === 1 ? 'divider-line' : 'divider-line-2'}/>
+          <hr className={this.state.isMySa ? 'divider-line' : 'divider-line-2'}/>
         </div>
-        <div className={this.state.setting === 1 ? 'px-break' : 'px-break-2'}>
+        <div className={this.state.isMySa ? 'px-break' : 'px-break-2'}>
           {section}
         </div>
       </div>
     );
   }
 }
-
-
-//const populates =
-//  [{child: 'creator', root: 'users'}];
 
 const mapStateToProps = (state, props) => {
   const questId = props.match.params.questId
@@ -268,21 +263,18 @@ const mapStateToProps = (state, props) => {
   const topics = question && question.topics;
   const tags = question && question.tags;
   const difficulty = question && question.difficulty;
-  //const tps = question && question.tps;
-  //const tps = question && populate(state.firebase, `/tps/${questId}`, populates)
+
   const sas = question && state.firebase.data.sas && state.firebase.data.sas[questId];
   const username = state.firebase.profile && state.firebase.profile.username;
   return { questId, title, description, definitive, topics, difficulty, sas, username, isLoggedIn: state.firebase.auth.uid, tags};
 
 }
 
-// COMMENT FOR LATER: don't get tp data if they don't get to see the tps??
 export default compose(
   withRouter,
   firebaseConnect(props => {
     const questId = props.match.params.questId;
     return [{path: `/questions/${questId}`, storeAs: questId},
-            //{path: `/tps/${questId}`, storeAs: `${questId}/tps`},
             {path: `/sas/${questId}` } ];
   }),
   connect(mapStateToProps)

@@ -11,12 +11,12 @@ class PageQuestion extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      setting: 1,
+      isMyTps: true,
       initial: '',
       approach: '',
       solution: '',
       loading: true,
-      order: 1,
+      orderByTop: true,
       keys: [],
       time: [],
     };
@@ -27,18 +27,18 @@ class PageQuestion extends React.Component {
       let keys = this.props.tps ? Object.keys(this.props.tps) : [];
       keys.sort((a, b) => this.props.tps[b].total - this.props.tps[a].total);
       this.setState({ loading: false, keys, });
-      if (this.props.tps){
-        this.setState({ time: Object.keys(this.props.tps).reverse() , })
+      if (this.props.tps) {
+        this.setState({ time: Object.keys(this.props.tps).reverse() })
       }
     }
   }
 
-  changeOrder = number => {
-      this.setState({ order: number });
-    }
+  changeOrder = () => {
+    this.setState({ orderByTop: !this.state.orderByTop });
+  }
 
-  handleTps = number => {
-    this.setState({ setting: number });
+  handleTps = () => {
+    this.setState({ isMyTps: !this.state.isMyTps });
   }
 
   handleChange = event => this.setState({ [event.target.name]: event.target.value });
@@ -69,7 +69,6 @@ class PageQuestion extends React.Component {
   }
 
   render() {
-
     if (!isLoaded(this.props.title) || !isLoaded(this.props.tps)) {
       return (<div>Loading...</div>);
     }
@@ -78,7 +77,7 @@ class PageQuestion extends React.Component {
       return <div>Page not found!</div>;
     }
 
-    if(this.props.difficulty && this.props.questId && this.props.difficulty === 'easy'){
+    if (this.props.difficulty && this.props.questId && this.props.difficulty === 'easy') {
       return <Redirect to={`/eq/${this.props.questId}`} />
     }
 
@@ -122,38 +121,35 @@ class PageQuestion extends React.Component {
       this.state.keys.map(tpId => {
         const tp = this.props.tps[tpId];
         return (
-            <TpPreview tp={tp} tpId={tpId} questId={this.props.questId} key={tpId}/>
-          );
-        return;
-
+          <TpPreview tp={tp} tpId={tpId} questId={this.props.questId} key={tpId}/>
+        );
     });
 
     const tpsByTime = this.props.tps &&
       this.state.time.map(tpId => {
         const tp = this.props.tps[tpId];
         return (
-            <TpPreview tp={tp} tpId={tpId} questId={this.props.questId} key={tpId}/>
-          );
-        return;
-
+          <TpPreview tp={tp} tpId={tpId} questId={this.props.questId} key={tpId}/>
+        );
     });
 
-    const communityTps = 
+    const communityTps = (
       <div>
         <button
-          disabled={this.state.order === 1}
+          disabled={this.state.orderByTop}
           onClick={() => this.changeOrder(1)}
         >
           Top TPs
         </button>
         <button
-          disabled={this.state.order === 2}
+          disabled={!this.state.orderByTop}
           onClick={() => this.changeOrder(2)}
         >
           New TPs
         </button>
-        {this.state.order === 1 ? Tps : tpsByTime}
+        {this.state.orderByTop ? Tps : tpsByTime}
       </div>
+    );
 
     const myTp = (
       <div className='my-tp-submit'>
@@ -165,7 +161,7 @@ class PageQuestion extends React.Component {
         onChange = {this.handleChange}
         value={this.state.initial}
         />
-      
+
         <textarea
         className='tp-input-box'
         name = "approach"
@@ -193,13 +189,13 @@ class PageQuestion extends React.Component {
         </button>
       </div>
 
-      );
+    );
 
     let section;
-    if (this.state.setting === 1) {
+    if (this.state.isMyTps) {
       section = myTp;
     }
-    if (this.state.setting === 2) {
+    else {
       section = communityTps;
     }
 
@@ -208,7 +204,7 @@ class PageQuestion extends React.Component {
         <div className='login-message'>
           <p>You need to log in or register to view TPs or write your own.</p>
         </div>
-        )
+      );
     }
 
     return(
@@ -226,31 +222,27 @@ class PageQuestion extends React.Component {
         <div>
           <button
             className='my-tp-button-1'
-            disabled={this.state.setting === 1}
-            onClick={() => this.handleTps(1)}
+            disabled={this.state.isMyTps}
+            onClick={() => this.handleTps()}
           >
               My TP
           </button>
           <button
             className='community-tp-button-1'
-            disabled={this.state.setting === 2}
-            onClick={() => this.handleTps(2)}
+            disabled={!this.state.isMyTps}
+            onClick={() => this.handleTps()}
           >
               Community TPs
           </button>
-          <hr className={this.state.setting === 1 ? 'divider-line' : 'divider-line-2'}/>
+          <hr className={this.state.isMyTps ? 'divider-line' : 'divider-line-2'}/>
         </div>
-        <div className={this.state.setting === 1 ? 'px-break' : 'px-break-2'}>
+        <div className={this.state.isMyTps ? 'px-break' : 'px-break-2'}>
           {section}
         </div>
       </div>
     );
   }
 }
-
-
-//const populates =
-//  [{child: 'creator', root: 'users'}];
 
 const mapStateToProps = (state, props) => {
   const questId = props.match.params.questId
@@ -262,8 +254,7 @@ const mapStateToProps = (state, props) => {
   const topics = question && question.topics;
   const tags = question && question.tags;
   const difficulty = question && question.difficulty;
-  //const tps = question && question.tps;
-  //const tps = question && populate(state.firebase, `/tps/${questId}`, populates)
+
   const tps = question && state.firebase.data.tps && state.firebase.data.tps[questId];
   const username = state.firebase.profile && state.firebase.profile.username;
   return { questId, title, description, definitive, topics, difficulty, tps, username, isLoggedIn: state.firebase.auth.uid, tags};
@@ -276,7 +267,6 @@ export default compose(
   firebaseConnect(props => {
     const questId = props.match.params.questId;
     return [{path: `/questions/${questId}`, storeAs: questId},
-            //{path: `/tps/${questId}`, storeAs: `${questId}/tps`},
             {path: `/tps/${questId}` } ];
   }),
   connect(mapStateToProps)
