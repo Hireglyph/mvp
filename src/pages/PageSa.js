@@ -29,7 +29,7 @@ class PageSa extends React.Component{
     }
   }
 
-  handleChange = event => {this.setState({ [event.target.name]: event.target.value });}
+  handleChange = event => this.setState({ [event.target.name]: event.target.value });
 
   createFeedback = () => {
     const feedbackId = this.props.firebase.push(`/feedbacks/${this.props.saId}`).key;

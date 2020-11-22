@@ -5,8 +5,7 @@ import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import '../styles/PageLanding.css';
-
-const tags = ['geometry', 'algebra', 'divisibility']
+import { tags } from '../constants/Tags';
 
 class PageLanding extends React.Component {
     constructor(props){
