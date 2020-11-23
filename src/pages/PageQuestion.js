@@ -55,13 +55,14 @@ class PageQuestion extends React.Component {
       total: 0
     };
     const tp2 = {
+      questId: this.props.questId,
       initial: this.state.initial,
       approach: this.state.approach,
       solution: this.state.solution,
     };
 
     updates[`/tps/${this.props.questId}/${tpId}`] = tp;
-    updates[`/users/${this.props.isLoggedIn}/tpHistory/${tpId}`] = {questId: this.props.questId, tp:tp2 };
+    updates[`/tpHistory/${this.props.isLoggedIn}/${tpId}`] = tp2;
     const onComplete = () => {
       this.props.history.push(`/tp/${this.props.questId}/${tpId}`);
     }

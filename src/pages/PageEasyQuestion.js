@@ -51,8 +51,13 @@ class PageEasyQuestion extends React.Component {
       total: 0
     };
     //TODO: add to saHistory, but will be done during database restructuring
+    const sa2 = {
+      answer: this.state.answer,
+      questId: this.props.questId,
+    };
 
     updates[`/sas/${this.props.questId}/${saId}`] = sa;
+    updates[`/saHistory/${this.props.isLoggedIn}/${saId}`] = sa2;
     const onComplete = () => {
      //TODO: FIX!!! (link) v BELOW v
      // this.props.history.push(`/sa/${this.props.questId}/${saId}`);

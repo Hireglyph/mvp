@@ -61,11 +61,8 @@ class App extends React.Component {
 
 const mapStateToProps = (state, props) => {
   const uid = state.firebase.auth.uid;
-  const profile = state.firebase.profile;
-  const username = profile && profile.username;
-  const email = profile && profile.email;
 
-  return { email, uid, profile, username }
+  return { uid, }
 };
 
 export default compose(
