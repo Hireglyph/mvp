@@ -54,6 +54,7 @@ class PageLanding extends React.Component {
           .filter(questId => !this.state.tag || this.props.questions[questId].tags[this.state.tag])
           .map(questId => {
             const quest = this.props.questions[questId];
+            const answered = (this.props.questionHistory && this.props.questionHistory[questId]);
 
             const topics = quest.tags &&
               Object.keys(quest.tags).map(tag => {
@@ -75,7 +76,7 @@ class PageLanding extends React.Component {
 
             return (
               <div className='question' key={questId}>
-                <div><Link className='question-title' to={quest.difficulty === 'easy' ? `/eq/${questId}` : `/q/${questId}`}>#{questId}: {quest.title}</Link></div>
+                <div><Link className='question-title' to={quest.difficulty === 'easy' ? `/eq/${questId}` : `/q/${questId}`}>#{questId}: {quest.title} {answered ? '✔' : ''}</Link></div>
                 <br />
                 <div className='topics'>&nbsp;&nbsp;{topics}</div>
                 <div>{bars}</div>
@@ -120,12 +121,18 @@ class PageLanding extends React.Component {
 const mapStateToProps = state => {
   return {
     questions: state.firebase.data.questions,
+    questionHistory: state.firebase.data.questionHistory,
     email: state.firebase.auth.email,
-    uid: state.firebase.auth.uid,
   };
 }
 
 export default compose(
-  firebaseConnect(['/questions']),
+  firebaseConnect(props => [
+    '/questions',
+    {
+      path: '/questionHistory/' + props.uid,
+      storeAs: 'questionHistory'
+    }
+  ]),
   connect(mapStateToProps)
 )(PageLanding);

@@ -42,26 +42,29 @@ class PageEasyQuestion extends React.Component {
   handleChange = event => this.setState({ [event.target.name]: event.target.value });
 
   createSa = () => {
-    const saId = this.props.firebase.push(`/sas/${this.props.questId}`).key;
+    const questId = this.props.questId;
+    const uid = this.props.isLoggedIn;
+
+    const saId = this.props.firebase.push(`/sas/${questId}`).key;
     const updates = {};
     const sa = {
       answer: this.state.answer,
-      creator: this.props.isLoggedIn,
+      creator: uid,
       username: this.props.username,
       total: 0
     };
-    //TODO: add to saHistory, but will be done during database restructuring
+
     const sa2 = {
       answer: this.state.answer,
-      questId: this.props.questId,
+      questId: questId,
     };
 
-    updates[`/sas/${this.props.questId}/${saId}`] = sa;
-    updates[`/saHistory/${this.props.isLoggedIn}/${saId}`] = sa2;
+    updates[`/sas/${questId}/${saId}`] = sa;
+    updates[`/saHistory/${uid}/${saId}`] = sa2;
+    updates[`/questionHistory/${uid}/${questId}`] = true;
+
     const onComplete = () => {
-     //TODO: FIX!!! (link) v BELOW v
-     // this.props.history.push(`/sa/${this.props.questId}/${saId}`);
-      this.props.history.push(`/sa/${this.props.questId}/${saId}`);
+      this.props.history.push(`/sa/${questId}/${saId}`);
     }
     this.props.firebase.update('/', updates, onComplete);
   }

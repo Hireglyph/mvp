@@ -44,27 +44,31 @@ class PageQuestion extends React.Component {
   handleChange = event => this.setState({ [event.target.name]: event.target.value });
 
   createTp = () => {
-    const tpId = this.props.firebase.push(`/tps/${this.props.questId}`).key;
+    const questId = this.props.questId
+    const uid = this.props.isLoggedIn;
+    const tpId = this.props.firebase.push(`/tps/${questId}`).key;
     const updates = {};
     const tp = {
       initial: this.state.initial,
       approach: this.state.approach,
       solution: this.state.solution,
-      creator: this.props.isLoggedIn,
+      creator: uid,
       username: this.props.username,
       total: 0
     };
     const tp2 = {
-      questId: this.props.questId,
+      questId: questId,
       initial: this.state.initial,
       approach: this.state.approach,
       solution: this.state.solution,
     };
 
-    updates[`/tps/${this.props.questId}/${tpId}`] = tp;
-    updates[`/tpHistory/${this.props.isLoggedIn}/${tpId}`] = tp2;
+    updates[`/tps/${questId}/${tpId}`] = tp;
+    updates[`/tpHistory/${uid}/${questId}`] = tp2;
+    updates[`/questionHistory/${uid}/${questId}`] = true;
+
     const onComplete = () => {
-      this.props.history.push(`/tp/${this.props.questId}/${tpId}`);
+      this.props.history.push(`/tp/${questId}/${tpId}`);
     }
     this.props.firebase.update('/', updates, onComplete);
   }

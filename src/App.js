@@ -24,7 +24,7 @@ class App extends React.Component {
     <NavBar />
       <Switch>
         <Route exact path="/">
-          <PageLanding />
+          <PageLanding uid={this.props.uid} />
         </Route>
         <Route exact path="/profile">
           <PageProfile uid={this.props.uid} />
@@ -61,8 +61,7 @@ class App extends React.Component {
 
 const mapStateToProps = (state, props) => {
   const uid = state.firebase.auth.uid;
-
-  return { uid, }
+  return { uid }
 };
 
 export default compose(
