@@ -61,6 +61,7 @@ class PageProfile extends React.Component {
         const questId = this.props.feedbackHistory[feedbackId].questId;
         const username = this.props.feedbackHistory[feedbackId].username;
         const tpId = this.props.feedbackHistory[feedbackId].tpId;
+        const saId = this.props.feedbackHistory[feedbackId].saId;
         if (feedback && username && questId && tpId) {
           return (
               <div className='individual-tp-preview'>
@@ -74,6 +75,27 @@ class PageProfile extends React.Component {
                   </div>
                   <div className='align-right'>
                     <Link className='tp-full-goto' to={`/tp/${questId}/${tpId}#${feedbackId}`}>
+                      Go to Feedback
+                    </Link>
+                  </div>
+                </div>
+                <br />
+              </div>
+            );
+        }
+        if (feedback && username && questId && saId) {
+          return (
+              <div className='individual-tp-preview'>
+                <div className='main-tp-text'>
+                  <div className='tp-preview-username'>Feedback to @{username}'s SA to Question #{questId}</div>
+                  <div>
+                    <span className='tp-preview-head'>
+                      nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Feedback:
+                    </span>
+                    <span className='tp-preview-tail'>{feedback.slice(0,45)}...</span>
+                  </div>
+                  <div className='align-right'>
+                    <Link className='tp-full-goto' to={`/sa/${questId}/${saId}#${feedbackId}`}>
                       Go to Feedback
                     </Link>
                   </div>
@@ -133,10 +155,10 @@ class PageProfile extends React.Component {
 const mapStateToProps = (state, props) => {
   const profile = state.firebase.profile;
   const username = profile && profile.username;
-  const feedbackHistory = profile && profile.feedbackHistory;
 	const email = profile && profile.email;
   const tpHistory = state.firebase.data.tpHistory;
   const saHistory = state.firebase.data.saHistory;
+  const feedbackHistory = state.firebase.data.feedbackHistory;
 
 	return { email, profile, username, tpHistory, saHistory, feedbackHistory }
 };
@@ -151,6 +173,10 @@ export default compose(
     {
       path: '/saHistory/' + props.uid,
       storeAs: 'saHistory'
+    },
+    {
+      path: '/feedbackHistory/' + props.uid,
+      storeAs: 'feedbackHistory'
     }
   ]),
   connect(mapStateToProps)

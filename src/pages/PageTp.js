@@ -41,7 +41,7 @@ class PageTp extends React.Component{
       username: this.props.username2,
     };
     updates[`/feedbacks/${this.props.tpId}/${feedbackId}`] = feedback;
-    updates[`/users/${this.props.isLoggedIn}/feedbackHistory/${feedbackId}`] = {tpId: this.props.tpId, feedback: this.state.feedback,
+    updates[`/feedbackHistory/${this.props.isLoggedIn}/${feedbackId}`] = {tpId: this.props.tpId, feedback: this.state.feedback,
       questId: this.props.questId, username: this.props.username };
 
     this.setState({ feedback: '', })
