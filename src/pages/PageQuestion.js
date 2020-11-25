@@ -64,7 +64,7 @@ class PageQuestion extends React.Component {
     };
 
     updates[`/tps/${questId}/${tpId}`] = tp;
-    updates[`/tpHistory/${uid}/${questId}`] = tp2;
+    updates[`/tpHistory/${uid}/${tpId}`] = tp2;
     updates[`/questionHistory/${uid}/${questId}`] = true;
 
     const onComplete = () => {
