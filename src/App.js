@@ -10,19 +10,24 @@ import PageLogin from './pages/PageLogin';
 import PageAddQuestion from './pages/PageAddQuestion';
 import NavBar from './components/NavBar';
 
+import { firebaseConnect } from 'react-redux-firebase';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+
 
 import { Switch, Route } from 'react-router-dom';
 
-function App() {
+class App extends React.Component {
+  render() {
   return (
     <div>
     <NavBar />
       <Switch>
         <Route exact path="/">
-          <PageLanding />
+          <PageLanding uid={this.props.uid} />
         </Route>
         <Route exact path="/profile">
-          <PageProfile />
+          <PageProfile uid={this.props.uid} />
         </Route>
         <Route exact path="/q/:questId">
           <PageQuestion />
@@ -52,5 +57,14 @@ function App() {
     </div>
   );
 }
+}
 
-export default App;
+const mapStateToProps = (state, props) => {
+  const uid = state.firebase.auth.uid;
+  return { uid }
+};
+
+export default compose(
+  firebaseConnect(),
+  connect(mapStateToProps)
+)(App);

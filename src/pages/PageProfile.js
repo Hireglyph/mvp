@@ -1,5 +1,6 @@
 import React from 'react';
 import PreviewPractice from '../components/PreviewPractice.js';
+import SaPreview from '../components/SaPreview.js';
 import { withRouter, Redirect } from 'react-router-dom';
 import { HashLink as Link } from 'react-router-hash-link';
 import { firebaseConnect, isLoaded, isEmpty, populate } from 'react-redux-firebase';
@@ -12,7 +13,7 @@ class PageProfile extends React.Component {
     constructor(props){
       super(props);
       this.state = {
-        setting: 1,
+        setting: "tp",
       };
     }
 
@@ -32,10 +33,22 @@ class PageProfile extends React.Component {
 
       const tps = this.props.tpHistory &&
       Object.keys(this.props.tpHistory).slice(0).reverse().map(tpId => {
-        const tp = this.props.tpHistory[tpId].tp &&  this.props.tpHistory[tpId].tp;
+        const tp = this.props.tpHistory[tpId];
         if(tp){
           return (
               <PreviewPractice tp={tp} tpId={tpId} questId={this.props.tpHistory[tpId].questId} key={tpId}/>
+            );
+        }
+        return;
+
+    });
+
+    const sas = this.props.saHistory &&
+      Object.keys(this.props.saHistory).slice(0).reverse().map(saId => {
+        const sa = this.props.saHistory[saId];
+        if(sa){
+          return (
+              <SaPreview sa={sa} saId={saId} questId={this.props.saHistory[saId].questId} key={saId}/>
             );
         }
         return;
@@ -48,6 +61,7 @@ class PageProfile extends React.Component {
         const questId = this.props.feedbackHistory[feedbackId].questId;
         const username = this.props.feedbackHistory[feedbackId].username;
         const tpId = this.props.feedbackHistory[feedbackId].tpId;
+        const saId = this.props.feedbackHistory[feedbackId].saId;
         if (feedback && username && questId && tpId) {
           return (
               <div className='individual-tp-preview'>
@@ -69,10 +83,31 @@ class PageProfile extends React.Component {
               </div>
             );
         }
+        if (feedback && username && questId && saId) {
+          return (
+              <div className='individual-tp-preview'>
+                <div className='main-tp-text'>
+                  <div className='tp-preview-username'>Feedback to @{username}'s SA to Question #{questId}</div>
+                  <div>
+                    <span className='tp-preview-head'>
+                      nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Feedback:
+                    </span>
+                    <span className='tp-preview-tail'>{feedback.slice(0,45)}...</span>
+                  </div>
+                  <div className='align-right'>
+                    <Link className='tp-full-goto' to={`/sa/${questId}/${saId}#${feedbackId}`}>
+                      Go to Feedback
+                    </Link>
+                  </div>
+                </div>
+                <br />
+              </div>
+            );
+        }
         return;
     });
 
-    const display = (this.state.setting == 1) ? tps : feedbacks;
+    const display = (this.state.setting == "tp") ? tps : ( (this.state.setting == "sa") ? sas : feedbacks ) ;
 
   	const history = this.props.tpHistory &&
   	Object.keys(this.props.tpHistory).slice(0).reverse().map((tpId, index) => {
@@ -92,14 +127,20 @@ class PageProfile extends React.Component {
         <div className='intro2'>Your profile, @{this.props.username} </div>
         <div>
           <button
-            disabled={this.state.setting === 1}
-            onClick={() => this.handleTps(1)}
+            disabled={this.state.setting === "tp"}
+            onClick={() => this.handleTps("tp")}
           >
               My TP History
           </button>
           <button
-            disabled={this.state.setting === 2}
-            onClick={() => this.handleTps(2)}
+            disabled={this.state.setting === "sa"}
+            onClick={() => this.handleTps("sa")}
+          >
+              My SA History
+          </button>
+          <button
+            disabled={this.state.setting === "feedback"}
+            onClick={() => this.handleTps("feedback")}
           >
               My Feedback History
           </button>
@@ -112,18 +153,31 @@ class PageProfile extends React.Component {
 }
 
 const mapStateToProps = (state, props) => {
-	const uid = state.firebase.auth.uid;
   const profile = state.firebase.profile;
   const username = profile && profile.username;
-	const tpHistory = profile && profile.tpHistory;
-  const feedbackHistory = profile && profile.feedbackHistory;
 	const email = profile && profile.email;
+  const tpHistory = state.firebase.data.tpHistory;
+  const saHistory = state.firebase.data.saHistory;
+  const feedbackHistory = state.firebase.data.feedbackHistory;
 
-	return { tpHistory, email, uid, profile, username, feedbackHistory }
+	return { email, profile, username, tpHistory, saHistory, feedbackHistory }
 };
 
 export default compose(
   withRouter,
-  firebaseConnect(),
+  firebaseConnect(props => [
+    {
+      path: '/tpHistory/' + props.uid,
+      storeAs: 'tpHistory'
+    },
+    {
+      path: '/saHistory/' + props.uid,
+      storeAs: 'saHistory'
+    },
+    {
+      path: '/feedbackHistory/' + props.uid,
+      storeAs: 'feedbackHistory'
+    }
+  ]),
   connect(mapStateToProps)
 )(PageProfile);

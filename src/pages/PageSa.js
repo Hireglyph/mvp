@@ -41,7 +41,7 @@ class PageSa extends React.Component{
       username: this.props.username2,
     };
     updates[`/feedbacks/${this.props.saId}/${feedbackId}`] = feedback;
-    updates[`/users/${this.props.isLoggedIn}/feedbackHistory/${feedbackId}`] = {saId: this.props.saId, feedback: this.state.feedback,
+    updates[`/feedbackHistory/${this.props.isLoggedIn}/${feedbackId}`] = {saId: this.props.saId, feedback: this.state.feedback,
       questId: this.props.questId, username: this.props.username };
 
     this.setState({ feedback: '', })
