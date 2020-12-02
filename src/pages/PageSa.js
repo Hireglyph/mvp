@@ -46,6 +46,7 @@ class PageSa extends React.Component{
       questId: this.props.questId, username: this.props.username };
     updates[`/notifications/${this.props.creator}/${notificationId}`] = {questId: this.props.questId, saId: this.props.saId, 
         feedbackId: feedbackId, username: this.props.username2, viewed: false, type: 'saFeedback'};
+    updates[`/hasNotifs/${this.props.creator}`] = true;
     this.setState({ feedback: '', })
 
     const onComplete = () => {
@@ -66,6 +67,7 @@ class PageSa extends React.Component{
       updates[`/sas/${this.props.questId}/${this.props.saId}/users/${this.props.isLoggedIn}`] = 1
       updates[`/notifications/${this.props.creator}/${notificationId}`] = {questId: this.props.questId, saId: this.props.saId, 
         username: this.props.username2, viewed: false, type: 'saUpvote'};
+      updates[`/hasNotifs/${this.props.creator}`] = true;
       this.props.firebase.update('/', updates);
     }
 
@@ -81,6 +83,7 @@ class PageSa extends React.Component{
       updates[`/sas/${this.props.questId}/${this.props.saId}/users/${this.props.isLoggedIn}`] = 1
       updates[`/notifications/${this.props.creator}/${notificationId}`] = {questId: this.props.questId, saId: this.props.saId, 
         username: this.props.username2, viewed: false, type: 'saUpvote'};
+      updates[`/hasNotifs/${this.props.creator}`] = true;
       this.props.firebase.update('/', updates);
     }
 
@@ -117,6 +120,7 @@ class PageSa extends React.Component{
       updates[`/feedbacks/${this.props.saId}/${feedbackId}/users/${this.props.isLoggedIn}`] = 1;
       updates[`/notifications/${this.props.feedbacks[feedbackId].creator}/${notificationId}`] = {questId: this.props.questId, saId: this.props.saId, 
         username: this.props.username2, viewed: false, type: 'saFeedbackUpvote', feedbackId: feedbackId, author: this.props.username};
+      updates[`/hasNotifs/${this.props.feedbacks[feedbackId].creator}`] = true; 
       this.props.firebase.update('/', updates);
     }
     if(isUpvoted){
@@ -130,6 +134,7 @@ class PageSa extends React.Component{
       updates[`/feedbacks/${this.props.saId}/${feedbackId}/users/${this.props.isLoggedIn}`] = 1;
       updates[`/notifications/${this.props.feedbacks[feedbackId].creator}/${notificationId}`] = {questId: this.props.questId, saId: this.props.saId, 
         username: this.props.username2, viewed: false, type: 'saFeedbackUpvote', feedbackId: feedbackId, author: this.props.username};
+      updates[`/hasNotifs/${this.props.feedbacks[feedbackId].creator}`] = true; 
       this.props.firebase.update('/', updates);
     }
   }

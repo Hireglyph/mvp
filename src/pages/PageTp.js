@@ -46,6 +46,7 @@ class PageTp extends React.Component{
       questId: this.props.questId, username: this.props.username };
     updates[`/notifications/${this.props.creator}/${notificationId}`] = {questId: this.props.questId, tpId: this.props.tpId, 
         feedbackId: feedbackId, username: this.props.username2, viewed: false, type: 'tpFeedback'};
+    updates[`/hasNotifs/${this.props.creator}`] = true;
     this.setState({ feedback: '', })
 
     const onComplete = () => {
@@ -66,6 +67,7 @@ class PageTp extends React.Component{
       updates[`/tps/${this.props.questId}/${this.props.tpId}/users/${this.props.isLoggedIn}`] = 1;
       updates[`/notifications/${this.props.creator}/${notificationId}`] = {questId: this.props.questId, tpId: this.props.tpId, 
         username: this.props.username2, viewed: false, type: 'tpUpvote'};
+      updates[`/hasNotifs/${this.props.creator}`] = true;
       this.props.firebase.update('/', updates);
     }
 
@@ -81,6 +83,7 @@ class PageTp extends React.Component{
       updates[`/tps/${this.props.questId}/${this.props.tpId}/users/${this.props.isLoggedIn}`] = 1
       updates[`/notifications/${this.props.creator}/${notificationId}`] = {questId: this.props.questId, tpId: this.props.tpId, 
         username: this.props.username2, viewed: false, type: 'tpUpvote'};
+      updates[`/hasNotifs/${this.props.creator}`] = true;
       this.props.firebase.update('/', updates);
     }
 
@@ -117,6 +120,7 @@ class PageTp extends React.Component{
       updates[`/feedbacks/${this.props.tpId}/${feedbackId}/users/${this.props.isLoggedIn}`] = 1;
       updates[`/notifications/${this.props.feedbacks[feedbackId].creator}/${notificationId}`] = {questId: this.props.questId, tpId: this.props.tpId, 
         username: this.props.username2, viewed: false, type: 'tpFeedbackUpvote', feedbackId: feedbackId, author: this.props.username};
+      updates[`/hasNotifs/${this.props.feedbacks[feedbackId].creator}`] = true;
       this.props.firebase.update('/', updates);
     }
     if(isUpvoted){
@@ -130,6 +134,7 @@ class PageTp extends React.Component{
       updates[`/feedbacks/${this.props.tpId}/${feedbackId}/users/${this.props.isLoggedIn}`] = 1;
       updates[`/notifications/${this.props.feedbacks[feedbackId].creator}/${notificationId}`] = {questId: this.props.questId, tpId: this.props.tpId, 
         username: this.props.username2, viewed: false, type: 'tpFeedbackUpvote', feedbackId: feedbackId, author: this.props.username};
+      updates[`/hasNotifs/${this.props.feedbacks[feedbackId].creator}`] = true;
       this.props.firebase.update('/', updates);
     }
   }
