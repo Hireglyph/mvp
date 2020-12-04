@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "hireglyph-mvp"
+    "default": "hireglyph-mvp",
+    "development": "hireglyph-mvp-test"
   }
 }

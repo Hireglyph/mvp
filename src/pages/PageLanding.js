@@ -22,6 +22,8 @@ class PageLanding extends React.Component {
     };
 
     render() {
+      console.log(this.props.questions)
+
       if (!isLoaded(this.props.questions)) {
         return (<div >Loading...</div>);
       }
@@ -119,6 +121,7 @@ class PageLanding extends React.Component {
 }
 
 const mapStateToProps = state => {
+  console.log(state)
   return {
     questions: state.firebase.data.questions,
     questionHistory: state.firebase.data.questionHistory,
