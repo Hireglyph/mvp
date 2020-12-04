@@ -8,6 +8,7 @@ import PageSa from './pages/PageSa';
 import PageRegister from './pages/PageRegister';
 import PageLogin from './pages/PageLogin';
 import PageAddQuestion from './pages/PageAddQuestion';
+import PageNotifications from './pages/PageNotifications';
 import NavBar from './components/NavBar';
 
 import { firebaseConnect } from 'react-redux-firebase';
@@ -21,13 +22,16 @@ class App extends React.Component {
   render() {
   return (
     <div>
-    <NavBar />
+    <NavBar uid={this.props.uid} />
       <Switch>
         <Route exact path="/">
           <PageLanding uid={this.props.uid} />
         </Route>
         <Route exact path="/profile">
           <PageProfile uid={this.props.uid} />
+        </Route>
+        <Route exact path="/notifications">
+          <PageNotifications uid={this.props.uid} />
         </Route>
         <Route exact path="/q/:questId">
           <PageQuestion />

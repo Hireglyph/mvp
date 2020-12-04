@@ -47,6 +47,23 @@
 	}
 }
 
+.link-click2{
+	position: absolute;
+	margin-left: 450px;
+	top: 65px;
+
+}
+
+
+@media (min-width: 900px) {
+	.link-click2{
+		position: absolute;
+		margin-left: calc(100% - 450px );
+		top: 65px;
+
+	}
+}
+
 .link-text{
 	font-family: Nunito;
 	font-style: normal;
@@ -55,6 +72,17 @@
 	line-height: 27px;
 	/* identical to box height */
 	color: #FFFFFF;
+	text-decoration: none;
+}
+
+.link-text2{
+	font-family: Nunito;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 20px;
+	line-height: 27px;
+	/* identical to box height */
+	color: red;
 	text-decoration: none;
 }
 

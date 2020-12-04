@@ -33,6 +33,7 @@ class PageSa extends React.Component{
 
   createFeedback = () => {
     const feedbackId = this.props.firebase.push(`/feedbacks/${this.props.saId}`).key;
+    const notificationId = this.props.firebase.push(`/notifications/${this.props.creator}`).key;
     const updates = {};
     const feedback = {
       feedback: this.state.feedback,
@@ -43,7 +44,9 @@ class PageSa extends React.Component{
     updates[`/feedbacks/${this.props.saId}/${feedbackId}`] = feedback;
     updates[`/feedbackHistory/${this.props.isLoggedIn}/${feedbackId}`] = {saId: this.props.saId, feedback: this.state.feedback,
       questId: this.props.questId, username: this.props.username };
-
+    updates[`/notifications/${this.props.creator}/${notificationId}`] = {questId: this.props.questId, saId: this.props.saId, 
+        feedbackId: feedbackId, username: this.props.username2, viewed: false, type: 'saFeedback'};
+    updates[`/hasNotifs/${this.props.creator}`] = true;
     this.setState({ feedback: '', })
 
     const onComplete = () => {
@@ -59,8 +62,12 @@ class PageSa extends React.Component{
   upvote = () => {
     const updates = {};
     if(!this.props.isUpvoted && !this.props.isDownvoted){
+      const notificationId = this.props.firebase.push(`/notifications/${this.props.creator}`).key;
       updates[`/sas/${this.props.questId}/${this.props.saId}/total`] = this.props.total + 1;
       updates[`/sas/${this.props.questId}/${this.props.saId}/users/${this.props.isLoggedIn}`] = 1
+      updates[`/notifications/${this.props.creator}/${notificationId}`] = {questId: this.props.questId, saId: this.props.saId, 
+        username: this.props.username2, viewed: false, type: 'saUpvote'};
+      updates[`/hasNotifs/${this.props.creator}`] = true;
       this.props.firebase.update('/', updates);
     }
 
@@ -71,8 +78,12 @@ class PageSa extends React.Component{
     }
 
     if(this.props.isDownvoted){
+      const notificationId = this.props.firebase.push(`/notifications/${this.props.creator}`).key;
       updates[`/sas/${this.props.questId}/${this.props.saId}/total`] = this.props.total + 2;
       updates[`/sas/${this.props.questId}/${this.props.saId}/users/${this.props.isLoggedIn}`] = 1
+      updates[`/notifications/${this.props.creator}/${notificationId}`] = {questId: this.props.questId, saId: this.props.saId, 
+        username: this.props.username2, viewed: false, type: 'saUpvote'};
+      updates[`/hasNotifs/${this.props.creator}`] = true;
       this.props.firebase.update('/', updates);
     }
 
@@ -104,8 +115,12 @@ class PageSa extends React.Component{
     const isUpvoted = this.props.feedbacks[feedbackId].users && (this.props.isLoggedIn in this.props.feedbacks[feedbackId].users) && (this.props.feedbacks[feedbackId].users[this.props.isLoggedIn]===1);
     const isDownvoted = this.props.feedbacks[feedbackId].users && (this.props.isLoggedIn in this.props.feedbacks[feedbackId].users) && (this.props.feedbacks[feedbackId].users[this.props.isLoggedIn]===-1);
     if(!isUpvoted && !isDownvoted){
+      const notificationId = this.props.firebase.push(`/notifications/${this.props.feedbacks[feedbackId].creator}`).key;
       updates[`/feedbacks/${this.props.saId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score + 1;
       updates[`/feedbacks/${this.props.saId}/${feedbackId}/users/${this.props.isLoggedIn}`] = 1;
+      updates[`/notifications/${this.props.feedbacks[feedbackId].creator}/${notificationId}`] = {questId: this.props.questId, saId: this.props.saId, 
+        username: this.props.username2, viewed: false, type: 'saFeedbackUpvote', feedbackId: feedbackId, author: this.props.username};
+      updates[`/hasNotifs/${this.props.feedbacks[feedbackId].creator}`] = true; 
       this.props.firebase.update('/', updates);
     }
     if(isUpvoted){
@@ -114,8 +129,12 @@ class PageSa extends React.Component{
       this.props.firebase.update('/', updates);
     }
     if(isDownvoted){
+      const notificationId = this.props.firebase.push(`/notifications/${this.props.feedbacks[feedbackId].creator}`).key;
       updates[`/feedbacks/${this.props.saId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score + 2;
       updates[`/feedbacks/${this.props.saId}/${feedbackId}/users/${this.props.isLoggedIn}`] = 1;
+      updates[`/notifications/${this.props.feedbacks[feedbackId].creator}/${notificationId}`] = {questId: this.props.questId, saId: this.props.saId, 
+        username: this.props.username2, viewed: false, type: 'saFeedbackUpvote', feedbackId: feedbackId, author: this.props.username};
+      updates[`/hasNotifs/${this.props.feedbacks[feedbackId].creator}`] = true; 
       this.props.firebase.update('/', updates);
     }
   }
@@ -229,13 +248,14 @@ const mapStateToProps = (state, props) => {
   const saId = props.match.params.saId;
   const sa = state.firebase.data[saId];
   const username = sa && (sa.username ? sa.username : sa.creator);
+  const creator = sa && sa.creator;
   const feedbacks = saId && state.firebase.data.feedbacks && state.firebase.data.feedbacks[saId];
   const answer = sa && sa.answer;
   const total = sa && sa.total;
   const isUpvoted = sa && sa.users && (state.firebase.auth.uid in sa.users) && (sa.users[state.firebase.auth.uid] === 1);
   const isDownvoted = sa && sa.users && (state.firebase.auth.uid in sa.users) && (sa.users[state.firebase.auth.uid] === -1);
   const username2 = state.firebase.profile && state.firebase.profile.username;
-  return { questId, saId, answer, isLoggedIn: state.firebase.auth.uid, feedbacks, total, isUpvoted, isDownvoted, username, username2 };
+  return { creator, questId, saId, answer, isLoggedIn: state.firebase.auth.uid, feedbacks, total, isUpvoted, isDownvoted, username, username2 };
 }
 
 export default compose(
