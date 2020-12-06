@@ -17,6 +17,7 @@ class PageEasyQuestion extends React.Component {
       orderByTop: true,
       keys: [],
       time: [],
+      showAnswer: false,
     };
   }
 
@@ -33,6 +34,10 @@ class PageEasyQuestion extends React.Component {
 
   changeOrder = () => {
     this.setState({ orderByTop: !this.state.orderByTop });
+  }
+
+  changeShowAnswer = () => {
+    this.setState({ showAnswer: !this.state.showAnswer })
   }
 
   handleSas = () => {
@@ -88,6 +93,12 @@ class PageEasyQuestion extends React.Component {
           <span className='topic-2' key={tag}>{tag} </span>
         );
     });
+
+    const answer = this.props.answer && 
+      (<div>
+        <div onClick={() => this.changeShowAnswer()}>Click to see answer</div>
+        <div>{this.state.showAnswer ? this.props.answer : ""}</div>
+      </div>);
 
     let bars;
     if (this.props.difficulty && this.props.difficulty === 'easy') {
@@ -235,6 +246,7 @@ class PageEasyQuestion extends React.Component {
           </div>
           <div>{bars}</div>
           <div className='topics-2'>{topics}</div>
+          <div>{answer}</div>
         </div>
         <div>
           <button
@@ -271,10 +283,10 @@ const mapStateToProps = (state, props) => {
   const topics = question && question.topics;
   const tags = question && question.tags;
   const difficulty = question && question.difficulty;
-
+  const answer = question && question.answer;
   const sas = question && state.firebase.data.sas && state.firebase.data.sas[questId];
   const username = state.firebase.profile && state.firebase.profile.username;
-  return { questId, title, description, definitive, topics, difficulty, sas, username, isLoggedIn: state.firebase.auth.uid, tags};
+  return { questId, title, description, definitive, topics, difficulty, answer, sas, username, isLoggedIn: state.firebase.auth.uid, tags};
 
 }
 
