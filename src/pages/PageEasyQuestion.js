@@ -17,6 +17,7 @@ class PageEasyQuestion extends React.Component {
       orderByTop: true,
       keys: [],
       time: [],
+      expand: {}, 
       showAnswer: false,
     };
   }
@@ -27,7 +28,12 @@ class PageEasyQuestion extends React.Component {
       keys.sort((a, b) => this.props.sas[b].total - this.props.sas[a].total);
       this.setState({ loading: false, keys, });
       if (this.props.sas){
-        this.setState({ time: Object.keys(this.props.sas).reverse() , })
+        let list = {};
+        Object.keys(this.props.sas).map(saId => {
+          list[saId] = false;
+          return;
+        });
+        this.setState({ time: Object.keys(this.props.sas).reverse(), expand: list })
       }
     }
   }
@@ -42,6 +48,10 @@ class PageEasyQuestion extends React.Component {
 
   handleSas = () => {
     this.setState({ isMySa: !this.state.isMySa });
+  }
+
+  changeExpand = (saId, value) => {
+    this.setState({ expand: Object.assign(this.state.expand, {[saId]: value}) })
   }
 
   handleChange = event => this.setState({ [event.target.name]: event.target.value });
@@ -135,7 +145,26 @@ class PageEasyQuestion extends React.Component {
         const answer = this.props.sas[saId].answer;
         const username = this.props.sas[saId].username;
         const total = this.props.sas[saId].total;
-          //FIX LINK!!!!!!!!!
+        const expanded = this.state.expand[saId];
+        if (expanded) {
+          return (
+            <div className='individual-tp-preview' key={saId}>
+              <div className='main-tp-text'>
+                <div className='tp-preview-username'>@{username}</div>
+                <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Answer:</span><span className='tp-preview-tail'> {answer}</span></div>
+  
+                <div className='align-right'>
+                <div onClick={() => this.changeExpand(saId, false)}>Collapse SA</div>
+                <Link className='tp-full-goto' to={`/sa/${this.props.questId}/${saId}`}>
+                  Go to full SA
+                </Link>
+              </div>
+              </div>
+              <div className='main-tp-score'>{total}</div>
+              <br />
+            </div>
+          );
+        }
         return (
           <div className='individual-tp-preview' key={saId}>
             <div className='main-tp-text'>
@@ -143,6 +172,7 @@ class PageEasyQuestion extends React.Component {
               <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Answer:</span><span className='tp-preview-tail'> {answer.slice(0,45)}...</span></div>
 
               <div className='align-right'>
+              <div onClick={() => this.changeExpand(saId, true)}>Expand SA</div>
               <Link className='tp-full-goto' to={`/sa/${this.props.questId}/${saId}`}>
                 Go to full SA
               </Link>
@@ -160,6 +190,26 @@ class PageEasyQuestion extends React.Component {
         const answer = this.props.sas[saId].answer;
         const username = this.props.sas[saId].username;
         const total = this.props.sas[saId].total;
+        const expanded = this.state.expand[saId];
+        if (expanded) {
+          return (
+            <div className='individual-tp-preview' key={saId}>
+              <div className='main-tp-text'>
+                <div className='tp-preview-username'>@{username}</div>
+                <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Answer:</span><span className='tp-preview-tail'> {answer}</span></div>
+  
+                <div className='align-right'>
+                <div onClick={() => this.changeExpand(saId, false)}>Collapse SA</div>
+                <Link className='tp-full-goto' to={`/sa/${this.props.questId}/${saId}`}>
+                  Go to full SA
+                </Link>
+              </div>
+              </div>
+              <div className='main-tp-score'>{total}</div>
+              <br />
+            </div>
+          );
+        }
         return (
           <div className='individual-tp-preview' key={saId}>
             <div className='main-tp-text'>
@@ -167,6 +217,7 @@ class PageEasyQuestion extends React.Component {
               <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Answer:</span><span className='tp-preview-tail'> {answer.slice(0,45)}...</span></div>
 
               <div className='align-right'>
+              <div onClick={() => this.changeExpand(saId, true)}>Expand SA</div>
               <Link className='tp-full-goto' to={`/sa/${this.props.questId}/${saId}`}>
                 Go to full SA
               </Link>
