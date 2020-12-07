@@ -38,6 +38,50 @@ class PageEasyQuestion extends React.Component {
     }
   }
 
+  displaySa = saId => {
+    const sa = this.props.sas[saId];
+    const answer = this.props.sas[saId].answer;
+    const username = this.props.sas[saId].username;
+    const total = this.props.sas[saId].total;
+    const expanded = this.state.expand[saId];
+    if (expanded) {
+      return (
+        <div className='individual-tp-preview' key={saId}>
+          <div className='main-tp-text'>
+            <div className='tp-preview-username'>@{username}</div>
+            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Answer:</span><span className='tp-preview-tail'> {answer}</span></div>
+
+            <div className='align-right'>
+            <div onClick={() => this.changeExpand(saId, false)}>Collapse SA</div>
+            <Link className='tp-full-goto' to={`/sa/${this.props.questId}/${saId}`}>
+              Go to full SA
+            </Link>
+          </div>
+          </div>
+          <div className='main-tp-score'>{total}</div>
+          <br />
+        </div>
+      );
+    }
+    return (
+      <div className='individual-tp-preview' key={saId}>
+        <div className='main-tp-text'>
+          <div className='tp-preview-username'>@{username}</div>
+          <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Answer:</span><span className='tp-preview-tail'> {answer.slice(0,45)}...</span></div>
+
+          <div className='align-right'>
+          <div onClick={() => this.changeExpand(saId, true)}>Expand SA</div>
+          <Link className='tp-full-goto' to={`/sa/${this.props.questId}/${saId}`}>
+            Go to full SA
+          </Link>
+        </div>
+        </div>
+        <div className='main-tp-score'>{total}</div>
+        <br />
+      </div>
+    );
+  }
+
   changeOrder = () => {
     this.setState({ orderByTop: !this.state.orderByTop });
   }
@@ -141,92 +185,12 @@ class PageEasyQuestion extends React.Component {
 
     const Sas = this.props.sas &&
       this.state.keys.map(saId => {
-        const sa = this.props.sas[saId];
-        const answer = this.props.sas[saId].answer;
-        const username = this.props.sas[saId].username;
-        const total = this.props.sas[saId].total;
-        const expanded = this.state.expand[saId];
-        if (expanded) {
-          return (
-            <div className='individual-tp-preview' key={saId}>
-              <div className='main-tp-text'>
-                <div className='tp-preview-username'>@{username}</div>
-                <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Answer:</span><span className='tp-preview-tail'> {answer}</span></div>
-  
-                <div className='align-right'>
-                <div onClick={() => this.changeExpand(saId, false)}>Collapse SA</div>
-                <Link className='tp-full-goto' to={`/sa/${this.props.questId}/${saId}`}>
-                  Go to full SA
-                </Link>
-              </div>
-              </div>
-              <div className='main-tp-score'>{total}</div>
-              <br />
-            </div>
-          );
-        }
-        return (
-          <div className='individual-tp-preview' key={saId}>
-            <div className='main-tp-text'>
-              <div className='tp-preview-username'>@{username}</div>
-              <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Answer:</span><span className='tp-preview-tail'> {answer.slice(0,45)}...</span></div>
-
-              <div className='align-right'>
-              <div onClick={() => this.changeExpand(saId, true)}>Expand SA</div>
-              <Link className='tp-full-goto' to={`/sa/${this.props.questId}/${saId}`}>
-                Go to full SA
-              </Link>
-            </div>
-            </div>
-            <div className='main-tp-score'>{total}</div>
-            <br />
-          </div>
-        );
+        return(this.displaySa(saId));
     });
 
     const sasByTime = this.props.sas &&
       this.state.time.map(saId => {
-        const sa = this.props.sas[saId];
-        const answer = this.props.sas[saId].answer;
-        const username = this.props.sas[saId].username;
-        const total = this.props.sas[saId].total;
-        const expanded = this.state.expand[saId];
-        if (expanded) {
-          return (
-            <div className='individual-tp-preview' key={saId}>
-              <div className='main-tp-text'>
-                <div className='tp-preview-username'>@{username}</div>
-                <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Answer:</span><span className='tp-preview-tail'> {answer}</span></div>
-  
-                <div className='align-right'>
-                <div onClick={() => this.changeExpand(saId, false)}>Collapse SA</div>
-                <Link className='tp-full-goto' to={`/sa/${this.props.questId}/${saId}`}>
-                  Go to full SA
-                </Link>
-              </div>
-              </div>
-              <div className='main-tp-score'>{total}</div>
-              <br />
-            </div>
-          );
-        }
-        return (
-          <div className='individual-tp-preview' key={saId}>
-            <div className='main-tp-text'>
-              <div className='tp-preview-username'>@{username}</div>
-              <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Answer:</span><span className='tp-preview-tail'> {answer.slice(0,45)}...</span></div>
-
-              <div className='align-right'>
-              <div onClick={() => this.changeExpand(saId, true)}>Expand SA</div>
-              <Link className='tp-full-goto' to={`/sa/${this.props.questId}/${saId}`}>
-                Go to full SA
-              </Link>
-            </div>
-            </div>
-            <div className='main-tp-score'>{total}</div>
-            <br />
-          </div>
-        );
+        return(this.displaySa(saId));
     });
 
     const communitySas =

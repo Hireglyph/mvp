@@ -40,6 +40,52 @@ class PageQuestion extends React.Component {
     }
   }
 
+  displayTp = tpId => {
+    const tp = this.props.tps[tpId];
+    const username = tp && (tp.username ? tp.username : tp.creator);
+    const expanded = this.state.expand[tpId];
+    if (expanded) {
+      return (
+        <div className='individual-tp-preview' key={tpId}> 
+          <div className='main-tp-text'>
+            <div className='tp-preview-username'>@{username}</div>
+            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Initial:</span><span className='tp-preview-tail'> {tp.initial}</span></div>
+            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;Approaches:</span><span className='tp-preview-tail'>  {tp.approach}</span></div>
+            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'> {tp.solution}</span></div>
+
+            <div className='align-right'>
+            <div onClick={() => this.changeExpand(tpId, false)}>Collapse TP</div>
+            <Link className='tp-full-goto' to={`/tp/${this.props.questId}/${tpId}`}>
+              Go to full TP
+            </Link>
+          </div>
+          </div>
+          <div className='main-tp-score'>{tp.total}</div>
+          <br />
+        </div>
+      );
+    }
+    return (
+      <div className='individual-tp-preview' key={tpId}> 
+        <div className='main-tp-text'>
+          <div className='tp-preview-username'>@{username}</div>
+          <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Initial:</span><span className='tp-preview-tail'> {tp.initial.slice(0,45)}...</span></div>
+          <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;Approaches:</span><span className='tp-preview-tail'>  {tp.approach.slice(0,45)}...</span></div>
+          <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'> {tp.solution.slice(0,45)}...</span></div>
+
+          <div className='align-right'>
+          <div onClick={() => this.changeExpand(tpId, true)}>Expand TP</div>
+          <Link className='tp-full-goto' to={`/tp/${this.props.questId}/${tpId}`}>
+            Go to full TP
+          </Link>
+        </div>
+        </div>
+        <div className='main-tp-score'>{tp.total}</div>
+        <br />
+      </div>
+    );
+  }
+
   changeOrder = () => {
     this.setState({ orderByTop: !this.state.orderByTop });
   }
@@ -145,96 +191,12 @@ class PageQuestion extends React.Component {
 
     const Tps = this.props.tps &&
       this.state.keys.map(tpId => {
-        const tp = this.props.tps[tpId];
-        const username = tp && (tp.username ? tp.username : tp.creator);
-        const expanded = this.state.expand[tpId];
-        if (expanded) {
-          return (
-            <div className='individual-tp-preview' key={tpId}> 
-              <div className='main-tp-text'>
-                <div className='tp-preview-username'>@{username}</div>
-                <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Initial:</span><span className='tp-preview-tail'> {tp.initial}</span></div>
-                <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;Approaches:</span><span className='tp-preview-tail'>  {tp.approach}</span></div>
-                <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'> {tp.solution}</span></div>
-    
-                <div className='align-right'>
-                <div onClick={() => this.changeExpand(tpId, false)}>Collapse TP</div>
-                <Link className='tp-full-goto' to={`/tp/${this.props.questId}/${tpId}`}>
-                  Go to full TP
-                </Link>
-              </div>
-              </div>
-              <div className='main-tp-score'>{tp.total}</div>
-              <br />
-            </div>
-          );
-        }
-        return (
-          <div className='individual-tp-preview' key={tpId}> 
-            <div className='main-tp-text'>
-              <div className='tp-preview-username'>@{username}</div>
-              <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Initial:</span><span className='tp-preview-tail'> {tp.initial.slice(0,45)}...</span></div>
-              <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;Approaches:</span><span className='tp-preview-tail'>  {tp.approach.slice(0,45)}...</span></div>
-              <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'> {tp.solution.slice(0,45)}...</span></div>
-  
-              <div className='align-right'>
-              <div onClick={() => this.changeExpand(tpId, true)}>Expand TP</div>
-              <Link className='tp-full-goto' to={`/tp/${this.props.questId}/${tpId}`}>
-                Go to full TP
-              </Link>
-            </div>
-            </div>
-            <div className='main-tp-score'>{tp.total}</div>
-            <br />
-          </div>
-        );
+        return(this.displayTp(tpId));
     });
 
     const tpsByTime = this.props.tps &&
       this.state.time.map(tpId => {
-        const tp = this.props.tps[tpId];
-        const username = tp && (tp.username ? tp.username : tp.creator);
-        const expanded = this.state.expand[tpId];
-        if (expanded) {
-          return (
-            <div className='individual-tp-preview' key={tpId}> 
-              <div className='main-tp-text'>
-                <div className='tp-preview-username'>@{username}</div>
-                <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Initial:</span><span className='tp-preview-tail'> {tp.initial}</span></div>
-                <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;Approaches:</span><span className='tp-preview-tail'>  {tp.approach}</span></div>
-                <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'> {tp.solution}</span></div>
-    
-                <div className='align-right'>
-                <div onClick={() => this.changeExpand(tpId, false)}>Collapse TP</div>
-                <Link className='tp-full-goto' to={`/tp/${this.props.questId}/${tpId}`}>
-                  Go to full TP
-                </Link>
-              </div>
-              </div>
-              <div className='main-tp-score'>{tp.total}</div>
-              <br />
-            </div>
-          );
-        }
-        return (
-          <div className='individual-tp-preview' key={tpId}> 
-            <div className='main-tp-text'>
-              <div className='tp-preview-username'>@{username}</div>
-              <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Initial:</span><span className='tp-preview-tail'> {tp.initial.slice(0,45)}...</span></div>
-              <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;Approaches:</span><span className='tp-preview-tail'>  {tp.approach.slice(0,45)}...</span></div>
-              <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'> {tp.solution.slice(0,45)}...</span></div>
-  
-              <div className='align-right'>
-              <div onClick={() => this.changeExpand(tpId, true)}>Expand TP</div>
-              <Link className='tp-full-goto' to={`/tp/${this.props.questId}/${tpId}`}>
-                Go to full TP
-              </Link>
-            </div>
-            </div>
-            <div className='main-tp-score'>{tp.total}</div>
-            <br />
-          </div>
-        );
+        return(this.displayTp(tpId));
     });
 
     const communityTps = (
