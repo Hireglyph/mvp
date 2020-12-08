@@ -17,6 +17,8 @@ class PageEasyQuestion extends React.Component {
       orderByTop: true,
       keys: [],
       time: [],
+      expand: {}, 
+      showAnswer: false,
     };
   }
 
@@ -26,17 +28,74 @@ class PageEasyQuestion extends React.Component {
       keys.sort((a, b) => this.props.sas[b].total - this.props.sas[a].total);
       this.setState({ loading: false, keys, });
       if (this.props.sas){
-        this.setState({ time: Object.keys(this.props.sas).reverse() , })
+        let list = {};
+        Object.keys(this.props.sas).map(saId => {
+          list[saId] = false;
+          return;
+        });
+        this.setState({ time: Object.keys(this.props.sas).reverse(), expand: list })
       }
     }
+  }
+
+  displaySa = saId => {
+    const sa = this.props.sas[saId];
+    const answer = this.props.sas[saId].answer;
+    const username = this.props.sas[saId].username;
+    const total = this.props.sas[saId].total;
+    const expanded = this.state.expand[saId];
+    if (expanded) {
+      return (
+        <div className='individual-tp-preview' key={saId}>
+          <div className='main-tp-text'>
+            <div className='tp-preview-username'>@{username}</div>
+            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Answer:</span><span className='tp-preview-tail'> {answer}</span></div>
+
+            <div className='align-right'>
+            <div onClick={() => this.changeExpand(saId, false)}>Collapse SA</div>
+            <Link className='tp-full-goto' to={`/sa/${this.props.questId}/${saId}`}>
+              Go to full SA
+            </Link>
+          </div>
+          </div>
+          <div className='main-tp-score'>{total}</div>
+          <br />
+        </div>
+      );
+    }
+    return (
+      <div className='individual-tp-preview' key={saId}>
+        <div className='main-tp-text'>
+          <div className='tp-preview-username'>@{username}</div>
+          <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Answer:</span><span className='tp-preview-tail'> {answer.slice(0,45)}...</span></div>
+
+          <div className='align-right'>
+          <div onClick={() => this.changeExpand(saId, true)}>Expand SA</div>
+          <Link className='tp-full-goto' to={`/sa/${this.props.questId}/${saId}`}>
+            Go to full SA
+          </Link>
+        </div>
+        </div>
+        <div className='main-tp-score'>{total}</div>
+        <br />
+      </div>
+    );
   }
 
   changeOrder = () => {
     this.setState({ orderByTop: !this.state.orderByTop });
   }
 
+  changeShowAnswer = () => {
+    this.setState({ showAnswer: !this.state.showAnswer })
+  }
+
   handleSas = () => {
     this.setState({ isMySa: !this.state.isMySa });
+  }
+
+  changeExpand = (saId, value) => {
+    this.setState({ expand: Object.assign(this.state.expand, {[saId]: value}) })
   }
 
   handleChange = event => this.setState({ [event.target.name]: event.target.value });
@@ -89,6 +148,12 @@ class PageEasyQuestion extends React.Component {
         );
     });
 
+    const answer = this.props.answer && 
+      (<div>
+        <div onClick={() => this.changeShowAnswer()}>Click to see answer</div>
+        <div>{this.state.showAnswer ? this.props.answer : ""}</div>
+      </div>);
+
     let bars;
     if (this.props.difficulty && this.props.difficulty === 'easy') {
       bars = (
@@ -120,51 +185,12 @@ class PageEasyQuestion extends React.Component {
 
     const Sas = this.props.sas &&
       this.state.keys.map(saId => {
-        const sa = this.props.sas[saId];
-        const answer = this.props.sas[saId].answer;
-        const username = this.props.sas[saId].username;
-        const total = this.props.sas[saId].total;
-          //FIX LINK!!!!!!!!!
-        return (
-          <div className='individual-tp-preview' key={saId}>
-            <div className='main-tp-text'>
-              <div className='tp-preview-username'>@{username}</div>
-              <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Answer:</span><span className='tp-preview-tail'> {answer.slice(0,45)}...</span></div>
-
-              <div className='align-right'>
-              <Link className='tp-full-goto' to={`/sa/${this.props.questId}/${saId}`}>
-                Go to full SA
-              </Link>
-            </div>
-            </div>
-            <div className='main-tp-score'>{total}</div>
-            <br />
-          </div>
-        );
+        return(this.displaySa(saId));
     });
 
     const sasByTime = this.props.sas &&
       this.state.time.map(saId => {
-        const sa = this.props.sas[saId];
-        const answer = this.props.sas[saId].answer;
-        const username = this.props.sas[saId].username;
-        const total = this.props.sas[saId].total;
-        return (
-          <div className='individual-tp-preview' key={saId}>
-            <div className='main-tp-text'>
-              <div className='tp-preview-username'>@{username}</div>
-              <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Answer:</span><span className='tp-preview-tail'> {answer.slice(0,45)}...</span></div>
-
-              <div className='align-right'>
-              <Link className='tp-full-goto' to={`/sa/${this.props.questId}/${saId}`}>
-                Go to full SA
-              </Link>
-            </div>
-            </div>
-            <div className='main-tp-score'>{total}</div>
-            <br />
-          </div>
-        );
+        return(this.displaySa(saId));
     });
 
     const communitySas =
@@ -235,6 +261,7 @@ class PageEasyQuestion extends React.Component {
           </div>
           <div>{bars}</div>
           <div className='topics-2'>{topics}</div>
+          <div>{answer}</div>
         </div>
         <div>
           <button
@@ -271,10 +298,10 @@ const mapStateToProps = (state, props) => {
   const topics = question && question.topics;
   const tags = question && question.tags;
   const difficulty = question && question.difficulty;
-
+  const answer = question && question.answer;
   const sas = question && state.firebase.data.sas && state.firebase.data.sas[questId];
   const username = state.firebase.profile && state.firebase.profile.username;
-  return { questId, title, description, definitive, topics, difficulty, sas, username, isLoggedIn: state.firebase.auth.uid, tags};
+  return { questId, title, description, definitive, topics, difficulty, answer, sas, username, isLoggedIn: state.firebase.auth.uid, tags};
 
 }
 
