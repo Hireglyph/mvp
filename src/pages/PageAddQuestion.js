@@ -32,13 +32,22 @@ class PageAddQuestion extends React.Component {
 
   createQuestion = () => {
     const updates = {};
-    const question = {
+    const question = this.state.answer.trim()==='' ? 
+    {
+      title: this.state.title,
+      description: this.state.description,
+      tags: this.state.tags,
+      difficulty: this.state.difficulty,
+    }
+    :
+    {
       title: this.state.title,
       description: this.state.description,
       answer: this.state.answer,
       tags: this.state.tags,
       difficulty: this.state.difficulty,
-    };
+    }
+    ;
 
     updates[`/questions/${this.props.questionCount}`] = question;
     updates['/questionCount'] = this.props.questionCount + 1;
