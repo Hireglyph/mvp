@@ -38,18 +38,6 @@ class PageNotifications extends React.Component {
         const notifications = this.props.notifications &&
         Object.keys(this.props.notifications).slice(0).reverse().map(notifId => {
             const notification = this.props.notifications[notifId];
-            if(notification && notification.type === "saUpvote"){
-                return (
-                    <div>
-                        <Link className={notification.viewed ? 'light-link' : 'dark-link'} 
-                        to={`/sa/${notification.questId}/${notification.saId}`} 
-                        onClick={() => this.viewed(notifId)}>
-                            Your SA to Question #{notification.questId} was upvoted by @{notification.username}
-                        </Link>
-                        <br />
-                    </div>
-                );
-            }
             if(notification && notification.type === "tpUpvote"){
                 return (
                     <div>
@@ -62,18 +50,6 @@ class PageNotifications extends React.Component {
                     </div>
                 );
             }
-            if(notification && notification.type === "saFeedbackUpvote"){
-                return (
-                    <div>
-                        <Link className={notification.viewed ? 'light-link' : 'dark-link'}
-                         to={`/sa/${notification.questId}/${notification.saId}#${notification.feedbackId}`}
-                         onClick={() => this.viewed(notifId)}>
-                            Your feedback to @{notification.author}'s SA to Question #{notification.questId} was upvoted by @{notification.username}
-                        </Link>
-                        <br />
-                    </div>
-                );
-            }
             if(notification && notification.type === "tpFeedbackUpvote"){
                 return (
                     <div>
@@ -81,18 +57,6 @@ class PageNotifications extends React.Component {
                          to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
                          onClick={() => this.viewed(notifId)}>
                             Your feedback to @{notification.author}'s TP to Question #{notification.questId} was upvoted by @{notification.username}
-                        </Link>
-                        <br />
-                    </div>
-                );
-            }
-            if(notification && notification.type === "saFeedback"){
-                return (
-                    <div>
-                        <Link className={notification.viewed ? 'light-link' : 'dark-link'}
-                         to={`/sa/${notification.questId}/${notification.saId}#${notification.feedbackId}`}
-                         onClick={() => this.viewed(notifId)}>
-                            @{notification.username} gave feedback to your SA to Question #{notification.questId}
                         </Link>
                         <br />
                     </div>
