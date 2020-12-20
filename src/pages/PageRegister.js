@@ -5,6 +5,8 @@ import { compose } from 'redux';
 import { Redirect, Link } from 'react-router-dom';
 import '../styles/PageRegister.css';
 
+import GoogleButton from 'components/GoogleButton';
+
 class PageRegister extends React.Component {
   constructor(props) {
     super(props);
@@ -28,7 +30,6 @@ class PageRegister extends React.Component {
       email: this.state.email,
       username: this.state.username,
       admin: false,
-      tpHistory: {test: "tpHistory!"},
     }
 
     try {
@@ -36,7 +37,14 @@ class PageRegister extends React.Component {
     } catch (error) {
       this.setState({ error: error.message });
     }
+  };
 
+  loginWithProvider = provider => {
+    this.setState({ loading: true });
+
+    this.props.loginUser({ provider }).catch(error => {
+      this.setState({ loading: false, message: error.message });
+    });
   };
 
   render () {
@@ -82,6 +90,10 @@ class PageRegister extends React.Component {
             register!
           </button>
           <br />
+          <GoogleButton
+            onClick={() => this.loginWithProvider('google')}
+            text={'Sign up with Google'}
+          />
           <button className='login' onClick={() => window.location.href="/login"}>
             login
           </button>
@@ -91,8 +103,12 @@ class PageRegister extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return { isLoggedIn: state.firebase.auth.uid };
+const mapStateToProps = (state, props) => {
+  return {
+    isLoggedIn: state.firebase.auth.uid,
+    loginUser: props.firebase.login,
+    registerUser: props.firebase.createUser,
+  };
 };
 
 export default compose(
