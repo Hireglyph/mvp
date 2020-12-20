@@ -19,6 +19,8 @@ class PageQuestion extends React.Component {
       orderByTop: true,
       keys: [],
       time: [],
+      expand: {},
+      showAnswer: false,
     };
   }
 
@@ -28,13 +30,110 @@ class PageQuestion extends React.Component {
       keys.sort((a, b) => this.props.tps[b].total - this.props.tps[a].total);
       this.setState({ loading: false, keys, });
       if (this.props.tps) {
-        this.setState({ time: Object.keys(this.props.tps).reverse() })
+        let list = {};
+        Object.keys(this.props.tps).map(tpId => {
+          list[tpId] = false;
+          return;
+        });
+        this.setState({ time: Object.keys(this.props.tps).reverse(), expand: list })
       }
     }
   }
 
+  displayTp = tpId => {
+    const tp = this.props.tps[tpId];
+    const username = tp && (tp.username ? tp.username : tp.creator);
+    const expanded = this.state.expand[tpId];
+    if (expanded && tp.initial && tp.approach) {
+      return (
+        <div className='individual-tp-preview' key={tpId}> 
+          <div className='main-tp-text'>
+            <div className='tp-preview-username'>@{username}</div>
+            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Initial:</span><span className='tp-preview-tail'> {tp.initial}</span></div>
+            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;Approaches:</span><span className='tp-preview-tail'>  {tp.approach}</span></div>
+            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'> {tp.solution}</span></div>
+
+            <div className='align-right'>
+            <div onClick={() => this.changeExpand(tpId, false)}>Collapse TP</div>
+            <Link className='tp-full-goto' to={`/tp/${this.props.questId}/${tpId}`}>
+              Go to full TP
+            </Link>
+          </div>
+          </div>
+          <div className='main-tp-score'>{tp.total}</div>
+          <br />
+        </div>
+      );
+    }
+    if (!expanded && tp.initial && tp.approach) {
+      return (
+        <div className='individual-tp-preview' key={tpId}> 
+          <div className='main-tp-text'>
+            <div className='tp-preview-username'>@{username}</div>
+            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Initial:</span><span className='tp-preview-tail'> {tp.initial.slice(0,45)}...</span></div>
+            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;Approaches:</span><span className='tp-preview-tail'>  {tp.approach.slice(0,45)}...</span></div>
+            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'> {tp.solution.slice(0,45)}...</span></div>
+
+            <div className='align-right'>
+            <div onClick={() => this.changeExpand(tpId, true)}>Expand TP</div>
+            <Link className='tp-full-goto' to={`/tp/${this.props.questId}/${tpId}`}>
+              Go to full TP
+            </Link>
+          </div>
+          </div>
+          <div className='main-tp-score'>{tp.total}</div>
+          <br />
+        </div>
+      );
+    }
+    if (expanded && !tp.initial && !tp.approach) {
+      return (
+        <div className='individual-tp-preview' key={tpId}> 
+          <div className='main-tp-text'>
+            <div className='tp-preview-username'>@{username}</div>
+            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'> {tp.solution}</span></div>
+
+            <div className='align-right'>
+            <div onClick={() => this.changeExpand(tpId, false)}>Collapse TP</div>
+            <Link className='tp-full-goto' to={`/tp/${this.props.questId}/${tpId}`}>
+              Go to full TP
+            </Link>
+          </div>
+          </div>
+          <div className='main-tp-score'>{tp.total}</div>
+          <br />
+        </div>
+      );
+    }
+    return (
+      <div className='individual-tp-preview' key={tpId}> 
+        <div className='main-tp-text'>
+          <div className='tp-preview-username'>@{username}</div>
+          <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'> {tp.solution.slice(0,45)}...</span></div>
+
+          <div className='align-right'>
+          <div onClick={() => this.changeExpand(tpId, true)}>Expand TP</div>
+          <Link className='tp-full-goto' to={`/tp/${this.props.questId}/${tpId}`}>
+            Go to full TP
+          </Link>
+        </div>
+        </div>
+        <div className='main-tp-score'>{tp.total}</div>
+        <br />
+      </div>
+    );
+  }
+
   changeOrder = () => {
     this.setState({ orderByTop: !this.state.orderByTop });
+  }
+
+  changeShowAnswer = () => {
+    this.setState({ showAnswer: !this.state.showAnswer })
+  }
+
+  changeExpand = (tpId, value) => {
+    this.setState({ expand: Object.assign(this.state.expand, {[tpId]: value}) })
   }
 
   handleTps = () => {
@@ -48,7 +147,16 @@ class PageQuestion extends React.Component {
     const uid = this.props.isLoggedIn;
     const tpId = this.props.firebase.push(`/tps/${questId}`).key;
     const updates = {};
-    const tp = {
+    const tp = this.props.difficulty === 'easy'
+    ? 
+    {
+      solution: this.state.solution,
+      creator: uid,
+      username: this.props.username,
+      total: 0
+    }
+    :
+    {
       initial: this.state.initial,
       approach: this.state.approach,
       solution: this.state.solution,
@@ -56,7 +164,14 @@ class PageQuestion extends React.Component {
       username: this.props.username,
       total: 0
     };
-    const tp2 = {
+    const tp2 = this.props.difficulty === 'easy' 
+    ?
+    {
+      questId: questId,
+      solution: this.state.solution,
+    }
+    :
+    {
       questId: questId,
       initial: this.state.initial,
       approach: this.state.approach,
@@ -82,16 +197,18 @@ class PageQuestion extends React.Component {
       return <div>Page not found!</div>;
     }
 
-    if (this.props.difficulty && this.props.questId && this.props.difficulty === 'easy') {
-      return <Redirect to={`/eq/${this.props.questId}`} />
-    }
-
     const topics = this.props.tags &&
       Object.keys(this.props.tags).map(tag => {
         return (
           <span className='topic-2' key={tag}>{tag} </span>
         );
     });
+
+    const answer = this.props.answer && 
+      (<div>
+        <div onClick={() => this.changeShowAnswer()}>Click to see answer</div>
+        <div>{this.state.showAnswer ? this.props.answer : ""}</div>
+      </div>);
 
     let bars;
     if (this.props.difficulty && this.props.difficulty === 'easy') {
@@ -124,18 +241,12 @@ class PageQuestion extends React.Component {
 
     const Tps = this.props.tps &&
       this.state.keys.map(tpId => {
-        const tp = this.props.tps[tpId];
-        return (
-          <TpPreview tp={tp} tpId={tpId} questId={this.props.questId} key={tpId}/>
-        );
+        return(this.displayTp(tpId));
     });
 
     const tpsByTime = this.props.tps &&
       this.state.time.map(tpId => {
-        const tp = this.props.tps[tpId];
-        return (
-          <TpPreview tp={tp} tpId={tpId} questId={this.props.questId} key={tpId}/>
-        );
+        return(this.displayTp(tpId));
     });
 
     const communityTps = (
@@ -157,6 +268,29 @@ class PageQuestion extends React.Component {
     );
 
     const myTp = (
+      this.props.difficulty === 'easy'
+      ?
+      <div className='my-tp-submit'>
+        <p className='tp-instructions-text'>Enter your Thought Process below:</p>
+        <textarea
+        className='tp-input-box'
+        name = "solution"
+        placeholder="Final solution!"
+        onChange = {this.handleChange}
+        value={this.state.solution}
+        />
+        <br />
+        <br />
+        <button
+        className='tp-submit-green'
+        disabled=
+        {this.state.solution.trim()===''}
+        onClick={this.createTp}
+        >
+        Submit
+        </button>
+      </div>
+      :
       <div className='my-tp-submit'>
         <p className='tp-instructions-text'>Enter your Thought Process below:</p>
         <textarea
@@ -223,6 +357,7 @@ class PageQuestion extends React.Component {
           </div>
           <div>{bars}</div>
           <div className='topics-2'>{topics}</div>
+          <div>{answer}</div>
         </div>
         <div>
           <button
@@ -259,10 +394,11 @@ const mapStateToProps = (state, props) => {
   const topics = question && question.topics;
   const tags = question && question.tags;
   const difficulty = question && question.difficulty;
+  const answer = question && question.answer;
 
   const tps = question && state.firebase.data.tps && state.firebase.data.tps[questId];
   const username = state.firebase.profile && state.firebase.profile.username;
-  return { questId, title, description, definitive, topics, difficulty, tps, username, isLoggedIn: state.firebase.auth.uid, tags};
+  return { questId, title, description, definitive, topics, difficulty, answer, tps, username, isLoggedIn: state.firebase.auth.uid, tags};
 
 }
 

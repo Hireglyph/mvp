@@ -38,14 +38,8 @@ class App extends React.Component {
           <Route exact path="/q/:questId">
             <PageQuestion />
           </Route>
-          <Route exact path="/eq/:questId">
-            <PageEasyQuestion />
-          </Route>
           <Route exact path="/tp/:questId/:tpId">
             <PageTp />
-          </Route>
-          <Route exact path="/sa/:questId/:saId">
-            <PageSa />
           </Route>
           <Route exact path="/register">
             <PageRegister uid={this.props.uid} onboarded={this.props.onboarded} isLoaded={this.props.isLoaded} />

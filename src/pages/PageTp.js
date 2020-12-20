@@ -162,7 +162,7 @@ class PageTp extends React.Component{
   }
 
 	render(){
-    if (!isLoaded(this.props.initial) || !isLoaded(this.props.feedbacks)) {
+    if (!isLoaded(this.props.solution) || !isLoaded(this.props.feedbacks)) {
       return (<div>Loading...</div>);
     }
 
@@ -170,7 +170,7 @@ class PageTp extends React.Component{
       return <Redirect to="/register" />
     }
 
-    if (isEmpty(this.props.initial)){
+    if (isEmpty(this.props.solution)){
      return <div>Page not found!</div>;
     }
 
@@ -222,7 +222,10 @@ class PageTp extends React.Component{
 
     );
 
-		return(
+		return (
+    (!isEmpty(this.props.initial) && !isEmpty(this.props.approach))
+    ?
+    (
 			<div className='full-tp'>
         <div className='question-identification'>@{this.props.username} in response to: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Link className='link-to-quest' to={`/q/${this.props.questId}`}> Question #{this.props.questId}</Link></div>
         <br />
@@ -245,7 +248,26 @@ class PageTp extends React.Component{
         <br />
         <div>{Feedbacks}</div>
 			</div>
-		);
+		)
+    :
+    (
+      <div className='full-tp'>
+        <div className='question-identification'>@{this.props.username} in response to: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Link className='link-to-quest' to={`/q/${this.props.questId}`}> Question #{this.props.questId}</Link></div>
+        <br />
+        <div className='label-text'>Final Solution:</div>
+        <div className='body-text'>{this.props.solution}</div>
+        <br />
+        <img className='upvote-button' src={this.props.isUpvoted ? green : upvote} onClick={this.upvote}/>
+        <div className='score-text'>{this.props.total}</div>
+        <img className='downvote-button' src={this.props.isDownvoted ? red : downvote} onClick={this.downvote}/>
+
+        <br />
+        <div> {myFeedback}</div>
+        <br />
+        <br />
+        <div>{Feedbacks}</div>
+      </div>
+    ));
 	}
 }
 
