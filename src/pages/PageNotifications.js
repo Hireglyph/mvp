@@ -32,12 +32,8 @@ class PageNotifications extends React.Component {
             return (<div>Loading...</div>);
         }
 
-        if (!this.props.uid) {
+        if (!this.props.uid || !this.props.onboarded) {
             return <Redirect to="/register" />;
-        }
-
-        if (this.props.uid && !this.props.onboarded) {
-          return <PageOnboard />
         }
 
         const notifications = this.props.notifications &&

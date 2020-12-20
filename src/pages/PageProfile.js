@@ -28,10 +28,6 @@ class PageProfile extends React.Component {
         return <div>Loading...</div>;
       }
 
-      if (this.props.uid && !this.props.onboarded) {
-        return <PageOnboard />
-      }
-
     	if (isEmpty(this.props.profile)){
       		return <Redirect to="/register" />
     	}

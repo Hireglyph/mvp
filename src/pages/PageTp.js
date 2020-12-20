@@ -166,12 +166,8 @@ class PageTp extends React.Component{
       return (<div>Loading...</div>);
     }
 
-    if (!this.props.isLoggedIn){
+    if (!this.props.isLoggedIn || !this.props.onboarded){
       return <Redirect to="/register" />
-    }
-
-    if (this.props.isLoggedIn && !this.props.onboarded) {
-      return <PageOnboard />
     }
 
     if (isEmpty(this.props.initial)){
