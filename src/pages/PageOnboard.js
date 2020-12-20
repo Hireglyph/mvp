@@ -33,6 +33,8 @@ class PageOnboard extends React.Component {
 
     return (
       <div>
+        Set your username!
+        <br />
         <input
           className="input"
           name="username"
