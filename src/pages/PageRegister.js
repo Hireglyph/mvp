@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Redirect, Link } from 'react-router-dom';
 import '../styles/PageRegister.css';
+import PageOnboard from './PageOnboard';
 
 import GoogleButton from 'components/GoogleButton';
 
@@ -50,7 +51,15 @@ class PageRegister extends React.Component {
   };
 
   render () {
-    if (this.props.isLoggedIn) {
+    if (!this.props.isLoaded) {
+      return (<div >Loading...</div>);
+    }
+
+    if (this.props.uid && !this.props.onboarded) {
+      return <PageOnboard />
+    }
+
+    if (this.props.uid) {
       return <Redirect to="/" />;
     }
 
@@ -107,7 +116,6 @@ class PageRegister extends React.Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    isLoggedIn: state.firebase.auth.uid,
     loginUser: props.firebase.login,
     registerUser: props.firebase.createUser,
   };

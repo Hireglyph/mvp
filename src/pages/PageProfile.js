@@ -28,13 +28,13 @@ class PageProfile extends React.Component {
         return <div>Loading...</div>;
       }
 
-    	if (isEmpty(this.props.profile)){
-      		return <Redirect to="/register" />
-    	}
-
       if (this.props.uid && !this.props.onboarded) {
         return <PageOnboard />
       }
+
+    	if (isEmpty(this.props.profile)){
+      		return <Redirect to="/register" />
+    	}
 
       const tps = this.props.tpHistory &&
       Object.keys(this.props.tpHistory).slice(0).reverse().map(tpId => {

@@ -6,6 +6,7 @@ import { Redirect, Link } from 'react-router-dom';
 import '../styles/PageRegister.css';
 
 import GoogleButton from '../components/GoogleButton';
+import PageOnboard from './PageOnboard';
 
 class PageLogin extends React.Component {
   constructor(props) {
@@ -45,7 +46,15 @@ class PageLogin extends React.Component {
   };
 
   render () {
-    if (this.props.isLoggedIn) {
+    if (!this.props.isLoaded) {
+      return (<div >Loading...</div>);
+    }
+
+    if (this.props.uid && !this.props.onboarded) {
+      return <PageOnboard />
+    }
+
+    if (this.props.uid) {
       return <Redirect to="/" />;
     }
 
@@ -100,7 +109,6 @@ class PageLogin extends React.Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    isLoggedIn: state.firebase.auth.uid,
     loginUser: props.firebase.login,
   };
 };

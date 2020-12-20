@@ -28,7 +28,7 @@ class PageNotifications extends React.Component {
     }
 
     render(){
-        if (!isLoaded(this.props.notifications)) {
+        if (!isLoaded(this.props.notifications) || !this.props.isLoaded) {
             return (<div>Loading...</div>);
         }
 

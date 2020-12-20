@@ -33,7 +33,7 @@ class App extends React.Component {
             <PageProfile uid={this.props.uid} />
           </Route>
           <Route exact path="/notifications">
-            <PageNotifications uid={this.props.uid} onboarded={this.props.onboarded} />
+            <PageNotifications uid={this.props.uid} onboarded={this.props.onboarded} isLoaded={this.props.isLoaded} />
           </Route>
           <Route exact path="/q/:questId">
             <PageQuestion />
@@ -48,10 +48,10 @@ class App extends React.Component {
             <PageSa />
           </Route>
           <Route exact path="/register">
-            <PageRegister />
+            <PageRegister uid={this.props.uid} onboarded={this.props.onboarded} isLoaded={this.props.isLoaded} />
           </Route>
           <Route exact path="/login">
-            <PageLogin />
+            <PageLogin uid={this.props.uid} onboarded={this.props.onboarded} isLoaded={this.props.isLoaded} />
           </Route>
           <Route exact path="/addquestion">
             <PageAddQuestion />
@@ -69,6 +69,7 @@ const mapStateToProps = (state, _props) => {
   return {
     uid: state.firebase.auth.uid,
     onboarded: state.firebase.profile.onboarded,
+    isLoaded: state.firebase.auth.isLoaded && state.firebase.profile.isLoaded,
   }
 };
 
