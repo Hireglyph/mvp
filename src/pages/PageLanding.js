@@ -78,7 +78,7 @@ class PageLanding extends React.Component {
 
             return (
               <div className='question' key={questId}>
-                <div><Link className='question-title' to={quest.difficulty === 'easy' ? `/eq/${questId}` : `/q/${questId}`}>#{questId}: {quest.title} {answered ? '✔' : ''}</Link></div>
+                <div><Link className='question-title' to={`/q/${questId}`}>#{questId}: {quest.title} {answered ? '✔' : ''}</Link></div>
                 <br />
                 <div className='topics'>&nbsp;&nbsp;{topics}</div>
                 <div>{bars}</div>
