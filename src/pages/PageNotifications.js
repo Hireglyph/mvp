@@ -5,12 +5,13 @@ import { firebaseConnect, isLoaded, isEmpty, populate } from 'react-redux-fireba
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import '../styles/PageNotifications.css';
+import PageOnboard from './PageOnboard';
 
 class PageNotifications extends React.Component {
     constructor(props){
         super(props);
     };
-    
+
     viewed = notifId => {
         const updates = {};
         updates[`/notifications/${this.props.uid}/${notifId}/viewed`] = true;
@@ -32,7 +33,11 @@ class PageNotifications extends React.Component {
         }
 
         if (!this.props.uid) {
-            return <Redirect to="/" />;
+            return <Redirect to="/register" />;
+        }
+
+        if (this.props.uid && !this.props.onboarded) {
+          return <PageOnboard />
         }
 
         const notifications = this.props.notifications &&
@@ -41,8 +46,8 @@ class PageNotifications extends React.Component {
             if(notification && notification.type === "saUpvote"){
                 return (
                     <div>
-                        <Link className={notification.viewed ? 'light-link' : 'dark-link'} 
-                        to={`/sa/${notification.questId}/${notification.saId}`} 
+                        <Link className={notification.viewed ? 'light-link' : 'dark-link'}
+                        to={`/sa/${notification.questId}/${notification.saId}`}
                         onClick={() => this.viewed(notifId)}>
                             Your SA to Question #{notification.questId} was upvoted by @{notification.username}
                         </Link>
@@ -119,12 +124,12 @@ class PageNotifications extends React.Component {
     }
 }
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state, _props) => {
     const notifications = state.firebase.data.notifications;
     return { notifications };
-  };
-  
-  export default compose(
+};
+
+export default compose(
     withRouter,
     firebaseConnect(props => [
       {
@@ -133,4 +138,4 @@ const mapStateToProps = (state, props) => {
       },
     ]),
     connect(mapStateToProps)
-  )(PageNotifications);
+)(PageNotifications);

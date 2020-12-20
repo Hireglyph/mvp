@@ -14,11 +14,12 @@ class PageRegister extends React.Component {
       email: '',
       password: '',
       username: '',
+      error: '',
     };
   }
 
   handleChange = event =>
-    this.setState({ [event.target.name]: event.target.value, error: '' });
+    this.setState({ [event.target.name]: event.target.value });
 
   register = async () => {
     const credentials = {
@@ -29,11 +30,12 @@ class PageRegister extends React.Component {
     const profile = {
       email: this.state.email,
       username: this.state.username,
+      onboarded: true,
       admin: false,
     }
 
     try {
-      await this.props.firebase.createUser(credentials, profile);
+      await this.props.registerUser(credentials, profile);
     } catch (error) {
       this.setState({ error: error.message });
     }
