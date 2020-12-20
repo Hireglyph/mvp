@@ -5,12 +5,16 @@ import { compose } from 'redux';
 import { Redirect, Link } from 'react-router-dom';
 import '../styles/PageRegister.css';
 
+import GoogleButton from '../components/GoogleButton';
+import PageOnboard from './PageOnboard';
+
 class PageLogin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
       password: '',
+      loading: false,
     };
   }
 
@@ -23,16 +27,34 @@ class PageLogin extends React.Component {
       password: this.state.password,
     };
 
+    this.setState({ loading: true });
+
     try {
       await this.props.firebase.login(credentials);
     } catch (error) {
-      this.setState({ error: error.message });
+      this.setState({ error: error.message, loading: false });
     }
 
   };
 
+  loginWithProvider = provider => {
+    this.setState({ loading: true });
+
+    this.props.loginUser({ provider }).catch(error => {
+      this.setState({ message: error.message, loading: false });
+    });
+  };
+
   render () {
-    if (this.props.isLoggedIn) {
+    if (!this.props.isLoaded) {
+      return (<div >Loading...</div>);
+    }
+
+    if (this.props.uid && !this.props.onboarded) {
+      return <PageOnboard />
+    }
+
+    if (this.props.uid) {
       return <Redirect to="/" />;
     }
 
@@ -62,19 +84,33 @@ class PageLogin extends React.Component {
             />
           </div>
           <br />
-          <button className='button' onClick={this.login}>login!</button> 
-          <br />
-          <button className='login' onClick={() => window.location.href="/register"}>
-            register
-          </button>
+          {!this.state.loading ? (
+            <div>
+                <button className='button' onClick={this.login}>login!</button>
+                <br />
+
+                <GoogleButton
+                  onClick={() => this.loginWithProvider('google')}
+                />
+
+                <button className='login' onClick={() => window.location.href="/register"}>
+                  register
+                </button>
+            </div>
+          ) : (
+            <div>Loading...</div>
+          )
+          }
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return { isLoggedIn: state.firebase.auth.uid };
+const mapStateToProps = (state, props) => {
+  return {
+    loginUser: props.firebase.login,
+  };
 };
 
 export default compose(

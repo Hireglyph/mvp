@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Redirect, Link } from 'react-router-dom';
 import '../styles/PageRegister.css';
+import PageOnboard from './PageOnboard';
+
+import GoogleButton from 'components/GoogleButton';
 
 class PageRegister extends React.Component {
   constructor(props) {
@@ -12,11 +15,12 @@ class PageRegister extends React.Component {
       email: '',
       password: '',
       username: '',
+      error: '',
     };
   }
 
   handleChange = event =>
-    this.setState({ [event.target.name]: event.target.value, error: '' });
+    this.setState({ [event.target.name]: event.target.value });
 
   register = async () => {
     const credentials = {
@@ -27,20 +31,35 @@ class PageRegister extends React.Component {
     const profile = {
       email: this.state.email,
       username: this.state.username,
+      onboarded: true,
       admin: false,
-      tpHistory: {test: "tpHistory!"},
     }
 
     try {
-      await this.props.firebase.createUser(credentials, profile);
+      await this.props.registerUser(credentials, profile);
     } catch (error) {
       this.setState({ error: error.message });
     }
+  };
 
+  loginWithProvider = provider => {
+    this.setState({ loading: true });
+
+    this.props.loginUser({ provider }).catch(error => {
+      this.setState({ loading: false, message: error.message });
+    });
   };
 
   render () {
-    if (this.props.isLoggedIn) {
+    if (!this.props.isLoaded) {
+      return (<div >Loading...</div>);
+    }
+
+    if (this.props.uid && !this.props.onboarded) {
+      return <PageOnboard />
+    }
+
+    if (this.props.uid) {
       return <Redirect to="/" />;
     }
 
@@ -82,6 +101,10 @@ class PageRegister extends React.Component {
             register!
           </button>
           <br />
+          <GoogleButton
+            onClick={() => this.loginWithProvider('google')}
+            text={'Sign up with Google'}
+          />
           <button className='login' onClick={() => window.location.href="/login"}>
             login
           </button>
@@ -91,8 +114,11 @@ class PageRegister extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return { isLoggedIn: state.firebase.auth.uid };
+const mapStateToProps = (state, props) => {
+  return {
+    loginUser: props.firebase.login,
+    registerUser: props.firebase.createUser,
+  };
 };
 
 export default compose(

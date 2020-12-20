@@ -6,6 +6,7 @@ import { firebaseConnect, isLoaded, isEmpty, populate } from 'react-redux-fireba
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import '../styles/PageProfile.css';
+import PageOnboard from './PageOnboard';
 
 
 class PageProfile extends React.Component {
@@ -22,11 +23,11 @@ class PageProfile extends React.Component {
 
     render() {
 
-      if(!isLoaded(this.props.profile)) {
+      if (!isLoaded(this.props.profile)) {
         return <div>Loading...</div>;
       }
 
-    	if(isEmpty(this.props.profile)){
+    	if (isEmpty(this.props.profile)){
       		return <Redirect to="/register" />
     	}
 
@@ -111,14 +112,15 @@ class PageProfile extends React.Component {
   }
 }
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state, _props) => {
   const profile = state.firebase.profile;
   const username = profile && profile.username;
 	const email = profile && profile.email;
+  const onboarded = profile && profile.onboarded;
   const tpHistory = state.firebase.data.tpHistory;
   const feedbackHistory = state.firebase.data.feedbackHistory;
-
-	return { email, profile, username, tpHistory, feedbackHistory }
+  
+	return { email, profile, onboarded, username, tpHistory, feedbackHistory }
 };
 
 export default compose(

@@ -5,12 +5,13 @@ import { firebaseConnect, isLoaded, isEmpty, populate } from 'react-redux-fireba
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import '../styles/PageNotifications.css';
+import PageOnboard from './PageOnboard';
 
 class PageNotifications extends React.Component {
     constructor(props){
         super(props);
     };
-    
+
     viewed = notifId => {
         const updates = {};
         updates[`/notifications/${this.props.uid}/${notifId}/viewed`] = true;
@@ -27,12 +28,12 @@ class PageNotifications extends React.Component {
     }
 
     render(){
-        if (!isLoaded(this.props.notifications)) {
+        if (!isLoaded(this.props.notifications) || !this.props.isLoaded) {
             return (<div>Loading...</div>);
         }
 
-        if (!this.props.uid) {
-            return <Redirect to="/" />;
+        if (!this.props.uid || !this.props.onboarded) {
+            return <Redirect to="/register" />;
         }
 
         const notifications = this.props.notifications &&
@@ -83,12 +84,12 @@ class PageNotifications extends React.Component {
     }
 }
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state, _props) => {
     const notifications = state.firebase.data.notifications;
     return { notifications };
-  };
-  
-  export default compose(
+};
+
+export default compose(
     withRouter,
     firebaseConnect(props => [
       {
@@ -97,4 +98,4 @@ const mapStateToProps = (state, props) => {
       },
     ]),
     connect(mapStateToProps)
-  )(PageNotifications);
+)(PageNotifications);
