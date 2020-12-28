@@ -5,6 +5,10 @@ import { Link, withRouter, Redirect } from 'react-router-dom';
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import red from '../assets/images/red-downvote.png';
+import green from '../assets/images/green-upvote.png';
+import upvote from '../assets/images/upvote.png';
+import downvote from '../assets/images/downvote.png';
 import '../styles/PageQuestion.css'
 
 class PageQuestion extends React.Component {
@@ -40,10 +44,68 @@ class PageQuestion extends React.Component {
     }
   }
 
+  upvoteTp = (tpId, isUpvoted, isDownvoted) => {
+    const updates = {};
+    const creator = this.props.tps[tpId].creator;
+    const total = this.props.tps[tpId].total;
+    if(!isUpvoted && !isDownvoted){
+      const notificationId = this.props.firebase.push(`/notifications/${creator}`).key;
+      updates[`/tps/${this.props.questId}/${tpId}/total`] = total + 1;
+      updates[`/tps/${this.props.questId}/${tpId}/users/${this.props.isLoggedIn}`] = 1;
+      updates[`/notifications/${creator}/${notificationId}`] = {questId: this.props.questId, tpId: tpId,
+        username: this.props.username, viewed: false, type: 'tpUpvote'};
+      updates[`/hasNotifs/${creator}`] = true;
+      this.props.firebase.update('/', updates);
+    }
+
+    if(isUpvoted){
+      updates[`/tps/${this.props.questId}/${tpId}/total`] = total - 1;
+      updates[`/tps/${this.props.questId}/${tpId}/users/${this.props.isLoggedIn}`] = 0
+      this.props.firebase.update('/', updates);
+    }
+
+    if(isDownvoted){
+      const notificationId = this.props.firebase.push(`/notifications/${creator}`).key;
+      updates[`/tps/${this.props.questId}/${tpId}/total`] = total + 2;
+      updates[`/tps/${this.props.questId}/${tpId}/users/${this.props.isLoggedIn}`] = 1
+      updates[`/notifications/${creator}/${notificationId}`] = {questId: this.props.questId, tpId: tpId,
+        username: this.props.username, viewed: false, type: 'tpUpvote'};
+      updates[`/hasNotifs/${creator}`] = true;
+      this.props.firebase.update('/', updates);
+    }
+
+  }
+
+  downvoteTp = (tpId, isUpvoted, isDownvoted) => {
+    const updates = {};
+    const creator = this.props.tps[tpId].creator;
+    const total = this.props.tps[tpId].total;
+    if(!isUpvoted && !isDownvoted){
+      updates[`/tps/${this.props.questId}/${tpId}/total`] = total - 1;
+      updates[`/tps/${this.props.questId}/${tpId}/users/${this.props.isLoggedIn}`] = -1
+      this.props.firebase.update('/', updates);
+    }
+
+    if(isUpvoted){
+      updates[`/tps/${this.props.questId}/${tpId}/total`] = total - 2;
+      updates[`/tps/${this.props.questId}/${tpId}/users/${this.props.isLoggedIn}`] = -1
+      this.props.firebase.update('/', updates);
+    }
+
+    if(isDownvoted){
+      updates[`/tps/${this.props.questId}/${tpId}/total`] = total + 1;
+      updates[`/tps/${this.props.questId}/${tpId}/users/${this.props.isLoggedIn}`] = 0
+      this.props.firebase.update('/', updates);
+    }
+  }
+
+
   displayTp = tpId => {
     const tp = this.props.tps[tpId];
     const username = tp && (tp.username ? tp.username : tp.creator);
     const expanded = this.state.expand[tpId];
+    const isUpvoted = tp.users && (this.props.isLoggedIn in tp.users) && (tp.users[this.props.isLoggedIn]===1);
+    const isDownvoted = tp.users && (this.props.isLoggedIn in tp.users) && (tp.users[this.props.isLoggedIn]===-1);
     if (expanded && tp.initial && tp.approach) {
       return (
         <div className='individual-tp-preview' key={tpId}> 
@@ -60,7 +122,9 @@ class PageQuestion extends React.Component {
             </Link>
           </div>
           </div>
-          <div className='main-tp-score'>{tp.total}</div>
+          <img className='feedback-upvote-button' src={isUpvoted ? green : upvote} onClick={() => this.upvoteTp(tpId, isUpvoted, isDownvoted)}/>
+          <div className='feedback-score-text'>{tp.total}</div>
+          <img className='feedback-downvote-button' src={isDownvoted ? red : downvote} onClick={() => this.downvoteTp(tpId, isUpvoted, isDownvoted)}/>
           <br />
         </div>
       );
@@ -81,7 +145,9 @@ class PageQuestion extends React.Component {
             </Link>
           </div>
           </div>
-          <div className='main-tp-score'>{tp.total}</div>
+          <img className='feedback-upvote-button' src={isUpvoted ? green : upvote} onClick={() => this.upvoteTp(tpId, isUpvoted, isDownvoted)}/>
+          <div className='feedback-score-text'>{tp.total}</div>
+          <img className='feedback-downvote-button' src={isDownvoted ? red : downvote} onClick={() => this.downvoteTp(tpId, isUpvoted, isDownvoted)}/>
           <br />
         </div>
       );
@@ -100,7 +166,9 @@ class PageQuestion extends React.Component {
             </Link>
           </div>
           </div>
-          <div className='main-tp-score'>{tp.total}</div>
+          <img className='feedback-upvote-button' src={isUpvoted ? green : upvote} onClick={() => this.upvoteTp(tpId, isUpvoted, isDownvoted)}/>
+          <div className='feedback-score-text'>{tp.total}</div>
+          <img className='feedback-downvote-button' src={isDownvoted ? red : downvote} onClick={() => this.downvoteTp(tpId, isUpvoted, isDownvoted)}/>
           <br />
         </div>
       );
@@ -118,7 +186,9 @@ class PageQuestion extends React.Component {
           </Link>
         </div>
         </div>
-        <div className='main-tp-score'>{tp.total}</div>
+        <img className='feedback-upvote-button' src={isUpvoted ? green : upvote} onClick={() => this.upvoteTp(tpId, isUpvoted, isDownvoted)}/>
+        <div className='feedback-score-text'>{tp.total}</div>
+        <img className='feedback-downvote-button' src={isDownvoted ? red : downvote} onClick={() => this.downvoteTp(tpId, isUpvoted, isDownvoted)}/>
         <br />
       </div>
     );
