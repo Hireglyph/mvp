@@ -96,7 +96,7 @@ class PageNotifications extends React.Component {
 const mapStateToProps = (state, props) => {
     const notifications = state.firebase.data.notifications;
     const user = props.firebase.auth().currentUser;
-    const emailVerified = user && user.emailVerified
+    const emailVerified = user && user.emailVerified;
     return { notifications, emailVerified };
 };
 

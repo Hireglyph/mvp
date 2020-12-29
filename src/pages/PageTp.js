@@ -297,7 +297,7 @@ const mapStateToProps = (state, props) => {
   const username2 = state.firebase.profile && state.firebase.profile.username;
   const onboarded = state.firebase.profile && state.firebase.profile.onboarded;
   const user = props.firebase.auth().currentUser;
-  const emailVerified = user && user.emailVerified
+  const emailVerified = user && user.emailVerified;
 
   return { creator, questId, tpId, initial, approach, solution, isLoggedIn: state.firebase.auth.uid, feedbacks, total, isUpvoted, isDownvoted, username, username2, onboarded, emailVerified };
 }

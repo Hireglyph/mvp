@@ -128,7 +128,7 @@ const mapStateToProps = (state, props) => {
   const tpHistory = state.firebase.data.tpHistory;
   const feedbackHistory = state.firebase.data.feedbackHistory;
   const user = props.firebase.auth().currentUser;
-  const emailVerified = user && user.emailVerified
+  const emailVerified = user && user.emailVerified;
 
 	return { email, profile, onboarded, username, tpHistory, feedbackHistory, emailVerified }
 };

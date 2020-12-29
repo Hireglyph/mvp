@@ -46,7 +46,7 @@ class PageQuestion extends React.Component {
     const expanded = this.state.expand[tpId];
     if (expanded && tp.initial && tp.approach) {
       return (
-        <div className='individual-tp-preview' key={tpId}> 
+        <div className='individual-tp-preview' key={tpId}>
           <div className='main-tp-text'>
             <div className='tp-preview-username'>@{username}</div>
             <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Initial:</span><span className='tp-preview-tail'> {tp.initial}</span></div>
@@ -67,7 +67,7 @@ class PageQuestion extends React.Component {
     }
     if (!expanded && tp.initial && tp.approach) {
       return (
-        <div className='individual-tp-preview' key={tpId}> 
+        <div className='individual-tp-preview' key={tpId}>
           <div className='main-tp-text'>
             <div className='tp-preview-username'>@{username}</div>
             <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Initial:</span><span className='tp-preview-tail'> {tp.initial.slice(0,45)}...</span></div>
@@ -88,7 +88,7 @@ class PageQuestion extends React.Component {
     }
     if (expanded && !tp.initial && !tp.approach) {
       return (
-        <div className='individual-tp-preview' key={tpId}> 
+        <div className='individual-tp-preview' key={tpId}>
           <div className='main-tp-text'>
             <div className='tp-preview-username'>@{username}</div>
             <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'> {tp.solution}</span></div>
@@ -106,7 +106,7 @@ class PageQuestion extends React.Component {
       );
     }
     return (
-      <div className='individual-tp-preview' key={tpId}> 
+      <div className='individual-tp-preview' key={tpId}>
         <div className='main-tp-text'>
           <div className='tp-preview-username'>@{username}</div>
           <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'> {tp.solution.slice(0,45)}...</span></div>
@@ -148,7 +148,7 @@ class PageQuestion extends React.Component {
     const tpId = this.props.firebase.push(`/tps/${questId}`).key;
     const updates = {};
     const tp = this.props.difficulty === 'easy'
-    ? 
+    ?
     {
       solution: this.state.solution,
       creator: uid,
@@ -164,7 +164,7 @@ class PageQuestion extends React.Component {
       username: this.props.username,
       total: 0
     };
-    const tp2 = this.props.difficulty === 'easy' 
+    const tp2 = this.props.difficulty === 'easy'
     ?
     {
       questId: questId,
@@ -204,7 +204,7 @@ class PageQuestion extends React.Component {
         );
     });
 
-    const answer = this.props.answer && 
+    const answer = this.props.answer &&
       (<div>
         <div onClick={() => this.changeShowAnswer()}>Click to see answer</div>
         <div>{this.state.showAnswer ? this.props.answer : ""}</div>
@@ -341,7 +341,37 @@ class PageQuestion extends React.Component {
     if (!this.props.isLoggedIn) {
       section = (
         <div className='login-message'>
-          <p>You need to log in or register to view TPs or write your own.</p>
+          <p>You need to log in or register to write your own TP.</p>
+        </div>
+      );
+    }
+    else if (!this.props.onboarded) {
+      section = (
+        <div className='login-message'>
+          <p>
+            You need to set your username on the
+            &nbsp;
+            <Link to={`/profile`}>
+              Profile
+            </Link>
+            &nbsp;
+            page before writing your own TP.
+          </p>
+        </div>
+      );
+    }
+    else if (!this.props.emailVerified) {
+      section = (
+        <div className='login-message'>
+          <p>
+            You need to verify your email on the
+            &nbsp;
+            <Link to={`/profile`}>
+              Profile
+            </Link>
+            &nbsp;
+            page before writing your own TP.
+          </p>
         </div>
       );
     }
@@ -397,8 +427,13 @@ const mapStateToProps = (state, props) => {
   const answer = question && question.answer;
 
   const tps = question && state.firebase.data.tps && state.firebase.data.tps[questId];
-  const username = state.firebase.profile && state.firebase.profile.username;
-  return { questId, title, description, definitive, topics, difficulty, answer, tps, username, isLoggedIn: state.firebase.auth.uid, tags};
+  const profile = state.firebase.profile;
+  const username = profile && profile.username;
+  const onboarded = profile && profile.onboarded;
+  const user = props.firebase.auth().currentUser;
+  const emailVerified = user && user.emailVerified;
+
+  return { questId, title, description, definitive, topics, difficulty, answer, tps, username, isLoggedIn: state.firebase.auth.uid, tags, onboarded, emailVerified};
 
 }
 
