@@ -5,6 +5,7 @@ import { compose } from 'redux';
 import { Redirect, Link } from 'react-router-dom';
 import '../styles/PageRegister.css';
 import PageOnboard from './PageOnboard';
+import PageConfirmEmail from './PageConfirmEmail';
 
 import GoogleButton from 'components/GoogleButton';
 
@@ -37,6 +38,8 @@ class PageRegister extends React.Component {
 
     try {
       await this.props.registerUser(credentials, profile);
+      await this.props.auth().currentUser.sendEmailVerification();
+
     } catch (error) {
       this.setState({ error: error.message });
     }
@@ -51,15 +54,22 @@ class PageRegister extends React.Component {
   };
 
   render () {
-    if (!this.props.isLoaded) {
+    const { isLoaded, onboarded, auth, uid } = this.props;
+    const user = auth().currentUser;
+
+    if (!isLoaded) {
       return (<div >Loading...</div>);
     }
 
-    if (this.props.uid && !this.props.onboarded) {
-      return <PageOnboard />
+    if (uid && !onboarded) {
+      return <PageOnboard />;
     }
 
-    if (this.props.uid) {
+    if (uid && user && !user.emailVerified) {
+      return <PageConfirmEmail />;
+    }
+
+    if (uid) {
       return <Redirect to="/" />;
     }
 
@@ -114,10 +124,11 @@ class PageRegister extends React.Component {
   }
 }
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (_state, props) => {
   return {
     loginUser: props.firebase.login,
     registerUser: props.firebase.createUser,
+    auth: props.firebase.auth,
   };
 };
 

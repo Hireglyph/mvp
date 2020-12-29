@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import '../styles/PageProfile.css';
 import PageOnboard from './PageOnboard';
-
+import PageConfirmEmail from './PageConfirmEmail';
 
 class PageProfile extends React.Component {
     constructor(props){
@@ -27,9 +27,17 @@ class PageProfile extends React.Component {
         return <div>Loading...</div>;
       }
 
-    	if (isEmpty(this.props.profile)){
-      		return <Redirect to="/register" />
+      if (!this.props.uid) {
+        return <Redirect to="/register" />;
+      }
+
+    	if (!this.props.onboarded) {
+      	return <PageOnboard />
     	}
+
+      if (!this.props.emailVerified) {
+        return <PageConfirmEmail />;
+      }
 
       const tps = this.props.tpHistory &&
       Object.keys(this.props.tpHistory).slice(0).reverse().map(tpId => {
@@ -112,15 +120,17 @@ class PageProfile extends React.Component {
   }
 }
 
-const mapStateToProps = (state, _props) => {
+const mapStateToProps = (state, props) => {
   const profile = state.firebase.profile;
   const username = profile && profile.username;
 	const email = profile && profile.email;
   const onboarded = profile && profile.onboarded;
   const tpHistory = state.firebase.data.tpHistory;
   const feedbackHistory = state.firebase.data.feedbackHistory;
-  
-	return { email, profile, onboarded, username, tpHistory, feedbackHistory }
+  const user = props.firebase.auth().currentUser;
+  const emailVerified = user && user.emailVerified;
+
+	return { email, profile, onboarded, username, tpHistory, feedbackHistory, emailVerified }
 };
 
 export default compose(
