@@ -1,9 +1,7 @@
 import React from 'react';
 import { firebaseConnect } from 'react-redux-firebase';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { Redirect, Link } from 'react-router-dom';
 
 class PageConfirmEmail extends React.Component {
   constructor(props) {
@@ -36,7 +34,7 @@ class PageConfirmEmail extends React.Component {
   };
 
   renderButton = () => {
-    const { isConfirmationLink, loading, resent, verified } = this.state;
+    const { loading, resent } = this.state;
 
     if (loading) {
       return <div>Loading...</div>;
@@ -46,8 +44,7 @@ class PageConfirmEmail extends React.Component {
       return <div>Email sent!</div>
     }
 
-    // if we haven't resent a confirmation email, we don't show the button anymore
-    if (!isConfirmationLink && !resent) {
+    if (!resent) {
       return (
         <button onClick={this.resendConfirmationEmail}>
           Resend verification email
