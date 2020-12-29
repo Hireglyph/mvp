@@ -13,6 +13,7 @@ export default class TpPreview extends Component {
     const tp = this.props.tp;
     const tpId = this.props.tpId;
     const questId = this.props.questId;
+    const total = (typeof tp.total === 'undefined') ? "NA" : tp.total;
     if(tp.initial && tp.approach){
       return (
         <div className='individual-tp-preview' key={tpId}> 
@@ -21,7 +22,7 @@ export default class TpPreview extends Component {
             <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Initial:</span><span className='tp-preview-tail'> {tp.initial.slice(0,45)}...</span></div>
             <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;Approaches:</span><span className='tp-preview-tail'>  {tp.approach.slice(0,45)}...</span></div>
             <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'> {tp.solution.slice(0,45)}...</span></div>
-
+            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;Score:</span><span className='tp-preview-tail'>  {total}</span></div>
             <div className='align-right'>
             <Link className='tp-full-goto' to={`/tp/${this.props.questId}/${tpId}`}>
               Go to full TP
@@ -37,7 +38,7 @@ export default class TpPreview extends Component {
           <div className='main-tp-text'>
             <div className='tp-preview-username'>Response to Question #{questId}</div>
             <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'> {tp.solution.slice(0,45)}...</span></div>
-
+            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;Score:</span><span className='tp-preview-tail'>  {total}</span></div>
             <div className='align-right'>
             <Link className='tp-full-goto' to={`/tp/${this.props.questId}/${tpId}`}>
               Go to full TP

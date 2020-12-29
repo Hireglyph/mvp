@@ -51,6 +51,7 @@ class PageQuestion extends React.Component {
     if(!isUpvoted && !isDownvoted){
       const notificationId = this.props.firebase.push(`/notifications/${creator}`).key;
       updates[`/tps/${this.props.questId}/${tpId}/total`] = total + 1;
+      updates[`/tpHistory/${creator}/${tpId}/total`] = total + 1;
       updates[`/tps/${this.props.questId}/${tpId}/users/${this.props.isLoggedIn}`] = 1;
       updates[`/notifications/${creator}/${notificationId}`] = {questId: this.props.questId, tpId: tpId,
         username: this.props.username, viewed: false, type: 'tpUpvote'};
@@ -60,6 +61,7 @@ class PageQuestion extends React.Component {
 
     if(isUpvoted){
       updates[`/tps/${this.props.questId}/${tpId}/total`] = total - 1;
+      updates[`/tpHistory/${creator}/${tpId}/total`] = total - 1;
       updates[`/tps/${this.props.questId}/${tpId}/users/${this.props.isLoggedIn}`] = 0
       this.props.firebase.update('/', updates);
     }
@@ -67,6 +69,7 @@ class PageQuestion extends React.Component {
     if(isDownvoted){
       const notificationId = this.props.firebase.push(`/notifications/${creator}`).key;
       updates[`/tps/${this.props.questId}/${tpId}/total`] = total + 2;
+      updates[`/tpHistory/${creator}/${tpId}/total`] = total + 2;
       updates[`/tps/${this.props.questId}/${tpId}/users/${this.props.isLoggedIn}`] = 1
       updates[`/notifications/${creator}/${notificationId}`] = {questId: this.props.questId, tpId: tpId,
         username: this.props.username, viewed: false, type: 'tpUpvote'};
@@ -82,18 +85,21 @@ class PageQuestion extends React.Component {
     const total = this.props.tps[tpId].total;
     if(!isUpvoted && !isDownvoted){
       updates[`/tps/${this.props.questId}/${tpId}/total`] = total - 1;
+      updates[`/tpHistory/${creator}/${tpId}/total`] = total - 1;
       updates[`/tps/${this.props.questId}/${tpId}/users/${this.props.isLoggedIn}`] = -1
       this.props.firebase.update('/', updates);
     }
 
     if(isUpvoted){
       updates[`/tps/${this.props.questId}/${tpId}/total`] = total - 2;
+      updates[`/tpHistory/${creator}/${tpId}/total`] = total - 2;
       updates[`/tps/${this.props.questId}/${tpId}/users/${this.props.isLoggedIn}`] = -1
       this.props.firebase.update('/', updates);
     }
 
     if(isDownvoted){
       updates[`/tps/${this.props.questId}/${tpId}/total`] = total + 1;
+      updates[`/tpHistory/${creator}/${tpId}/total`] = total + 1;
       updates[`/tps/${this.props.questId}/${tpId}/users/${this.props.isLoggedIn}`] = 0
       this.props.firebase.update('/', updates);
     }
@@ -239,6 +245,7 @@ class PageQuestion extends React.Component {
     {
       questId: questId,
       solution: this.state.solution,
+      total: 0
     }
     :
     {
@@ -246,6 +253,7 @@ class PageQuestion extends React.Component {
       initial: this.state.initial,
       approach: this.state.approach,
       solution: this.state.solution,
+      total: 0
     };
 
     updates[`/tps/${questId}/${tpId}`] = tp;
