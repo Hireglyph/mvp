@@ -10,6 +10,7 @@ import green from '../assets/images/green-upvote.png';
 import upvote from '../assets/images/upvote.png';
 import downvote from '../assets/images/downvote.png';
 import PageOnboard from './PageOnboard';
+import PageConfirmEmail from './PageConfirmEmail';
 
 class PageTp extends React.Component{
   constructor(props){
@@ -166,12 +167,20 @@ class PageTp extends React.Component{
       return (<div>Loading...</div>);
     }
 
-    if (!this.props.isLoggedIn || !this.props.onboarded){
+    if (isEmpty(this.props.solution)){
+     return <div>Page not found!</div>;
+    }
+
+    if (!this.props.isLoggedIn) {
       return <Redirect to="/register" />
     }
 
-    if (isEmpty(this.props.solution)){
-     return <div>Page not found!</div>;
+    if (!this.props.onboarded) {
+      return <PageOnboard />
+    }
+
+    if (!this.props.emailVerified) {
+      return <PageConfirmEmail />;
     }
 
     const Feedbacks = this.props.feedbacks &&
@@ -287,7 +296,10 @@ const mapStateToProps = (state, props) => {
   const isDownvoted = tp && tp.users && (state.firebase.auth.uid in tp.users) && (tp.users[state.firebase.auth.uid] === -1);
   const username2 = state.firebase.profile && state.firebase.profile.username;
   const onboarded = state.firebase.profile && state.firebase.profile.onboarded;
-  return { creator, questId, tpId, initial, approach, solution, isLoggedIn: state.firebase.auth.uid, feedbacks, total, isUpvoted, isDownvoted, username, username2, onboarded };
+  const user = props.firebase.auth().currentUser;
+  const emailVerified = user && user.emailVerified
+
+  return { creator, questId, tpId, initial, approach, solution, isLoggedIn: state.firebase.auth.uid, feedbacks, total, isUpvoted, isDownvoted, username, username2, onboarded, emailVerified };
 }
 
 export default compose(

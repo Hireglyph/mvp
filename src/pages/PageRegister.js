@@ -62,11 +62,11 @@ class PageRegister extends React.Component {
     }
 
     if (uid && !onboarded) {
-      return <PageOnboard />
+      return <PageOnboard />;
     }
 
     if (uid && user && !user.emailVerified) {
-      return <PageConfirmEmail />
+      return <PageConfirmEmail />;
     }
 
     if (uid) {

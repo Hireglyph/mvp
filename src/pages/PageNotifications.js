@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import '../styles/PageNotifications.css';
 import PageOnboard from './PageOnboard';
+import PageConfirmEmail from './PageConfirmEmail';
 
 class PageNotifications extends React.Component {
     constructor(props){
@@ -32,8 +33,16 @@ class PageNotifications extends React.Component {
             return (<div>Loading...</div>);
         }
 
-        if (!this.props.uid || !this.props.onboarded) {
+        if (!this.props.uid) {
             return <Redirect to="/register" />;
+        }
+
+        if (!this.props.onboarded) {
+          return <PageOnboard />
+        }
+
+        if (!this.props.emailVerified) {
+            return <PageConfirmEmail />;
         }
 
         const notifications = this.props.notifications &&
@@ -84,9 +93,11 @@ class PageNotifications extends React.Component {
     }
 }
 
-const mapStateToProps = (state, _props) => {
+const mapStateToProps = (state, props) => {
     const notifications = state.firebase.data.notifications;
-    return { notifications };
+    const user = props.firebase.auth().currentUser;
+    const emailVerified = user && user.emailVerified
+    return { notifications, emailVerified };
 };
 
 export default compose(

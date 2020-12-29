@@ -26,14 +26,13 @@ class PageOnboard extends React.Component {
     }
 
     this.props.updateProfile(profile);
-    this.props.history.push('/');
   };
 
   render() {
 
     return (
       <div>
-        Set your username!
+        Before proceeding, set your username!
         <br />
         <input
           className="input"
