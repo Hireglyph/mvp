@@ -45,7 +45,7 @@ class PageTp extends React.Component{
     };
     updates[`/feedbacks/${this.props.tpId}/${feedbackId}`] = feedback;
     updates[`/feedbackHistory/${this.props.isLoggedIn}/${feedbackId}`] = {tpId: this.props.tpId, feedback: this.state.feedback,
-      questId: this.props.questId, username: this.props.username };
+      questId: this.props.questId, username: this.props.username, score: 0 };
     updates[`/notifications/${this.props.creator}/${notificationId}`] = {questId: this.props.questId, tpId: this.props.tpId,
         feedbackId: feedbackId, username: this.props.username2, viewed: false, type: 'tpFeedback'};
     updates[`/hasNotifs/${this.props.creator}`] = true;
@@ -66,6 +66,7 @@ class PageTp extends React.Component{
     if(!this.props.isUpvoted && !this.props.isDownvoted){
       const notificationId = this.props.firebase.push(`/notifications/${this.props.creator}`).key;
       updates[`/tps/${this.props.questId}/${this.props.tpId}/total`] = this.props.total + 1;
+      updates[`/tpHistory/${this.props.creator}/${this.props.tpId}/total`] = this.props.total + 1;
       updates[`/tps/${this.props.questId}/${this.props.tpId}/users/${this.props.isLoggedIn}`] = 1;
       updates[`/notifications/${this.props.creator}/${notificationId}`] = {questId: this.props.questId, tpId: this.props.tpId,
         username: this.props.username2, viewed: false, type: 'tpUpvote'};
@@ -75,6 +76,7 @@ class PageTp extends React.Component{
 
     if(this.props.isUpvoted){
       updates[`/tps/${this.props.questId}/${this.props.tpId}/total`] = this.props.total - 1;
+      updates[`/tpHistory/${this.props.creator}/${this.props.tpId}/total`] = this.props.total - 1;
       updates[`/tps/${this.props.questId}/${this.props.tpId}/users/${this.props.isLoggedIn}`] = 0
       this.props.firebase.update('/', updates);
     }
@@ -82,6 +84,7 @@ class PageTp extends React.Component{
     if(this.props.isDownvoted){
       const notificationId = this.props.firebase.push(`/notifications/${this.props.creator}`).key;
       updates[`/tps/${this.props.questId}/${this.props.tpId}/total`] = this.props.total + 2;
+      updates[`/tpHistory/${this.props.creator}/${this.props.tpId}/total`] = this.props.total + 2;
       updates[`/tps/${this.props.questId}/${this.props.tpId}/users/${this.props.isLoggedIn}`] = 1
       updates[`/notifications/${this.props.creator}/${notificationId}`] = {questId: this.props.questId, tpId: this.props.tpId,
         username: this.props.username2, viewed: false, type: 'tpUpvote'};
@@ -95,18 +98,21 @@ class PageTp extends React.Component{
     const updates = {};
     if(!this.props.isUpvoted && !this.props.isDownvoted){
       updates[`/tps/${this.props.questId}/${this.props.tpId}/total`] = this.props.total - 1;
+      updates[`/tpHistory/${this.props.creator}/${this.props.tpId}/total`] = this.props.total - 1;
       updates[`/tps/${this.props.questId}/${this.props.tpId}/users/${this.props.isLoggedIn}`] = -1
       this.props.firebase.update('/', updates);
     }
 
     if(this.props.isUpvoted){
       updates[`/tps/${this.props.questId}/${this.props.tpId}/total`] = this.props.total - 2;
+      updates[`/tpHistory/${this.props.creator}/${this.props.tpId}/total`] = this.props.total - 2;
       updates[`/tps/${this.props.questId}/${this.props.tpId}/users/${this.props.isLoggedIn}`] = -1
       this.props.firebase.update('/', updates);
     }
 
     if(this.props.isDownvoted){
       updates[`/tps/${this.props.questId}/${this.props.tpId}/total`] = this.props.total + 1;
+      updates[`/tpHistory/${this.props.creator}/${this.props.tpId}/total`] = this.props.total + 1;
       updates[`/tps/${this.props.questId}/${this.props.tpId}/users/${this.props.isLoggedIn}`] = 0
       this.props.firebase.update('/', updates);
     }
@@ -119,6 +125,7 @@ class PageTp extends React.Component{
     if(!isUpvoted && !isDownvoted){
       const notificationId = this.props.firebase.push(`/notifications/${this.props.feedbacks[feedbackId].creator}`).key;
       updates[`/feedbacks/${this.props.tpId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score + 1;
+      updates[`/feedbackHistory/${this.props.feedbacks[feedbackId].creator}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score + 1;
       updates[`/feedbacks/${this.props.tpId}/${feedbackId}/users/${this.props.isLoggedIn}`] = 1;
       updates[`/notifications/${this.props.feedbacks[feedbackId].creator}/${notificationId}`] = {questId: this.props.questId, tpId: this.props.tpId,
         username: this.props.username2, viewed: false, type: 'tpFeedbackUpvote', feedbackId: feedbackId, author: this.props.username};
@@ -127,12 +134,14 @@ class PageTp extends React.Component{
     }
     if(isUpvoted){
       updates[`/feedbacks/${this.props.tpId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score - 1;
+      updates[`/feedbackHistory/${this.props.feedbacks[feedbackId].creator}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score - 1;
       updates[`/feedbacks/${this.props.tpId}/${feedbackId}/users/${this.props.isLoggedIn}`] = 0;
       this.props.firebase.update('/', updates);
     }
     if(isDownvoted){
       const notificationId = this.props.firebase.push(`/notifications/${this.props.feedbacks[feedbackId].creator}`).key;
       updates[`/feedbacks/${this.props.tpId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score + 2;
+      updates[`/feedbackHistory/${this.props.feedbacks[feedbackId].creator}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score + 2;
       updates[`/feedbacks/${this.props.tpId}/${feedbackId}/users/${this.props.isLoggedIn}`] = 1;
       updates[`/notifications/${this.props.feedbacks[feedbackId].creator}/${notificationId}`] = {questId: this.props.questId, tpId: this.props.tpId,
         username: this.props.username2, viewed: false, type: 'tpFeedbackUpvote', feedbackId: feedbackId, author: this.props.username};
@@ -147,16 +156,19 @@ class PageTp extends React.Component{
     const isDownvoted = this.props.feedbacks[feedbackId].users && (this.props.isLoggedIn in this.props.feedbacks[feedbackId].users) && (this.props.feedbacks[feedbackId].users[this.props.isLoggedIn]===-1);
     if(!isUpvoted && !isDownvoted){
       updates[`/feedbacks/${this.props.tpId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score - 1;
+      updates[`/feedbackHistory/${this.props.feedbacks[feedbackId].creator}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score - 1;
       updates[`/feedbacks/${this.props.tpId}/${feedbackId}/users/${this.props.isLoggedIn}`] = -1;
       this.props.firebase.update('/', updates);
     }
     if(isUpvoted){
       updates[`/feedbacks/${this.props.tpId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score - 2;
+      updates[`/feedbackHistory/${this.props.feedbacks[feedbackId].creator}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score - 2;
       updates[`/feedbacks/${this.props.tpId}/${feedbackId}/users/${this.props.isLoggedIn}`] = -1;
       this.props.firebase.update('/', updates);
     }
     if(isDownvoted){
       updates[`/feedbacks/${this.props.tpId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score + 1;
+      updates[`/feedbackHistory/${this.props.feedbacks[feedbackId].creator}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score + 1;
       updates[`/feedbacks/${this.props.tpId}/${feedbackId}/users/${this.props.isLoggedIn}`] = 0;
       this.props.firebase.update('/', updates);
     }
