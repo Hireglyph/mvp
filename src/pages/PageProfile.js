@@ -67,7 +67,7 @@ class PageProfile extends React.Component {
                     <span className='tp-preview-head'>
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Feedback:
                     </span>
-                    <span className='tp-preview-tail'>{feedback.slice(0,45)}...</span>
+                    <span className='tp-preview-tail'>{feedback}</span>
                   </div>
                   <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;Score:</span><span className='tp-preview-tail'>  {score}</span></div>
                   <div className='align-right'>
