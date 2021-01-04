@@ -32,6 +32,9 @@ class App extends React.Component {
           <Route exact path="/q/:questId/:questParam?">
             <PageQuestion />
           </Route>
+          <Route exact path="/q/:questId/community/:sortBy">
+            <PageQuestion />
+          </Route>
           <Route exact path="/tp/:questId/:tpId">
             <PageTp />
           </Route>

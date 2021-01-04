@@ -19,7 +19,6 @@ class PageQuestion extends React.Component {
       approach: '',
       solution: '',
       loading: true,
-      orderByTop: true,
       keys: [],
       time: [],
       expand: {},
@@ -199,8 +198,9 @@ class PageQuestion extends React.Component {
     );
   }
 
-  changeOrder = () => {
-    this.setState({ orderByTop: !this.state.orderByTop });
+  changeOrder = sortBy => {
+    const { questId, questParam } = this.props
+    this.props.history.push(`/q/${questId}/community/${sortBy}`);
   }
 
   changeShowAnswer = () => {
@@ -274,9 +274,13 @@ class PageQuestion extends React.Component {
       return <div>Page not found!</div>;
     }
 
-    const { questParam } = this.props;
+    const { questParam, sortBy } = this.props;
 
-    if (questParam != 'my' && questParam != 'community') {
+    if ((questParam == 'community' && !sortBy) || (sortBy && sortBy != 'top' && sortBy != 'new')) {
+      this.props.history.push(`/q/${this.props.questId}/community/top`);
+    }
+
+    if (!sortBy && questParam != 'my' && questParam != 'community') {
       this.props.history.push(`/q/${this.props.questId}/my`);
     }
 
@@ -335,18 +339,18 @@ class PageQuestion extends React.Component {
     const communityTps = (
       <div>
         <button
-          disabled={this.state.orderByTop}
-          onClick={() => this.changeOrder(1)}
+          disabled={sortBy == 'top'}
+          onClick={() => this.changeOrder('top')}
         >
           Top TPs
         </button>
         <button
-          disabled={!this.state.orderByTop}
-          onClick={() => this.changeOrder(2)}
+          disabled={sortBy == 'new'}
+          onClick={() => this.changeOrder('new')}
         >
           New TPs
         </button>
-        {this.state.orderByTop ? Tps : tpsByTime}
+        {sortBy == 'top' ? Tps : tpsByTime}
       </div>
     );
 
@@ -483,7 +487,7 @@ class PageQuestion extends React.Component {
           <button
             className='community-tp-button-1'
             disabled={questParam == 'community'}
-            onClick={() => this.handleTps('community')}
+            onClick={() => this.handleTps('community/top')}
           >
               Community TPs
           </button>
@@ -516,8 +520,9 @@ const mapStateToProps = (state, props) => {
   const user = props.firebase.auth().currentUser;
   const emailVerified = user && user.emailVerified;
   const questParam = props.match.params.questParam;
+  const sortBy = props.match.params.sortBy;
 
-  return { questId, title, description, definitive, topics, difficulty, answer, tps, username, isLoggedIn: state.firebase.auth.uid, tags, onboarded, emailVerified, questParam};
+  return { questId, title, description, definitive, topics, difficulty, answer, tps, username, isLoggedIn: state.firebase.auth.uid, tags, onboarded, emailVerified, questParam, sortBy};
 
 }
 
