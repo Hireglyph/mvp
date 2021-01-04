@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -13,18 +13,19 @@ class PageLanding extends React.Component {
       this.state = {titles: '', loaded: false};
     }
 
-    handleDiffFilter = difficulty => {
-      this.setState({ difficulty, tag: '' });
-    };
-
     handleTagFilter = tag => {
-      this.setState({ tag, difficulty: '' })
+      this.props.history.push(`/${tag}`);
     };
 
     render() {
       if (!isLoaded(this.props.questions)) {
         return (<div >Loading...</div>);
       }
+
+      const { tag, questions, questionHistory } = this.props;
+
+      const isDiff = tag == 'easy' || tag == 'medium' || tag == 'hard';
+      console.log(isDiff)
 
       const easy = (
         <div>
@@ -49,12 +50,12 @@ class PageLanding extends React.Component {
       );
 
       const quests =
-        Object.keys(this.props.questions)
-          .filter(questId => !this.state.difficulty || this.props.questions[questId].difficulty === this.state.difficulty)
-          .filter(questId => !this.state.tag || this.props.questions[questId].tags[this.state.tag])
+        Object.keys(questions)
+          .filter(questId => !isDiff || questions[questId].difficulty === tag)
+          .filter(questId => isDiff || !tag || questions[questId].tags[tag])
           .map(questId => {
-            const quest = this.props.questions[questId];
-            const answered = (this.props.questionHistory && this.props.questionHistory[questId]);
+            const quest = questions[questId];
+            const answered = (questionHistory && questionHistory[questId]);
 
             const topics = quest.tags &&
               Object.keys(quest.tags).map(tag => {
@@ -76,7 +77,7 @@ class PageLanding extends React.Component {
 
             return (
               <div className='question' key={questId}>
-                <div><Link className='question-title' to={`/q/${questId}`}>#{questId}: {quest.title} {answered ? '✔' : ''}</Link></div>
+                <div><Link className='question-title' to={`/q/${questId}/my`}>#{questId}: {quest.title} {answered ? '✔' : ''}</Link></div>
                 <br />
                 <div className='topics'>&nbsp;&nbsp;{topics}</div>
                 <div>{bars}</div>
@@ -104,10 +105,10 @@ class PageLanding extends React.Component {
           <br />
           <div className='questions'>
           <h1 className='header'>Quantitative Analysis Questions</h1>
-          <button onClick={() => this.handleDiffFilter('')}>Original list</button>
-          <button onClick={() => this.handleDiffFilter('easy')}>Filter by easy</button>
-          <button onClick={() => this.handleDiffFilter('medium')}>Filter by medium</button>
-          <button onClick={() => this.handleDiffFilter('hard')}>Filter by hard</button>
+          <button onClick={() => this.handleTagFilter('')}>Original list</button>
+          <button onClick={() => this.handleTagFilter('easy')}>Filter by easy</button>
+          <button onClick={() => this.handleTagFilter('medium')}>Filter by medium</button>
+          <button onClick={() => this.handleTagFilter('hard')}>Filter by hard</button>
           <br />
           <div>{tagButtons}</div>
           <div>{quests}</div>
@@ -118,15 +119,17 @@ class PageLanding extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
   return {
     questions: state.firebase.data.questions,
     questionHistory: state.firebase.data.questionHistory,
     email: state.firebase.auth.email,
+    tag: props.match.params.tag,
   };
 }
 
 export default compose(
+  withRouter,
   firebaseConnect(props => [
     '/questions',
     {

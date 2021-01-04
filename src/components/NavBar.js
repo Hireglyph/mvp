@@ -27,7 +27,7 @@ class NavBar extends React.Component{
             <div className='navbar'>
                 <div className='title'> <a className='title-text' href="/">Hireglyph</a> </div>
                 <div className='link-click2'> <a className={this.props.hasNotifs ? 'link-text2' : 'link-text'} href="/notifications">Notifications</a> </div>
-                <div className='link-click'> <a className='link-text' href="/profile">Profile</a> </div>
+                <div className='link-click'> <a className='link-text' href="/profile/tp">Profile</a> </div>
                 <div className='button-click'><button className='button-text' onClick={() => {this.props.firebase.logout();window.location.href="/"}} >Logout</button> </div>
             </div>
             //   <a href="/profile">Profile</a>
@@ -47,6 +47,6 @@ export default compose(
       path: '/hasNotifs/' + props.uid,
       storeAs: 'hasNotifs'
     },
-  ]), 
+  ]),
   connect(mapStateToProps)
 )(NavBar);

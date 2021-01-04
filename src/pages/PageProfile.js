@@ -10,19 +10,11 @@ import PageOnboard from './PageOnboard';
 import PageConfirmEmail from './PageConfirmEmail';
 
 class PageProfile extends React.Component {
-    constructor(props){
-      super(props);
-      this.state = {
-        setting: "tp",
-      };
-    }
-
-    handleTps = number => {
-      this.setState({ setting: number });
+    handleTps = historyParam => {
+      this.props.history.push(`/profile/${historyParam}`);
     }
 
     render() {
-
       if (!isLoaded(this.props.profile)) {
         return <div>Loading...</div>;
       }
@@ -39,17 +31,20 @@ class PageProfile extends React.Component {
         return <PageConfirmEmail />;
       }
 
+      if (this.props.historyParam != 'tp' && this.props.historyParam != 'feedback') {
+        this.props.history.push(`/profile/tp`);
+      }
+
       const tps = this.props.tpHistory &&
       Object.keys(this.props.tpHistory).slice(0).reverse().map(tpId => {
         const tp = this.props.tpHistory[tpId];
-        if(tp){
+        if (tp) {
           return (
               <PreviewPractice tp={tp} tpId={tpId} questId={this.props.tpHistory[tpId].questId} key={tpId}/>
             );
         }
         return;
-
-    });
+      });
 
     const feedbacks = this.props.feedbackHistory &&
       Object.keys(this.props.feedbackHistory).slice(0).reverse().map(feedbackId => {
@@ -83,7 +78,7 @@ class PageProfile extends React.Component {
         return;
     });
 
-    const display = (this.state.setting == "tp") ? tps : feedbacks ;
+    const display = (this.props.historyParam == "tp") ? tps : feedbacks ;
 
   	const history = this.props.tpHistory &&
   	Object.keys(this.props.tpHistory).slice(0).reverse().map((tpId, index) => {
@@ -103,13 +98,13 @@ class PageProfile extends React.Component {
         <div className='intro2'>Your profile, @{this.props.username} </div>
         <div>
           <button
-            disabled={this.state.setting === "tp"}
+            disabled={this.props.historyParam === "tp"}
             onClick={() => this.handleTps("tp")}
           >
               My TP History
           </button>
           <button
-            disabled={this.state.setting === "feedback"}
+            disabled={this.props.historyParam === "feedback"}
             onClick={() => this.handleTps("feedback")}
           >
               My Feedback History
@@ -131,8 +126,9 @@ const mapStateToProps = (state, props) => {
   const feedbackHistory = state.firebase.data.feedbackHistory;
   const user = props.firebase.auth().currentUser;
   const emailVerified = user && user.emailVerified;
+  const historyParam = props.match.params.historyParam;
 
-	return { email, profile, onboarded, username, tpHistory, feedbackHistory, emailVerified }
+	return { email, profile, onboarded, username, tpHistory, feedbackHistory, emailVerified, historyParam }
 };
 
 export default compose(

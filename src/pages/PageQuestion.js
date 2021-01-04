@@ -15,7 +15,6 @@ class PageQuestion extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      isMyTps: true,
       initial: '',
       approach: '',
       solution: '',
@@ -212,8 +211,8 @@ class PageQuestion extends React.Component {
     this.setState({ expand: Object.assign(this.state.expand, {[tpId]: value}) })
   }
 
-  handleTps = () => {
-    this.setState({ isMyTps: !this.state.isMyTps });
+  handleTps = questParam => {
+    this.props.history.push(`/q/${this.props.questId}/${questParam}`);
   }
 
   handleChange = event => this.setState({ [event.target.name]: event.target.value });
@@ -273,6 +272,12 @@ class PageQuestion extends React.Component {
 
     if (isEmpty(this.props.title)){
       return <div>Page not found!</div>;
+    }
+
+    const { questParam } = this.props;
+
+    if (questParam != 'my' && questParam != 'community') {
+      this.props.history.push(`/q/${this.props.questId}/my`);
     }
 
     const topics = this.props.tags &&
@@ -409,7 +414,7 @@ class PageQuestion extends React.Component {
     );
 
     let section;
-    if (this.state.isMyTps) {
+    if (questParam == 'my') {
       section = myTp;
     }
     else {
@@ -470,21 +475,21 @@ class PageQuestion extends React.Component {
         <div>
           <button
             className='my-tp-button-1'
-            disabled={this.state.isMyTps}
-            onClick={() => this.handleTps()}
+            disabled={questParam == 'my'}
+            onClick={() => this.handleTps('my')}
           >
               My TP
           </button>
           <button
             className='community-tp-button-1'
-            disabled={!this.state.isMyTps}
-            onClick={() => this.handleTps()}
+            disabled={questParam == 'community'}
+            onClick={() => this.handleTps('community')}
           >
               Community TPs
           </button>
-          <hr className={this.state.isMyTps ? 'divider-line' : 'divider-line-2'}/>
+          <hr className={questParam == 'my' ? 'divider-line' : 'divider-line-2'}/>
         </div>
-        <div className={this.state.isMyTps ? 'px-break' : 'px-break-2'}>
+        <div className={questParam == 'my' ? 'px-break' : 'px-break-2'}>
           {section}
         </div>
       </div>
@@ -510,8 +515,9 @@ const mapStateToProps = (state, props) => {
   const onboarded = profile && profile.onboarded;
   const user = props.firebase.auth().currentUser;
   const emailVerified = user && user.emailVerified;
+  const questParam = props.match.params.questParam;
 
-  return { questId, title, description, definitive, topics, difficulty, answer, tps, username, isLoggedIn: state.firebase.auth.uid, tags, onboarded, emailVerified};
+  return { questId, title, description, definitive, topics, difficulty, answer, tps, username, isLoggedIn: state.firebase.auth.uid, tags, onboarded, emailVerified, questParam};
 
 }
 
