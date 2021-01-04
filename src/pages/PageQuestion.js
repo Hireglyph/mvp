@@ -15,12 +15,10 @@ class PageQuestion extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      isMyTps: true,
       initial: '',
       approach: '',
       solution: '',
       loading: true,
-      orderByTop: true,
       keys: [],
       time: [],
       expand: {},
@@ -200,8 +198,9 @@ class PageQuestion extends React.Component {
     );
   }
 
-  changeOrder = () => {
-    this.setState({ orderByTop: !this.state.orderByTop });
+  changeOrder = sortBy => {
+    const { questId, questParam } = this.props
+    this.props.history.push(`/q/${questId}/community/${sortBy}`);
   }
 
   changeShowAnswer = () => {
@@ -212,8 +211,8 @@ class PageQuestion extends React.Component {
     this.setState({ expand: Object.assign(this.state.expand, {[tpId]: value}) })
   }
 
-  handleTps = () => {
-    this.setState({ isMyTps: !this.state.isMyTps });
+  handleTps = questParam => {
+    this.props.history.push(`/q/${this.props.questId}/${questParam}`);
   }
 
   handleChange = event => this.setState({ [event.target.name]: event.target.value });
@@ -275,6 +274,16 @@ class PageQuestion extends React.Component {
       return <div>Page not found!</div>;
     }
 
+    const { questParam, sortBy } = this.props;
+
+    if ((questParam == 'community' && !sortBy) || (sortBy && sortBy != 'top' && sortBy != 'new')) {
+      this.props.history.push(`/q/${this.props.questId}/community/top`);
+    }
+
+    if (!sortBy && questParam != 'my' && questParam != 'community') {
+      this.props.history.push(`/q/${this.props.questId}/my`);
+    }
+
     const topics = this.props.tags &&
       Object.keys(this.props.tags).map(tag => {
         return (
@@ -330,18 +339,18 @@ class PageQuestion extends React.Component {
     const communityTps = (
       <div>
         <button
-          disabled={this.state.orderByTop}
-          onClick={() => this.changeOrder(1)}
+          disabled={sortBy == 'top'}
+          onClick={() => this.changeOrder('top')}
         >
           Top TPs
         </button>
         <button
-          disabled={!this.state.orderByTop}
-          onClick={() => this.changeOrder(2)}
+          disabled={sortBy == 'new'}
+          onClick={() => this.changeOrder('new')}
         >
           New TPs
         </button>
-        {this.state.orderByTop ? Tps : tpsByTime}
+        {sortBy == 'top' ? Tps : tpsByTime}
       </div>
     );
 
@@ -409,7 +418,7 @@ class PageQuestion extends React.Component {
     );
 
     let section;
-    if (this.state.isMyTps) {
+    if (questParam == 'my') {
       section = myTp;
     }
     else {
@@ -470,21 +479,21 @@ class PageQuestion extends React.Component {
         <div>
           <button
             className='my-tp-button-1'
-            disabled={this.state.isMyTps}
-            onClick={() => this.handleTps()}
+            disabled={questParam == 'my'}
+            onClick={() => this.handleTps('my')}
           >
               My TP
           </button>
           <button
             className='community-tp-button-1'
-            disabled={!this.state.isMyTps}
-            onClick={() => this.handleTps()}
+            disabled={questParam == 'community'}
+            onClick={() => this.handleTps('community/top')}
           >
               Community TPs
           </button>
-          <hr className={this.state.isMyTps ? 'divider-line' : 'divider-line-2'}/>
+          <hr className={questParam == 'my' ? 'divider-line' : 'divider-line-2'}/>
         </div>
-        <div className={this.state.isMyTps ? 'px-break' : 'px-break-2'}>
+        <div className={questParam == 'my' ? 'px-break' : 'px-break-2'}>
           {section}
         </div>
       </div>
@@ -510,8 +519,10 @@ const mapStateToProps = (state, props) => {
   const onboarded = profile && profile.onboarded;
   const user = props.firebase.auth().currentUser;
   const emailVerified = user && user.emailVerified;
+  const questParam = props.match.params.questParam;
+  const sortBy = props.match.params.sortBy;
 
-  return { questId, title, description, definitive, topics, difficulty, answer, tps, username, isLoggedIn: state.firebase.auth.uid, tags, onboarded, emailVerified};
+  return { questId, title, description, definitive, topics, difficulty, answer, tps, username, isLoggedIn: state.firebase.auth.uid, tags, onboarded, emailVerified, questParam, sortBy};
 
 }
 

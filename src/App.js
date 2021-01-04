@@ -14,8 +14,7 @@ import { firebaseConnect } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 class App extends React.Component {
 
@@ -24,16 +23,16 @@ class App extends React.Component {
       <div>
       <NavBar uid={this.props.uid} />
         <Switch>
-          <Route exact path="/">
-            <PageLanding uid={this.props.uid} />
-          </Route>
-          <Route exact path="/profile">
+          <Route exact path="/profile/:historyParam?">
             <PageProfile uid={this.props.uid} />
           </Route>
           <Route exact path="/notifications">
             <PageNotifications uid={this.props.uid} onboarded={this.props.onboarded} isLoaded={this.props.isLoaded} />
           </Route>
-          <Route exact path="/q/:questId">
+          <Route exact path="/q/:questId/:questParam?">
+            <PageQuestion />
+          </Route>
+          <Route exact path="/q/:questId/community/:sortBy">
             <PageQuestion />
           </Route>
           <Route exact path="/tp/:questId/:tpId">
@@ -47,6 +46,9 @@ class App extends React.Component {
           </Route>
           <Route exact path="/addquestion">
             <PageAddQuestion />
+          </Route>
+          <Route exact path="/:tag?">
+            <PageLanding uid={this.props.uid} />
           </Route>
           <Route>
             <div>Page not found</div>
