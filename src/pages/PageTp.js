@@ -37,17 +37,27 @@ class PageTp extends React.Component{
     const feedbackId = this.props.firebase.push(`/feedbacks/${this.props.tpId}`).key;
     const notificationId = this.props.firebase.push(`/notifications/${this.props.creator}`).key;
     const updates = {};
-    const feedback = {
+    updates[`/feedbacks/${this.props.tpId}/${feedbackId}`] = {
       feedback: this.state.feedback,
-      creator: this.props.isLoggedIn,
+      creator: this.props.uid,
       score: 0,
       username: this.props.username2,
     };
-    updates[`/feedbacks/${this.props.tpId}/${feedbackId}`] = feedback;
-    updates[`/feedbackHistory/${this.props.isLoggedIn}/${feedbackId}`] = {tpId: this.props.tpId, feedback: this.state.feedback,
-      questId: this.props.questId, username: this.props.username, score: 0 };
-    updates[`/notifications/${this.props.creator}/${notificationId}`] = {questId: this.props.questId, tpId: this.props.tpId,
-        feedbackId: feedbackId, username: this.props.username2, viewed: false, type: 'tpFeedback'};
+    updates[`/feedbackHistory/${this.props.uid}/${feedbackId}`] = {
+      tpId: this.props.tpId,
+      feedback: this.state.feedback,
+      questId: this.props.questId,
+      username: this.props.username,
+      score: 0
+    };
+    updates[`/notifications/${this.props.creator}/${notificationId}`] = {
+      questId: this.props.questId,
+      tpId: this.props.tpId,
+      feedbackId: feedbackId,
+      username: this.props.username2,
+      viewed: false,
+      type: 'tpFeedback'
+    };
     updates[`/hasNotifs/${this.props.creator}`] = true;
     this.setState({ feedback: '', })
 
@@ -61,117 +71,84 @@ class PageTp extends React.Component{
 
   }
 
+  getVoteValues = (isSameVoted, isOppositeVoted) => {
+    let diff = -1, vote = 0;
+    if (!isSameVoted) {
+      vote = 1;
+      diff = isOppositeVoted ? 2 : 1;
+    }
+    return { diff, vote }
+  }
+
   upvote = () => {
     const updates = {};
-    if(!this.props.isUpvoted && !this.props.isDownvoted){
+
+    if (!this.props.isUpvoted) {
       const notificationId = this.props.firebase.push(`/notifications/${this.props.creator}`).key;
-      updates[`/tps/${this.props.questId}/${this.props.tpId}/total`] = this.props.total + 1;
-      updates[`/tpHistory/${this.props.creator}/${this.props.tpId}/total`] = this.props.total + 1;
-      updates[`/tps/${this.props.questId}/${this.props.tpId}/users/${this.props.isLoggedIn}`] = 1;
-      updates[`/notifications/${this.props.creator}/${notificationId}`] = {questId: this.props.questId, tpId: this.props.tpId,
-        username: this.props.username2, viewed: false, type: 'tpUpvote'};
+      updates[`/notifications/${this.props.creator}/${notificationId}`] = {
+        questId: this.props.questId,
+        tpId: this.props.tpId,
+        username: this.props.username2,
+        viewed: false,
+        type: 'tpUpvote'
+      };
       updates[`/hasNotifs/${this.props.creator}`] = true;
-      this.props.firebase.update('/', updates);
     }
 
-    if(this.props.isUpvoted){
-      updates[`/tps/${this.props.questId}/${this.props.tpId}/total`] = this.props.total - 1;
-      updates[`/tpHistory/${this.props.creator}/${this.props.tpId}/total`] = this.props.total - 1;
-      updates[`/tps/${this.props.questId}/${this.props.tpId}/users/${this.props.isLoggedIn}`] = 0
-      this.props.firebase.update('/', updates);
-    }
-
-    if(this.props.isDownvoted){
-      const notificationId = this.props.firebase.push(`/notifications/${this.props.creator}`).key;
-      updates[`/tps/${this.props.questId}/${this.props.tpId}/total`] = this.props.total + 2;
-      updates[`/tpHistory/${this.props.creator}/${this.props.tpId}/total`] = this.props.total + 2;
-      updates[`/tps/${this.props.questId}/${this.props.tpId}/users/${this.props.isLoggedIn}`] = 1
-      updates[`/notifications/${this.props.creator}/${notificationId}`] = {questId: this.props.questId, tpId: this.props.tpId,
-        username: this.props.username2, viewed: false, type: 'tpUpvote'};
-      updates[`/hasNotifs/${this.props.creator}`] = true;
-      this.props.firebase.update('/', updates);
-    }
-
+    const { diff, vote } = this.getVoteValues(this.props.isUpvoted, this.props.isDownvoted);
+    updates[`/tps/${this.props.questId}/${this.props.tpId}/total`] = this.props.total + diff;
+    updates[`/tpHistory/${this.props.creator}/${this.props.tpId}/total`] = this.props.total + diff;
+    updates[`/tps/${this.props.questId}/${this.props.tpId}/users/${this.props.uid}`] = vote;
+    this.props.firebase.update('/', updates);
   }
 
   downvote = () => {
     const updates = {};
-    if(!this.props.isUpvoted && !this.props.isDownvoted){
-      updates[`/tps/${this.props.questId}/${this.props.tpId}/total`] = this.props.total - 1;
-      updates[`/tpHistory/${this.props.creator}/${this.props.tpId}/total`] = this.props.total - 1;
-      updates[`/tps/${this.props.questId}/${this.props.tpId}/users/${this.props.isLoggedIn}`] = -1
-      this.props.firebase.update('/', updates);
-    }
-
-    if(this.props.isUpvoted){
-      updates[`/tps/${this.props.questId}/${this.props.tpId}/total`] = this.props.total - 2;
-      updates[`/tpHistory/${this.props.creator}/${this.props.tpId}/total`] = this.props.total - 2;
-      updates[`/tps/${this.props.questId}/${this.props.tpId}/users/${this.props.isLoggedIn}`] = -1
-      this.props.firebase.update('/', updates);
-    }
-
-    if(this.props.isDownvoted){
-      updates[`/tps/${this.props.questId}/${this.props.tpId}/total`] = this.props.total + 1;
-      updates[`/tpHistory/${this.props.creator}/${this.props.tpId}/total`] = this.props.total + 1;
-      updates[`/tps/${this.props.questId}/${this.props.tpId}/users/${this.props.isLoggedIn}`] = 0
-      this.props.firebase.update('/', updates);
-    }
+    const { diff, vote } = this.getVoteValues(this.props.isDownvoted, this.props.isUpvoted);
+    updates[`/tps/${this.props.questId}/${this.props.tpId}/total`] = this.props.total - diff;
+    updates[`/tpHistory/${this.props.creator}/${this.props.tpId}/total`] = this.props.total - diff;
+    updates[`/tps/${this.props.questId}/${this.props.tpId}/users/${this.props.uid}`] = -1 * vote
+    this.props.firebase.update('/', updates);
   }
 
   upvoteFeedback = feedbackId => {
     const updates = {};
-    const isUpvoted = this.props.feedbacks[feedbackId].users && (this.props.isLoggedIn in this.props.feedbacks[feedbackId].users) && (this.props.feedbacks[feedbackId].users[this.props.isLoggedIn]===1);
-    const isDownvoted = this.props.feedbacks[feedbackId].users && (this.props.isLoggedIn in this.props.feedbacks[feedbackId].users) && (this.props.feedbacks[feedbackId].users[this.props.isLoggedIn]===-1);
-    if(!isUpvoted && !isDownvoted){
+    const feedbackCheck = this.props.feedbacks[feedbackId].users && (this.props.uid in this.props.feedbacks[feedbackId].users)
+    const isUpvoted = feedbackCheck && (this.props.feedbacks[feedbackId].users[this.props.uid] === 1);
+    const isDownvoted = feedbackCheck && (this.props.feedbacks[feedbackId].users[this.props.uid] === -1);
+
+    if (!isUpvoted) {
       const notificationId = this.props.firebase.push(`/notifications/${this.props.feedbacks[feedbackId].creator}`).key;
-      updates[`/feedbacks/${this.props.tpId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score + 1;
-      updates[`/feedbackHistory/${this.props.feedbacks[feedbackId].creator}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score + 1;
-      updates[`/feedbacks/${this.props.tpId}/${feedbackId}/users/${this.props.isLoggedIn}`] = 1;
-      updates[`/notifications/${this.props.feedbacks[feedbackId].creator}/${notificationId}`] = {questId: this.props.questId, tpId: this.props.tpId,
-        username: this.props.username2, viewed: false, type: 'tpFeedbackUpvote', feedbackId: feedbackId, author: this.props.username};
+      updates[`/notifications/${this.props.feedbacks[feedbackId].creator}/${notificationId}`] = {
+        questId: this.props.questId,
+        tpId: this.props.tpId,
+        username: this.props.username2,
+        viewed: false,
+        type: 'tpFeedbackUpvote',
+        feedbackId: feedbackId,
+        author: this.props.username
+      };
       updates[`/hasNotifs/${this.props.feedbacks[feedbackId].creator}`] = true;
-      this.props.firebase.update('/', updates);
     }
-    if(isUpvoted){
-      updates[`/feedbacks/${this.props.tpId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score - 1;
-      updates[`/feedbackHistory/${this.props.feedbacks[feedbackId].creator}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score - 1;
-      updates[`/feedbacks/${this.props.tpId}/${feedbackId}/users/${this.props.isLoggedIn}`] = 0;
-      this.props.firebase.update('/', updates);
-    }
-    if(isDownvoted){
-      const notificationId = this.props.firebase.push(`/notifications/${this.props.feedbacks[feedbackId].creator}`).key;
-      updates[`/feedbacks/${this.props.tpId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score + 2;
-      updates[`/feedbackHistory/${this.props.feedbacks[feedbackId].creator}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score + 2;
-      updates[`/feedbacks/${this.props.tpId}/${feedbackId}/users/${this.props.isLoggedIn}`] = 1;
-      updates[`/notifications/${this.props.feedbacks[feedbackId].creator}/${notificationId}`] = {questId: this.props.questId, tpId: this.props.tpId,
-        username: this.props.username2, viewed: false, type: 'tpFeedbackUpvote', feedbackId: feedbackId, author: this.props.username};
-      updates[`/hasNotifs/${this.props.feedbacks[feedbackId].creator}`] = true;
-      this.props.firebase.update('/', updates);
-    }
+
+    const { diff, vote } = this.getVoteValues(isUpvoted, isDownvoted);
+    updates[`/feedbacks/${this.props.tpId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score + diff;
+    updates[`/feedbackHistory/${this.props.feedbacks[feedbackId].creator}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score + diff;
+    updates[`/feedbacks/${this.props.tpId}/${feedbackId}/users/${this.props.uid}`] = vote;
+    this.props.firebase.update('/', updates);
   }
 
   downvoteFeedback = feedbackId => {
     const updates = {};
-    const isUpvoted = this.props.feedbacks[feedbackId].users && (this.props.isLoggedIn in this.props.feedbacks[feedbackId].users) && (this.props.feedbacks[feedbackId].users[this.props.isLoggedIn]===1);
-    const isDownvoted = this.props.feedbacks[feedbackId].users && (this.props.isLoggedIn in this.props.feedbacks[feedbackId].users) && (this.props.feedbacks[feedbackId].users[this.props.isLoggedIn]===-1);
-    if(!isUpvoted && !isDownvoted){
-      updates[`/feedbacks/${this.props.tpId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score - 1;
-      updates[`/feedbackHistory/${this.props.feedbacks[feedbackId].creator}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score - 1;
-      updates[`/feedbacks/${this.props.tpId}/${feedbackId}/users/${this.props.isLoggedIn}`] = -1;
-      this.props.firebase.update('/', updates);
-    }
-    if(isUpvoted){
-      updates[`/feedbacks/${this.props.tpId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score - 2;
-      updates[`/feedbackHistory/${this.props.feedbacks[feedbackId].creator}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score - 2;
-      updates[`/feedbacks/${this.props.tpId}/${feedbackId}/users/${this.props.isLoggedIn}`] = -1;
-      this.props.firebase.update('/', updates);
-    }
-    if(isDownvoted){
-      updates[`/feedbacks/${this.props.tpId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score + 1;
-      updates[`/feedbackHistory/${this.props.feedbacks[feedbackId].creator}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score + 1;
-      updates[`/feedbacks/${this.props.tpId}/${feedbackId}/users/${this.props.isLoggedIn}`] = 0;
-      this.props.firebase.update('/', updates);
-    }
+    const feedbackCheck = this.props.feedbacks[feedbackId].users && (this.props.uid in this.props.feedbacks[feedbackId].users)
+    const isUpvoted = feedbackCheck && (this.props.feedbacks[feedbackId].users[this.props.uid] === 1);
+    const isDownvoted = feedbackCheck && (this.props.feedbacks[feedbackId].users[this.props.uid] === -1);
+    const { diff, vote } = this.getVoteValues(isDownvoted, isUpvoted);
+
+    updates[`/feedbacks/${this.props.tpId}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score - diff;
+    updates[`/feedbackHistory/${this.props.feedbacks[feedbackId].creator}/${feedbackId}/score`] = this.props.feedbacks[feedbackId].score - diff;
+    updates[`/feedbacks/${this.props.tpId}/${feedbackId}/users/${this.props.uid}`] = -1 * vote;
+    this.props.firebase.update('/', updates);
   }
 
 	render(){
@@ -183,7 +160,7 @@ class PageTp extends React.Component{
      return <div>Page not found!</div>;
     }
 
-    if (!this.props.isLoggedIn) {
+    if (!this.props.uid) {
       return <Redirect to="/register" />
     }
 
@@ -199,8 +176,8 @@ class PageTp extends React.Component{
       this.state.keys.map(feedbackId => {
         const feedback = this.props.feedbacks[feedbackId];
         if (feedback){
-          const isUpvoted = feedback.users && (this.props.isLoggedIn in feedback.users) && (feedback.users[this.props.isLoggedIn]===1);
-          const isDownvoted = feedback.users && (this.props.isLoggedIn in feedback.users) && (feedback.users[this.props.isLoggedIn]===-1);
+          const isUpvoted = feedback.users && (this.props.uid in feedback.users) && (feedback.users[this.props.uid]===1);
+          const isDownvoted = feedback.users && (this.props.uid in feedback.users) && (feedback.users[this.props.uid]===-1);
           const feedback_username = feedback.username ? feedback.username : feedback.creator;
           return (
               <div className='user-feedback' key={feedbackId}>
@@ -243,52 +220,26 @@ class PageTp extends React.Component{
 
     );
 
-		return (
-    (!isEmpty(this.props.initial) && !isEmpty(this.props.approach))
-    ?
-    (
-			<div className='full-tp'>
-        <div className='question-identification'>@{this.props.username} in response to: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Link className='link-to-quest' to={`/q/${this.props.questId}`}> Question #{this.props.questId}</Link></div>
-        <br />
-  			<div className='label-text'>Initial Thoughts:</div>
-        <div className='body-text'>{this.props.initial}</div>
-        <br />
-  			<div className='label-text'>Approaches Tried:</div>
-        <div className='body-text'>{this.props.approach}</div>
-        <br />
-  			<div className='label-text'>Final Solution:</div>
-        <div className='body-text'>{this.props.solution}</div>
-        <br />
-        <img className='upvote-button' src={this.props.isUpvoted ? green : upvote} onClick={this.upvote}/>
-        <div className='score-text'>{this.props.total}</div>
-        <img className='downvote-button' src={this.props.isDownvoted ? red : downvote} onClick={this.downvote}/>
-
-        <br />
-        <div> {myFeedback}</div>
-        <br />
-        <br />
-        <div>{Feedbacks}</div>
-			</div>
-		)
-    :
-    (
+    return (
       <div className='full-tp'>
         <div className='question-identification'>@{this.props.username} in response to: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Link className='link-to-quest' to={`/q/${this.props.questId}`}> Question #{this.props.questId}</Link></div>
         <br />
-        <div className='label-text'>Final Solution:</div>
+        <div className='label-text'>{this.props.initial ? 'Initial Thoughts:' : '' }</div>
+        <div className='body-text'>{this.props.initial}</div>
+        <div className='label-text'>{this.props.approach ? 'Approaches Tried:' : ''}</div>
+        <div className='body-text'>{this.props.approach}</div>
+        <div className='label-text'>{this.props.solution ? 'Final Solution:' : ''}</div>
         <div className='body-text'>{this.props.solution}</div>
-        <br />
         <img className='upvote-button' src={this.props.isUpvoted ? green : upvote} onClick={this.upvote}/>
         <div className='score-text'>{this.props.total}</div>
         <img className='downvote-button' src={this.props.isDownvoted ? red : downvote} onClick={this.downvote}/>
-
         <br />
         <div> {myFeedback}</div>
         <br />
         <br />
         <div>{Feedbacks}</div>
       </div>
-    ));
+    );
 	}
 }
 
@@ -311,7 +262,7 @@ const mapStateToProps = (state, props) => {
   const user = props.firebase.auth().currentUser;
   const emailVerified = user && user.emailVerified;
 
-  return { creator, questId, tpId, initial, approach, solution, isLoggedIn: state.firebase.auth.uid, feedbacks, total, isUpvoted, isDownvoted, username, username2, onboarded, emailVerified };
+  return { creator, questId, tpId, initial, approach, solution, uid: state.firebase.auth.uid, feedbacks, total, isUpvoted, isDownvoted, username, username2, onboarded, emailVerified };
 }
 
 export default compose(
