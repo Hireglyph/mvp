@@ -25,7 +25,6 @@ class PageLanding extends React.Component {
       const { tag, questions, questionHistory } = this.props;
 
       const isDiff = tag == 'easy' || tag == 'medium' || tag == 'hard';
-      console.log(isDiff)
 
       const easy = (
         <div>

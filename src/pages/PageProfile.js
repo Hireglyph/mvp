@@ -55,7 +55,7 @@ class PageProfile extends React.Component {
         const score = (typeof this.props.feedbackHistory[feedbackId].score === 'undefined') ? "NA" : this.props.feedbackHistory[feedbackId].score;
         if (feedback && username && questId && tpId) {
           return (
-              <div className='individual-tp-preview'>
+              <div className='individual-tp-preview' key={feedbackId}>
                 <div className='main-tp-text'>
                   <div className='tp-preview-username'>Feedback to @{username}'s TP to Question #{questId}</div>
                   <div>

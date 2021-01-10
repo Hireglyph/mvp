@@ -50,7 +50,7 @@ class PageNotifications extends React.Component {
             const notification = this.props.notifications[notifId];
             if(notification && notification.type === "tpUpvote"){
                 return (
-                    <div>
+                    <div key={notifId}>
                         <Link className={notification.viewed ? 'light-link' : 'dark-link'}
                          to={`/tp/${notification.questId}/${notification.tpId}`}
                          onClick={() => this.viewed(notifId)}>
@@ -62,7 +62,7 @@ class PageNotifications extends React.Component {
             }
             if(notification && notification.type === "tpFeedbackUpvote"){
                 return (
-                    <div>
+                    <div key={notifId}>
                         <Link className={notification.viewed ? 'light-link' : 'dark-link'}
                          to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
                          onClick={() => this.viewed(notifId)}>
@@ -74,7 +74,7 @@ class PageNotifications extends React.Component {
             }
             if(notification && notification.type === "tpFeedback"){
                 return (
-                    <div>
+                    <div key={notifId}>
                         <Link className={notification.viewed ? 'light-link' : 'dark-link'}
                          to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
                          onClick={() => this.viewed(notifId)}>
@@ -88,7 +88,7 @@ class PageNotifications extends React.Component {
 
         });
         return(
-            <p>{notifications}</p>
+            <div>{notifications}</div>
         );
     }
 }
