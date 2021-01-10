@@ -199,7 +199,15 @@ class PageQuestion extends React.Component {
   }
 
   changeOrder = sortBy => {
-    const { questId, questParam } = this.props
+    const { questId, questParam } = this.props;
+    if (this.props.tps) {
+      let list = {};
+      Object.keys(this.props.tps).map(tpId => {
+        list[tpId] = false;
+        return;
+      });
+      this.setState({ expand: list })
+    }
     this.props.history.push(`/q/${questId}/community/${sortBy}`);
   }
 
