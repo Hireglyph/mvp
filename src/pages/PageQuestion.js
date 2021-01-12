@@ -26,7 +26,7 @@ class PageQuestion extends React.Component {
     };
   }
 
-  componentDidUpdate(prevProps, prevState){
+  componentDidUpdate(prevProps, prevState) {
     if (prevState.loading && isLoaded(this.props.tps)) {
       let keys = this.props.tps ? Object.keys(this.props.tps) : [];
       keys.sort((a, b) => this.props.tps[b].total - this.props.tps[a].total);
@@ -42,38 +42,37 @@ class PageQuestion extends React.Component {
     }
   }
 
+  getVoteValues = (isSameVoted, isOppositeVoted) => {
+    let diff = -1, vote = 0;
+    if (!isSameVoted) {
+      vote = 1;
+      diff = isOppositeVoted ? 2 : 1;
+    }
+    return { diff, vote }
+  }
+
   upvoteTp = (tpId, isUpvoted, isDownvoted) => {
     const updates = {};
     const creator = this.props.tps[tpId].creator;
     const total = this.props.tps[tpId].total;
-    if(!isUpvoted && !isDownvoted){
+    const { diff, vote } = this.getVoteValues(isUpvoted, isDownvoted);
+
+    if (!isUpvoted) {
       const notificationId = this.props.firebase.push(`/notifications/${creator}`).key;
-      updates[`/tps/${this.props.questId}/${tpId}/total`] = total + 1;
-      updates[`/tpHistory/${creator}/${tpId}/total`] = total + 1;
-      updates[`/tps/${this.props.questId}/${tpId}/users/${this.props.isLoggedIn}`] = 1;
-      updates[`/notifications/${creator}/${notificationId}`] = {questId: this.props.questId, tpId: tpId,
-        username: this.props.username, viewed: false, type: 'tpUpvote'};
+      updates[`/notifications/${creator}/${notificationId}`] = {
+        questId: this.props.questId,
+        tpId: tpId,
+        username: this.props.username,
+        viewed: false,
+        type: 'tpUpvote'
+      };
       updates[`/hasNotifs/${creator}`] = true;
-      this.props.firebase.update('/', updates);
     }
 
-    if(isUpvoted){
-      updates[`/tps/${this.props.questId}/${tpId}/total`] = total - 1;
-      updates[`/tpHistory/${creator}/${tpId}/total`] = total - 1;
-      updates[`/tps/${this.props.questId}/${tpId}/users/${this.props.isLoggedIn}`] = 0
-      this.props.firebase.update('/', updates);
-    }
-
-    if(isDownvoted){
-      const notificationId = this.props.firebase.push(`/notifications/${creator}`).key;
-      updates[`/tps/${this.props.questId}/${tpId}/total`] = total + 2;
-      updates[`/tpHistory/${creator}/${tpId}/total`] = total + 2;
-      updates[`/tps/${this.props.questId}/${tpId}/users/${this.props.isLoggedIn}`] = 1
-      updates[`/notifications/${creator}/${notificationId}`] = {questId: this.props.questId, tpId: tpId,
-        username: this.props.username, viewed: false, type: 'tpUpvote'};
-      updates[`/hasNotifs/${creator}`] = true;
-      this.props.firebase.update('/', updates);
-    }
+    updates[`/tps/${this.props.questId}/${tpId}/total`] = total + diff;
+    updates[`/tpHistory/${creator}/${tpId}/total`] = total + diff;
+    updates[`/tps/${this.props.questId}/${tpId}/users/${this.props.isLoggedIn}`] = vote;
+    this.props.firebase.update('/', updates);
 
   }
 
@@ -81,26 +80,19 @@ class PageQuestion extends React.Component {
     const updates = {};
     const creator = this.props.tps[tpId].creator;
     const total = this.props.tps[tpId].total;
-    if(!isUpvoted && !isDownvoted){
-      updates[`/tps/${this.props.questId}/${tpId}/total`] = total - 1;
-      updates[`/tpHistory/${creator}/${tpId}/total`] = total - 1;
-      updates[`/tps/${this.props.questId}/${tpId}/users/${this.props.isLoggedIn}`] = -1
-      this.props.firebase.update('/', updates);
-    }
+    const { diff, vote } = this.getVoteValues(isDownvoted, isUpvoted);
 
-    if(isUpvoted){
-      updates[`/tps/${this.props.questId}/${tpId}/total`] = total - 2;
-      updates[`/tpHistory/${creator}/${tpId}/total`] = total - 2;
-      updates[`/tps/${this.props.questId}/${tpId}/users/${this.props.isLoggedIn}`] = -1
-      this.props.firebase.update('/', updates);
-    }
+    updates[`/tps/${this.props.questId}/${tpId}/total`] = total - diff;
+    updates[`/tpHistory/${creator}/${tpId}/total`] = total - diff;
+    updates[`/tps/${this.props.questId}/${tpId}/users/${this.props.isLoggedIn}`] = -1 * vote;
+    this.props.firebase.update('/', updates);
+  }
 
-    if(isDownvoted){
-      updates[`/tps/${this.props.questId}/${tpId}/total`] = total + 1;
-      updates[`/tpHistory/${creator}/${tpId}/total`] = total + 1;
-      updates[`/tps/${this.props.questId}/${tpId}/users/${this.props.isLoggedIn}`] = 0
-      this.props.firebase.update('/', updates);
+  generateMessage = (isExpanded, tpId) => {
+    if (!isExpanded) {
+      return <div onClick={() => this.changeExpand(tpId, true)}>Expand TP</div>
     }
+    return <div onClick={() => this.changeExpand(tpId, false)}>Collapse TP</div>
   }
 
 
@@ -110,81 +102,17 @@ class PageQuestion extends React.Component {
     const expanded = this.state.expand[tpId];
     const isUpvoted = tp.users && (this.props.isLoggedIn in tp.users) && (tp.users[this.props.isLoggedIn]===1);
     const isDownvoted = tp.users && (this.props.isLoggedIn in tp.users) && (tp.users[this.props.isLoggedIn]===-1);
-    if (expanded && tp.initial && tp.approach) {
-      return (
-        <div className='individual-tp-preview' key={tpId}>
-          <div className='main-tp-text'>
-            <div className='tp-preview-username'>@{username}</div>
-            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Initial:</span><span className='tp-preview-tail'> {tp.initial}</span></div>
-            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;Approaches:</span><span className='tp-preview-tail'>  {tp.approach}</span></div>
-            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'> {tp.solution}</span></div>
 
-            <div className='align-right'>
-            <div onClick={() => this.changeExpand(tpId, false)}>Collapse TP</div>
-            <Link className='tp-full-goto' to={`/tp/${this.props.questId}/${tpId}`}>
-              Go to full TP
-            </Link>
-          </div>
-          </div>
-          <img className='feedback-upvote-button' src={isUpvoted ? green : upvote} onClick={() => this.upvoteTp(tpId, isUpvoted, isDownvoted)}/>
-          <div className='feedback-score-text'>{tp.total}</div>
-          <img className='feedback-downvote-button' src={isDownvoted ? red : downvote} onClick={() => this.downvoteTp(tpId, isUpvoted, isDownvoted)}/>
-          <br />
-        </div>
-      );
-    }
-    if (!expanded && tp.initial && tp.approach) {
-      return (
-        <div className='individual-tp-preview' key={tpId}>
-          <div className='main-tp-text'>
-            <div className='tp-preview-username'>@{username}</div>
-            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Initial:</span><span className='tp-preview-tail'> {tp.initial.slice(0,45)}...</span></div>
-            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;Approaches:</span><span className='tp-preview-tail'>  {tp.approach.slice(0,45)}...</span></div>
-            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'> {tp.solution.slice(0,45)}...</span></div>
-
-            <div className='align-right'>
-            <div onClick={() => this.changeExpand(tpId, true)}>Expand TP</div>
-            <Link className='tp-full-goto' to={`/tp/${this.props.questId}/${tpId}`}>
-              Go to full TP
-            </Link>
-          </div>
-          </div>
-          <img className='feedback-upvote-button' src={isUpvoted ? green : upvote} onClick={() => this.upvoteTp(tpId, isUpvoted, isDownvoted)}/>
-          <div className='feedback-score-text'>{tp.total}</div>
-          <img className='feedback-downvote-button' src={isDownvoted ? red : downvote} onClick={() => this.downvoteTp(tpId, isUpvoted, isDownvoted)}/>
-          <br />
-        </div>
-      );
-    }
-    if (expanded && !tp.initial && !tp.approach) {
-      return (
-        <div className='individual-tp-preview' key={tpId}>
-          <div className='main-tp-text'>
-            <div className='tp-preview-username'>@{username}</div>
-            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'> {tp.solution}</span></div>
-
-            <div className='align-right'>
-            <div onClick={() => this.changeExpand(tpId, false)}>Collapse TP</div>
-            <Link className='tp-full-goto' to={`/tp/${this.props.questId}/${tpId}`}>
-              Go to full TP
-            </Link>
-          </div>
-          </div>
-          <img className='feedback-upvote-button' src={isUpvoted ? green : upvote} onClick={() => this.upvoteTp(tpId, isUpvoted, isDownvoted)}/>
-          <div className='feedback-score-text'>{tp.total}</div>
-          <img className='feedback-downvote-button' src={isDownvoted ? red : downvote} onClick={() => this.downvoteTp(tpId, isUpvoted, isDownvoted)}/>
-          <br />
-        </div>
-      );
-    }
     return (
       <div className='individual-tp-preview' key={tpId}>
         <div className='main-tp-text'>
           <div className='tp-preview-username'>@{username}</div>
-          <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'> {tp.solution.slice(0,45)}...</span></div>
+          <div><span className='tp-preview-head' >{tp.initial ? 'Initial:' : ''}</span><span className='tp-preview-tail'> {expanded ? tp.initial : tp.initial && tp.initial.slice(0,45) + '...'}</span></div>
+          <div><span className='tp-preview-head' >{tp.approach ? 'Approaches:' : ''}</span><span className='tp-preview-tail'>  {expanded ? tp.approach : tp.approach && tp.approach.slice(0,45) + '...'}</span></div>
+          <div><span className='tp-preview-head' >{tp.solution ? 'Solution:' : ''}</span><span className='tp-preview-tail'> {expanded ? tp.solution : tp.solution && tp.solution.slice(0,45) + '...'}</span></div>
 
           <div className='align-right'>
-          <div onClick={() => this.changeExpand(tpId, true)}>Expand TP</div>
+          {this.generateMessage(expanded, tpId)}
           <Link className='tp-full-goto' to={`/tp/${this.props.questId}/${tpId}`}>
             Go to full TP
           </Link>
