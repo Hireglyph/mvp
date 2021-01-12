@@ -17,8 +17,8 @@ class NavBar extends React.Component{
       if (!this.props.uid) {
           return (
               <div className='navbar'>
-                  <div className='title'> <button className='title-text' onClick={this.handleClick('/')}>Hireglyph</button> </div>
-                  <div className='link-click'> <button className='link-text' onClick={this.handleClick('/register')}>Register</button> </div>
+                  <div className='title'> <Link className='title-text' to='/'>Hireglyph</Link> </div>
+                  <div className='link-click'> <Link className='link-text' to='/register'>Register</Link> </div>
                   <div className='button-click'> <button className='button-text' onClick={this.handleClick('/login')}>Login</button> </div>
               </div>
           );
@@ -26,9 +26,9 @@ class NavBar extends React.Component{
 
       return (
           <div className='navbar'>
-              <div className='title'> <button className='title-text' onClick={this.handleClick('/')}>Hireglyph</button> </div>
-              <div className='link-click2'> <button className={this.props.hasNotifs ? 'link-text2' : 'link-text'} onClick={this.handleClick('/notifications')}>Notifications</button> </div>
-              <div className='link-click'> <button className='link-text' onClick={this.handleClick('/profile/tp')}>Profile</button> </div>
+              <div className='title'> <Link className='title-text' to='/'>Hireglyph</Link> </div>
+              <div className='link-click2'> <Link className={this.props.hasNotifs ? 'link-text2' : 'link-text'} to='/notifications'>Notifications</Link> </div>
+              <div className='link-click'> <Link className='link-text' to='/profile/tp'>Profile</Link> </div>
               <div className='button-click'><button className='button-text' onClick={() => {this.props.firebase.logout();window.location.href="/"}} >Logout</button> </div>
           </div>
       );
