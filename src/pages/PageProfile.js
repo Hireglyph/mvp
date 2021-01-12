@@ -33,7 +33,7 @@ class PageProfile extends React.Component {
       }
 
       if (this.props.historyParam != 'tp' && this.props.historyParam != 'feedback') {
-        this.props.history.push(`/profile/tp`);
+        return <Redirect to={`/profile/tp`}/>;
       }
 
       const tps = this.props.tpHistory &&

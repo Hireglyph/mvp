@@ -213,11 +213,11 @@ class PageQuestion extends React.Component {
     const { questParam, sortBy } = this.props;
 
     if ((questParam == 'community' && !sortBy) || (sortBy && sortBy != 'top' && sortBy != 'new')) {
-      this.props.history.push(`/q/${this.props.questId}/community/top`);
+      return <Redirect to={`/q/${this.props.questId}/community/top`}/>;
     }
 
     if (!sortBy && questParam != 'my' && questParam != 'community') {
-      this.props.history.push(`/q/${this.props.questId}/my`);
+      return <Redirect to={`/q/${this.props.questId}/my`}/>;
     }
 
     const topics = this.props.tags &&
