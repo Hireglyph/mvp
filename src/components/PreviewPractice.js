@@ -1,8 +1,8 @@
 import React from 'react';
 import { Component } from 'react';
-
 import { HashLink as Link } from 'react-router-hash-link';
 import '../styles/PageQuestion.css'
+import Latex from 'react-latex';
 
 export default class TpPreview extends Component {
   constructor(props){
@@ -17,11 +17,33 @@ export default class TpPreview extends Component {
     if(tp.initial && tp.approach){
       return (
         <div className='individual-tp-preview' key={tpId}> 
+          <link
+          href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
+          rel="stylesheet"
+          />
           <div className='main-tp-text'>
             <div className='tp-preview-username'>Response to Question #{questId}</div>
-            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Initial:</span><span className='tp-preview-tail'> {tp.initial}</span></div>
-            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;Approaches:</span><span className='tp-preview-tail'>  {tp.approach}</span></div>
-            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'> {tp.solution}</span></div>
+            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Initial:</span><span className='tp-preview-tail'>
+              <Latex
+              href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
+              rel="stylesheet">
+                {tp.initial}
+              </Latex>
+            </span></div>
+            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;Approaches:</span><span className='tp-preview-tail'>
+              <Latex
+              href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
+              rel="stylesheet">
+                {tp.approach}
+              </Latex>
+            </span></div>
+            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'> 
+              <Latex
+              href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
+              rel="stylesheet">
+                {tp.solution}
+              </Latex>
+            </span></div>
             <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;Score:</span><span className='tp-preview-tail'>  {total}</span></div>
             <div className='align-right'>
             <Link className='tp-full-goto' to={`/tp/${this.props.questId}/${tpId}`}>
@@ -37,7 +59,13 @@ export default class TpPreview extends Component {
         <div className='individual-tp-preview' key={tpId}> 
           <div className='main-tp-text'>
             <div className='tp-preview-username'>Response to Question #{questId}</div>
-            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'> {tp.solution}</span></div>
+            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'>
+              <Latex
+              href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
+              rel="stylesheet">
+                {tp.solution}
+              </Latex>
+            </span></div>
             <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;Score:</span><span className='tp-preview-tail'>  {total}</span></div>
             <div className='align-right'>
             <Link className='tp-full-goto' to={`/tp/${this.props.questId}/${tpId}`}>
