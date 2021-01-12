@@ -8,6 +8,7 @@ import { compose } from 'redux';
 import '../styles/PageProfile.css';
 import PageOnboard from './PageOnboard';
 import PageConfirmEmail from './PageConfirmEmail';
+import Latex from 'react-latex';
 
 class PageProfile extends React.Component {
     handleTps = historyParam => {
@@ -56,13 +57,23 @@ class PageProfile extends React.Component {
         if (feedback && username && questId && tpId) {
           return (
               <div className='individual-tp-preview' key={feedbackId}>
+                <link
+                href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
+                rel="stylesheet"
+                />
                 <div className='main-tp-text'>
                   <div className='tp-preview-username'>Feedback to @{username}'s TP to Question #{questId}</div>
                   <div>
                     <span className='tp-preview-head'>
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Feedback:
                     </span>
-                    <span className='tp-preview-tail'>{feedback}</span>
+                    <span className='tp-preview-tail'>
+                      <Latex
+                      href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
+                      rel="stylesheet">
+                        {feedback}
+                      </Latex>
+                    </span>
                   </div>
                   <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;Score:</span><span className='tp-preview-tail'>  {score}</span></div>
                   <div className='align-right'>

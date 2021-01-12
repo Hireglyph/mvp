@@ -11,6 +11,7 @@ import upvote from '../assets/images/upvote.png';
 import downvote from '../assets/images/downvote.png';
 import PageOnboard from './PageOnboard';
 import PageConfirmEmail from './PageConfirmEmail';
+import Latex from 'react-latex';
 
 class PageTp extends React.Component{
   constructor(props){
@@ -181,10 +182,20 @@ class PageTp extends React.Component{
           const feedback_username = feedback.username ? feedback.username : feedback.creator;
           return (
               <div className='user-feedback' key={feedbackId}>
+                <link
+                href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
+                rel="stylesheet"
+                />
                 <a id={`${feedbackId}`} > </a>
                 <div className='feedback-content'>
                   <div className='feedback-text'>@{feedback_username}</div>
-                  <div className='feedback-text'>{feedback.feedback} </div>
+                  <div className='feedback-text'>
+                    <Latex
+                    href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
+                    rel="stylesheet">
+                      {feedback.feedback}
+                    </Latex>
+                  </div>
                 </div>
                 <br/>
                 <br/>
@@ -222,14 +233,36 @@ class PageTp extends React.Component{
 
     return (
       <div className='full-tp'>
+        <link
+        href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
+        rel="stylesheet"
+        />
         <div className='question-identification'>@{this.props.username} in response to: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Link className='link-to-quest' to={`/q/${this.props.questId}`}> Question #{this.props.questId}</Link></div>
         <br />
         <div className='label-text'>{this.props.initial ? 'Initial Thoughts:' : '' }</div>
-        <div className='body-text'>{this.props.initial}</div>
+        <div className='body-text'>
+          <Latex
+          href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
+          rel="stylesheet">
+            {this.props.initial}
+          </Latex>
+        </div>
         <div className='label-text'>{this.props.approach ? 'Approaches Tried:' : ''}</div>
-        <div className='body-text'>{this.props.approach}</div>
+        <div className='body-text'>
+          <Latex
+          href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
+          rel="stylesheet">
+            {this.props.approach}
+          </Latex>
+        </div>
         <div className='label-text'>{this.props.solution ? 'Final Solution:' : ''}</div>
-        <div className='body-text'>{this.props.solution}</div>
+        <div className='body-text'>
+          <Latex
+          href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
+          rel="stylesheet">
+            {this.props.solution}
+          </Latex>
+        </div>
         <img className='upvote-button' src={this.props.isUpvoted ? green : upvote} onClick={this.upvote}/>
         <div className='score-text'>{this.props.total}</div>
         <img className='downvote-button' src={this.props.isDownvoted ? red : downvote} onClick={this.downvote}/>
