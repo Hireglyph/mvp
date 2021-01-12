@@ -262,7 +262,7 @@ class PageQuestion extends React.Component {
       );
     }
 
-    const Tps = this.props.tps &&
+    const tps = this.props.tps &&
       this.state.keys.map(tpId => {
         return(this.displayTp(tpId));
     });
@@ -286,7 +286,7 @@ class PageQuestion extends React.Component {
         >
           New TPs
         </button>
-        {sortBy == 'top' ? Tps : tpsByTime}
+        {sortBy == 'top' ? tps : tpsByTime}
       </div>
     );
 
