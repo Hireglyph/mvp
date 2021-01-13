@@ -182,10 +182,6 @@ class PageTp extends React.Component{
           const feedback_username = feedback.username ? feedback.username : feedback.creator;
           return (
               <div className='user-feedback' key={feedbackId}>
-                <link
-                href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
-                rel="stylesheet"
-                />
                 <a id={`${feedbackId}`} > </a>
                 <div className='feedback-content'>
                   <div className='feedback-text'>@{feedback_username}</div>
