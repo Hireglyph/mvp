@@ -1,8 +1,8 @@
-import React from 'react';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { HashLink as Link } from 'react-router-hash-link';
-import '../styles/PageQuestion.css'
 import Latex from 'react-latex';
+
+import '../styles/PageQuestion.css'
 
 export default class TpPreview extends Component {
   constructor(props){
