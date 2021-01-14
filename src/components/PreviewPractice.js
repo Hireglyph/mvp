@@ -24,23 +24,17 @@ export default class TpPreview extends Component {
           <div className='main-tp-text'>
             <div className='tp-preview-username'>Response to Question #{questId}</div>
             <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Initial:</span><span className='tp-preview-tail'>
-              <Latex
-              href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
-              rel="stylesheet">
+              <Latex rel="stylesheet">
                 {tp.initial}
               </Latex>
             </span></div>
             <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;Approaches:</span><span className='tp-preview-tail'>
-              <Latex
-              href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
-              rel="stylesheet">
+              <Latex rel="stylesheet">
                 {tp.approach}
               </Latex>
             </span></div>
             <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'> 
-              <Latex
-              href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
-              rel="stylesheet">
+              <Latex rel="stylesheet">
                 {tp.solution}
               </Latex>
             </span></div>
@@ -60,9 +54,7 @@ export default class TpPreview extends Component {
           <div className='main-tp-text'>
             <div className='tp-preview-username'>Response to Question #{questId}</div>
             <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'>
-              <Latex
-              href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
-              rel="stylesheet">
+              <Latex rel="stylesheet">
                 {tp.solution}
               </Latex>
             </span></div>

@@ -68,9 +68,7 @@ class PageProfile extends React.Component {
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Feedback:
                     </span>
                     <span className='tp-preview-tail'>
-                      <Latex
-                      href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
-                      rel="stylesheet">
+                      <Latex rel="stylesheet">
                         {feedback}
                       </Latex>
                     </span>

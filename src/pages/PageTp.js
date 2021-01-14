@@ -186,9 +186,7 @@ class PageTp extends React.Component{
                 <div className='feedback-content'>
                   <div className='feedback-text'>@{feedback_username}</div>
                   <div className='feedback-text'>
-                    <Latex
-                    href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
-                    rel="stylesheet">
+                    <Latex rel="stylesheet">
                       {feedback.feedback}
                     </Latex>
                   </div>
@@ -237,25 +235,19 @@ class PageTp extends React.Component{
         <br />
         <div className='label-text'>{this.props.initial ? 'Initial Thoughts:' : '' }</div>
         <div className='body-text'>
-          <Latex
-          href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
-          rel="stylesheet">
+          <Latex rel="stylesheet">
             {this.props.initial}
           </Latex>
         </div>
         <div className='label-text'>{this.props.approach ? 'Approaches Tried:' : ''}</div>
         <div className='body-text'>
-          <Latex
-          href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
-          rel="stylesheet">
+          <Latex rel="stylesheet">
             {this.props.approach}
           </Latex>
         </div>
         <div className='label-text'>{this.props.solution ? 'Final Solution:' : ''}</div>
         <div className='body-text'>
-          <Latex
-          href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
-          rel="stylesheet">
+          <Latex rel="stylesheet">
             {this.props.solution}
           </Latex>
         </div>
