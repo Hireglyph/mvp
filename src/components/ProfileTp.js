@@ -4,7 +4,7 @@ import Latex from 'react-latex';
 
 import '../styles/PageQuestion.css'
 
-export default class TpPreview extends Component {
+export default class ProfileTp extends Component {
   constructor(props){
     super(props);
   }
@@ -23,22 +23,16 @@ export default class TpPreview extends Component {
           />
           <div className='main-tp-text'>
             <div className='tp-preview-username'>Response to Question #{questId}</div>
-            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Initial:</span><span className='tp-preview-tail'>
-              <Latex rel="stylesheet">
-                {tp.initial}
-              </Latex>
+            <div><span className='tp-preview-head' >Initial:</span><span className='tp-preview-tail'>
+              <Latex>{tp.initial}</Latex>
             </span></div>
-            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;Approaches:</span><span className='tp-preview-tail'>
-              <Latex rel="stylesheet">
-                {tp.approach}
-              </Latex>
+            <div><span className='tp-preview-head' >Approaches:</span><span className='tp-preview-tail'>
+              <Latex>{tp.approach}</Latex>
             </span></div>
-            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'> 
-              <Latex rel="stylesheet">
-                {tp.solution}
-              </Latex>
+            <div><span className='tp-preview-head' >Solution:</span><span className='tp-preview-tail'> 
+              <Latex>{tp.solution}</Latex>
             </span></div>
-            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;Score:</span><span className='tp-preview-tail'>  {total}</span></div>
+            <div><span className='tp-preview-head' >Score:</span><span className='tp-preview-tail'>  {total}</span></div>
             <div className='align-right'>
             <Link className='tp-full-goto' to={`/tp/${this.props.questId}/${tpId}`}>
               Go to full TP
@@ -53,12 +47,10 @@ export default class TpPreview extends Component {
         <div className='individual-tp-preview' key={tpId}> 
           <div className='main-tp-text'>
             <div className='tp-preview-username'>Response to Question #{questId}</div>
-            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'>
-              <Latex rel="stylesheet">
-                {tp.solution}
-              </Latex>
+            <div><span className='tp-preview-head' >Solution:</span><span className='tp-preview-tail'>
+              <Latex>{tp.solution}</Latex>
             </span></div>
-            <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;Score:</span><span className='tp-preview-tail'>  {total}</span></div>
+            <div><span className='tp-preview-head' >Score:</span><span className='tp-preview-tail'>  {total}</span></div>
             <div className='align-right'>
             <Link className='tp-full-goto' to={`/tp/${this.props.questId}/${tpId}`}>
               Go to full TP

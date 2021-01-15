@@ -186,9 +186,7 @@ class PageTp extends React.Component{
                 <div className='feedback-content'>
                   <div className='feedback-text'>@{feedback_username}</div>
                   <div className='feedback-text'>
-                    <Latex rel="stylesheet">
-                      {feedback.feedback}
-                    </Latex>
+                    <Latex>{feedback.feedback}</Latex>
                   </div>
                 </div>
                 <br/>
@@ -231,25 +229,19 @@ class PageTp extends React.Component{
         href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
         rel="stylesheet"
         />
-        <div className='question-identification'>@{this.props.username} in response to: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Link className='link-to-quest' to={`/q/${this.props.questId}`}> Question #{this.props.questId}</Link></div>
+        <div className='question-identification'>@{this.props.username} in response to: <Link className='link-to-quest' to={`/q/${this.props.questId}`}> Question #{this.props.questId}</Link></div>
         <br />
         <div className='label-text'>{this.props.initial ? 'Initial Thoughts:' : '' }</div>
         <div className='body-text'>
-          <Latex rel="stylesheet">
-            {this.props.initial}
-          </Latex>
+          <Latex>{this.props.initial}</Latex>
         </div>
         <div className='label-text'>{this.props.approach ? 'Approaches Tried:' : ''}</div>
         <div className='body-text'>
-          <Latex rel="stylesheet">
-            {this.props.approach}
-          </Latex>
+          <Latex>{this.props.approach}</Latex>
         </div>
         <div className='label-text'>{this.props.solution ? 'Final Solution:' : ''}</div>
         <div className='body-text'>
-          <Latex rel="stylesheet">
-            {this.props.solution}
-          </Latex>
+          <Latex>{this.props.solution}</Latex>
         </div>
         <img className='upvote-button' src={this.props.isUpvoted ? green : upvote} onClick={this.upvote}/>
         <div className='score-text'>{this.props.total}</div>

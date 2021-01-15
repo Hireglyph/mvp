@@ -1,5 +1,5 @@
 import React from 'react';
-import PreviewPractice from '../components/PreviewPractice.js';
+import ProfileTp from '../components/ProfileTp.js';
 import { withRouter, Redirect } from 'react-router-dom';
 import { HashLink as Link } from 'react-router-hash-link';
 import { firebaseConnect, isLoaded, isEmpty, populate } from 'react-redux-firebase';
@@ -41,7 +41,7 @@ class PageProfile extends React.Component {
         const tp = this.props.tpHistory[tpId];
         if (tp) {
           return (
-              <PreviewPractice tp={tp} tpId={tpId} questId={this.props.tpHistory[tpId].questId} key={tpId}/>
+              <ProfileTp tp={tp} tpId={tpId} questId={this.props.tpHistory[tpId].questId} key={tpId}/>
             );
         }
         return;
@@ -65,15 +65,13 @@ class PageProfile extends React.Component {
                   <div className='tp-preview-username'>Feedback to @{username}'s TP to Question #{questId}</div>
                   <div>
                     <span className='tp-preview-head'>
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Feedback:
+                      Feedback:
                     </span>
                     <span className='tp-preview-tail'>
-                      <Latex rel="stylesheet">
-                        {feedback}
-                      </Latex>
+                      <Latex>{feedback}</Latex>
                     </span>
                   </div>
-                  <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;Score:</span><span className='tp-preview-tail'>  {score}</span></div>
+                  <div><span className='tp-preview-head' >Score:</span><span className='tp-preview-tail'>  {score}</span></div>
                   <div className='align-right'>
                     <Link className='tp-full-goto' to={`/tp/${questId}/${tpId}#${feedbackId}`}>
                       Go to Feedback

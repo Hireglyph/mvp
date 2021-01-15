@@ -1,5 +1,4 @@
 import React from 'react';
-import TpPreview from '../components/TpPreview.js';
 
 import { Link, withRouter, Redirect } from 'react-router-dom';
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
