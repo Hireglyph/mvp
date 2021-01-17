@@ -1,5 +1,5 @@
 import React from 'react';
-import ProfileTp from '../components/ProfileTp.js';
+import TpPreview from '../components/TpPreview.js';
 import { withRouter, Redirect } from 'react-router-dom';
 import { HashLink as Link } from 'react-router-hash-link';
 import { firebaseConnect, isLoaded, isEmpty, populate } from 'react-redux-firebase';
@@ -11,6 +11,59 @@ import PageConfirmEmail from './PageConfirmEmail';
 import Latex from 'react-latex';
 
 class PageProfile extends React.Component {
+    constructor(props){
+      super(props);
+      this.state = {
+        loading: true,
+        tpExpand: {},
+        feedbackExpand: {},
+      }
+    }
+
+    componentDidUpdate(prevProps, prevState){
+      if(prevState.loading && isLoaded(this.props.tpHistory) && isLoaded(this.props.feedbackHistory)){
+        if(this.props.tpHistory){
+          let tpList = {};
+          Object.keys(this.props.tpHistory).map(tpId => {
+            tpList[tpId] = false;
+            return;
+          });
+          this.setState({ tpExpand: tpList });
+        }
+        if(this.props.feedbackHistory){
+          let feedbackList = {};
+          Object.keys(this.props.feedbackHistory).map(feedbackId => {
+            feedbackList[feedbackId] = false;
+            return;
+          });
+          this.setState({ feedbackExpand: feedbackList });
+        }
+        this.setState({ loading: false });
+      }
+    }
+
+    generateTpMessage = (isExpanded, tpId) => {
+      if (!isExpanded) {
+        return <div onClick={() => this.changeTpExpand(tpId, true)}>Expand TP</div>
+      }
+      return <div onClick={() => this.changeTpExpand(tpId, false)}>Collapse TP</div>
+    }
+
+    generateFeedbackMessage = (isExpanded, feedbackId) => {
+      if (!isExpanded) {
+        return <div onClick={() => this.changeFeedbackExpand(feedbackId, true)}>Expand Feedback</div>
+      }
+      return <div onClick={() => this.changeFeedbackExpand(feedbackId, false)}>Collapse Feedback</div>
+    }
+
+    changeTpExpand = (tpId, value) => {
+      this.setState({ expand: Object.assign(this.state.tpExpand, {[tpId]: value}) })
+    }
+
+    changeFeedbackExpand = (feedbackId, value) => {
+      this.setState({ expand: Object.assign(this.state.feedbackExpand, {[feedbackId]: value}) })
+    }
+
     handleTps = historyParam => {
       this.props.history.push(`/profile/${historyParam}`);
     }
@@ -41,8 +94,23 @@ class PageProfile extends React.Component {
         const tp = this.props.tpHistory[tpId];
         if (tp) {
           return (
-              <ProfileTp tp={tp} tpId={tpId} questId={this.props.tpHistory[tpId].questId} key={tpId}/>
-            );
+            <div className='individual-tp-preview' key={tpId}>
+              <div className='main-tp-text'>
+                <div className='tp-preview-username'>Response to Question #{tp.questId}</div>
+                <TpPreview initial={tp.initial} approach={tp.approach} solution={tp.solution} expanded={this.state.tpExpand[tpId]} />
+                <div><span className='tp-preview-head' >Score:</span><span className='tp-preview-tail'>{typeof tp.total === 'undefined' ? "NA" : tp.total}</span></div>
+                <div className='align-right'>
+                  {((tp.initial && tp.initial.length > 44) 
+                    || (tp.approach && tp.approach.length > 44) 
+                    || (tp.solution && tp.solution.length > 44)) ? this.generateTpMessage(this.state.tpExpand[tpId], tpId) : ''}
+                  <Link className='tp-full-goto' to={`/tp/${tp.questId}/${tpId}`}>
+                    Go to full TP
+                  </Link>
+                </div>
+              </div>
+              <br />
+            </div>
+          );
         }
         return;
       });
@@ -68,11 +136,12 @@ class PageProfile extends React.Component {
                       Feedback:
                     </span>
                     <span className='tp-preview-tail'>
-                      <Latex>{feedback}</Latex>
+                      <Latex>{this.state.feedbackExpand[feedbackId] ? feedback : feedback.slice(0,45) + '...'}</Latex>
                     </span>
                   </div>
                   <div><span className='tp-preview-head' >Score:</span><span className='tp-preview-tail'>  {score}</span></div>
                   <div className='align-right'>
+                    {feedback.length > 44 ? this.generateFeedbackMessage(this.state.feedbackExpand[feedbackId], feedbackId) : ''}
                     <Link className='tp-full-goto' to={`/tp/${questId}/${tpId}#${feedbackId}`}>
                       Go to Feedback
                     </Link>

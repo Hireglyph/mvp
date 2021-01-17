@@ -1,5 +1,5 @@
 import React from 'react';
-
+import TpPreview from '../components/TpPreview.js';
 import { Link, withRouter, Redirect } from 'react-router-dom';
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { connect } from 'react-redux';
@@ -108,17 +108,11 @@ class PageQuestion extends React.Component {
       <div className='individual-tp-preview' key={tpId}>
         <div className='main-tp-text'>
           <div className='tp-preview-username'>@{username}</div>
-          <div><span className='tp-preview-head' >{tp.initial ? 'Initial:' : ''}</span><span className='tp-preview-tail'> {expanded ? 
-            <Latex>{tp.initial}</Latex> : tp.initial && <Latex>{tp.initial.slice(0,45) + '...'}</Latex>}
-          </span></div>
-          <div><span className='tp-preview-head' >{tp.approach ? 'Approaches:' : ''}</span><span className='tp-preview-tail'>  {expanded ? 
-            <Latex>{tp.approach}</Latex> : tp.approach && <Latex>{tp.approach.slice(0,45) + '...'}</Latex>}
-          </span></div>
-          <div><span className='tp-preview-head' >{tp.solution ? 'Solution:' : ''}</span><span className='tp-preview-tail'> {expanded ? 
-            <Latex>{tp.solution}</Latex> : tp.solution && <Latex>{tp.solution.slice(0,45) + '...'}</Latex>}
-          </span></div>
+          <TpPreview initial={tp.initial} approach={tp.approach} solution={tp.solution} expanded={expanded} />
           <div className='align-right'>
-          {this.generateMessage(expanded, tpId)}
+          {((tp.initial && tp.initial.length > 44) 
+            || (tp.approach && tp.approach.length > 44) 
+            || (tp.solution && tp.solution.length > 44)) ? this.generateMessage(expanded, tpId) : ''}
           <Link className='tp-full-goto' to={`/tp/${this.props.questId}/${tpId}`}>
             Go to full TP
           </Link>
