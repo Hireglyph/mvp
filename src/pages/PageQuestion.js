@@ -8,7 +8,9 @@ import red from '../assets/images/red-downvote.png';
 import green from '../assets/images/green-upvote.png';
 import upvote from '../assets/images/upvote.png';
 import downvote from '../assets/images/downvote.png';
-import '../styles/PageQuestion.css'
+import Latex from 'react-latex';
+
+import '../styles/PageQuestion.css';
 
 class PageQuestion extends React.Component {
   constructor(props){
@@ -106,10 +108,15 @@ class PageQuestion extends React.Component {
       <div className='individual-tp-preview' key={tpId}>
         <div className='main-tp-text'>
           <div className='tp-preview-username'>@{username}</div>
-          <div><span className='tp-preview-head' >{tp.initial ? 'Initial:' : ''}</span><span className='tp-preview-tail'> {expanded ? tp.initial : tp.initial && tp.initial.slice(0,45) + '...'}</span></div>
-          <div><span className='tp-preview-head' >{tp.approach ? 'Approaches:' : ''}</span><span className='tp-preview-tail'>  {expanded ? tp.approach : tp.approach && tp.approach.slice(0,45) + '...'}</span></div>
-          <div><span className='tp-preview-head' >{tp.solution ? 'Solution:' : ''}</span><span className='tp-preview-tail'> {expanded ? tp.solution : tp.solution && tp.solution.slice(0,45) + '...'}</span></div>
-
+          <div><span className='tp-preview-head' >{tp.initial ? 'Initial:' : ''}</span><span className='tp-preview-tail'> {expanded ? 
+            <Latex>{tp.initial}</Latex> : tp.initial && <Latex>{tp.initial.slice(0,45) + '...'}</Latex>}
+          </span></div>
+          <div><span className='tp-preview-head' >{tp.approach ? 'Approaches:' : ''}</span><span className='tp-preview-tail'>  {expanded ? 
+            <Latex>{tp.approach}</Latex> : tp.approach && <Latex>{tp.approach.slice(0,45) + '...'}</Latex>}
+          </span></div>
+          <div><span className='tp-preview-head' >{tp.solution ? 'Solution:' : ''}</span><span className='tp-preview-tail'> {expanded ? 
+            <Latex>{tp.solution}</Latex> : tp.solution && <Latex>{tp.solution.slice(0,45) + '...'}</Latex>}
+          </span></div>
           <div className='align-right'>
           {this.generateMessage(expanded, tpId)}
           <Link className='tp-full-goto' to={`/tp/${this.props.questId}/${tpId}`}>
@@ -400,6 +407,10 @@ class PageQuestion extends React.Component {
 
     return(
       <div>
+        <link
+        href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
+        rel="stylesheet"
+        />
         <div className='question-block'>
           <div className='question-title-2'>
               <h1>#{this.props.questId}: {this.props.title}</h1>
