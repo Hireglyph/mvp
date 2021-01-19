@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { HashLink as Link } from 'react-router-hash-link';
 import Latex from 'react-latex';
 
 import { length } from '../constants/PrevLength';
