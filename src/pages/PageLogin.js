@@ -3,10 +3,11 @@ import { firebaseConnect } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Redirect, Link } from 'react-router-dom';
-import '../styles/PageRegister.css';
 
 import GoogleButton from '../components/GoogleButton';
 import PageOnboard from './PageOnboard';
+
+import '../styles/PageRegister.css';
 
 class PageLogin extends React.Component {
   constructor(props) {

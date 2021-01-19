@@ -4,14 +4,16 @@ import { HashLink as Link } from 'react-router-hash-link';
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import '../styles/PageTp.css';
+import Latex from 'react-latex';
+
 import red from '../assets/images/red-downvote.png';
 import green from '../assets/images/green-upvote.png';
 import upvote from '../assets/images/upvote.png';
 import downvote from '../assets/images/downvote.png';
 import PageOnboard from './PageOnboard';
 import PageConfirmEmail from './PageConfirmEmail';
-import Latex from 'react-latex';
+
+import '../styles/PageTp.css';
 
 class PageTp extends React.Component{
   constructor(props){
@@ -229,7 +231,9 @@ class PageTp extends React.Component{
         href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
         rel="stylesheet"
         />
-        <div className='question-identification'>@{this.props.username} in response to: <Link className='link-to-quest' to={`/q/${this.props.questId}`}> Question #{this.props.questId}</Link></div>
+        <div className='question-identification'>
+          @{this.props.username} in response to: <Link className='link-to-quest' to={`/q/${this.props.questId}`}> Question #{this.props.questId}</Link>
+        </div>
         <br />
         <div className='label-text'>{this.props.initial ? 'Initial Thoughts:' : '' }</div>
         <div className='body-text'>

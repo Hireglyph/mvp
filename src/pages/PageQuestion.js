@@ -1,14 +1,15 @@
 import React from 'react';
-import TpPreview from '../components/TpPreview.js';
 import { Link, withRouter, Redirect } from 'react-router-dom';
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+
+import TpPreview from '../components/TpPreview.js';
 import red from '../assets/images/red-downvote.png';
 import green from '../assets/images/green-upvote.png';
 import upvote from '../assets/images/upvote.png';
 import downvote from '../assets/images/downvote.png';
-import Latex from 'react-latex';
+import { length } from '../constants/PrevLength';
 
 import '../styles/PageQuestion.css';
 
@@ -34,10 +35,7 @@ class PageQuestion extends React.Component {
       this.setState({ loading: false, keys, });
       if (this.props.tps) {
         let list = {};
-        Object.keys(this.props.tps).map(tpId => {
-          list[tpId] = false;
-          return;
-        });
+        Object.keys(this.props.tps).forEach(tpId => list[tpId] = false);
         this.setState({ time: Object.keys(this.props.tps).reverse(), expand: list })
       }
     }
@@ -91,9 +89,9 @@ class PageQuestion extends React.Component {
 
   generateMessage = (isExpanded, tpId) => {
     if (!isExpanded) {
-      return <div onClick={() => this.changeExpand(tpId, true)}>Expand TP</div>
+      return <div onClick={() => this.changeExpand(true, tpId)}>Expand TP</div>
     }
-    return <div onClick={() => this.changeExpand(tpId, false)}>Collapse TP</div>
+    return <div onClick={() => this.changeExpand(false, tpId)}>Collapse TP</div>
   }
 
 
@@ -110,9 +108,9 @@ class PageQuestion extends React.Component {
           <div className='tp-preview-username'>@{username}</div>
           <TpPreview initial={tp.initial} approach={tp.approach} solution={tp.solution} expanded={expanded} />
           <div className='align-right'>
-          {((tp.initial && tp.initial.length > 44) 
-            || (tp.approach && tp.approach.length > 44) 
-            || (tp.solution && tp.solution.length > 44)) ? this.generateMessage(expanded, tpId) : ''}
+          {((tp.initial && tp.initial.length > length) 
+            || (tp.approach && tp.approach.length > length) 
+            || (tp.solution && tp.solution.length > length)) ? this.generateMessage(expanded, tpId) : ''}
           <Link className='tp-full-goto' to={`/tp/${this.props.questId}/${tpId}`}>
             Go to full TP
           </Link>
@@ -130,10 +128,7 @@ class PageQuestion extends React.Component {
     const { questId, questParam } = this.props;
     if (this.props.tps) {
       let list = {};
-      Object.keys(this.props.tps).map(tpId => {
-        list[tpId] = false;
-        return;
-      });
+      Object.keys(this.props.tps).forEach(tpId => list[tpId] = false);
       this.setState({ expand: list })
     }
     this.props.history.push(`/q/${questId}/community/${sortBy}`);
@@ -143,8 +138,8 @@ class PageQuestion extends React.Component {
     this.setState({ showAnswer: !this.state.showAnswer })
   }
 
-  changeExpand = (tpId, value) => {
-    this.setState({ expand: Object.assign(this.state.expand, {[tpId]: value}) })
+  changeExpand = (value, tpId) => {
+    this.setState({ expand: { ...this.state.expand, [tpId]: value }});
   }
 
   handleTps = questParam => {

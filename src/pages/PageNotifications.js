@@ -4,9 +4,11 @@ import { HashLink as Link } from 'react-router-hash-link';
 import { firebaseConnect, isLoaded, isEmpty, populate } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import '../styles/PageNotifications.css';
+
 import PageOnboard from './PageOnboard';
 import PageConfirmEmail from './PageConfirmEmail';
+
+import '../styles/PageNotifications.css';
 
 class PageNotifications extends React.Component {
     constructor(props){

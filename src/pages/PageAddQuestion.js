@@ -1,9 +1,9 @@
 import React from 'react';
-
 import { Redirect } from 'react-router-dom';
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+
 import { tags } from '../constants/Tags';
 
 class PageAddQuestion extends React.Component {

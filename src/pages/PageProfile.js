@@ -1,14 +1,17 @@
 import React from 'react';
-import TpPreview from '../components/TpPreview.js';
 import { withRouter, Redirect } from 'react-router-dom';
 import { HashLink as Link } from 'react-router-hash-link';
 import { firebaseConnect, isLoaded, isEmpty, populate } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import '../styles/PageProfile.css';
+import Latex from 'react-latex';
+
+import TpPreview from '../components/TpPreview.js';
 import PageOnboard from './PageOnboard';
 import PageConfirmEmail from './PageConfirmEmail';
-import Latex from 'react-latex';
+import { length } from '../constants/PrevLength';
+
+import '../styles/PageProfile.css';
 
 class PageProfile extends React.Component {
     constructor(props){
@@ -20,22 +23,16 @@ class PageProfile extends React.Component {
       }
     }
 
-    componentDidUpdate(prevProps, prevState){
-      if(prevState.loading && isLoaded(this.props.tpHistory) && isLoaded(this.props.feedbackHistory)){
-        if(this.props.tpHistory){
+    componentDidUpdate(prevProps, prevState) {
+      if(prevState.loading && isLoaded(this.props.tpHistory) && isLoaded(this.props.feedbackHistory)) {
+        if(this.props.tpHistory) {
           let tpList = {};
-          Object.keys(this.props.tpHistory).map(tpId => {
-            tpList[tpId] = false;
-            return;
-          });
+          Object.keys(this.props.tpHistory).forEach(tpId => tpList[tpId] = false);
           this.setState({ tpExpand: tpList });
         }
-        if(this.props.feedbackHistory){
+        if(this.props.feedbackHistory) {
           let feedbackList = {};
-          Object.keys(this.props.feedbackHistory).map(feedbackId => {
-            feedbackList[feedbackId] = false;
-            return;
-          });
+          Object.keys(this.props.feedbackHistory).forEach(feedbackId => feedbackList[feedbackId] = false);
           this.setState({ feedbackExpand: feedbackList });
         }
         this.setState({ loading: false });
@@ -44,24 +41,24 @@ class PageProfile extends React.Component {
 
     generateTpMessage = (isExpanded, tpId) => {
       if (!isExpanded) {
-        return <div onClick={() => this.changeTpExpand(tpId, true)}>Expand TP</div>
+        return <div onClick={() => this.changeTpExpand(true, tpId)}>Expand TP</div>
       }
-      return <div onClick={() => this.changeTpExpand(tpId, false)}>Collapse TP</div>
+      return <div onClick={() => this.changeTpExpand(false, tpId)}>Collapse TP</div>
     }
 
     generateFeedbackMessage = (isExpanded, feedbackId) => {
       if (!isExpanded) {
-        return <div onClick={() => this.changeFeedbackExpand(feedbackId, true)}>Expand Feedback</div>
+        return <div onClick={() => this.changeFeedbackExpand(true, feedbackId)}>Expand Feedback</div>
       }
-      return <div onClick={() => this.changeFeedbackExpand(feedbackId, false)}>Collapse Feedback</div>
+      return <div onClick={() => this.changeFeedbackExpand(false, feedbackId)}>Collapse Feedback</div>
     }
 
-    changeTpExpand = (tpId, value) => {
-      this.setState({ expand: Object.assign(this.state.tpExpand, {[tpId]: value}) })
+    changeTpExpand = (value, tpId) => {
+      this.setState({ tpExpand: { ...this.state.tpExpand, [tpId]: value }});
     }
 
-    changeFeedbackExpand = (feedbackId, value) => {
-      this.setState({ expand: Object.assign(this.state.feedbackExpand, {[feedbackId]: value}) })
+    changeFeedbackExpand = (value, feedbackId) => {
+      this.setState({ feedbackExpand: { ...this.state.feedbackExpand, [feedbackId]: value }});
     }
 
     handleTps = historyParam => {
@@ -100,9 +97,9 @@ class PageProfile extends React.Component {
                 <TpPreview initial={tp.initial} approach={tp.approach} solution={tp.solution} expanded={this.state.tpExpand[tpId]} />
                 <div><span className='tp-preview-head' >Score:</span><span className='tp-preview-tail'>{typeof tp.total === 'undefined' ? "NA" : tp.total}</span></div>
                 <div className='align-right'>
-                  {((tp.initial && tp.initial.length > 44) 
-                    || (tp.approach && tp.approach.length > 44) 
-                    || (tp.solution && tp.solution.length > 44)) ? this.generateTpMessage(this.state.tpExpand[tpId], tpId) : ''}
+                  {((tp.initial && tp.initial.length > length) 
+                    || (tp.approach && tp.approach.length > length) 
+                    || (tp.solution && tp.solution.length > length)) ? this.generateTpMessage(this.state.tpExpand[tpId], tpId) : ''}
                   <Link className='tp-full-goto' to={`/tp/${tp.questId}/${tpId}`}>
                     Go to full TP
                   </Link>
@@ -132,16 +129,14 @@ class PageProfile extends React.Component {
                 <div className='main-tp-text'>
                   <div className='tp-preview-username'>Feedback to @{username}'s TP to Question #{questId}</div>
                   <div>
-                    <span className='tp-preview-head'>
-                      Feedback:
-                    </span>
+                    <span className='tp-preview-head'>Feedback:</span>
                     <span className='tp-preview-tail'>
-                      <Latex>{this.state.feedbackExpand[feedbackId] ? feedback : feedback.slice(0,45) + '...'}</Latex>
+                      <Latex>{this.state.feedbackExpand[feedbackId] ? feedback : feedback.slice(0,length+1) + '...'}</Latex>
                     </span>
                   </div>
                   <div><span className='tp-preview-head' >Score:</span><span className='tp-preview-tail'>  {score}</span></div>
                   <div className='align-right'>
-                    {feedback.length > 44 ? this.generateFeedbackMessage(this.state.feedbackExpand[feedbackId], feedbackId) : ''}
+                    {feedback.length > length ? this.generateFeedbackMessage(this.state.feedbackExpand[feedbackId], feedbackId) : ''}
                     <Link className='tp-full-goto' to={`/tp/${questId}/${tpId}#${feedbackId}`}>
                       Go to Feedback
                     </Link>
