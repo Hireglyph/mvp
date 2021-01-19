@@ -70,7 +70,7 @@ class PageQuestion extends React.Component {
 
     updates[`/tps/${this.props.questId}/${tpId}/total`] = total + diff;
     updates[`/tpHistory/${creator}/${tpId}/total`] = total + diff;
-    updates[`/tps/${this.props.questId}/${tpId}/users/${this.props.isLoggedIn}`] = vote;
+    updates[`/tps/${this.props.questId}/${tpId}/users/${this.props.uid}`] = vote;
     this.props.firebase.update('/', updates);
 
   }
@@ -83,7 +83,7 @@ class PageQuestion extends React.Component {
 
     updates[`/tps/${this.props.questId}/${tpId}/total`] = total - diff;
     updates[`/tpHistory/${creator}/${tpId}/total`] = total - diff;
-    updates[`/tps/${this.props.questId}/${tpId}/users/${this.props.isLoggedIn}`] = -1 * vote;
+    updates[`/tps/${this.props.questId}/${tpId}/users/${this.props.uid}`] = -1 * vote;
     this.props.firebase.update('/', updates);
   }
 
@@ -99,36 +99,51 @@ class PageQuestion extends React.Component {
     const tp = this.props.tps[tpId];
     const username = tp && (tp.username ? tp.username : tp.creator);
     const expanded = this.state.expand[tpId];
-    const isUpvoted = tp.users && (this.props.isLoggedIn in tp.users) && (tp.users[this.props.isLoggedIn]===1);
-    const isDownvoted = tp.users && (this.props.isLoggedIn in tp.users) && (tp.users[this.props.isLoggedIn]===-1);
+    const isUpvoted = tp.users && (this.props.uid in tp.users) && (tp.users[this.props.uid]===1);
+    const isDownvoted = tp.users && (this.props.uid in tp.users) && (tp.users[this.props.uid]===-1);
 
     return (
       <div className='individual-tp-preview' key={tpId}>
         <div className='main-tp-text'>
           <div className='tp-preview-username'>@{username}</div>
-          <TpPreview initial={tp.initial} approach={tp.approach} solution={tp.solution} expanded={expanded} />
+          <TpPreview
+            initial={tp.initial}
+            approach={tp.approach}
+            solution={tp.solution}
+            expanded={expanded}
+          />
           <div className='align-right'>
-          {((tp.initial && tp.initial.length > length) 
-            || (tp.approach && tp.approach.length > length) 
-            || (tp.solution && tp.solution.length > length)) ? this.generateMessage(expanded, tpId) : ''}
+          {((tp.initial && tp.initial.length > length)
+            || (tp.approach && tp.approach.length > length)
+            || (tp.solution && tp.solution.length > length))
+                 ? this.generateMessage(expanded, tpId)
+                 : ''}
           <Link className='tp-full-goto' to={`/tp/${this.props.questId}/${tpId}`}>
             Go to full TP
           </Link>
         </div>
         </div>
-        <img className='feedback-upvote-button' src={isUpvoted ? green : upvote} onClick={() => this.upvoteTp(tpId, isUpvoted, isDownvoted)}/>
+        <img
+          className='feedback-upvote-button'
+          src={isUpvoted ? green : upvote}
+          onClick={() => this.upvoteTp(tpId, isUpvoted, isDownvoted)}
+        />
         <div className='feedback-score-text'>{tp.total}</div>
-        <img className='feedback-downvote-button' src={isDownvoted ? red : downvote} onClick={() => this.downvoteTp(tpId, isUpvoted, isDownvoted)}/>
+        <img
+          className='feedback-downvote-button'
+          src={isDownvoted ? red : downvote}
+          onClick={() => this.downvoteTp(tpId, isUpvoted, isDownvoted)}
+        />
         <br />
       </div>
     );
   }
 
   changeOrder = sortBy => {
-    const { questId, questParam } = this.props;
-    if (this.props.tps) {
+    const { questId, questParam, tps } = this.props;
+    if (tps) {
       let list = {};
-      Object.keys(this.props.tps).forEach(tpId => list[tpId] = false);
+      Object.keys(tps).forEach(tpId => list[tpId] = false);
       this.setState({ expand: list })
     }
     this.props.history.push(`/q/${questId}/community/${sortBy}`);
@@ -149,42 +164,17 @@ class PageQuestion extends React.Component {
   handleChange = event => this.setState({ [event.target.name]: event.target.value });
 
   createTp = () => {
-    const questId = this.props.questId
-    const uid = this.props.isLoggedIn;
+    const { difficulty, questId, uid, username } = this.props;
+    const { approach, initial, solution } = this.state;
+
     const tpId = this.props.firebase.push(`/tps/${questId}`).key;
     const updates = {};
-    const tp = this.props.difficulty === 'easy'
-    ?
-    {
-      solution: this.state.solution,
-      creator: uid,
-      username: this.props.username,
-      total: 0
-    }
-    :
-    {
-      initial: this.state.initial,
-      approach: this.state.approach,
-      solution: this.state.solution,
-      creator: uid,
-      username: this.props.username,
-      total: 0
-    };
-    const tp2 = this.props.difficulty === 'easy'
-    ?
-    {
-      questId: questId,
-      solution: this.state.solution,
-      total: 0
-    }
-    :
-    {
-      questId: questId,
-      initial: this.state.initial,
-      approach: this.state.approach,
-      solution: this.state.solution,
-      total: 0
-    };
+    const tp = difficulty === 'easy'
+      ? { creator: uid, solution, total: 0, username }
+      : { approach, creator: uid, initial, solution, total: 0, username };
+    const tp2 = difficulty === 'easy'
+      ? { questId, solution, total: 0 }
+      : { approach, initial, questId, solution, total: 0 };
 
     updates[`/tps/${questId}/${tpId}`] = tp;
     updates[`/tpHistory/${uid}/${tpId}`] = tp2;
@@ -356,7 +346,7 @@ class PageQuestion extends React.Component {
       section = communityTps;
     }
 
-    if (!this.props.isLoggedIn) {
+    if (!this.props.uid) {
       section = (
         <div className='login-message'>
           <p>You need to log in or register to write your own TP.</p>
@@ -437,27 +427,17 @@ class PageQuestion extends React.Component {
 }
 
 const mapStateToProps = (state, props) => {
-  const questId = props.match.params.questId
-  const question = state.firebase.data[questId];
+  const { profile, data } = state.firebase;
+  const { uid } = state.firebase.auth;
+  const { username, onboarded } = profile || {};
+  const { emailVerified } = props.firebase.auth().currentUser || {};
 
-  const title = question && question.title;
-  const description = question && question.description;
-  const definitive = question && question.definitive;
-  const topics = question && question.topics;
-  const tags = question && question.tags;
-  const difficulty = question && question.difficulty;
-  const answer = question && question.answer;
+  const { questId, questParam, sortBy } = props.match.params;
+  const question = data[questId];
+  const { answer, definitive, description, difficulty, tags, title, topics } = question || {};
+  const tps = question && data.tps && data.tps[questId];
 
-  const tps = question && state.firebase.data.tps && state.firebase.data.tps[questId];
-  const profile = state.firebase.profile;
-  const username = profile && profile.username;
-  const onboarded = profile && profile.onboarded;
-  const user = props.firebase.auth().currentUser;
-  const emailVerified = user && user.emailVerified;
-  const questParam = props.match.params.questParam;
-  const sortBy = props.match.params.sortBy;
-
-  return { questId, title, description, definitive, topics, difficulty, answer, tps, username, isLoggedIn: state.firebase.auth.uid, tags, onboarded, emailVerified, questParam, sortBy};
+  return { answer, definitive, description, difficulty, emailVerified, onboarded, questId, questParam, sortBy, tags, title, topics, tps, uid, username };
 
 }
 
