@@ -2,117 +2,116 @@
   font-family: 'Sora';
   src: url('../assets/fonts/Sora-Regular.ttf')  format('truetype');
 }
+
 @font-face {
   font-family: 'Nunito';
   src: url('../assets/fonts/Nunito-Regular.ttf')  format('truetype');
 }
 
-.navbar{
-	background: #ffc224;
-	height: 100px;
-	padding: 20px;
+.navbar {
+  background: #ffc224;
+  height: 100px;
+  padding: 20px;
 }
 
-.title{
-
-	margin-left: 30px;
-	margin-top: 30px;
-}
-.title-text{
-	font-family: Sora;
-	font-style: normal;
-	font-weight: 800;
-	font-size: 50px;
-	line-height: 38px;
-
-	letter-spacing: 0.05em;
-	color: #F6F0ED;
-	text-decoration: none;
+.title {
+  margin-left: 30px;
+  margin-top: 30px;
 }
 
-.link-click{
-	position: absolute;
-	margin-left: 600px;
-	top: 65px;
+.title-text {
+  font-family: Sora;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 50px;
+  line-height: 38px;
 
+  letter-spacing: 0.05em;
+  color: #F6F0ED;
+  text-decoration: none;
 }
 
-
-@media (min-width: 900px) {
-	.link-click{
-		position: absolute;
-		margin-left: calc(100% - 300px );
-		top: 65px;
-
-	}
-}
-
-.link-click2{
-	position: absolute;
-	margin-left: 450px;
-	top: 65px;
-
+.link-click {
+  position: absolute;
+  margin-left: 600px;
+  top: 65px;
 }
 
 
 @media (min-width: 900px) {
-	.link-click2{
-		position: absolute;
-		margin-left: calc(100% - 450px );
-		top: 65px;
-
-	}
+  .link-click {
+      position: absolute;
+      margin-left: calc(100% - 300px );
+      top: 65px;
+  }
 }
 
-.link-text{
-	font-family: Nunito;
-	font-style: normal;
-	font-weight: bold;
-	font-size: 20px;
-	line-height: 27px;
-	/* identical to box height */
-	color: #FFFFFF;
-	text-decoration: none;
+.link-click2 {
+  position: absolute;
+  margin-left: 450px;
+  top: 65px;
 }
 
-.link-text2{
-	font-family: Nunito;
-	font-style: normal;
-	font-weight: bold;
-	font-size: 20px;
-	line-height: 27px;
-	/* identical to box height */
-	color: red;
-	text-decoration: none;
-}
 
-.button-click{
-	position: absolute;
-	margin-left: 700px;
-	top: 60px;
-}
 @media (min-width: 900px) {
-	.button-click{
-		position: absolute;
-		margin-left: calc(100% - 200px );
-		top: 60px;
-	}
+  .link-click2{
+      position: absolute;
+      margin-left: calc(100% - 450px );
+      top: 65px;
+  }
 }
 
-.button-text{
-	font-family: Nunito;
-	font-style: normal;
-	font-weight: bold;
-	font-size: 20px;
-	line-height: 27px;
-	/* identical to box height */
-	color: #FFFFFF;
-	text-decoration: none;
-	text-align: center;
-	background-color: blue;
-	height: 40px;
-	width: 100px;
+.link-text {
+  font-family: Nunito;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 27px;
+  /* identical to box height */
+  color: #FFFFFF;
+  text-decoration: none;
 }
- .loading{
-	 margin-left: calc(50% - 100px)
- }
+
+.link-text2 {
+  font-family: Nunito;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 27px;
+  /* identical to box height */
+  color: red;
+  text-decoration: none;
+}
+
+.button-click {
+  position: absolute;
+  margin-left: 700px;
+  top: 60px;
+}
+
+@media (min-width: 900px) {
+  .button-click {
+      position: absolute;
+      margin-left: calc(100% - 200px );
+      top: 60px;
+  }
+}
+
+.button-text {
+  font-family: Nunito;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 27px;
+  /* identical to box height */
+  color: #FFFFFF;
+  text-decoration: none;
+  text-align: center;
+  background-color: blue;
+  height: 40px;
+  width: 100px;
+}
+
+.loading {
+  margin-left: calc(50% - 100px)
+}
