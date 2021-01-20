@@ -1,36 +1,48 @@
-import React from 'react';
-import { Component } from 'react';
+import React, { Component } from 'react';
+import Latex from 'react-latex';
 
-import { Link } from 'react-router-dom';
-import '../styles/PageQuestion.css'
+import { length } from '../constants/PrevLength';
 
 export default class TpPreview extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
   }
 
   render() {
-    const tp = this.props.tp;
-    const tpId = this.props.tpId;
-    const questId = this.props.questId;
-    const username = tp && (tp.username ? tp.username : tp.creator);
-
-    return (
-      <div className='individual-tp-preview' key={tpId}> 
-        <div className='main-tp-text'>
-          <div className='tp-preview-username'>@{username}</div>
-          <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Initial:</span><span className='tp-preview-tail'> {tp.initial.slice(0,45)}...</span></div>
-          <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;Approaches:</span><span className='tp-preview-tail'>  {tp.approach.slice(0,45)}...</span></div>
-          <div><span className='tp-preview-head' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solution:</span><span className='tp-preview-tail'> {tp.solution.slice(0,45)}...</span></div>
-
-          <div className='align-right'>
-          <Link className='tp-full-goto' to={`/tp/${this.props.questId}/${tpId}`}>
-            Go to full TP
-          </Link>
+    const { initial, approach, solution, expanded } = this.props;
+    return(
+      <div>
+        <link
+        href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
+        rel="stylesheet"
+        />
+        <div>
+          <span className='tp-preview-head' >{initial ? 'Initial:' : ''}</span>
+          <span className='tp-preview-tail'>
+            {expanded
+              ? <Latex>{initial}</Latex>
+              : initial && <Latex>{initial.slice(0, length + 1)
+                + (initial.length > length ? '...' : '')}</Latex>}
+          </span>
         </div>
+        <div>
+          <span className='tp-preview-head' >{approach ? 'Approaches:' : ''}</span>
+          <span className='tp-preview-tail'>
+            {expanded
+              ? <Latex>{approach}</Latex>
+              : approach && <Latex>{approach.slice(0, length + 1)
+                + (approach.length > length ? '...' : '')}</Latex>}
+          </span>
         </div>
-        <div className='main-tp-score'>{tp.total}</div>
-        <br />
+        <div>
+          <span className='tp-preview-head' >{solution ? 'Solution:' : ''}</span>
+          <span className='tp-preview-tail'>
+            {expanded
+              ? <Latex>{solution}</Latex>
+              : solution && <Latex>{solution.slice(0, length + 1)
+                + (solution.length > length ? '...' : '')}</Latex>}
+          </span>
+        </div>
       </div>
     );
   }

@@ -3,6 +3,8 @@ import { firebaseConnect } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
+import Loading from '../components/Loading.js';
+
 class PageConfirmEmail extends React.Component {
   constructor(props) {
     super(props);
@@ -37,7 +39,7 @@ class PageConfirmEmail extends React.Component {
     const { loading, resent } = this.state;
 
     if (loading) {
-      return <div>Loading...</div>;
+      return <Loading />;
     }
 
     if (resent) {

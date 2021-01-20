@@ -4,9 +4,12 @@ import { HashLink as Link } from 'react-router-hash-link';
 import { firebaseConnect, isLoaded, isEmpty, populate } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import '../styles/PageNotifications.css';
+
+import Loading from '../components/Loading.js';
 import PageOnboard from './PageOnboard';
 import PageConfirmEmail from './PageConfirmEmail';
+
+import '../styles/PageNotifications.css';
 
 class PageNotifications extends React.Component {
     constructor(props){
@@ -30,7 +33,7 @@ class PageNotifications extends React.Component {
 
     render(){
         if (!isLoaded(this.props.notifications) || !this.props.isLoaded) {
-            return (<div>Loading...</div>);
+            return <Loading />;
         }
 
         if (!this.props.uid) {

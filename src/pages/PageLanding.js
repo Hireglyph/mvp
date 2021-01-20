@@ -1,11 +1,13 @@
 import React from 'react';
-
 import { withRouter, Link } from 'react-router-dom';
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import '../styles/PageLanding.css';
+
 import { tags } from '../constants/Tags';
+import Loading from '../components/Loading.js';
+
+import '../styles/PageLanding.css';
 
 class PageLanding extends React.Component {
     constructor(props){
@@ -19,7 +21,7 @@ class PageLanding extends React.Component {
 
     render() {
       if (!isLoaded(this.props.questions)) {
-        return (<div >Loading...</div>);
+        return <Loading />;
       }
 
       const { tag, questions, questionHistory } = this.props;

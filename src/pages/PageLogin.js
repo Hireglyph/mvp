@@ -3,10 +3,12 @@ import { firebaseConnect } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Redirect, Link } from 'react-router-dom';
-import '../styles/PageRegister.css';
 
+import Loading from '../components/Loading.js';
 import GoogleButton from '../components/GoogleButton';
 import PageOnboard from './PageOnboard';
+
+import '../styles/PageRegister.css';
 
 class PageLogin extends React.Component {
   constructor(props) {
@@ -47,7 +49,7 @@ class PageLogin extends React.Component {
 
   render () {
     if (!this.props.isLoaded) {
-      return (<div >Loading...</div>);
+      return <Loading />;
     }
 
     if (this.props.uid && !this.props.onboarded) {
@@ -98,7 +100,7 @@ class PageLogin extends React.Component {
                 </button>
             </div>
           ) : (
-            <div>Loading...</div>
+            <Loading />
           )
           }
         </div>
