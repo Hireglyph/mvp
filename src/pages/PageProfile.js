@@ -7,6 +7,7 @@ import { compose } from 'redux';
 import Latex from 'react-latex';
 
 import TpPreview from '../components/TpPreview.js';
+import Loading from '../components/Loading.js';
 import PageOnboard from './PageOnboard';
 import PageConfirmEmail from './PageConfirmEmail';
 import { length } from '../constants/PrevLength';
@@ -80,7 +81,7 @@ class PageProfile extends React.Component {
       } = this.props;
 
       if (!isLoaded(profile)) {
-        return <div>Loading...</div>;
+        return <Loading/>;
       }
 
       if (!uid) {
@@ -160,7 +161,8 @@ class PageProfile extends React.Component {
                     <span className='tp-preview-tail'>
                       <Latex>
                         {this.state.feedbackExpand[feedbackId]
-                          ? feedback : feedback.slice(0,length+1) + '...'}
+                          ? feedback 
+                          : feedback.slice(0,length+1) + (feedback.length > length ? '...' : '')}
                       </Latex>
                     </span>
                   </div>

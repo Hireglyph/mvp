@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 import { tags } from '../constants/Tags';
+import Loading from '../components/Loading.js';
 
 class PageAddQuestion extends React.Component {
   constructor(props){
@@ -59,7 +60,7 @@ class PageAddQuestion extends React.Component {
 
   render() {
     if (!isLoaded(this.props.questionCount)) {
-      return (<div>Loading...</div>);
+      return <Loading />;
     }
 
     if (!this.props.isLoggedIn) {
@@ -67,7 +68,7 @@ class PageAddQuestion extends React.Component {
     }
 
     if (!isLoaded(this.props.admin)) {
-      return (<div>Loading...</div>);
+      return <Loading />;
     }
 
     if (!this.props.admin) {

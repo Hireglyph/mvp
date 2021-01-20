@@ -113,4 +113,6 @@
 	height: 40px;
 	width: 100px;
 }
-
+ .loading{
+	 margin-left: calc(50% - 100px)
+ }

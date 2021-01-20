@@ -5,6 +5,7 @@ import { firebaseConnect, isLoaded, isEmpty, populate } from 'react-redux-fireba
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
+import Loading from '../components/Loading.js';
 import PageOnboard from './PageOnboard';
 import PageConfirmEmail from './PageConfirmEmail';
 
@@ -32,7 +33,7 @@ class PageNotifications extends React.Component {
 
     render(){
         if (!isLoaded(this.props.notifications) || !this.props.isLoaded) {
-            return (<div>Loading...</div>);
+            return <Loading />;
         }
 
         if (!this.props.uid) {

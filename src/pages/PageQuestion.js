@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 import TpPreview from '../components/TpPreview.js';
+import Loading from '../components/Loading.js';
 import red from '../assets/images/red-downvote.png';
 import green from '../assets/images/green-upvote.png';
 import upvote from '../assets/images/upvote.png';
@@ -188,7 +189,7 @@ class PageQuestion extends React.Component {
 
   render() {
     if (!isLoaded(this.props.title) || !isLoaded(this.props.tps)) {
-      return (<div>Loading...</div>);
+      return <Loading />;
     }
 
     if (isEmpty(this.props.title)){

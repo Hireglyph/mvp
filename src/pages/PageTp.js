@@ -12,6 +12,7 @@ import upvote from '../assets/images/upvote.png';
 import downvote from '../assets/images/downvote.png';
 import PageOnboard from './PageOnboard';
 import PageConfirmEmail from './PageConfirmEmail';
+import Loading from '../components/Loading.js';
 
 import '../styles/PageTp.css';
 
@@ -168,7 +169,7 @@ class PageTp extends React.Component{
     const { approach, emailVerified, feedbacks, initial, isDownvoted, isUpvoted, questId, onboarded, solution, uid, username } = this.props;
 
     if (!isLoaded(solution) || !isLoaded(feedbacks)) {
-      return (<div>Loading...</div>);
+      return <Loading />;
     }
 
     if (isEmpty(solution)){
