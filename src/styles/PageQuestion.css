@@ -1,8 +1,3 @@
-@font-face {
-  font-family: 'Nunito';
-  src: url('../assets/fonts/Nunito-Regular.ttf')  format('truetype');
-}
-
 .question-block {
     position:relative;
     margin-left: auto;
@@ -103,7 +98,7 @@
 .topic-2{
     background: #FFC224;
     border-radius: 5px;
-    
+
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
@@ -266,7 +261,7 @@
 }
 
 .tp-submit-green{
-  
+
 
     background: #92C502;
     box-shadow: 2px 4px 4px 1px rgba(0, 0, 0, 0.25);
