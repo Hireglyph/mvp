@@ -21,7 +21,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-      <NavBar uid={this.props.uid} />
+      <NavBar uid={this.props.uid} isLoaded={this.props.isLoaded} />
         <Switch>
           <Route exact path="/profile/:historyParam?">
             <PageProfile uid={this.props.uid} />
