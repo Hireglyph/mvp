@@ -13,64 +13,63 @@ class NavBar extends React.Component {
 
   handleClick = link => () => this.props.history.push(link);
 
-  navbarContent = () => {
-    if (!this.props.isLoaded || !isLoaded(this.props.hasNotifs)) {  
-      return;
-    }
-    if (!this.props.uid) {
+  render() {
+    const navbarContent = (() => {
+      if (!this.props.isLoaded || !isLoaded(this.props.hasNotifs)) {  
+        return;
+      }
+      if (!this.props.uid) {
+        return (
+          <div>
+            <div className='link-click'>
+              <Link className='link-text' to='/register'>Register</Link>
+            </div>
+            <div className='button-click'> 
+              <button 
+              className='button-text' 
+              onClick={this.handleClick('/login')}>
+                Login
+              </button>
+            </div>
+          </div>
+        );
+      }
       return (
         <div>
-          <div className='link-click'>
-            <Link className='link-text' to='/register'>Register</Link>
+          <div className='link-click2'> 
+            <Link 
+            className={!this.props.hasNotifs ? 'link-text' : 'link-text2'} 
+            to='/notifications'>
+              Notifications
+            </Link>
           </div>
-          <div className='button-click'> 
+          <div className='link-click'>
+            <Link className='link-text' to='/profile/tp'>Profile</Link>
+          </div>
+          <div className='button-click'>
             <button 
             className='button-text' 
-            onClick={this.handleClick('/login')}>
-              Login
+            onClick={() => {this.props.firebase.logout();window.location.href="/"}} >
+              Logout
             </button>
           </div>
         </div>
       );
-    }
-    return (
-      <div>
-        <div className='link-click2'> 
-          <Link 
-          className={!this.props.hasNotifs ? 'link-text' : 'link-text2'} 
-          to='/notifications'>
-            Notifications
-          </Link>
-        </div>
-        <div className='link-click'>
-          <Link className='link-text' to='/profile/tp'>Profile</Link>
-        </div>
-        <div className='button-click'>
-          <button 
-          className='button-text' 
-          onClick={() => {this.props.firebase.logout();window.location.href="/"}} >
-            Logout
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  render() {
+    })();
     return (
       <div className='navbar'>
         <div className='title'>
           <Link className='title-text' to='/'>Hireglyph</Link>
         </div>
-        {this.navbarContent()}
+        {navbarContent}
       </div>
     );
   }
 }
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = state => {
   return {
-    hasNotifs: state.firebase.data.hasNotifs && state.firebase.data.hasNotifs[props.uid],
+    hasNotifs: state.firebase.data.hasNotifs,
   };
 }
 
@@ -79,6 +78,7 @@ export default compose(
   firebaseConnect(props => [
     {
       path: '/hasNotifs/' + props.uid,
+      storeAs: 'hasNotifs'
     },
   ]),
   connect(mapStateToProps)
