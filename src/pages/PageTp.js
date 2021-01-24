@@ -5,6 +5,7 @@ import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Latex from 'react-latex';
+import TextareaAutosize from 'react-textarea-autosize';
 
 import red from '../assets/images/red-downvote.png';
 import green from '../assets/images/green-upvote.png';
@@ -226,13 +227,14 @@ class PageTp extends React.Component{
 
     const myFeedback = (
       <div>
-        <textarea
+        <TextareaAutosize
+        minRows={2}
         className='input-feedback'
         name = "feedback"
         placeholder="Your feedback..."
         onChange = {this.handleChange}
         value={this.state.feedback}
-        >feedback here</textarea>
+        >feedback here</TextareaAutosize>
         <br/>
         <button
         className='tp-submit-button'
