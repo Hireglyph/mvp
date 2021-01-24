@@ -8,6 +8,7 @@ import PageOnboard from './pages/PageOnboard';
 import PageLogin from './pages/PageLogin';
 import PageAddQuestion from './pages/PageAddQuestion';
 import PageNotifications from './pages/PageNotifications';
+import PageContact from './pages/PageContact';
 import NavBar from './components/NavBar';
 
 import { firebaseConnect } from 'react-redux-firebase';
@@ -46,6 +47,9 @@ class App extends React.Component {
           </Route>
           <Route exact path="/addquestion">
             <PageAddQuestion />
+          </Route>
+          <Route exact path="/contact">
+            <PageContact />
           </Route>
           <Route exact path="/:tag?">
             <PageLanding uid={this.props.uid} />
