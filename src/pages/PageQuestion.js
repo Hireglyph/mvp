@@ -283,12 +283,12 @@ class PageQuestion extends React.Component {
       <div className='my-tp-submit'>
         <p className='tp-instructions-text'>Enter your Thought Process below:</p>
         <TextareaAutosize
-        minRows={3}
-        className='tp-input-box'
-        name = "solution"
-        placeholder="Final solution!"
-        onChange = {this.handleChange}
-        value={this.state.solution}
+          minRows={3}
+          className='tp-input-box'
+          name = "solution"
+          placeholder="Final solution!"
+          onChange = {this.handleChange}
+          value={this.state.solution}
         />
         <br />
         <br />
@@ -305,30 +305,30 @@ class PageQuestion extends React.Component {
       <div className='my-tp-submit'>
         <p className='tp-instructions-text'>Enter your Thought Process below:</p>
         <TextareaAutosize
-        minRows={3}
-        className='tp-input-box'
-        name = "initial"
-        placeholder="What were your initial thoughts?"
-        onChange = {this.handleChange}
-        value={this.state.initial}
+          minRows={3}
+          className='tp-input-box'
+          name = "initial"
+          placeholder="What were your initial thoughts?"
+          onChange = {this.handleChange}
+          value={this.state.initial}
         />
 
         <TextareaAutosize
-        minRows={3}
-        className='tp-input-box'
-        name = "approach"
-        placeholder="Different approaches you tried..."
-        onChange = {this.handleChange}
-        value={this.state.approach}
+          minRows={3}
+          className='tp-input-box'
+          name = "approach"
+          placeholder="Different approaches you tried..."
+          onChange = {this.handleChange}
+          value={this.state.approach}
         />
 
         <TextareaAutosize
-        minRows={3}
-        className='tp-input-box'
-        name = "solution"
-        placeholder="Final solution!"
-        onChange = {this.handleChange}
-        value={this.state.solution}
+          minRows={3}
+          className='tp-input-box'
+          name = "solution"
+          placeholder="Final solution!"
+          onChange = {this.handleChange}
+          value={this.state.solution}
         />
         <br />
         <br />

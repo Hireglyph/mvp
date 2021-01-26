@@ -228,13 +228,13 @@ class PageTp extends React.Component{
     const myFeedback = (
       <div>
         <TextareaAutosize
-        minRows={2}
-        className='input-feedback'
-        name = "feedback"
-        placeholder="Your feedback..."
-        onChange = {this.handleChange}
-        value={this.state.feedback}
-        >feedback here</TextareaAutosize>
+          minRows={2}
+          className='input-feedback'
+          name = "feedback"
+          placeholder="Your feedback..."
+          onChange = {this.handleChange}
+          value={this.state.feedback}
+        />
         <br/>
         <button
         className='tp-submit-button'
