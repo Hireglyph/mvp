@@ -3,6 +3,7 @@ import { Link, withRouter, Redirect } from 'react-router-dom';
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import TextareaAutosize from 'react-textarea-autosize';
 
 import TpPreview from '../components/TpPreview.js';
 import Loading from '../components/Loading.js';
@@ -281,12 +282,13 @@ class PageQuestion extends React.Component {
       ?
       <div className='my-tp-submit'>
         <p className='tp-instructions-text'>Enter your Thought Process below:</p>
-        <textarea
-        className='tp-input-box'
-        name = "solution"
-        placeholder="Final solution!"
-        onChange = {this.handleChange}
-        value={this.state.solution}
+        <TextareaAutosize
+          minRows={3}
+          className='tp-input-box'
+          name = "solution"
+          placeholder="Final solution!"
+          onChange = {this.handleChange}
+          value={this.state.solution}
         />
         <br />
         <br />
@@ -302,28 +304,31 @@ class PageQuestion extends React.Component {
       :
       <div className='my-tp-submit'>
         <p className='tp-instructions-text'>Enter your Thought Process below:</p>
-        <textarea
-        className='tp-input-box'
-        name = "initial"
-        placeholder="What were your initial thoughts?"
-        onChange = {this.handleChange}
-        value={this.state.initial}
+        <TextareaAutosize
+          minRows={3}
+          className='tp-input-box'
+          name = "initial"
+          placeholder="What were your initial thoughts?"
+          onChange = {this.handleChange}
+          value={this.state.initial}
         />
 
-        <textarea
-        className='tp-input-box'
-        name = "approach"
-        placeholder="Different approaches you tried..."
-        onChange = {this.handleChange}
-        value={this.state.approach}
+        <TextareaAutosize
+          minRows={3}
+          className='tp-input-box'
+          name = "approach"
+          placeholder="Different approaches you tried..."
+          onChange = {this.handleChange}
+          value={this.state.approach}
         />
 
-        <textarea
-        className='tp-input-box'
-        name = "solution"
-        placeholder="Final solution!"
-        onChange = {this.handleChange}
-        value={this.state.solution}
+        <TextareaAutosize
+          minRows={3}
+          className='tp-input-box'
+          name = "solution"
+          placeholder="Final solution!"
+          onChange = {this.handleChange}
+          value={this.state.solution}
         />
         <br />
         <br />
@@ -392,6 +397,7 @@ class PageQuestion extends React.Component {
         rel="stylesheet"
         />
         <div className='question-block'>
+          <div onClick={() => this.props.history.goBack()}>GO BACK</div>
           <div className='question-title-2'>
               <h1>#{this.props.questId}: {this.props.title}</h1>
           </div>
