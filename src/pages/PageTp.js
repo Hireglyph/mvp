@@ -253,6 +253,7 @@ class PageTp extends React.Component{
         href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
         rel="stylesheet"
         />
+        <div onClick={() => this.props.history.goBack()}>GO BACK</div>
         <div className='question-identification'>
           @{username} in response to:
           <Link className='link-to-quest' to={`/q/${questId}`}>

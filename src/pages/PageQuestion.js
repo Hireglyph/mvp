@@ -397,6 +397,7 @@ class PageQuestion extends React.Component {
         rel="stylesheet"
         />
         <div className='question-block'>
+          <div onClick={() => this.props.history.goBack()}>GO BACK</div>
           <div className='question-title-2'>
               <h1>#{this.props.questId}: {this.props.title}</h1>
           </div>
