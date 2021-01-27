@@ -6,6 +6,7 @@ import { compose } from 'redux';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import TpPreview from '../components/TpPreview.js';
+import QuestionPreview from '../components/QuestionPreview.js';
 import Loading from '../components/Loading.js';
 import red from '../assets/images/red-downvote.png';
 import green from '../assets/images/green-upvote.png';
@@ -210,11 +211,18 @@ class PageQuestion extends React.Component {
     const topics = this.props.tags &&
       Object.keys(this.props.tags).map(tag => {
         return (
-          <Link to={`/${tag}`}>
-            <span className='topic-2' key={tag}>{tag} </span>
+          <Link to={`/${tag}`} key={tag}>
+            <span className='topic-2'>{tag} </span>
           </Link>
         );
     });
+    
+    const relatedQs = this.props.relatedQuestions &&
+      Object.keys(this.props.relatedQuestions).map(questId => {
+        return (
+          <QuestionPreview questId={questId} key={questId}/>
+        );
+      });
 
     const answer = this.props.answer &&
       (<div>
@@ -398,6 +406,7 @@ class PageQuestion extends React.Component {
         href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
         rel="stylesheet"
         />
+        <div>{relatedQs}</div>
         <div className='question-block'>
           <div className='question-title-2'>
               <h1>#{this.props.questId}: {this.props.title}</h1>
@@ -444,8 +453,9 @@ const mapStateToProps = (state, props) => {
   const question = data[questId];
   const { answer, definitive, description, difficulty, tags, title, topics } = question || {};
   const tps = question && data.tps && data.tps[questId];
+  const relatedQuestions = state.firebase.data.relatedQuestions;
 
-  return { answer, definitive, description, difficulty, emailVerified, onboarded, questId, questParam, sortBy, tags, title, topics, tps, uid, username };
+  return { answer, definitive, description, difficulty, emailVerified, onboarded, questId, questParam, sortBy, tags, title, topics, tps, uid, username, relatedQuestions};
 
 }
 
@@ -455,7 +465,8 @@ export default compose(
   firebaseConnect(props => {
     const questId = props.match.params.questId;
     return [{path: `/questions/${questId}`, storeAs: questId},
-            {path: `/tps/${questId}` } ];
+            {path: `/tps/${questId}` },
+            {path: `/relatedQuestions` } ];
   }),
   connect(mapStateToProps)
 )(PageQuestion);
