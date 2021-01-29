@@ -1,10 +1,45 @@
+/** @jsx jsx */
+
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { jsx } from 'theme-ui';
 
-import '../styles/NavBar.css';
+const NavBarSx = {
+  backgroundColor: 'orange',
+  width: '100%',
+  height: '62px',
+  paddingTop: '0.8em',
+  paddingLeft: '2em',
+  paddingRight: '2em',
+  fontFamily: 'Open-Sans',
+  display: 'flex',
+
+  '.title-text': {
+    fontSize: '30px',
+    color: 'text',
+    textDecoration: 'none',
+  },
+
+  '.link-text, .button-text': {
+    fontSize: '20px',
+    color: 'text',
+    textDecoration: 'none',
+  },
+
+  '.has-notifs': {
+    color: 'red',
+  },
+
+  '.nav-elements': {
+    display: 'flex',
+    marginTop: '10px',
+    marginLeft: 'auto',
+    gap: '40px',
+  },
+};
 
 class NavBar extends React.Component {
   constructor(props) {
@@ -14,18 +49,18 @@ class NavBar extends React.Component {
   handleClick = link => () => this.props.history.push(link);
 
   navbarContent = () => {
-    if (!this.props.isLoaded || !isLoaded(this.props.hasNotifs)) {  
+    if (!this.props.isLoaded || !isLoaded(this.props.hasNotifs)) {
       return;
     }
     if (!this.props.uid) {
       return (
-        <div>
+        <div className='nav-elements'>
           <div className='link-click'>
             <Link className='link-text' to='/register'>Register</Link>
           </div>
-          <div className='button-click'> 
-            <button 
-            className='button-text' 
+          <div className='button-click'>
+            <button
+            className='button-text'
             onClick={this.handleClick('/login')}>
               Login
             </button>
@@ -34,10 +69,10 @@ class NavBar extends React.Component {
       );
     }
     return (
-      <div>
-        <div className='link-click2'> 
-          <Link 
-          className={!this.props.hasNotifs ? 'link-text' : 'link-text2'} 
+      <div className='nav-elements'>
+        <div className='link-click2'>
+          <Link
+          className={!this.props.hasNotifs ? 'link-text' : 'has-notifs link-text'}
           to='/notifications'>
             Notifications
           </Link>
@@ -46,8 +81,8 @@ class NavBar extends React.Component {
           <Link className='link-text' to='/profile/tp'>Profile</Link>
         </div>
         <div className='button-click'>
-          <button 
-          className='button-text' 
+          <button
+          className='button-text'
           onClick={() => {this.props.firebase.logout();window.location.href="/"}} >
             Logout
           </button>
@@ -58,7 +93,7 @@ class NavBar extends React.Component {
 
   render() {
     return (
-      <div className='navbar'>
+      <div className='navbar' sx={NavBarSx}>
         <div className='title'>
           <Link className='title-text' to='/'>Hireglyph</Link>
         </div>

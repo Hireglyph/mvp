@@ -1,8 +1,3 @@
-@font-face {
-  font-family: 'Nunito';
-  src: url('../assets/fonts/Nunito-Regular.ttf')  format('truetype');
-}
-
 .upvoted{
 	background-color: green;
 }
@@ -21,7 +16,7 @@
     margin-bottom:50px;
     width: 70%;
     height: auto;
-    
+
     background: #FFFFFF;
     border: 1px solid rgba(0, 0, 0, 0.25);
 }
