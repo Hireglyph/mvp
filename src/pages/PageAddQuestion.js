@@ -15,6 +15,7 @@ class PageAddQuestion extends React.Component {
       description: '',
       answer: '',
       tags: {},
+      relatedQs: {},
       difficulty: 'easy',
     };
   }
@@ -38,6 +39,19 @@ class PageAddQuestion extends React.Component {
     }
   }
 
+  addRelated = event => {
+    const target = event.target;
+    let newRelated;
+    if (target.checked) {
+      newRelated = { ...this.state.relatedQs, [target.name]: true };
+    }
+    else {
+      newRelated = {...this.state.relatedQs};
+      delete newRelated[target.name];
+    }
+    this.setState({ relatedQs: newRelated });
+  }
+
   createQuestion = () => {
     const updates = {};
     const question = this.state.answer.trim()==='' ? 
@@ -58,9 +72,9 @@ class PageAddQuestion extends React.Component {
     ;
 
     updates[`/questions/${this.props.questionCount}`] = question;
-    updates['/questionCount'] = this.props.questionCount + 1;
+    updates[`/relatedQuestions/${this.props.questionCount}`] = this.state.relatedQs;
 
-    this.setState({ title: '', description: '', answer: '', tags: {}, difficulty: 'easy' });
+    this.setState({ title: '', description: '', answer: '', tags: {}, difficulty: 'easy', relatedQs: {} });
 
     this.props.firebase.update('/', updates);
   }
@@ -84,14 +98,29 @@ class PageAddQuestion extends React.Component {
 
     const checkboxes = tags.map(tag => {
       return (
-        <div>
+        <div key={tag}>
           <input
           type = "checkbox"
           onChange = {this.handleChange}
           name={tag}
-          checked={this.state.tags[tag]}
+          checked={this.state.tags[tag] || false}
           />
           {tag}
+        </div>
+      )
+    });
+
+    const related = this.props.questions && 
+    Object.keys(this.props.questions).map(questId => {
+      return (
+        <div key={questId}>
+          <input
+          type = "checkbox"
+          onChange = {this.addRelated}
+          name={questId}
+          checked={this.state.relatedQs[questId] || false}
+          />
+          {questId}
         </div>
       )
     });
@@ -129,6 +158,10 @@ class PageAddQuestion extends React.Component {
         Tags:
         <br/>
         {checkboxes}
+        <br />
+        Related Questions: 
+        <br />
+        {related}
         <button
         disabled={this.state.description.trim()===''||this.state.title.trim()===''}
         onClick={this.createQuestion}
@@ -141,14 +174,18 @@ class PageAddQuestion extends React.Component {
 }
 
 const mapStateToProps = state => {
+  const questions = state.firebase.data.questions;
+  const questionCount = questions && 
+    (parseInt(Object.keys(questions)[Object.keys(questions).length - 1]) + 1);
   return {
     isLoggedIn: state.firebase.auth.uid,
     admin: state.firebase.profile.admin,
-    questionCount: state.firebase.data.questionCount,
+    questions,
+    questionCount,
   };
 }
 
 export default compose(
-  firebaseConnect(['/questionCount']),
+  firebaseConnect([ {path: '/questions'} ]),
   connect(mapStateToProps)
 )(PageAddQuestion);

@@ -9,17 +9,30 @@ class QuestionPreview extends React.Component {
     super(props);
   };
   render() {
-    if (!isLoaded(this.props.question)) {
+    if (!isLoaded(this.props.title) 
+    || !isLoaded(this.props.tags) 
+    || !isLoaded(this.props.difficulty) ) {
       return (
         <div>
         <div>{this.props.questId}</div>
       </div>
       );
     }
+    
+    const topics = this.props.tags &&
+      Object.keys(this.props.tags).map(tag => {
+        return (
+          <span className='topic' key={tag}>{tag} </span>
+        );
+      });
+
     return (
       <div>
-        <div>{this.props.questId}</div>
-        <div>{this.props.question.title}</div>
+        <Link to={`/q/${this.props.questId}`}>
+          Question #{this.props.questId}: {this.props.title}
+        </Link>
+        <div>{this.props.difficulty}</div>
+        <div>{topics}</div>
       </div>
     );
   }
@@ -27,7 +40,9 @@ class QuestionPreview extends React.Component {
 
 const mapStateToProps = (state, props) => {
   const questions = state.firebase.data.questions;
-  return {question: questions && state.firebase.data.questions[props.questId]}
+  const question = questions && questions[props.questId];
+  const { title, tags, difficulty } = question || {};
+  return { title, tags, difficulty };
 }
 
 export default compose(

@@ -406,7 +406,6 @@ class PageQuestion extends React.Component {
         href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
         rel="stylesheet"
         />
-        <div>{relatedQs}</div>
         <div className='question-block'>
           <div className='question-title-2'>
               <h1>#{this.props.questId}: {this.props.title}</h1>
@@ -417,6 +416,7 @@ class PageQuestion extends React.Component {
           <div>{bars}</div>
           <div className='topics-2'>{topics}</div>
           <div>{answer}</div>
+          <div>{relatedQs}</div>
         </div>
         <div>
           <button
@@ -453,7 +453,7 @@ const mapStateToProps = (state, props) => {
   const question = data[questId];
   const { answer, definitive, description, difficulty, tags, title, topics } = question || {};
   const tps = question && data.tps && data.tps[questId];
-  const relatedQuestions = state.firebase.data.relatedQuestions;
+  const relatedQuestions = state.firebase.data.relatedQuestions && state.firebase.data.relatedQuestions[questId];
 
   return { answer, definitive, description, difficulty, emailVerified, onboarded, questId, questParam, sortBy, tags, title, topics, tps, uid, username, relatedQuestions};
 
@@ -466,7 +466,7 @@ export default compose(
     const questId = props.match.params.questId;
     return [{path: `/questions/${questId}`, storeAs: questId},
             {path: `/tps/${questId}` },
-            {path: `/relatedQuestions` } ];
+            {path: `/relatedQuestions/${questId}` } ];
   }),
   connect(mapStateToProps)
 )(PageQuestion);
