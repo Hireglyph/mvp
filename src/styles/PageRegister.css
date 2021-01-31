@@ -1,19 +1,10 @@
-@font-face {
-  font-family: 'Offside';
-  src: url('../assets/fonts/Offside-Regular.ttf')  format('truetype');
-}
-@font-face {
-  font-family: 'Nunito';
-  src: url('../assets/fonts/Nunito-Regular.ttf')  format('truetype');
-}
-
 .register-container {
     position: absolute;
-    
+
     text-align: center;
     align-items: center;
     background-color: #DAE0E6;
-    
+
     margin:0;
     top:150px;
     left:0;
