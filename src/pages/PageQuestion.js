@@ -389,10 +389,10 @@ class PageQuestion extends React.Component {
     let section;
     if (questParam == "my") {
       section = myTp;
-    } else if (questParam == "community") {
-      section = communityTps;
-    } else {
+    } else if (questParam == "related") {
       section = relatedQs;
+    } else {
+      section = communityTps;
     }
 
     if (!this.props.uid) {
