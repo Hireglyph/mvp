@@ -452,7 +452,7 @@ class PageQuestion extends React.Component {
           </button>
           <button
             className="community-tp-button-1"
-            disabled={questParam == "community"}
+            disabled={sortBy}
             onClick={() => this.handleClick("community/top")}
           >
             Community TPs
