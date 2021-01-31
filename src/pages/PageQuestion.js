@@ -174,7 +174,7 @@ class PageQuestion extends React.Component {
     this.setState({ expand: { ...this.state.expand, [tpId]: value } });
   };
 
-  handleTps = (questParam) => {
+  handleClick = (questParam) => {
     this.props.history.push(`/q/${this.props.questId}/${questParam}`);
   };
 
@@ -224,7 +224,12 @@ class PageQuestion extends React.Component {
       return <Redirect to={`/q/${this.props.questId}/community/top`} />;
     }
 
-    if (!sortBy && questParam != "my" && questParam != "community") {
+    if (
+      !sortBy &&
+      questParam != "my" &&
+      questParam != "community" &&
+      questParam != "related"
+    ) {
       return <Redirect to={`/q/${this.props.questId}/my`} />;
     }
 
@@ -384,8 +389,10 @@ class PageQuestion extends React.Component {
     let section;
     if (questParam == "my") {
       section = myTp;
-    } else {
+    } else if (questParam == "community") {
       section = communityTps;
+    } else {
+      section = relatedQs;
     }
 
     if (!this.props.uid) {
@@ -434,22 +441,28 @@ class PageQuestion extends React.Component {
           <div>{bars}</div>
           <div className="topics-2">{topics}</div>
           <div>{answer}</div>
-          <div>{relatedQs}</div>
         </div>
         <div>
           <button
             className="my-tp-button-1"
             disabled={questParam == "my"}
-            onClick={() => this.handleTps("my")}
+            onClick={() => this.handleClick("my")}
           >
             My TP
           </button>
           <button
             className="community-tp-button-1"
             disabled={questParam == "community"}
-            onClick={() => this.handleTps("community/top")}
+            onClick={() => this.handleClick("community/top")}
           >
             Community TPs
+          </button>
+          <button
+            className="related-qs-button-1"
+            disabled={questParam == "related"}
+            onClick={() => this.handleClick("related")}
+          >
+            Related Questions
           </button>
           <hr
             className={questParam == "my" ? "divider-line" : "divider-line-2"}
