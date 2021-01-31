@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import Google from 'assets/Google.svg';
+import React, { Component } from "react";
+import Google from "assets/Google.svg";
 
 export default class GoogleButton extends Component {
   render() {
@@ -14,7 +14,7 @@ export default class GoogleButton extends Component {
             <img src={Google} alt="Google icon" />
           </span>
           <span className="google-button__text">
-            {this.props.text || 'Sign in with Google'}
+            {this.props.text || "Sign in with Google"}
           </span>
         </button>
         <br />

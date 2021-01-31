@@ -44,9 +44,9 @@ const NavBarSx = {
 class NavBar extends React.Component {
   constructor(props) {
     super(props);
-  };
+  }
 
-  handleClick = link => () => this.props.history.push(link);
+  handleClick = (link) => () => this.props.history.push(link);
 
   navbarContent = () => {
     if (!this.props.isLoaded || !isLoaded(this.props.hasNotifs)) {
@@ -54,14 +54,17 @@ class NavBar extends React.Component {
     }
     if (!this.props.uid) {
       return (
-        <div className='nav-elements'>
-          <div className='link-click'>
-            <Link className='link-text' to='/register'>Register</Link>
+        <div>
+          <div className="link-click">
+            <Link className="link-text" to="/register">
+              Register
+            </Link>
           </div>
-          <div className='button-click'>
+          <div className="button-click">
             <button
-            className='button-text'
-            onClick={this.handleClick('/login')}>
+              className="button-text"
+              onClick={this.handleClick("/login")}
+            >
               Login
             </button>
           </div>
@@ -77,19 +80,25 @@ class NavBar extends React.Component {
             Notifications
           </Link>
         </div>
-        <div className='link-click'>
-          <Link className='link-text' to='/profile/tp'>Profile</Link>
+        <div className="link-click">
+          <Link className="link-text" to="/profile/tp">
+            Profile
+          </Link>
         </div>
-        <div className='button-click'>
+        <div className="button-click">
           <button
-          className='button-text'
-          onClick={() => {this.props.firebase.logout();window.location.href="/"}} >
+            className="button-text"
+            onClick={() => {
+              this.props.firebase.logout();
+              window.location.href = "/";
+            }}
+          >
             Logout
           </button>
         </div>
       </div>
     );
-  }
+  };
 
   render() {
     return (
@@ -105,15 +114,16 @@ class NavBar extends React.Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    hasNotifs: state.firebase.data.hasNotifs && state.firebase.data.hasNotifs[props.uid],
+    hasNotifs:
+      state.firebase.data.hasNotifs && state.firebase.data.hasNotifs[props.uid],
   };
-}
+};
 
 export default compose(
   withRouter,
-  firebaseConnect(props => [
+  firebaseConnect((props) => [
     {
-      path: '/hasNotifs/' + props.uid,
+      path: "/hasNotifs/" + props.uid,
     },
   ]),
   connect(mapStateToProps)

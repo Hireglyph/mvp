@@ -1,115 +1,130 @@
-import React from 'react';
-import { withRouter, Redirect } from 'react-router-dom';
-import { HashLink as Link } from 'react-router-hash-link';
-import { firebaseConnect, isLoaded, isEmpty, populate } from 'react-redux-firebase';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
+import React from "react";
+import { withRouter, Redirect } from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
+import {
+  firebaseConnect,
+  isLoaded,
+  isEmpty,
+  populate,
+} from "react-redux-firebase";
+import { connect } from "react-redux";
+import { compose } from "redux";
 
-import Loading from '../components/Loading.js';
-import PageOnboard from './PageOnboard';
-import PageConfirmEmail from './PageConfirmEmail';
+import Loading from "../components/Loading.js";
+import PageOnboard from "./PageOnboard";
+import PageConfirmEmail from "./PageConfirmEmail";
 
-import '../styles/PageNotifications.css';
+import "../styles/PageNotifications.css";
 
 class PageNotifications extends React.Component {
-    constructor(props){
-        super(props);
-    };
+  constructor(props) {
+    super(props);
+  }
 
-    viewed = notifId => {
-        const updates = {};
-        updates[`/notifications/${this.props.uid}/${notifId}/viewed`] = true;
-        this.props.firebase.update('/', updates);
+  viewed = (notifId) => {
+    const updates = {};
+    updates[`/notifications/${this.props.uid}/${notifId}/viewed`] = true;
+    this.props.firebase.update("/", updates);
+  };
+
+  componentDidUpdate(prevProps) {
+    if (this.props.notifications) {
+      //if(prevProps.notifications && Object.keys(prevProps.notifications).length != Object.keys(this.props.notifications).length){
+      const updates = {};
+      updates[`/hasNotifs/${this.props.uid}`] = false;
+      this.props.firebase.update("/", updates);
+    }
+  }
+
+  render() {
+    if (!isLoaded(this.props.notifications) || !this.props.isLoaded) {
+      return <Loading />;
     }
 
-    componentDidUpdate(prevProps){
-        if(this.props.notifications){
-        //if(prevProps.notifications && Object.keys(prevProps.notifications).length != Object.keys(this.props.notifications).length){
-            const updates = {};
-            updates[`/hasNotifs/${this.props.uid}`] = false;
-            this.props.firebase.update('/', updates);
-        }
+    if (!this.props.uid) {
+      return <Redirect to="/register" />;
     }
 
-    render(){
-        if (!isLoaded(this.props.notifications) || !this.props.isLoaded) {
-            return <Loading />;
-        }
+    if (!this.props.onboarded) {
+      return <PageOnboard />;
+    }
 
-        if (!this.props.uid) {
-            return <Redirect to="/register" />;
-        }
+    if (!this.props.emailVerified) {
+      return <PageConfirmEmail />;
+    }
 
-        if (!this.props.onboarded) {
-          return <PageOnboard />
-        }
-
-        if (!this.props.emailVerified) {
-            return <PageConfirmEmail />;
-        }
-
-        const notifications = this.props.notifications &&
-        Object.keys(this.props.notifications).slice(0).reverse().map(notifId => {
-            const notification = this.props.notifications[notifId];
-            if(notification && notification.type === "tpUpvote"){
-                return (
-                    <div key={notifId}>
-                        <Link className={notification.viewed ? 'light-link' : 'dark-link'}
-                         to={`/tp/${notification.questId}/${notification.tpId}`}
-                         onClick={() => this.viewed(notifId)}>
-                            Your TP to Question #{notification.questId} was upvoted by @{notification.username}
-                        </Link>
-                        <br />
-                    </div>
-                );
-            }
-            if(notification && notification.type === "tpFeedbackUpvote"){
-                return (
-                    <div key={notifId}>
-                        <Link className={notification.viewed ? 'light-link' : 'dark-link'}
-                         to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
-                         onClick={() => this.viewed(notifId)}>
-                            Your feedback to @{notification.author}'s TP to Question #{notification.questId} was upvoted by @{notification.username}
-                        </Link>
-                        <br />
-                    </div>
-                );
-            }
-            if(notification && notification.type === "tpFeedback"){
-                return (
-                    <div key={notifId}>
-                        <Link className={notification.viewed ? 'light-link' : 'dark-link'}
-                         to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
-                         onClick={() => this.viewed(notifId)}>
-                            @{notification.username} gave feedback to your TP to Question #{notification.questId}
-                        </Link>
-                        <br />
-                    </div>
-                );
-            }
-            return;
-
+    const notifications =
+      this.props.notifications &&
+      Object.keys(this.props.notifications)
+        .slice(0)
+        .reverse()
+        .map((notifId) => {
+          const notification = this.props.notifications[notifId];
+          if (notification && notification.type === "tpUpvote") {
+            return (
+              <div key={notifId}>
+                <Link
+                  className={notification.viewed ? "light-link" : "dark-link"}
+                  to={`/tp/${notification.questId}/${notification.tpId}`}
+                  onClick={() => this.viewed(notifId)}
+                >
+                  Your TP to Question #{notification.questId} was upvoted by @
+                  {notification.username}
+                </Link>
+                <br />
+              </div>
+            );
+          }
+          if (notification && notification.type === "tpFeedbackUpvote") {
+            return (
+              <div key={notifId}>
+                <Link
+                  className={notification.viewed ? "light-link" : "dark-link"}
+                  to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
+                  onClick={() => this.viewed(notifId)}
+                >
+                  Your feedback to @{notification.author}'s TP to Question #
+                  {notification.questId} was upvoted by @{notification.username}
+                </Link>
+                <br />
+              </div>
+            );
+          }
+          if (notification && notification.type === "tpFeedback") {
+            return (
+              <div key={notifId}>
+                <Link
+                  className={notification.viewed ? "light-link" : "dark-link"}
+                  to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
+                  onClick={() => this.viewed(notifId)}
+                >
+                  @{notification.username} gave feedback to your TP to Question
+                  #{notification.questId}
+                </Link>
+                <br />
+              </div>
+            );
+          }
+          return;
         });
-        return(
-            <div>{notifications}</div>
-        );
-    }
+    return <div>{notifications}</div>;
+  }
 }
 
 const mapStateToProps = (state, props) => {
-    const notifications = state.firebase.data.notifications;
-    const user = props.firebase.auth().currentUser;
-    const emailVerified = user && user.emailVerified;
-    return { notifications, emailVerified };
+  const notifications = state.firebase.data.notifications;
+  const user = props.firebase.auth().currentUser;
+  const emailVerified = user && user.emailVerified;
+  return { notifications, emailVerified };
 };
 
 export default compose(
-    withRouter,
-    firebaseConnect(props => [
-      {
-        path: '/notifications/' + props.uid,
-        storeAs: 'notifications'
-      },
-    ]),
-    connect(mapStateToProps)
+  withRouter,
+  firebaseConnect((props) => [
+    {
+      path: "/notifications/" + props.uid,
+      storeAs: "notifications",
+    },
+  ]),
+  connect(mapStateToProps)
 )(PageNotifications);

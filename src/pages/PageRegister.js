@@ -1,28 +1,28 @@
-import React from 'react';
-import { firebaseConnect } from 'react-redux-firebase';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { Redirect, Link } from 'react-router-dom';
+import React from "react";
+import { firebaseConnect } from "react-redux-firebase";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { Redirect, Link } from "react-router-dom";
 
-import PageOnboard from './PageOnboard';
-import PageConfirmEmail from './PageConfirmEmail';
-import Loading from '../components/Loading.js';
-import GoogleButton from 'components/GoogleButton';
+import PageOnboard from "./PageOnboard";
+import PageConfirmEmail from "./PageConfirmEmail";
+import Loading from "../components/Loading.js";
+import GoogleButton from "components/GoogleButton";
 
-import '../styles/PageRegister.css';
+import "../styles/PageRegister.css";
 
 class PageRegister extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
-      username: '',
-      error: '',
+      email: "",
+      password: "",
+      username: "",
+      error: "",
     };
   }
 
-  handleChange = event =>
+  handleChange = (event) =>
     this.setState({ [event.target.name]: event.target.value });
 
   register = async () => {
@@ -36,26 +36,25 @@ class PageRegister extends React.Component {
       username: this.state.username,
       onboarded: true,
       admin: false,
-    }
+    };
 
     try {
       await this.props.registerUser(credentials, profile);
       await this.props.auth().currentUser.sendEmailVerification();
-
     } catch (error) {
       this.setState({ error: error.message });
     }
   };
 
-  loginWithProvider = provider => {
+  loginWithProvider = (provider) => {
     this.setState({ loading: true });
 
-    this.props.loginUser({ provider }).catch(error => {
+    this.props.loginUser({ provider }).catch((error) => {
       this.setState({ loading: false, message: error.message });
     });
   };
 
-  render () {
+  render() {
     const { isLoaded, onboarded, auth, uid } = this.props;
     const user = auth().currentUser;
 
@@ -76,9 +75,9 @@ class PageRegister extends React.Component {
     }
 
     return (
-      <div className='register-container'>
-        <div className='register-block'>
-          <div className='register-title'>
+      <div className="register-container">
+        <div className="register-block">
+          <div className="register-title">
             <h2>Join the community!</h2>
           </div>
           <div>
@@ -109,15 +108,22 @@ class PageRegister extends React.Component {
             />
           </div>
           <br />
-          <button className='button' disabled={!this.state.username.trim()} onClick={this.register}>
+          <button
+            className="button"
+            disabled={!this.state.username.trim()}
+            onClick={this.register}
+          >
             register!
           </button>
           <br />
           <GoogleButton
-            onClick={() => this.loginWithProvider('google')}
-            text={'Sign up with Google'}
+            onClick={() => this.loginWithProvider("google")}
+            text={"Sign up with Google"}
           />
-          <button className='login' onClick={() => window.location.href="/login"}>
+          <button
+            className="login"
+            onClick={() => (window.location.href = "/login")}
+          >
             login
           </button>
         </div>

@@ -1,27 +1,27 @@
-import React from 'react';
-import { firebaseConnect } from 'react-redux-firebase';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { Redirect, Link } from 'react-router-dom';
+import React from "react";
+import { firebaseConnect } from "react-redux-firebase";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { Redirect, Link } from "react-router-dom";
 
-import Loading from '../components/Loading.js';
-import GoogleButton from '../components/GoogleButton';
-import PageOnboard from './PageOnboard';
+import Loading from "../components/Loading.js";
+import GoogleButton from "../components/GoogleButton";
+import PageOnboard from "./PageOnboard";
 
-import '../styles/PageRegister.css';
+import "../styles/PageRegister.css";
 
 class PageLogin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       loading: false,
     };
   }
 
-  handleChange = event =>
-    this.setState({ [event.target.name]: event.target.value, error: '' });
+  handleChange = (event) =>
+    this.setState({ [event.target.name]: event.target.value, error: "" });
 
   login = async () => {
     const credentials = {
@@ -36,24 +36,23 @@ class PageLogin extends React.Component {
     } catch (error) {
       this.setState({ error: error.message, loading: false });
     }
-
   };
 
-  loginWithProvider = provider => {
+  loginWithProvider = (provider) => {
     this.setState({ loading: true });
 
-    this.props.loginUser({ provider }).catch(error => {
+    this.props.loginUser({ provider }).catch((error) => {
       this.setState({ message: error.message, loading: false });
     });
   };
 
-  render () {
+  render() {
     if (!this.props.isLoaded) {
       return <Loading />;
     }
 
     if (this.props.uid && !this.props.onboarded) {
-      return <PageOnboard />
+      return <PageOnboard />;
     }
 
     if (this.props.uid) {
@@ -61,9 +60,9 @@ class PageLogin extends React.Component {
     }
 
     return (
-      <div className='register-container'>
-        <div className='register-block'>
-          <div className='register-title'>
+      <div className="register-container">
+        <div className="register-block">
+          <div className="register-title">
             <h2>Welcome back!</h2>
           </div>
           <div>
@@ -88,21 +87,23 @@ class PageLogin extends React.Component {
           <br />
           {!this.state.loading ? (
             <div>
-                <button className='button' onClick={this.login}>login!</button>
-                <br />
+              <button className="button" onClick={this.login}>
+                login!
+              </button>
+              <br />
 
-                <GoogleButton
-                  onClick={() => this.loginWithProvider('google')}
-                />
+              <GoogleButton onClick={() => this.loginWithProvider("google")} />
 
-                <button className='login' onClick={() => window.location.href="/register"}>
-                  register
-                </button>
+              <button
+                className="login"
+                onClick={() => (window.location.href = "/register")}
+              >
+                register
+              </button>
             </div>
           ) : (
             <Loading />
-          )
-          }
+          )}
         </div>
       </div>
     );
@@ -115,7 +116,4 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-export default compose(
-  firebaseConnect(),
-  connect(mapStateToProps)
-)(PageLogin);
+export default compose(firebaseConnect(), connect(mapStateToProps))(PageLogin);
