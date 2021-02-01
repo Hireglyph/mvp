@@ -14,8 +14,8 @@ class QuestionPreview extends React.Component {
     || !isLoaded(this.props.difficulty) ) {
       return (
         <div>
-        <div>{this.props.questId}</div>
-      </div>
+          <div>{this.props.questId}</div>
+        </div>
       );
     }
     
@@ -29,7 +29,7 @@ class QuestionPreview extends React.Component {
     return (
       <div>
         <Link to={`/q/${this.props.questId}`}>
-          Question #{this.props.questId}: {this.props.title}
+          Question #{this.props.questId}: {this.props.title} {this.props.solved ? "✔" : ""}
         </Link>
         <div>{this.props.difficulty}</div>
         <div>{topics}</div>
@@ -42,15 +42,18 @@ const mapStateToProps = (state, props) => {
   const questions = state.firebase.data.questions;
   const question = questions && questions[props.questId];
   const { title, tags, difficulty } = question || {};
-  return { title, tags, difficulty };
+  const solved = 
+    state.firebase.data.questionHistory &&
+    state.firebase.data.questionHistory[props.uid] && 
+    state.firebase.data.questionHistory[props.uid][props.questId];
+  return { title, tags, difficulty, solved };
 }
 
 export default compose(
   withRouter,
   firebaseConnect(props => [
-    {
-      path: '/questions/' + props.questId,
-    },
+    { path: '/questions/' + props.questId },
+    { path: `/questionHistory/` + props.uid + `/${props.questId}` },
   ]),
   connect(mapStateToProps)
 )(QuestionPreview);

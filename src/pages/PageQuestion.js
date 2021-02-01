@@ -246,7 +246,7 @@ class PageQuestion extends React.Component {
     const relatedQs =
       this.props.relatedQuestions &&
       Object.keys(this.props.relatedQuestions).map((questId) => {
-        return <QuestionPreview questId={questId} key={questId} />;
+        return <QuestionPreview questId={questId} uid={this.props.uid} key={questId} />;
       });
 
     const answer = this.props.answer && (
@@ -432,7 +432,7 @@ class PageQuestion extends React.Component {
         <div className="question-block">
           <div className="question-title-2">
             <h1>
-              #{this.props.questId}: {this.props.title}
+              #{this.props.questId}: {this.props.title} {this.props.solved ? "✔" : ""}
             </h1>
           </div>
           <div className="question-description">
@@ -478,7 +478,6 @@ class PageQuestion extends React.Component {
 
 const mapStateToProps = (state, props) => {
   const { profile, data } = state.firebase;
-  const { uid } = state.firebase.auth;
   const { username, onboarded } = profile || {};
   const { emailVerified } = props.firebase.auth().currentUser || {};
 
@@ -490,6 +489,10 @@ const mapStateToProps = (state, props) => {
   const relatedQuestions =
     state.firebase.data.relatedQuestions &&
     state.firebase.data.relatedQuestions[questId];
+  const solved = 
+    state.firebase.data.questionHistory &&
+    state.firebase.data.questionHistory[props.uid] && 
+    state.firebase.data.questionHistory[props.uid][questId];
 
   return {
     answer,
@@ -505,7 +508,7 @@ const mapStateToProps = (state, props) => {
     title,
     topics,
     tps,
-    uid,
+    solved,
     username,
     relatedQuestions,
   };
@@ -520,6 +523,7 @@ export default compose(
       { path: `/questions/${questId}`, storeAs: questId },
       { path: `/tps/${questId}` },
       { path: `/relatedQuestions/${questId}` },
+      { path: `/questionHistory/` + props.uid + `/${questId}` },
     ];
   }),
   connect(mapStateToProps)

@@ -31,10 +31,10 @@ class App extends React.Component {
             <PageNotifications uid={this.props.uid} onboarded={this.props.onboarded} isLoaded={this.props.isLoaded} />
           </Route>
           <Route exact path="/q/:questId/:questParam?">
-            <PageQuestion />
+            <PageQuestion uid={this.props.uid} />
           </Route>
           <Route exact path="/q/:questId/community/:sortBy">
-            <PageQuestion />
+            <PageQuestion uid={this.props.uid} />
           </Route>
           <Route exact path="/tp/:questId/:tpId">
             <PageTp />
