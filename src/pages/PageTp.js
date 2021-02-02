@@ -242,7 +242,7 @@ class PageTp extends React.Component {
           const feedbackUsername = username ? username : creator;
           return (
             <div className="user-feedback" key={feedbackId}>
-              <a id={`${feedbackId}`}> </a>
+              <div id={`${feedbackId}`}> </div>
               <div className="feedback-content">
                 <div className="feedback-text">@{feedbackUsername}</div>
                 <div className="feedback-text">
@@ -266,7 +266,7 @@ class PageTp extends React.Component {
             </div>
           );
         }
-        return;
+        return <div />;
       });
 
     const myFeedback = (
