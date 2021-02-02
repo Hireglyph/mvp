@@ -32,6 +32,18 @@ class PageQuestion extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    if (prevProps.questId !== this.props.questId) {
+      this.setState({ 
+        initial: "",
+        approach: "",
+        solution: "",
+        loading: true,
+        keys: [],
+        time: [],
+        expand: {},
+        showAnswer: false,
+      })
+    }
     if (prevState.loading && isLoaded(this.props.tps)) {
       let keys = this.props.tps ? Object.keys(this.props.tps) : [];
       keys.sort((a, b) => this.props.tps[b].total - this.props.tps[a].total);
