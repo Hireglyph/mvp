@@ -68,10 +68,11 @@ class PageNotifications extends React.Component {
                   to={`/tp/${notification.questId}/${notification.tpId}`}
                   onClick={() => this.viewed(notifId)}
                 >
-                  Your TP to Question #{notification.questId} was upvoted by @
-                  {notification.username}
+                  <div>
+                    Your TP to Question #{notification.questId} was upvoted by @
+                    {notification.username}
+                  </div>
                 </Link>
-                <br />
               </div>
             );
           }
@@ -83,10 +84,11 @@ class PageNotifications extends React.Component {
                   to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
                   onClick={() => this.viewed(notifId)}
                 >
-                  Your feedback to @{notification.author}'s TP to Question #
-                  {notification.questId} was upvoted by @{notification.username}
+                  <div>
+                    Your feedback to @{notification.author}'s TP to Question #
+                    {notification.questId} was upvoted by @{notification.username}
+                  </div>
                 </Link>
-                <br />
               </div>
             );
           }
@@ -98,10 +100,11 @@ class PageNotifications extends React.Component {
                   to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
                   onClick={() => this.viewed(notifId)}
                 >
-                  @{notification.username} gave feedback to your TP to Question
-                  #{notification.questId}
+                  <div>
+                    @{notification.username} gave feedback to your TP to Question
+                    #{notification.questId}
+                  </div>
                 </Link>
-                <br />
               </div>
             );
           }

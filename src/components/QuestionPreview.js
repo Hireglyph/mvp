@@ -28,8 +28,10 @@ class QuestionPreview extends React.Component {
 
     return (
       <div>
-        <Link className="question-title" to={`/q/${this.props.questId}`}>
-          Question #{this.props.questId}: {this.props.title} {this.props.solved ? "✔" : ""}
+        <Link to={`/q/${this.props.questId}`}>
+          <div>
+            Question #{this.props.questId}: {this.props.title} {this.props.solved ? "✔" : ""}
+          </div>
         </Link>
         <div>{this.props.difficulty}</div>
         <div>{topics}</div>
