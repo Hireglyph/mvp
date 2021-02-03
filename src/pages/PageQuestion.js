@@ -495,8 +495,9 @@ const mapStateToProps = (state, props) => {
 
   const { questId, questParam, sortBy } = props.match.params;
   const question = data[questId];
-  const { answer, definitive, description, difficulty, tags, title, topics } =
+  const { answer, definitive, description, difficulty, tags, topics } =
     question || {};
+  const title = question && question.title;
   const tps = question && data.tps && data.tps[questId];
   const relatedQuestions =
     state.firebase.data.relatedQuestions &&

@@ -343,7 +343,8 @@ const mapStateToProps = (state, props) => {
   const { questId, tpId } = props.match.params;
 
   const tp = data[tpId];
-  const { approach, creator, initial, solution, total } = tp || {};
+  const { approach, creator, initial, total } = tp || {};
+  const solution = tp && tp.solution;
   const username = tp && (tp.username ? tp.username : tp.creator);
   const feedbacks = tpId && data.feedbacks && data.feedbacks[tpId];
   const isUpvoted = tp && tp.users && uid in tp.users && tp.users[uid] === 1;
