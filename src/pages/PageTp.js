@@ -237,20 +237,14 @@ class PageTp extends React.Component {
           const { creator, feedback, score, username, users } = feedbacks[
             feedbackId
           ];
+          const deleted = feedbacks[feedbackId].deleted;
           const isUpvoted = users && uid in users && users[uid] === 1;
           const isDownvoted = users && uid in users && users[uid] === -1;
           const feedbackUsername = username ? username : creator;
-          return (
-            <div className="user-feedback" key={feedbackId}>
-              <div id={`${feedbackId}`}> </div>
-              <div className="feedback-content">
-                <div className="feedback-text">@{feedbackUsername}</div>
-                <div className="feedback-text">
-                  <Latex>{feedback}</Latex>
-                </div>
-              </div>
-              <br />
-              <br />
+          const feedbackScoreArrows = (
+            !deleted
+            ?
+            <div>
               <img
                 className="feedback-upvote-button"
                 src={isUpvoted ? green : upvote}
@@ -262,6 +256,22 @@ class PageTp extends React.Component {
                 src={isDownvoted ? red : downvote}
                 onClick={() => this.downvoteFeedback(feedbackId)}
               />
+            </div>
+            :
+            <div></div>
+          );
+          return (
+            <div className="user-feedback" key={feedbackId}>
+              <div id={`${feedbackId}`}> </div>
+              <div className="feedback-content">
+                <div className="feedback-text">@{feedbackUsername}</div>
+                <div className="feedback-text">
+                  <Latex>{feedback}</Latex>
+                </div>
+              </div>
+              <br />
+              <br />
+              {feedbackScoreArrows}
               <br />
             </div>
           );
@@ -270,6 +280,8 @@ class PageTp extends React.Component {
       });
 
     const myFeedback = (
+      !this.props.deleted
+      ?
       <div>
         <TextareaAutosize
           minRows={2}
@@ -288,6 +300,28 @@ class PageTp extends React.Component {
           Submit
         </button>
       </div>
+      :
+      <div></div>
+    );
+    
+    const scoreArrows = (
+      !this.props.deleted
+      ?
+      <div>
+        <img
+          className="upvote-button"
+          src={isUpvoted ? green : upvote}
+          onClick={this.upvote}
+        />
+        <div className="score-text">{this.props.total}</div>
+        <img
+          className="downvote-button"
+          src={isDownvoted ? red : downvote}
+          onClick={this.downvote}
+        />
+      </div>
+      :
+      <div></div>
     );
 
     return (
@@ -316,17 +350,7 @@ class PageTp extends React.Component {
         <div className="body-text">
           <Latex>{solution}</Latex>
         </div>
-        <img
-          className="upvote-button"
-          src={isUpvoted ? green : upvote}
-          onClick={this.upvote}
-        />
-        <div className="score-text">{this.props.total}</div>
-        <img
-          className="downvote-button"
-          src={isDownvoted ? red : downvote}
-          onClick={this.downvote}
-        />
+        {scoreArrows}
         <br />
         <div> {myFeedback}</div>
         <br />
@@ -352,6 +376,7 @@ const mapStateToProps = (state, props) => {
   const username2 = profile && profile.username;
   const onboarded = profile && profile.onboarded;
   const { emailVerified } = props.firebase.auth().currentUser || {};
+  const deleted = tp && tp.deleted;
 
   return {
     approach,
@@ -369,6 +394,7 @@ const mapStateToProps = (state, props) => {
     uid,
     username,
     username2,
+    deleted,
   };
 };
 

@@ -300,12 +300,18 @@ class PageQuestion extends React.Component {
     const tps =
       this.props.tps &&
       this.state.keys.map((tpId) => {
+        if (this.props.tps[tpId].deleted) {
+          return <div key={tpId}></div>;
+        }
         return this.displayTp(tpId);
       });
 
     const tpsByTime =
       this.props.tps &&
       this.state.time.map((tpId) => {
+        if (this.props.tps[tpId].deleted) {
+          return <div key={tpId}></div>;
+        }
         return this.displayTp(tpId);
       });
 
