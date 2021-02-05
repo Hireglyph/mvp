@@ -124,11 +124,13 @@ class PageQuestion extends React.Component {
     const username = tp && (tp.username ? tp.username : tp.creator);
     const expanded = this.state.expand[tpId];
     const isUpvoted =
-      tp.users && this.props.uid in tp.users && tp.users[this.props.uid] === 1;
+      tp && tp.users && this.props.uid in tp.users && tp.users[this.props.uid] === 1;
     const isDownvoted =
-      tp.users && this.props.uid in tp.users && tp.users[this.props.uid] === -1;
+      tp && tp.users && this.props.uid in tp.users && tp.users[this.props.uid] === -1;
 
     return (
+      tp
+      ?
       <div className="individual-tp-preview" key={tpId}>
         <div className="main-tp-text">
           <div className="tp-preview-username">@{username}</div>
@@ -165,6 +167,8 @@ class PageQuestion extends React.Component {
         />
         <br />
       </div>
+      :
+      <div key={tpId}></div>
     );
   };
 
@@ -249,7 +253,7 @@ class PageQuestion extends React.Component {
       this.props.tags &&
       Object.keys(this.props.tags).map((tag) => {
         return (
-          <Link to={`/${tag}`} key={tag}>
+          <Link to={`/questions/${tag}`} key={tag}>
             <span className="topic-2">{tag} </span>
           </Link>
         );
@@ -300,7 +304,7 @@ class PageQuestion extends React.Component {
     const tps =
       this.props.tps &&
       this.state.keys.map((tpId) => {
-        if (this.props.tps[tpId].deleted) {
+        if (this.props.tps[tpId] && this.props.tps[tpId].deleted) {
           return <div key={tpId}></div>;
         }
         return this.displayTp(tpId);
@@ -309,7 +313,7 @@ class PageQuestion extends React.Component {
     const tpsByTime =
       this.props.tps &&
       this.state.time.map((tpId) => {
-        if (this.props.tps[tpId].deleted) {
+        if (this.props.tps[tpId] && this.props.tps[tpId].deleted) {
           return <div key={tpId}></div>;
         }
         return this.displayTp(tpId);

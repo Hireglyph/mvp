@@ -9,14 +9,14 @@ import Loading from "../components/Loading.js";
 
 import "../styles/PageLanding.css";
 
-class PageLanding extends React.Component {
+class PageProblems extends React.Component {
   constructor(props) {
     super(props);
     this.state = { titles: "", loaded: false };
   }
 
   handleTagFilter = (tag) => {
-    this.props.history.push(`/${tag}`);
+    this.props.history.push(`/questions/${tag}`);
   };
 
   render() {
@@ -167,4 +167,4 @@ export default compose(
     },
   ]),
   connect(mapStateToProps)
-)(PageLanding);
+)(PageProblems);

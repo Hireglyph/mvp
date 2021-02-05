@@ -1,5 +1,5 @@
 import React from 'react';
-import PageLanding from './pages/PageLanding';
+import PageProblems from './pages/PageProblems';
 import PageProfile from './pages/PageProfile';
 import PageQuestion from './pages/PageQuestion';
 import PageTp from './pages/PageTp';
@@ -51,8 +51,11 @@ class App extends React.Component {
           <Route exact path="/contact">
             <PageContact />
           </Route>
-          <Route exact path="/:tag?">
-            <PageLanding uid={this.props.uid} />
+          <Route exact path="/questions/:tag?">
+            <PageProblems uid={this.props.uid} />
+          </Route>
+          <Route exact path="/">
+            <div>Landing page... under construction!</div>
           </Route>
           <Route>
             <div>Page not found</div>

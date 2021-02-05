@@ -105,6 +105,7 @@ class NavBar extends React.Component {
       <div className='navbar' sx={NavBarSx}>
         <div className='title'>
           <Link className='title-text' to='/'>Hireglyph</Link>
+          <Link className='link-text' to='/questions'>Questions</Link>
         </div>
         {this.navbarContent()}
       </div>
