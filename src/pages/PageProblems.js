@@ -151,7 +151,8 @@ class PageProblems extends React.Component {
 const mapStateToProps = (state, props) => {
   return {
     questions: state.firebase.data.questions,
-    questionHistory: state.firebase.data.questionHistory,
+    questionHistory: state.firebase.data.questionHistory &&
+      state.firebase.data.questionHistory[props.uid],
     email: state.firebase.auth.email,
     tag: props.match.params.tag,
   };
@@ -163,7 +164,6 @@ export default compose(
     "/questions",
     {
       path: "/questionHistory/" + props.uid,
-      storeAs: "questionHistory",
     },
   ]),
   connect(mapStateToProps)

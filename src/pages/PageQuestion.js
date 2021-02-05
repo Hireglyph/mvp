@@ -489,8 +489,9 @@ const mapStateToProps = (state, props) => {
   const { emailVerified } = props.firebase.auth().currentUser || {};
 
   const { questId, questParam, sortBy } = props.match.params;
-  const { answer, definitive, description, difficulty, tags, title, topics } =
+  const { answer, definitive, description, difficulty, tags, topics } =
     question || {};
+  const title = question && question.title;
 
   return {
     answer,
