@@ -8,9 +8,10 @@ class QuestionPreview extends React.Component {
   constructor(props) {
     super(props);
   };
+
   render() {
-    if (!isLoaded(this.props.title) 
-    || !isLoaded(this.props.tags) 
+    if (!isLoaded(this.props.title)
+    || !isLoaded(this.props.tags)
     || !isLoaded(this.props.difficulty) ) {
       return (
         <div>
@@ -18,7 +19,7 @@ class QuestionPreview extends React.Component {
         </div>
       );
     }
-    
+
     const topics = this.props.tags &&
       Object.keys(this.props.tags).map(tag => {
         return (
@@ -44,9 +45,9 @@ const mapStateToProps = (state, props) => {
   const questions = state.firebase.data.questions;
   const question = questions && questions[props.questId];
   const { title, tags, difficulty } = question || {};
-  const solved = 
+  const solved =
     state.firebase.data.questionHistory &&
-    state.firebase.data.questionHistory[props.uid] && 
+    state.firebase.data.questionHistory[props.uid] &&
     state.firebase.data.questionHistory[props.uid][props.questId];
   return { title, tags, difficulty, solved };
 }

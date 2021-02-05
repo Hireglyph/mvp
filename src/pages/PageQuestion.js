@@ -16,34 +16,28 @@ import { length } from "../constants/PrevLength";
 
 import "../styles/PageQuestion.css";
 
+const initialState = {
+  initial: "",
+  approach: "",
+  solution: "",
+  loading: true,
+  keys: [],
+  time: [],
+  expand: {},
+  showAnswer: false,
+};
+
 class PageQuestion extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      initial: "",
-      approach: "",
-      solution: "",
-      loading: true,
-      keys: [],
-      time: [],
-      expand: {},
-      showAnswer: false,
-    };
+    this.state = initialState;
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.questId !== this.props.questId) {
-      this.setState({ 
-        initial: "",
-        approach: "",
-        solution: "",
-        loading: true,
-        keys: [],
-        time: [],
-        expand: {},
-        showAnswer: false,
-      })
+      this.setState(initialState);
     }
+
     if (prevState.loading && isLoaded(this.props.tps)) {
       let keys = this.props.tps ? Object.keys(this.props.tps) : [];
       keys.sort((a, b) => this.props.tps[b].total - this.props.tps[a].total);
@@ -124,13 +118,17 @@ class PageQuestion extends React.Component {
     const username = tp && (tp.username ? tp.username : tp.creator);
     const expanded = this.state.expand[tpId];
     const isUpvoted =
-      tp && tp.users && this.props.uid in tp.users && tp.users[this.props.uid] === 1;
+      tp &&
+      tp.users &&
+      this.props.uid in tp.users &&
+      tp.users[this.props.uid] === 1;
     const isDownvoted =
-      tp && tp.users && this.props.uid in tp.users && tp.users[this.props.uid] === -1;
+      tp &&
+      tp.users &&
+      this.props.uid in tp.users &&
+      tp.users[this.props.uid] === -1;
 
-    return (
-      tp
-      ?
+    return tp ? (
       <div className="individual-tp-preview" key={tpId}>
         <div className="main-tp-text">
           <div className="tp-preview-username">@{username}</div>
@@ -167,7 +165,7 @@ class PageQuestion extends React.Component {
         />
         <br />
       </div>
-      :
+    ) : (
       <div key={tpId}></div>
     );
   };
@@ -223,21 +221,35 @@ class PageQuestion extends React.Component {
   };
 
   render() {
-    if (!isLoaded(this.props.title) || !isLoaded(this.props.tps)) {
+    const {
+      answer,
+      description,
+      difficulty,
+      onboarded,
+      questId,
+      questParam,
+      relatedQuestions,
+      sortBy,
+      tags,
+      title,
+      tps,
+      uid,
+    } = this.props;
+    const { approach, initial, keys, showAnswer, solution, time } = this.state;
+
+    if (!isLoaded(title) || !isLoaded(tps)) {
       return <Loading />;
     }
 
-    if (isEmpty(this.props.title)) {
+    if (isEmpty(title)) {
       return <div>Page not found!</div>;
     }
-
-    const { questParam, sortBy } = this.props;
 
     if (
       (questParam == "community" && !sortBy) ||
       (sortBy && sortBy != "top" && sortBy != "new")
     ) {
-      return <Redirect to={`/q/${this.props.questId}/community/top`} />;
+      return <Redirect to={`/q/${questId}/community/top`} />;
     }
 
     if (
@@ -246,12 +258,12 @@ class PageQuestion extends React.Component {
       questParam != "community" &&
       questParam != "related"
     ) {
-      return <Redirect to={`/q/${this.props.questId}/my`} />;
+      return <Redirect to={`/q/${questId}/my`} />;
     }
 
     const topics =
-      this.props.tags &&
-      Object.keys(this.props.tags).map((tag) => {
+      tags &&
+      Object.keys(tags).map((tag) => {
         return (
           <Link to={`/questions/${tag}`} key={tag}>
             <span className="topic-2">{tag} </span>
@@ -260,60 +272,31 @@ class PageQuestion extends React.Component {
       });
 
     const relatedQs =
-      this.props.relatedQuestions &&
-      Object.keys(this.props.relatedQuestions).map((questId) => {
-        return <QuestionPreview questId={questId} uid={this.props.uid} key={questId} />;
+      relatedQuestions &&
+      Object.keys(relatedQuestions).map((questId) => {
+        return <QuestionPreview questId={questId} uid={uid} key={questId} />;
       });
 
-    const answer = this.props.answer && (
+    const answerDisplay = answer && (
       <div>
         <div onClick={() => this.changeShowAnswer()}>Click to see answer</div>
-        <div>{this.state.showAnswer ? this.props.answer : ""}</div>
+        <div>{showAnswer ? answer : ""}</div>
       </div>
     );
 
-    let bars;
-    if (this.props.difficulty && this.props.difficulty === "easy") {
-      bars = (
-        <div>
-          <div className="level12"></div>
-          <div className="level2n2"></div>
-          <div className="level3n2"></div>
-        </div>
-      );
-    }
-    if (this.props.difficulty && this.props.difficulty === "medium") {
-      bars = (
-        <div>
-          <div className="level12"></div>
-          <div className="level2y2"></div>
-          <div className="level3n2"></div>
-        </div>
-      );
-    }
-    if (this.props.difficulty && this.props.difficulty === "hard") {
-      bars = (
-        <div>
-          <div className="level12"></div>
-          <div className="level2y2"></div>
-          <div className="level3y2"></div>
-        </div>
-      );
-    }
-
-    const tps =
-      this.props.tps &&
-      this.state.keys.map((tpId) => {
-        if (this.props.tps[tpId] && this.props.tps[tpId].deleted) {
+    const tpsByVote =
+      tps &&
+      keys.map((tpId) => {
+        if (tps[tpId] && tps[tpId].deleted) {
           return <div key={tpId}></div>;
         }
         return this.displayTp(tpId);
       });
 
     const tpsByTime =
-      this.props.tps &&
-      this.state.time.map((tpId) => {
-        if (this.props.tps[tpId] && this.props.tps[tpId].deleted) {
+      tps &&
+      time.map((tpId) => {
+        if (tps[tpId] && tps[tpId].deleted) {
           return <div key={tpId}></div>;
         }
         return this.displayTp(tpId);
@@ -333,12 +316,12 @@ class PageQuestion extends React.Component {
         >
           New TPs
         </button>
-        {sortBy == "top" ? tps : tpsByTime}
+        {sortBy == "top" ? tpsByVote : tpsByTime}
       </div>
     );
 
     const myTp =
-      this.props.difficulty === "easy" ? (
+      difficulty === "easy" ? (
         <div className="my-tp-submit">
           <p className="tp-instructions-text">
             Enter your Thought Process below:
@@ -349,13 +332,13 @@ class PageQuestion extends React.Component {
             name="solution"
             placeholder="Final solution!"
             onChange={this.handleChange}
-            value={this.state.solution}
+            value={solution}
           />
           <br />
           <br />
           <button
             className="tp-submit-green"
-            disabled={this.state.solution.trim() === ""}
+            disabled={solution.trim() === ""}
             onClick={this.createTp}
           >
             Submit
@@ -372,7 +355,7 @@ class PageQuestion extends React.Component {
             name="initial"
             placeholder="What were your initial thoughts?"
             onChange={this.handleChange}
-            value={this.state.initial}
+            value={initial}
           />
 
           <TextareaAutosize
@@ -381,7 +364,7 @@ class PageQuestion extends React.Component {
             name="approach"
             placeholder="Different approaches you tried..."
             onChange={this.handleChange}
-            value={this.state.approach}
+            value={approach}
           />
 
           <TextareaAutosize
@@ -390,16 +373,16 @@ class PageQuestion extends React.Component {
             name="solution"
             placeholder="Final solution!"
             onChange={this.handleChange}
-            value={this.state.solution}
+            value={solution}
           />
           <br />
           <br />
           <button
             className="tp-submit-green"
             disabled={
-              this.state.initial.trim() === "" ||
-              this.state.approach.trim() === "" ||
-              this.state.solution.trim() === ""
+              initial.trim() === "" ||
+              approach.trim() === "" ||
+              solution.trim() === ""
             }
             onClick={this.createTp}
           >
@@ -417,13 +400,13 @@ class PageQuestion extends React.Component {
       section = communityTps;
     }
 
-    if (!this.props.uid) {
+    if (!uid) {
       section = (
         <div className="login-message">
           <p>You need to log in or register to write your own TP.</p>
         </div>
       );
-    } else if (!this.props.onboarded) {
+    } else if (!onboarded) {
       section = (
         <div className="login-message">
           <p>
@@ -454,15 +437,16 @@ class PageQuestion extends React.Component {
         <div className="question-block">
           <div className="question-title-2">
             <h1>
-              #{this.props.questId}: {this.props.title} {this.props.solved ? "✔" : ""}
+              #{this.props.questId}: {this.props.title}{" "}
+              {this.props.solved ? "✔" : ""}
             </h1>
           </div>
           <div className="question-description">
-            <p>{this.props.description}</p>
+            <p>{description}</p>
           </div>
-          <div>{bars}</div>
+          <div>{this.props.difficulty}</div>
           <div className="topics-2">{topics}</div>
-          <div>{answer}</div>
+          <div>{answerDisplay}</div>
         </div>
         <div>
           <button
@@ -500,22 +484,13 @@ class PageQuestion extends React.Component {
 
 const mapStateToProps = (state, props) => {
   const { profile, data } = state.firebase;
+  const { question, relatedQuestions, solved, tps } = data;
   const { username, onboarded } = profile || {};
   const { emailVerified } = props.firebase.auth().currentUser || {};
 
   const { questId, questParam, sortBy } = props.match.params;
-  const question = data[questId];
-  const { answer, definitive, description, difficulty, tags, topics } =
+  const { answer, definitive, description, difficulty, tags, title, topics } =
     question || {};
-  const title = question && question.title;
-  const tps = question && data.tps && data.tps[questId];
-  const relatedQuestions =
-    state.firebase.data.relatedQuestions &&
-    state.firebase.data.relatedQuestions[questId];
-  const solved = 
-    state.firebase.data.questionHistory &&
-    state.firebase.data.questionHistory[props.uid] && 
-    state.firebase.data.questionHistory[props.uid][questId];
 
   return {
     answer,
@@ -543,10 +518,22 @@ export default compose(
   firebaseConnect((props) => {
     const questId = props.match.params.questId;
     return [
-      { path: `/questions/${questId}`, storeAs: questId },
-      { path: `/tps/${questId}` },
-      { path: `/relatedQuestions/${questId}` },
-      { path: `/questionHistory/` + props.uid + `/${questId}` },
+      {
+        path: `/questions/${questId}`,
+        storeAs: "question",
+      },
+      {
+        path: `/tps/${questId}`,
+        storeAs: "tps",
+      },
+      {
+        path: `/relatedQuestions/${questId}`,
+        storeAs: "relatedQuestions",
+      },
+      {
+        path: `/questionHistory/` + props.uid + `/${questId}`,
+        storeAs: "solved",
+      },
     ];
   }),
   connect(mapStateToProps)

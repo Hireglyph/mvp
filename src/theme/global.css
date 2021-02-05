@@ -12,3 +12,7 @@
   font-weight: 400;
   src: url(../assets/fonts/GothamBook.ttf) format('opentype');
 }
+
+Link {
+  font-size: 90px;
+}
