@@ -49,7 +49,7 @@ class PageTp extends React.Component {
       tpId,
       uid,
       username,
-      username2,
+      currentUsername,
     } = this.props;
     const { feedback, keys } = this.state;
 
@@ -60,7 +60,7 @@ class PageTp extends React.Component {
       feedback,
       creator: uid,
       score: 0,
-      username: username2,
+      username: currentUsername,
     };
     updates[`/feedbackHistory/${uid}/${feedbackId}`] = {
       tpId,
@@ -73,7 +73,7 @@ class PageTp extends React.Component {
       questId,
       tpId,
       feedbackId,
-      username: username2,
+      username: currentUsername,
       viewed: false,
       type: "tpFeedback",
     };
@@ -108,7 +108,7 @@ class PageTp extends React.Component {
       total,
       tpId,
       uid,
-      username2,
+      currentUsername,
     } = this.props;
     const updates = {};
 
@@ -117,7 +117,7 @@ class PageTp extends React.Component {
       updates[`/notifications/${creator}/${notificationId}`] = {
         questId,
         tpId,
-        username: username2,
+        username: currentUsername,
         viewed: false,
         type: "tpUpvote",
       };
@@ -164,7 +164,7 @@ class PageTp extends React.Component {
       updates[`/notifications/${creator}/${notificationId}`] = {
         questId,
         tpId,
-        username: this.props.username2,
+        username: this.props.currentUsername,
         viewed: false,
         type: "tpFeedbackUpvote",
         feedbackId,
@@ -197,24 +197,22 @@ class PageTp extends React.Component {
 
   render() {
     const {
-      approach,
+      tp,
       emailVerified,
       feedbacks,
-      initial,
       isDownvoted,
       isUpvoted,
       questId,
       onboarded,
-      solution,
       uid,
       username,
     } = this.props;
 
-    if (!isLoaded(solution) || !isLoaded(feedbacks)) {
+    if (!isLoaded(tp) || !isLoaded(tp)) {
       return <Loading />;
     }
 
-    if (isEmpty(solution)) {
+    if (isEmpty(tp)) {
       return <div>Page not found!</div>;
     }
 
@@ -338,17 +336,17 @@ class PageTp extends React.Component {
           </Link>
         </div>
         <br />
-        <div className="label-text">{initial ? "Initial Thoughts:" : ""}</div>
+        <div className="label-text">{tp.initial ? "Initial Thoughts:" : ""}</div>
         <div className="body-text">
-          <Latex>{initial}</Latex>
+          <Latex>{tp.initial}</Latex>
         </div>
-        <div className="label-text">{approach ? "Approaches Tried:" : ""}</div>
+        <div className="label-text">{tp.approach ? "Approaches Tried:" : ""}</div>
         <div className="body-text">
-          <Latex>{approach}</Latex>
+          <Latex>{tp.approach}</Latex>
         </div>
-        <div className="label-text">{solution ? "Final Solution:" : ""}</div>
+        <div className="label-text">{tp.solution ? "Final Solution:" : ""}</div>
         <div className="body-text">
-          <Latex>{solution}</Latex>
+          <Latex>{tp.solution}</Latex>
         </div>
         {scoreArrows}
         <br />
@@ -367,33 +365,28 @@ const mapStateToProps = (state, props) => {
   const { questId, tpId } = props.match.params;
 
   const tp = data[tpId];
-  const { approach, creator, initial, total } = tp || {};
-  const solution = tp && tp.solution;
-  const username = tp && (tp.username ? tp.username : tp.creator);
+  const { creator, total, deleted, username } = tp || {};
   const feedbacks = tpId && data.feedbacks && data.feedbacks[tpId];
   const isUpvoted = tp && tp.users && uid in tp.users && tp.users[uid] === 1;
   const isDownvoted = tp && tp.users && uid in tp.users && tp.users[uid] === -1;
-  const username2 = profile && profile.username;
+  const currentUsername = profile && profile.username;
   const onboarded = profile && profile.onboarded;
   const { emailVerified } = props.firebase.auth().currentUser || {};
-  const deleted = tp && tp.deleted;
 
   return {
-    approach,
+    tp,
     creator,
     emailVerified,
     feedbacks,
-    initial,
     isDownvoted,
     isUpvoted,
     onboarded,
     questId,
-    solution,
     total,
     tpId,
     uid,
     username,
-    username2,
+    currentUsername,
     deleted,
   };
 };

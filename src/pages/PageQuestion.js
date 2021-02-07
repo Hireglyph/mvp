@@ -196,7 +196,8 @@ class PageQuestion extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
 
   createTp = () => {
-    const { difficulty, questId, uid, username } = this.props;
+    const { questId, uid, username } = this.props;
+    const difficulty = this.props.question && this.props.question.difficulty;
     const { approach, initial, solution } = this.state;
 
     const tpId = this.props.firebase.push(`/tps/${questId}`).key;
@@ -222,26 +223,36 @@ class PageQuestion extends React.Component {
 
   render() {
     const {
-      answer,
-      description,
-      difficulty,
+      question,
       onboarded,
       questId,
       questParam,
       relatedQuestions,
       sortBy,
-      tags,
-      title,
       tps,
       uid,
     } = this.props;
-    const { approach, initial, keys, showAnswer, solution, time } = this.state;
+    const { 
+      answer, 
+      description, 
+      difficulty, 
+      tags, 
+      title 
+    } = question || {};
+    const { 
+      approach, 
+      initial, 
+      keys, 
+      showAnswer, 
+      solution, 
+      time 
+    } = this.state;
 
-    if (!isLoaded(title) || !isLoaded(tps)) {
+    if (!isLoaded(question) || !isLoaded(tps)) {
       return <Loading />;
     }
 
-    if (isEmpty(title)) {
+    if (isEmpty(question)) {
       return <div>Page not found!</div>;
     }
 
@@ -437,14 +448,14 @@ class PageQuestion extends React.Component {
         <div className="question-block">
           <div className="question-title-2">
             <h1>
-              #{this.props.questId}: {this.props.title}{" "}
+              #{this.props.questId}: {title}{" "}
               {this.props.solved ? "✔" : ""}
             </h1>
           </div>
           <div className="question-description">
             <p>{description}</p>
           </div>
-          <div>{this.props.difficulty}</div>
+          <div>{difficulty}</div>
           <div className="topics-2">{topics}</div>
           <div>{answerDisplay}</div>
         </div>
@@ -487,25 +498,16 @@ const mapStateToProps = (state, props) => {
   const { question, relatedQuestions, solved, tps } = data;
   const { username, onboarded } = profile || {};
   const { emailVerified } = props.firebase.auth().currentUser || {};
-
+  
   const { questId, questParam, sortBy } = props.match.params;
-  const { answer, definitive, description, difficulty, tags, topics } =
-    question || {};
-  const title = question && question.title;
 
   return {
-    answer,
-    definitive,
-    description,
-    difficulty,
+    question,
     emailVerified,
     onboarded,
     questId,
     questParam,
     sortBy,
-    tags,
-    title,
-    topics,
     tps,
     solved,
     username,

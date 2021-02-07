@@ -28,28 +28,6 @@ class PageProblems extends React.Component {
 
     const isDiff = tag == "easy" || tag == "medium" || tag == "hard";
 
-    const easy = (
-      <div>
-        <div className="level1"></div>
-        <div className="level2n"></div>
-        <div className="level3n"></div>
-      </div>
-    );
-    const medium = (
-      <div>
-        <div className="level1"></div>
-        <div className="level2y"></div>
-        <div className="level3n"></div>
-      </div>
-    );
-    const hard = (
-      <div>
-        <div className="level1"></div>
-        <div className="level2y"></div>
-        <div className="level3y"></div>
-      </div>
-    );
-
     const quests = Object.keys(questions)
       .filter((questId) => !isDiff || questions[questId].difficulty === tag)
       .filter((questId) => isDiff || !tag || questions[questId].tags[tag])
@@ -67,17 +45,6 @@ class PageProblems extends React.Component {
             );
           });
 
-        let bars;
-        if (quest.difficulty && quest.difficulty === "easy") {
-          bars = easy;
-        }
-        if (quest.difficulty && quest.difficulty === "medium") {
-          bars = medium;
-        }
-        if (quest.difficulty && quest.difficulty === "hard") {
-          bars = hard;
-        }
-
         return (
           <div className="question" key={questId}>
             <div>
@@ -87,7 +54,7 @@ class PageProblems extends React.Component {
             </div>
             <br />
             <div className="topics">&nbsp;&nbsp;{topics}</div>
-            <div>{bars}</div>
+            <div>{quest.difficulty}</div>
             <div></div>
             <br />
           </div>
