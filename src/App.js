@@ -1,4 +1,6 @@
+/** @jsx jsx */
 import React from 'react';
+
 import PageProblems from './pages/PageProblems';
 import PageProfile from './pages/PageProfile';
 import PageQuestion from './pages/PageQuestion';
@@ -9,20 +11,30 @@ import PageLogin from './pages/PageLogin';
 import PageAddQuestion from './pages/PageAddQuestion';
 import PageNotifications from './pages/PageNotifications';
 import PageContact from './pages/PageContact';
+import PageLanding from './pages/PageLanding';
+import PageContentPolicy from './pages/PageContentPolicy';
+import PagePrivacyPolicy from './pages/PagePrivacyPolicy';
 import NavBar from './components/NavBar';
+import Footer from './components/Footer';
 
 import { firebaseConnect } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-
 import { Switch, Route, Redirect } from 'react-router-dom';
+import { jsx } from 'theme-ui';
+
+const AppSx = {
+  display: 'flex',
+  minHeight: '100vh',
+  flexDirection: 'column',
+}
 
 class App extends React.Component {
 
   render() {
     return (
-      <div>
-      <NavBar uid={this.props.uid} isLoaded={this.props.isLoaded} />
+      <div sx={AppSx}>
+        <NavBar uid={this.props.uid} isLoaded={this.props.isLoaded} />
         <Switch>
           <Route exact path="/profile/:historyParam?">
             <PageProfile uid={this.props.uid} />
@@ -54,13 +66,20 @@ class App extends React.Component {
           <Route exact path="/questions/:tag?">
             <PageProblems uid={this.props.uid} />
           </Route>
+          <Route exact path="/content">
+            <PageContentPolicy />
+          </Route>
+          <Route exact path="/privacy">
+            <PagePrivacyPolicy />
+          </Route>
           <Route exact path="/">
-            <div>Landing page... under construction!</div>
+            <PageLanding />
           </Route>
           <Route>
             <div>Page not found</div>
           </Route>
         </Switch>
+        <Footer />
       </div>
     );
   }
