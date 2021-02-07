@@ -16,6 +16,9 @@ const NavBarSx = {
   paddingRight: '2em',
   fontFamily: 'Open-Sans',
   display: 'flex',
+  position: 'sticky',
+  top: 0,
+  zIndex: 10, 
 
   '.title-text': {
     fontSize: '30px',
