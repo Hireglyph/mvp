@@ -6,18 +6,14 @@ import { compose } from 'redux';
 
 class QuestionPreview extends React.Component {
   render() {
-    if (!isLoaded(this.props.title)
-    || !isLoaded(this.props.tags)
-    || !isLoaded(this.props.difficulty) ) {
-      return (
-        <div>
-          <div>{this.props.questId}</div>
-        </div>
-      );
+    const { questId, question } = this.props;
+
+    if (!isLoaded(question)) {
+      return;
     }
 
-    const topics = this.props.tags &&
-      Object.keys(this.props.tags).map(tag => {
+    const topics = question.tags &&
+      Object.keys(question.tags).map(tag => {
         return (
           <span className='topic' key={tag}>{tag} </span>
         );
@@ -25,12 +21,12 @@ class QuestionPreview extends React.Component {
 
     return (
       <div>
-        <Link to={`/q/${this.props.questId}`}>
+        <Link to={`/q/${questId}`}>
           <div>
-            Question #{this.props.questId}: {this.props.title} {this.props.solved ? "✔" : ""}
+            Question #{questId}: {question.title} {question.solved ? "✔" : ""}
           </div>
         </Link>
-        <div>{this.props.difficulty}</div>
+        <div>{question.difficulty}</div>
         <div>{topics}</div>
       </div>
     );
@@ -38,14 +34,13 @@ class QuestionPreview extends React.Component {
 }
 
 const mapStateToProps = (state, props) => {
-  const questions = state.firebase.data.questions;
+  const { questions, questionHistory } = state.firebase.data;
   const question = questions && questions[props.questId];
-  const { title, tags, difficulty } = question || {};
   const solved =
-    state.firebase.data.questionHistory &&
-    state.firebase.data.questionHistory[props.uid] &&
-    state.firebase.data.questionHistory[props.uid][props.questId];
-  return { title, tags, difficulty, solved };
+    questionHistory &&
+    questionHistory[props.uid] &&
+    questionHistory[props.uid][props.questId];
+  return { question, solved };
 }
 
 export default compose(
