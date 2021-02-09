@@ -496,12 +496,18 @@ class PageQuestion extends React.Component {
 }
 
 const mapStateToProps = (state, props) => {
+  const { questId, questParam, sortBy } = props.match.params;
   const { profile, data } = state.firebase;
-  const { question, relatedQuestions, solved, tps } = data;
+  
+  const question = data.questions && data.questions[questId];
+  const tps = data.tps && data.tps[questId];
+  const relatedQuestions = data.relatedQuestions && 
+    data.relatedQuestions[questId];
+  const solved = data.questionHistory && 
+    data.questionHistory[props.uid][questId];
+  
   const { username, onboarded } = profile || {};
   const { emailVerified } = props.firebase.auth().currentUser || {};
-
-  const { questId, questParam, sortBy } = props.match.params;
 
   return {
     question,
@@ -525,19 +531,15 @@ export default compose(
     return [
       {
         path: `/questions/${questId}`,
-        storeAs: "question",
       },
       {
         path: `/tps/${questId}`,
-        storeAs: "tps",
       },
       {
         path: `/relatedQuestions/${questId}`,
-        storeAs: "relatedQuestions",
       },
       {
         path: `/questionHistory/` + props.uid + `/${questId}`,
-        storeAs: "solved",
       },
     ];
   }),

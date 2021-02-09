@@ -9,7 +9,7 @@ class QuestionPreview extends React.Component {
     const { questId, question } = this.props;
 
     if (!isLoaded(question)) {
-      return;
+      return <div></div>;
     }
 
     const topics = question.tags &&
@@ -23,7 +23,7 @@ class QuestionPreview extends React.Component {
       <div>
         <Link to={`/q/${questId}`}>
           <div>
-            Question #{questId}: {question.title} {question.solved ? "✔" : ""}
+            Question #{questId}: {question.title} {this.props.solved ? "✔" : ""}
           </div>
         </Link>
         <div>{question.difficulty}</div>
