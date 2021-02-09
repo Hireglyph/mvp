@@ -1,12 +1,16 @@
 /** @jsx jsx */
 import React from 'react';
+import { firebaseConnect } from 'react-redux-firebase';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { Switch, Route } from 'react-router-dom';
+import { jsx } from 'theme-ui';
 
 import PageProblems from './pages/PageProblems';
 import PageProfile from './pages/PageProfile';
 import PageQuestion from './pages/PageQuestion';
 import PageTp from './pages/PageTp';
 import PageRegister from './pages/PageRegister';
-import PageOnboard from './pages/PageOnboard';
 import PageLogin from './pages/PageLogin';
 import PageAddQuestion from './pages/PageAddQuestion';
 import PageNotifications from './pages/PageNotifications';
@@ -16,12 +20,6 @@ import PageContentPolicy from './pages/PageContentPolicy';
 import PagePrivacyPolicy from './pages/PagePrivacyPolicy';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
-
-import { firebaseConnect } from 'react-redux-firebase';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import { jsx } from 'theme-ui';
 
 const AppSx = {
   display: 'flex',

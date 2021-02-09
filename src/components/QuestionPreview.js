@@ -5,10 +5,6 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 class QuestionPreview extends React.Component {
-  constructor(props) {
-    super(props);
-  };
-
   render() {
     if (!isLoaded(this.props.title)
     || !isLoaded(this.props.tags)

@@ -1,12 +1,7 @@
 import React from "react";
 import { withRouter, Redirect } from "react-router-dom";
 import { HashLink as Link } from "react-router-hash-link";
-import {
-  firebaseConnect,
-  isLoaded,
-  isEmpty,
-  populate,
-} from "react-redux-firebase";
+import { firebaseConnect, isLoaded } from "react-redux-firebase";
 import { connect } from "react-redux";
 import { compose } from "redux";
 
@@ -17,10 +12,6 @@ import PageConfirmEmail from "./PageConfirmEmail";
 import "../styles/PageNotifications.css";
 
 class PageNotifications extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   viewed = (notifId) => {
     const updates = {};
     updates[`/notifications/${this.props.uid}/${notifId}/viewed`] = true;
@@ -108,7 +99,7 @@ class PageNotifications extends React.Component {
               </div>
             );
           }
-          return;
+          return null;
         });
     return <div>{notifications}</div>;
   }

@@ -3,7 +3,6 @@ import { firebaseConnect } from "react-redux-firebase";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { Redirect, Link } from "react-router-dom";
 
 class PageOnboard extends React.Component {
   constructor(props) {

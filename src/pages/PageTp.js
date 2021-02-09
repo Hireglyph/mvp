@@ -244,12 +244,14 @@ class PageTp extends React.Component {
             ?
             <div>
               <img
+                alt="upvote"
                 className="feedback-upvote-button"
                 src={isUpvoted ? green : upvote}
                 onClick={() => this.upvoteFeedback(feedbackId)}
               />
               <div className="feedback-score-text">{score} </div>
               <img
+                alt="downvote"
                 className="feedback-downvote-button"
                 src={isDownvoted ? red : downvote}
                 onClick={() => this.downvoteFeedback(feedbackId)}
@@ -301,18 +303,20 @@ class PageTp extends React.Component {
       :
       <div></div>
     );
-    
+
     const scoreArrows = (
       !this.props.deleted
       ?
       <div>
         <img
+          alt="upvote"
           className="upvote-button"
           src={isUpvoted ? green : upvote}
           onClick={this.upvote}
         />
         <div className="score-text">{this.props.total}</div>
         <img
+          alt="downvote"
           className="downvote-button"
           src={isDownvoted ? red : downvote}
           onClick={this.downvote}

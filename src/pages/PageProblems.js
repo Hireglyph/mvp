@@ -26,7 +26,7 @@ class PageProblems extends React.Component {
 
     const { tag, questions, questionHistory } = this.props;
 
-    const isDiff = tag == "easy" || tag == "medium" || tag == "hard";
+    const isDiff = tag === "easy" || tag === "medium" || tag === "hard";
 
     const quests = Object.keys(questions)
       .filter((questId) => !isDiff || questions[questId].difficulty === tag)

@@ -153,12 +153,14 @@ class PageQuestion extends React.Component {
           </div>
         </div>
         <img
+          alt="upvote"
           className="feedback-upvote-button"
           src={isUpvoted ? green : upvote}
           onClick={() => this.upvoteTp(tpId, isUpvoted, isDownvoted)}
         />
         <div className="feedback-score-text">{tp.total}</div>
         <img
+          alt="downvote"
           className="feedback-downvote-button"
           src={isDownvoted ? red : downvote}
           onClick={() => this.downvoteTp(tpId, isUpvoted, isDownvoted)}
@@ -171,7 +173,7 @@ class PageQuestion extends React.Component {
   };
 
   changeOrder = (sortBy) => {
-    const { questId, questParam, tps } = this.props;
+    const { questId, tps } = this.props;
     if (tps) {
       let list = {};
       Object.keys(tps).forEach((tpId) => (list[tpId] = false));
@@ -232,20 +234,20 @@ class PageQuestion extends React.Component {
       tps,
       uid,
     } = this.props;
-    const { 
-      answer, 
-      description, 
-      difficulty, 
-      tags, 
-      title 
+    const {
+      answer,
+      description,
+      difficulty,
+      tags,
+      title
     } = question || {};
-    const { 
-      approach, 
-      initial, 
-      keys, 
-      showAnswer, 
-      solution, 
-      time 
+    const {
+      approach,
+      initial,
+      keys,
+      showAnswer,
+      solution,
+      time
     } = this.state;
 
     if (!isLoaded(question) || !isLoaded(tps)) {
@@ -257,17 +259,17 @@ class PageQuestion extends React.Component {
     }
 
     if (
-      (questParam == "community" && !sortBy) ||
-      (sortBy && sortBy != "top" && sortBy != "new")
+      (questParam === "community" && !sortBy) ||
+      (sortBy && sortBy !== "top" && sortBy !== "new")
     ) {
       return <Redirect to={`/q/${questId}/community/top`} />;
     }
 
     if (
       !sortBy &&
-      questParam != "my" &&
-      questParam != "community" &&
-      questParam != "related"
+      questParam !== "my" &&
+      questParam !== "community" &&
+      questParam !== "related"
     ) {
       return <Redirect to={`/q/${questId}/my`} />;
     }
@@ -316,18 +318,18 @@ class PageQuestion extends React.Component {
     const communityTps = (
       <div>
         <button
-          disabled={sortBy == "top"}
+          disabled={sortBy === "top"}
           onClick={() => this.changeOrder("top")}
         >
           Top TPs
         </button>
         <button
-          disabled={sortBy == "new"}
+          disabled={sortBy === "new"}
           onClick={() => this.changeOrder("new")}
         >
           New TPs
         </button>
-        {sortBy == "top" ? tpsByVote : tpsByTime}
+        {sortBy === "top" ? tpsByVote : tpsByTime}
       </div>
     );
 
@@ -403,9 +405,9 @@ class PageQuestion extends React.Component {
       );
 
     let section;
-    if (questParam == "my") {
+    if (questParam === "my") {
       section = myTp;
-    } else if (questParam == "related") {
+    } else if (questParam === "related") {
       section = relatedQs;
     } else {
       section = communityTps;
@@ -462,7 +464,7 @@ class PageQuestion extends React.Component {
         <div>
           <button
             className="my-tp-button-1"
-            disabled={questParam == "my"}
+            disabled={questParam === "my"}
             onClick={() => this.handleClick("my")}
           >
             My TP
@@ -476,16 +478,16 @@ class PageQuestion extends React.Component {
           </button>
           <button
             className="related-qs-button-1"
-            disabled={questParam == "related"}
+            disabled={questParam === "related"}
             onClick={() => this.handleClick("related")}
           >
             Related Questions
           </button>
           <hr
-            className={questParam == "my" ? "divider-line" : "divider-line-2"}
+            className={questParam === "my" ? "divider-line" : "divider-line-2"}
           />
         </div>
-        <div className={questParam == "my" ? "px-break" : "px-break-2"}>
+        <div className={questParam === "my" ? "px-break" : "px-break-2"}>
           {section}
         </div>
       </div>
@@ -498,7 +500,7 @@ const mapStateToProps = (state, props) => {
   const { question, relatedQuestions, solved, tps } = data;
   const { username, onboarded } = profile || {};
   const { emailVerified } = props.firebase.auth().currentUser || {};
-  
+
   const { questId, questParam, sortBy } = props.match.params;
 
   return {
