@@ -1,18 +1,17 @@
-import React from "react";
-import { withRouter, Link } from "react-router-dom";
-import { firebaseConnect, isLoaded } from "react-redux-firebase";
-import { connect } from "react-redux";
-import { compose } from "redux";
+import React from 'react';
+import { withRouter, Link } from 'react-router-dom';
+import { firebaseConnect, isLoaded } from 'react-redux-firebase';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { tags } from '../constants/Tags';
+import Loading from '../components/Loading.js';
 
-import { tags } from "../constants/Tags";
-import Loading from "../components/Loading.js";
-
-import "../styles/PageLanding.css";
+import '../styles/PageLanding.css';
 
 class PageProblems extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { titles: "", loaded: false };
+    this.state = { titles: '', loaded: false };
   }
 
   handleTagFilter = (tag) => {
@@ -26,42 +25,32 @@ class PageProblems extends React.Component {
 
     const { tag, questions, questionHistory } = this.props;
 
-    const isDiff = tag === "easy" || tag === "medium" || tag === "hard";
+    const isDiff = tag === 'easy' || tag === 'medium' || tag === 'hard';
 
     const quests = Object.keys(questions)
-      .filter((questId) => !isDiff || questions[questId].difficulty === tag)
-      .filter((questId) => isDiff || !tag || questions[questId].tags[tag])
-      .map((questId) => {
+      .filter(questId => !isDiff || questions[questId].difficulty === tag)
+      .filter(questId => isDiff || !tag || questions[questId].tags[tag])
+      .map(questId => {
         const quest = questions[questId];
         const answered = questionHistory && questionHistory[questId];
 
-        const topics =
-          quest.tags &&
-          Object.keys(quest.tags).map((tag) => {
-            return (
-              <span className="topic" key={tag}>
-                {tag}{" "}
-              </span>
-            );
-          });
+        const topics = quest.tags && Object.keys(quest.tags).map(tag =>
+          <span className="topic" key={tag}>{tag}</span>
+        );
 
         return (
           <div className="question" key={questId}>
-            <div>
-              <Link className="question-title" to={`/q/${questId}/my`}>
-                #{questId}: {quest.title} {answered ? "✔" : ""}
-              </Link>
-            </div>
+            <Link className="question-title" to={`/q/${questId}/my`}>
+              #{questId}: {quest.title} {answered ? "✔" : ""}
+            </Link>
             <br />
-            <div className="topics">&nbsp;&nbsp;{topics}</div>
+            <div className="topics">{topics}</div>
             <div>{quest.difficulty}</div>
-            <div></div>
-            <br />
           </div>
         );
       });
 
-    const tagButtons = tags.map((tag) => {
+    const tagButtons = tags.map(tag => {
       return (
         <button onClick={() => this.handleTagFilter(tag)} key={tag}>
           Filter by {tag}
@@ -85,8 +74,7 @@ class PageProblems extends React.Component {
             Questions, comments, or concerns? Email us at{" "}
             <a className="email-link" href="mailto: admin@hireglyph.com">
               admin@hireglyph.com
-            </a>
-            .
+            </a>.
           </div>
           <br />
         </div>
@@ -116,10 +104,11 @@ class PageProblems extends React.Component {
 }
 
 const mapStateToProps = (state, props) => {
+  const { questions, questionHistory } = state.firebase.data;
+
   return {
-    questions: state.firebase.data.questions,
-    questionHistory: state.firebase.data.questionHistory &&
-      state.firebase.data.questionHistory[props.uid],
+    questions,
+    questionHistory: questionHistory && questionHistory[props.uid],
     email: state.firebase.auth.email,
     tag: props.match.params.tag,
   };
@@ -127,11 +116,9 @@ const mapStateToProps = (state, props) => {
 
 export default compose(
   withRouter,
-  firebaseConnect((props) => [
-    "/questions",
-    {
-      path: "/questionHistory/" + props.uid,
-    },
+  firebaseConnect(props => [
+    { path: "/questions" },
+    { path: "/questionHistory/" + props.uid },
   ]),
   connect(mapStateToProps)
 )(PageProblems);
