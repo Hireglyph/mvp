@@ -239,9 +239,7 @@ class PageTp extends React.Component {
           const isUpvoted = users && uid in users && users[uid] === 1;
           const isDownvoted = users && uid in users && users[uid] === -1;
           const feedbackUsername = username ? username : creator;
-          const feedbackScoreArrows = (
-            !deleted
-            ?
+          const feedbackScoreArrows = !deleted ? (
             <div>
               <img
                 alt="upvote"
@@ -257,7 +255,7 @@ class PageTp extends React.Component {
                 onClick={() => this.downvoteFeedback(feedbackId)}
               />
             </div>
-            :
+          ) : (
             <div></div>
           );
           return (
@@ -279,9 +277,7 @@ class PageTp extends React.Component {
         return <div />;
       });
 
-    const myFeedback = (
-      !this.props.deleted
-      ?
+    const myFeedback = !this.props.deleted ? (
       <div>
         <TextareaAutosize
           minRows={2}
@@ -300,13 +296,11 @@ class PageTp extends React.Component {
           Submit
         </button>
       </div>
-      :
+    ) : (
       <div></div>
     );
 
-    const scoreArrows = (
-      !this.props.deleted
-      ?
+    const scoreArrows = !this.props.deleted ? (
       <div>
         <img
           alt="upvote"
@@ -322,7 +316,7 @@ class PageTp extends React.Component {
           onClick={this.downvote}
         />
       </div>
-      :
+    ) : (
       <div></div>
     );
 
@@ -340,11 +334,15 @@ class PageTp extends React.Component {
           </Link>
         </div>
         <br />
-        <div className="label-text">{tp.initial ? "Initial Thoughts:" : ""}</div>
+        <div className="label-text">
+          {tp.initial ? "Initial Thoughts:" : ""}
+        </div>
         <div className="body-text">
           <Latex>{tp.initial}</Latex>
         </div>
-        <div className="label-text">{tp.approach ? "Approaches Tried:" : ""}</div>
+        <div className="label-text">
+          {tp.approach ? "Approaches Tried:" : ""}
+        </div>
         <div className="body-text">
           <Latex>{tp.approach}</Latex>
         </div>

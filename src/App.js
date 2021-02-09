@@ -28,7 +28,6 @@ const AppSx = {
 }
 
 class App extends React.Component {
-
   render() {
     return (
       <div sx={AppSx}>

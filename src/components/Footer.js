@@ -8,6 +8,7 @@ const FooterSx = {
   height: '50px',
   display: 'flex',
   fontSize: '15px',
+
   '.footer-elements': {
     display: 'flex',
     marginTop: '10px',
