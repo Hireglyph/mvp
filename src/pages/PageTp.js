@@ -7,7 +7,7 @@ import { compose } from "redux";
 import Latex from "react-latex";
 import TextareaAutosize from "react-textarea-autosize";
 
-import { getVoteValues } from 'utils/vote';
+import { getVoteValues, upvoteTp, downvoteTp } from 'utils/vote';
 
 import red from "../assets/images/red-downvote.png";
 import green from "../assets/images/green-upvote.png";
@@ -45,41 +45,40 @@ class PageTp extends React.Component {
 
   createFeedback = () => {
     const {
-      creator,
       firebase,
       questId,
+      tp,
       tpId,
       uid,
       username,
-      currentUsername,
     } = this.props;
     const { feedback, keys } = this.state;
 
     const feedbackId = firebase.push(`/feedbacks/${tpId}`).key;
-    const notificationId = firebase.push(`/notifications/${creator}`).key;
+    const notificationId = firebase.push(`/notifications/${tp.creator}`).key;
     const updates = {};
     updates[`/feedbacks/${tpId}/${feedbackId}`] = {
       feedback,
       creator: uid,
       score: 0,
-      username: currentUsername,
+      username,
     };
     updates[`/feedbackHistory/${uid}/${feedbackId}`] = {
       tpId,
       feedback,
       questId,
-      username,
+      username: tp.username,
       score: 0,
     };
-    updates[`/notifications/${creator}/${notificationId}`] = {
+    updates[`/notifications/${tp.creator}/${notificationId}`] = {
       questId,
       tpId,
       feedbackId,
-      username: currentUsername,
+      username,
       viewed: false,
       type: "tpFeedback",
     };
-    updates[`/hasNotifs/${creator}`] = true;
+    updates[`/hasNotifs/${tp.creator}`] = true;
     this.setState({ feedback: "" });
 
     const onComplete = () => {
@@ -90,61 +89,12 @@ class PageTp extends React.Component {
     this.props.firebase.update("/", updates, onComplete);
   };
 
-  upvote = () => {
-    const {
-      creator,
-      firebase,
-      isDownvoted,
-      isUpvoted,
-      questId,
-      total,
-      tpId,
-      uid,
-      currentUsername,
-    } = this.props;
-    const updates = {};
+  upvote = () => upvoteTp(this.props);
 
-    if (!isUpvoted) {
-      const notificationId = firebase.push(`/notifications/${creator}`).key;
-      updates[`/notifications/${creator}/${notificationId}`] = {
-        questId,
-        tpId,
-        username: currentUsername,
-        viewed: false,
-        type: "tpUpvote",
-      };
-      updates[`/hasNotifs/${creator}`] = true;
-    }
-
-    const { diff, vote } = getVoteValues(isUpvoted, isDownvoted);
-    updates[`/tps/${questId}/${tpId}/total`] = total + diff;
-    updates[`/tpHistory/${creator}/${tpId}/total`] = total + diff;
-    updates[`/tps/${questId}/${tpId}/users/${uid}`] = vote;
-    firebase.update("/", updates);
-  };
-
-  downvote = () => {
-    const {
-      creator,
-      firebase,
-      isDownvoted,
-      isUpvoted,
-      questId,
-      total,
-      tpId,
-      uid,
-    } = this.props;
-    const { diff, vote } = getVoteValues(isDownvoted, isUpvoted);
-
-    const updates = {};
-    updates[`/tps/${questId}/${tpId}/total`] = total - diff;
-    updates[`/tpHistory/${creator}/${tpId}/total`] = total - diff;
-    updates[`/tps/${questId}/${tpId}/users/${uid}`] = -1 * vote;
-    firebase.update("/", updates);
-  };
+  downvote = () => downvoteTp(this.props);
 
   upvoteFeedback = (feedbackId) => {
-    const { feedbacks, firebase, questId, tpId, uid, username } = this.props;
+    const { feedbacks, firebase, questId, tpId, tp, uid, username } = this.props;
     const { creator, score, users } = feedbacks[feedbackId];
     const updates = {};
     const feedbackCheck = feedbacks[feedbackId].users && uid in users;
@@ -156,11 +106,11 @@ class PageTp extends React.Component {
       updates[`/notifications/${creator}/${notificationId}`] = {
         questId,
         tpId,
-        username: this.props.currentUsername,
+        username,
         viewed: false,
         type: "tpFeedbackUpvote",
         feedbackId,
-        author: username,
+        author: tp.username,
       };
       updates[`/hasNotifs/${creator}`] = true;
     }
@@ -197,7 +147,6 @@ class PageTp extends React.Component {
       questId,
       onboarded,
       uid,
-      username,
     } = this.props;
 
     if (!isLoaded(tp)) {
@@ -269,7 +218,7 @@ class PageTp extends React.Component {
         return <div />;
       });
 
-    const myFeedback = this.props.creator ? (
+    const myFeedback = this.props.tp.creator ? (
       <div>
         <TextareaAutosize
           minRows={2}
@@ -292,7 +241,7 @@ class PageTp extends React.Component {
       <div></div>
     );
 
-    const scoreArrows = this.props.creator ? (
+    const scoreArrows = this.props.tp.creator ? (
       <div>
         <img
           alt="upvote"
@@ -300,7 +249,7 @@ class PageTp extends React.Component {
           src={isUpvoted ? green : upvote}
           onClick={this.upvote}
         />
-        <div className="score-text">{this.props.total}</div>
+        <div className="score-text">{this.props.tp.total}</div>
         <img
           alt="downvote"
           className="downvote-button"
@@ -320,7 +269,7 @@ class PageTp extends React.Component {
         />
         <div onClick={() => this.props.history.goBack()}>GO BACK</div>
         <div className="question-identification">
-          @{username} in response to:
+          @{tp.username} in response to:
           <Link className="link-to-quest" to={`/q/${questId}`}>
             Question #{questId}
           </Link>
@@ -359,36 +308,32 @@ const mapStateToProps = (state, props) => {
   const { questId, tpId } = props.match.params;
 
   const tp = data[tpId];
-  const { creator, total, username } = tp || {};
+  // const { creator, total, username } = tp || {};
   const feedbacks = tpId && data.feedbacks && data.feedbacks[tpId];
   const isUpvoted = tp && tp.users && uid in tp.users && tp.users[uid] === 1;
   const isDownvoted = tp && tp.users && uid in tp.users && tp.users[uid] === -1;
-  const currentUsername = profile && profile.username;
+  const username = profile && profile.username;
   const onboarded = profile && profile.onboarded;
   const { emailVerified } = props.firebase.auth().currentUser || {};
 
   return {
     tp,
-    creator,
     emailVerified,
     feedbacks,
     isDownvoted,
     isUpvoted,
     onboarded,
     questId,
-    total,
     tpId,
     uid,
     username,
-    currentUsername,
   };
 };
 
 export default compose(
   withRouter,
-  firebaseConnect((props) => {
-    const questId = props.match.params.questId;
-    const tpId = props.match.params.tpId;
+  firebaseConnect(props => {
+    const { questId, tpId } = props.match.params;
 
     return [
       { path: `/tps/${questId}/${tpId}`, storeAs: tpId },

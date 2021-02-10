@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import TextareaAutosize from "react-textarea-autosize";
 
-import { getVoteValues } from 'utils/vote';
+import { getVoteValues, upvoteTp, downvoteTp } from 'utils/vote';
 
 import TpPreview from "../components/TpPreview.js";
 import QuestionPreview from "../components/QuestionPreview.js";
@@ -55,55 +55,11 @@ class PageQuestion extends React.Component {
     }
   }
 
-  upvoteTp = (tpId, isUpvoted, isDownvoted) => {
-    const updates = {};
-    const creator = this.props.tps[tpId].creator;
-    const total = this.props.tps[tpId].total;
-    const { diff, vote } = getVoteValues(isUpvoted, isDownvoted);
+  upvoteTp = (tpId, isUpvoted, isDownvoted) =>
+    upvoteTp({tp: this.props.tps[tpId], tpId, isUpvoted, isDownvoted, ...this.props});
 
-    if (!isUpvoted) {
-      const notificationId = this.props.firebase.push(
-        `/notifications/${creator}`
-      ).key;
-      updates[`/notifications/${creator}/${notificationId}`] = {
-        questId: this.props.questId,
-        tpId: tpId,
-        username: this.props.username,
-        viewed: false,
-        type: "tpUpvote",
-      };
-      updates[`/hasNotifs/${creator}`] = true;
-    }
-
-    updates[`/tps/${this.props.questId}/${tpId}/total`] = total + diff;
-    updates[`/tpHistory/${creator}/${tpId}/total`] = total + diff;
-    updates[
-      `/tps/${this.props.questId}/${tpId}/users/${this.props.uid}`
-    ] = vote;
-    this.props.firebase.update("/", updates);
-  };
-
-  downvoteTp = (tpId, isUpvoted, isDownvoted) => {
-    const updates = {};
-    const creator = this.props.tps[tpId].creator;
-    const total = this.props.tps[tpId].total;
-    const { diff, vote } = getVoteValues(isDownvoted, isUpvoted);
-
-    updates[`/tps/${this.props.questId}/${tpId}/total`] = total - diff;
-    updates[`/tpHistory/${creator}/${tpId}/total`] = total - diff;
-    updates[`/tps/${this.props.questId}/${tpId}/users/${this.props.uid}`] =
-      -1 * vote;
-    this.props.firebase.update("/", updates);
-  };
-
-  generateMessage = (isExpanded, tpId) => {
-    if (!isExpanded) {
-      return <div onClick={() => this.changeExpand(true, tpId)}>Expand TP</div>;
-    }
-    return (
-      <div onClick={() => this.changeExpand(false, tpId)}>Collapse TP</div>
-    );
-  };
+  downvoteTp = (tpId, isUpvoted, isDownvoted) =>
+    downvoteTp({tp: this.props.tps[tpId], tpId, isUpvoted, isDownvoted, ...this.props});
 
   displayTp = (tpId) => {
     const tp = this.props.tps[tpId];
