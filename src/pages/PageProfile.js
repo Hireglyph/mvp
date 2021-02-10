@@ -89,7 +89,6 @@ class PageProfile extends React.Component {
 
     updates[`/tps/${questId}/${tpId}/username`] = "[deleted]";
     updates[`/tps/${questId}/${tpId}/creator`] = null;
-    updates[`/tps/${questId}/${tpId}/deleted`] = true;
 
     updates[`tpHistory/${this.props.uid}/${tpId}`] = null;
 
@@ -102,7 +101,6 @@ class PageProfile extends React.Component {
     updates[`/feedbacks/${tpId}/${feedbackId}/feedback`] = "[deleted]";
     updates[`/feedbacks/${tpId}/${feedbackId}/username`] = "[deleted]";
     updates[`/feedbacks/${tpId}/${feedbackId}/creator`] = null;
-    updates[`/feedbacks/${tpId}/${feedbackId}/deleted`] = true;
 
     updates[`feedbackHistory/${this.props.uid}/${feedbackId}`] = null;
 

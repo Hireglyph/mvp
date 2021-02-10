@@ -300,7 +300,7 @@ class PageQuestion extends React.Component {
     const tpsByVote =
       tps &&
       keys.map((tpId) => {
-        if (tps[tpId] && tps[tpId].deleted) {
+        if (tps[tpId] && !tps[tpId].creator) {
           return <div key={tpId}></div>;
         }
         return this.displayTp(tpId);
@@ -309,7 +309,7 @@ class PageQuestion extends React.Component {
     const tpsByTime =
       tps &&
       time.map((tpId) => {
-        if (tps[tpId] && tps[tpId].deleted) {
+        if (tps[tpId] && !tps[tpId].creator) {
           return <div key={tpId}></div>;
         }
         return this.displayTp(tpId);

@@ -208,7 +208,7 @@ class PageTp extends React.Component {
       username,
     } = this.props;
 
-    if (!isLoaded(tp) || !isLoaded(tp)) {
+    if (!isLoaded(tp)) {
       return <Loading />;
     }
 
@@ -235,23 +235,23 @@ class PageTp extends React.Component {
           const { creator, feedback, score, username, users } = feedbacks[
             feedbackId
           ];
-          const deleted = feedbacks[feedbackId].deleted;
-          const isUpvoted = users && uid in users && users[uid] === 1;
-          const isDownvoted = users && uid in users && users[uid] === -1;
+          const deleted = !feedbacks[feedbackId].creator;
+          const feedbackUpvoted = users && uid in users && users[uid] === 1;
+          const feedbackDownvoted = users && uid in users && users[uid] === -1;
           const feedbackUsername = username ? username : creator;
           const feedbackScoreArrows = !deleted ? (
             <div>
               <img
                 alt="upvote"
                 className="feedback-upvote-button"
-                src={isUpvoted ? green : upvote}
+                src={feedbackUpvoted ? green : upvote}
                 onClick={() => this.upvoteFeedback(feedbackId)}
               />
               <div className="feedback-score-text">{score} </div>
               <img
                 alt="downvote"
                 className="feedback-downvote-button"
-                src={isDownvoted ? red : downvote}
+                src={feedbackDownvoted ? red : downvote}
                 onClick={() => this.downvoteFeedback(feedbackId)}
               />
             </div>
@@ -277,7 +277,7 @@ class PageTp extends React.Component {
         return <div />;
       });
 
-    const myFeedback = !this.props.deleted ? (
+    const myFeedback = this.props.creator ? (
       <div>
         <TextareaAutosize
           minRows={2}
@@ -300,7 +300,7 @@ class PageTp extends React.Component {
       <div></div>
     );
 
-    const scoreArrows = !this.props.deleted ? (
+    const scoreArrows = this.props.creator ? (
       <div>
         <img
           alt="upvote"
@@ -367,7 +367,7 @@ const mapStateToProps = (state, props) => {
   const { questId, tpId } = props.match.params;
 
   const tp = data[tpId];
-  const { creator, total, deleted, username } = tp || {};
+  const { creator, total, username } = tp || {};
   const feedbacks = tpId && data.feedbacks && data.feedbacks[tpId];
   const isUpvoted = tp && tp.users && uid in tp.users && tp.users[uid] === 1;
   const isDownvoted = tp && tp.users && uid in tp.users && tp.users[uid] === -1;
@@ -389,7 +389,6 @@ const mapStateToProps = (state, props) => {
     uid,
     username,
     currentUsername,
-    deleted,
   };
 };
 
