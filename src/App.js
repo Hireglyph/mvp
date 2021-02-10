@@ -1,10 +1,8 @@
-/** @jsx jsx */
 import React from 'react';
 import { firebaseConnect } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Switch, Route } from 'react-router-dom';
-import { jsx } from 'theme-ui';
 
 import PageProblems from './pages/PageProblems';
 import PageProfile from './pages/PageProfile';
@@ -21,16 +19,10 @@ import PagePrivacyPolicy from './pages/PagePrivacyPolicy';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 
-const AppSx = {
-  display: 'flex',
-  minHeight: '100vh',
-  flexDirection: 'column',
-}
-
 class App extends React.Component {
   render() {
     return (
-      <div sx={AppSx}>
+      <div>
         <NavBar uid={this.props.uid} isLoaded={this.props.isLoaded} />
         <Switch>
           <Route exact path="/profile/:historyParam?">
