@@ -7,6 +7,8 @@ import { compose } from "redux";
 import Latex from "react-latex";
 import TextareaAutosize from "react-textarea-autosize";
 
+import { getVoteValues } from 'utils/vote';
+
 import red from "../assets/images/red-downvote.png";
 import green from "../assets/images/green-upvote.png";
 import upvote from "../assets/images/upvote.png";
@@ -88,16 +90,6 @@ class PageTp extends React.Component {
     this.props.firebase.update("/", updates, onComplete);
   };
 
-  getVoteValues = (isSameVoted, isOppositeVoted) => {
-    let diff = -1,
-      vote = 0;
-    if (!isSameVoted) {
-      vote = 1;
-      diff = isOppositeVoted ? 2 : 1;
-    }
-    return { diff, vote };
-  };
-
   upvote = () => {
     const {
       creator,
@@ -124,7 +116,7 @@ class PageTp extends React.Component {
       updates[`/hasNotifs/${creator}`] = true;
     }
 
-    const { diff, vote } = this.getVoteValues(isUpvoted, isDownvoted);
+    const { diff, vote } = getVoteValues(isUpvoted, isDownvoted);
     updates[`/tps/${questId}/${tpId}/total`] = total + diff;
     updates[`/tpHistory/${creator}/${tpId}/total`] = total + diff;
     updates[`/tps/${questId}/${tpId}/users/${uid}`] = vote;
@@ -142,7 +134,7 @@ class PageTp extends React.Component {
       tpId,
       uid,
     } = this.props;
-    const { diff, vote } = this.getVoteValues(isDownvoted, isUpvoted);
+    const { diff, vote } = getVoteValues(isDownvoted, isUpvoted);
 
     const updates = {};
     updates[`/tps/${questId}/${tpId}/total`] = total - diff;
@@ -173,7 +165,7 @@ class PageTp extends React.Component {
       updates[`/hasNotifs/${creator}`] = true;
     }
 
-    const { diff, vote } = this.getVoteValues(isUpvoted, isDownvoted);
+    const { diff, vote } = getVoteValues(isUpvoted, isDownvoted);
     updates[`/feedbacks/${tpId}/${feedbackId}/score`] = score + diff;
     updates[`/feedbackHistory/${creator}/${feedbackId}/score`] = score + diff;
     updates[`/feedbacks/${tpId}/${feedbackId}/users/${uid}`] = vote;
@@ -187,7 +179,7 @@ class PageTp extends React.Component {
     const feedbackCheck = users && uid in users;
     const isUpvoted = feedbackCheck && users[uid] === 1;
     const isDownvoted = feedbackCheck && users[uid] === -1;
-    const { diff, vote } = this.getVoteValues(isDownvoted, isUpvoted);
+    const { diff, vote } = getVoteValues(isDownvoted, isUpvoted);
 
     updates[`/feedbacks/${tpId}/${feedbackId}/score`] = score - diff;
     updates[`/feedbackHistory/${creator}/${feedbackId}/score`] = score - diff;

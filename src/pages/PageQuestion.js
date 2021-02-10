@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import TextareaAutosize from "react-textarea-autosize";
 
+import { getVoteValues } from 'utils/vote';
+
 import TpPreview from "../components/TpPreview.js";
 import QuestionPreview from "../components/QuestionPreview.js";
 import Loading from "../components/Loading.js";
@@ -53,21 +55,11 @@ class PageQuestion extends React.Component {
     }
   }
 
-  getVoteValues = (isSameVoted, isOppositeVoted) => {
-    let diff = -1,
-      vote = 0;
-    if (!isSameVoted) {
-      vote = 1;
-      diff = isOppositeVoted ? 2 : 1;
-    }
-    return { diff, vote };
-  };
-
   upvoteTp = (tpId, isUpvoted, isDownvoted) => {
     const updates = {};
     const creator = this.props.tps[tpId].creator;
     const total = this.props.tps[tpId].total;
-    const { diff, vote } = this.getVoteValues(isUpvoted, isDownvoted);
+    const { diff, vote } = getVoteValues(isUpvoted, isDownvoted);
 
     if (!isUpvoted) {
       const notificationId = this.props.firebase.push(
@@ -95,7 +87,7 @@ class PageQuestion extends React.Component {
     const updates = {};
     const creator = this.props.tps[tpId].creator;
     const total = this.props.tps[tpId].total;
-    const { diff, vote } = this.getVoteValues(isDownvoted, isUpvoted);
+    const { diff, vote } = getVoteValues(isDownvoted, isUpvoted);
 
     updates[`/tps/${this.props.questId}/${tpId}/total`] = total - diff;
     updates[`/tpHistory/${creator}/${tpId}/total`] = total - diff;
@@ -498,14 +490,14 @@ class PageQuestion extends React.Component {
 const mapStateToProps = (state, props) => {
   const { questId, questParam, sortBy } = props.match.params;
   const { profile, data } = state.firebase;
-  
+
   const question = data.questions && data.questions[questId];
   const tps = data.tps && data.tps[questId];
-  const relatedQuestions = data.relatedQuestions && 
+  const relatedQuestions = data.relatedQuestions &&
     data.relatedQuestions[questId];
-  const solved = data.questionHistory && 
+  const solved = data.questionHistory &&
     data.questionHistory[props.uid][questId];
-  
+
   const { username, onboarded } = profile || {};
   const { emailVerified } = props.firebase.auth().currentUser || {};
 
@@ -526,7 +518,7 @@ const mapStateToProps = (state, props) => {
 // COMMENT FOR LATER: don't get tp data if they don't get to see the tps??
 export default compose(
   withRouter,
-  firebaseConnect((props) => {
+  firebaseConnect(props => {
     const questId = props.match.params.questId;
     return [
       {
