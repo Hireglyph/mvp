@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import TextareaAutosize from "react-textarea-autosize";
 
-import { getVoteValues, upvoteTp, downvoteTp } from 'utils/vote';
+import { upvoteTp, downvoteTp } from 'utils/vote';
 
 import TpPreview from "../components/TpPreview.js";
 import QuestionPreview from "../components/QuestionPreview.js";
