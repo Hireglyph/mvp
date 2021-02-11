@@ -56,3 +56,13 @@ export const downvoteTp  = ({
   updates[`/tps/${questId}/${tpId}/users/${uid}`] = -1 * vote;
   firebase.update("/", updates);
 };
+
+export const currentVotes = (item, uid) => {
+  const isUpvoted = item && item.users && item.users[uid] === 1;
+  const isDownvoted = item && item.users && item.users[uid] === -1;
+
+  return {isUpvoted, isDownvoted};
+}
+
+
+

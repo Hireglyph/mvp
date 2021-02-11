@@ -7,7 +7,7 @@ import { compose } from "redux";
 import Latex from "react-latex";
 import TextareaAutosize from "react-textarea-autosize";
 
-import { getVoteValues, upvoteTp, downvoteTp } from 'utils/vote';
+import { currentVotes, getVoteValues, upvoteTp, downvoteTp } from 'utils/vote';
 
 import red from "../assets/images/red-downvote.png";
 import green from "../assets/images/green-upvote.png";
@@ -89,21 +89,16 @@ class PageTp extends React.Component {
     this.props.firebase.update("/", updates, onComplete);
   };
 
-  upvote = () => upvoteTp(this.props);
-
-  downvote = () => downvoteTp(this.props);
-
   upvoteFeedback = (feedbackId) => {
     const { feedbacks, firebase, questId, tpId, tp, uid, username } = this.props;
-    const { creator, score, users } = feedbacks[feedbackId];
+    const feedback = feedbacks[feedbackId];
     const updates = {};
-    const feedbackCheck = feedbacks[feedbackId].users && uid in users;
-    const isUpvoted = feedbackCheck && users[uid] === 1;
-    const isDownvoted = feedbackCheck && users[uid] === -1;
+    const { isUpvoted, isDownvoted } = currentVotes(feedback, uid);
+    const { diff, vote } = getVoteValues(isUpvoted, isDownvoted);
 
     if (!isUpvoted) {
-      const notificationId = firebase.push(`/notifications/${creator}`).key;
-      updates[`/notifications/${creator}/${notificationId}`] = {
+      const notificationId = firebase.push(`/notifications/${feedback.creator}`).key;
+      updates[`/notifications/${feedback.creator}/${notificationId}`] = {
         questId,
         tpId,
         username,
@@ -112,27 +107,24 @@ class PageTp extends React.Component {
         feedbackId,
         author: tp.username,
       };
-      updates[`/hasNotifs/${creator}`] = true;
+      updates[`/hasNotifs/${feedback.creator}`] = true;
     }
 
-    const { diff, vote } = getVoteValues(isUpvoted, isDownvoted);
-    updates[`/feedbacks/${tpId}/${feedbackId}/score`] = score + diff;
-    updates[`/feedbackHistory/${creator}/${feedbackId}/score`] = score + diff;
+    updates[`/feedbacks/${tpId}/${feedbackId}/score`] = feedback.score + diff;
+    updates[`/feedbackHistory/${feedback.creator}/${feedbackId}/score`] = feedback.score + diff;
     updates[`/feedbacks/${tpId}/${feedbackId}/users/${uid}`] = vote;
     firebase.update("/", updates);
   };
 
   downvoteFeedback = (feedbackId) => {
     const { feedbacks, firebase, tpId, uid } = this.props;
-    const { creator, score, users } = feedbacks[feedbackId];
+    const feedback = feedbacks[feedbackId];
     const updates = {};
-    const feedbackCheck = users && uid in users;
-    const isUpvoted = feedbackCheck && users[uid] === 1;
-    const isDownvoted = feedbackCheck && users[uid] === -1;
+    const { isUpvoted, isDownvoted } = currentVotes(feedback, uid);
     const { diff, vote } = getVoteValues(isDownvoted, isUpvoted);
 
-    updates[`/feedbacks/${tpId}/${feedbackId}/score`] = score - diff;
-    updates[`/feedbackHistory/${creator}/${feedbackId}/score`] = score - diff;
+    updates[`/feedbacks/${tpId}/${feedbackId}/score`] = feedback.score - diff;
+    updates[`/feedbackHistory/${feedback.creator}/${feedbackId}/score`] = feedback.score - diff;
     updates[`/feedbacks/${tpId}/${feedbackId}/users/${uid}`] = -1 * vote;
     firebase.update("/", updates);
   };
@@ -247,14 +239,14 @@ class PageTp extends React.Component {
           alt="upvote"
           className="upvote-button"
           src={isUpvoted ? green : upvote}
-          onClick={this.upvote}
+          onClick={() => upvoteTp(this.props)}
         />
         <div className="score-text">{this.props.tp.total}</div>
         <img
           alt="downvote"
           className="downvote-button"
           src={isDownvoted ? red : downvote}
-          onClick={this.downvote}
+          onClick={() => downvoteTp(this.props)}
         />
       </div>
     ) : (
@@ -308,10 +300,9 @@ const mapStateToProps = (state, props) => {
   const { questId, tpId } = props.match.params;
 
   const tp = data[tpId];
-  // const { creator, total, username } = tp || {};
+  const { isUpvoted, isDownvoted } = currentVotes(tp, uid);
   const feedbacks = tpId && data.feedbacks && data.feedbacks[tpId];
-  const isUpvoted = tp && tp.users && uid in tp.users && tp.users[uid] === 1;
-  const isDownvoted = tp && tp.users && uid in tp.users && tp.users[uid] === -1;
+
   const username = profile && profile.username;
   const onboarded = profile && profile.onboarded;
   const { emailVerified } = props.firebase.auth().currentUser || {};

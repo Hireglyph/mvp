@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import TextareaAutosize from "react-textarea-autosize";
 
-import { upvoteTp, downvoteTp } from 'utils/vote';
+import { currentVotes, upvoteTp, downvoteTp } from 'utils/vote';
 
 import TpPreview from "../components/TpPreview.js";
 import QuestionPreview from "../components/QuestionPreview.js";
@@ -55,26 +55,22 @@ class PageQuestion extends React.Component {
     }
   }
 
-  upvoteTp = (tpId, isUpvoted, isDownvoted) =>
-    upvoteTp({tp: this.props.tps[tpId], tpId, isUpvoted, isDownvoted, ...this.props});
+  generateMessage = (isExpanded, tpId) => {
+    if (!isExpanded) {
+      return <div onClick={() => this.changeExpand(true, tpId)}>Expand TP</div>;
+    }
+    return (
+      <div onClick={() => this.changeExpand(false, tpId)}>Collapse TP</div>
+    );
+  };
 
-  downvoteTp = (tpId, isUpvoted, isDownvoted) =>
-    downvoteTp({tp: this.props.tps[tpId], tpId, isUpvoted, isDownvoted, ...this.props});
-
-  displayTp = (tpId) => {
+  displayTp = tpId => {
     const tp = this.props.tps[tpId];
     const username = tp && (tp.username ? tp.username : tp.creator);
     const expanded = this.state.expand[tpId];
-    const isUpvoted =
-      tp &&
-      tp.users &&
-      this.props.uid in tp.users &&
-      tp.users[this.props.uid] === 1;
-    const isDownvoted =
-      tp &&
-      tp.users &&
-      this.props.uid in tp.users &&
-      tp.users[this.props.uid] === -1;
+
+    const { isUpvoted, isDownvoted } = currentVotes(tp, this.props.uid);
+    const tpInfo = {tp, tpId, isUpvoted, isDownvoted, ...this.props};
 
     return tp ? (
       <div className="individual-tp-preview" key={tpId}>
@@ -104,14 +100,14 @@ class PageQuestion extends React.Component {
           alt="upvote"
           className="feedback-upvote-button"
           src={isUpvoted ? green : upvote}
-          onClick={() => this.upvoteTp(tpId, isUpvoted, isDownvoted)}
+          onClick={() => upvoteTp(tpInfo)}
         />
         <div className="feedback-score-text">{tp.total}</div>
         <img
           alt="downvote"
           className="feedback-downvote-button"
           src={isDownvoted ? red : downvote}
-          onClick={() => this.downvoteTp(tpId, isUpvoted, isDownvoted)}
+          onClick={() => downvoteTp(tpInfo)}
         />
         <br />
       </div>
