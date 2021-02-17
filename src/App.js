@@ -29,7 +29,11 @@ class App extends React.Component {
             <PageProfile uid={this.props.uid} />
           </Route>
           <Route exact path="/notifications">
-            <PageNotifications uid={this.props.uid} onboarded={this.props.onboarded} isLoaded={this.props.isLoaded} />
+            <PageNotifications
+              uid={this.props.uid}
+              onboarded={this.props.onboarded}
+              isLoaded={this.props.isLoaded}
+            />
           </Route>
           <Route exact path="/q/:questId/:questParam?">
             <PageQuestion uid={this.props.uid} />
@@ -41,10 +45,18 @@ class App extends React.Component {
             <PageTp />
           </Route>
           <Route exact path="/register">
-            <PageRegister uid={this.props.uid} onboarded={this.props.onboarded} isLoaded={this.props.isLoaded} />
+            <PageRegister
+              uid={this.props.uid}
+              onboarded={this.props.onboarded}
+              isLoaded={this.props.isLoaded}
+            />
           </Route>
           <Route exact path="/login">
-            <PageLogin uid={this.props.uid} onboarded={this.props.onboarded} isLoaded={this.props.isLoaded} />
+            <PageLogin
+              uid={this.props.uid}
+              onboarded={this.props.onboarded}
+              isLoaded={this.props.isLoaded}
+            />
           </Route>
           <Route exact path="/addquestion">
             <PageAddQuestion />
