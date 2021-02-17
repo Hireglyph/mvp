@@ -9,7 +9,7 @@ class QuestionPreview extends React.Component {
     const { questId, question } = this.props;
 
     if (!isLoaded(question)) {
-      return <div></div>;
+      return null;
     }
 
     const topics = question.tags &&
