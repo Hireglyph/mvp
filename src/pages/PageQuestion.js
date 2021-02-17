@@ -447,7 +447,9 @@ const mapStateToProps = (state, props) => {
   const tps = data.tps && data.tps[questId];
   const relatedQuestions = data.relatedQuestions &&
     data.relatedQuestions[questId];
-  const solved = data.questionHistory &&
+  const solved =
+    data.questionHistory &&
+    data.questionHistory[props.uid] &&
     data.questionHistory[props.uid][questId];
 
   const { username, onboarded } = profile || {};
