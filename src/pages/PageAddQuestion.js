@@ -23,7 +23,7 @@ class PageAddQuestion extends React.Component {
   handleChange = (event) => {
     const target = event.target;
 
-    if (target.type == "checkbox") {
+    if (target.type === "checkbox") {
       let newTags;
       if (target.checked) {
         newTags = { ...this.state.tags, [target.name]: true };

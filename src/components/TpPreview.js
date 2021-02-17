@@ -4,10 +4,6 @@ import Latex from "react-latex";
 import { length } from "../constants/PrevLength";
 
 export default class TpPreview extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { initial, approach, solution, expanded } = this.props;
     return (

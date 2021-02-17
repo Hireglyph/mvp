@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux'
 import App from './App';
+import ScrollToTop from 'react-router-scroll-top';
 
 import { ThemeProvider } from 'theme-ui';
 import theme from 'theme';
@@ -54,7 +55,9 @@ ReactDOM.render(
     <ReactReduxFirebaseProvider {...rrfProps}>
       <BrowserRouter>
         <ThemeProvider theme={theme}>
-          <App />
+          <ScrollToTop>
+            <App />
+          </ScrollToTop>
         </ThemeProvider>
       </BrowserRouter>
     </ReactReduxFirebaseProvider>

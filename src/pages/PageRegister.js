@@ -2,7 +2,7 @@ import React from "react";
 import { firebaseConnect } from "react-redux-firebase";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { Redirect, Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 import PageOnboard from "./PageOnboard";
 import PageConfirmEmail from "./PageConfirmEmail";

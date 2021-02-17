@@ -16,6 +16,9 @@ const NavBarSx = {
   paddingRight: '2em',
   fontFamily: 'Open-Sans',
   display: 'flex',
+  position: 'sticky',
+  top: 0,
+  zIndex: 10,
 
   '.title-text': {
     fontSize: '30px',
@@ -42,10 +45,6 @@ const NavBarSx = {
 };
 
 class NavBar extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   handleClick = (link) => () => this.props.history.push(link);
 
   navbarContent = () => {
@@ -105,6 +104,7 @@ class NavBar extends React.Component {
       <div className='navbar' sx={NavBarSx}>
         <div className='title'>
           <Link className='title-text' to='/'>Hireglyph</Link>
+          <Link className='link-text' to='/questions'>Questions</Link>
         </div>
         {this.navbarContent()}
       </div>

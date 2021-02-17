@@ -1,12 +1,7 @@
 import React from "react";
 import { withRouter, Redirect } from "react-router-dom";
 import { HashLink as Link } from "react-router-hash-link";
-import {
-  firebaseConnect,
-  isLoaded,
-  isEmpty,
-  populate,
-} from "react-redux-firebase";
+import { firebaseConnect, isLoaded } from "react-redux-firebase";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import Latex from "react-latex";
@@ -85,6 +80,33 @@ class PageProfile extends React.Component {
     });
   };
 
+  tpDelete = (tpId, questId) => {
+    const updates = {};
+
+    updates[`/tps/${questId}/${tpId}/initial`] = "[deleted]";
+    updates[`/tps/${questId}/${tpId}/approach`] = "[deleted]";
+    updates[`/tps/${questId}/${tpId}/solution`] = "[deleted]";
+
+    updates[`/tps/${questId}/${tpId}/username`] = "[deleted]";
+    updates[`/tps/${questId}/${tpId}/creator`] = null;
+
+    updates[`tpHistory/${this.props.uid}/${tpId}`] = null;
+
+    this.props.firebase.update("/", updates);
+  }
+
+  feedbackDelete = (feedbackId, tpId) => {
+    const updates = {};
+
+    updates[`/feedbacks/${tpId}/${feedbackId}/feedback`] = "[deleted]";
+    updates[`/feedbacks/${tpId}/${feedbackId}/username`] = "[deleted]";
+    updates[`/feedbacks/${tpId}/${feedbackId}/creator`] = null;
+
+    updates[`feedbackHistory/${this.props.uid}/${feedbackId}`] = null;
+
+    this.props.firebase.update("/", updates);
+  }
+
   handleTps = (historyParam) => {
     this.props.history.push(`/profile/${historyParam}`);
   };
@@ -117,7 +139,7 @@ class PageProfile extends React.Component {
       return <PageConfirmEmail />;
     }
 
-    if (historyParam != "tp" && historyParam != "feedback") {
+    if (historyParam !== "tp" && historyParam !== "feedback") {
       return <Redirect to={`/profile/tp`} />;
     }
 
@@ -132,6 +154,9 @@ class PageProfile extends React.Component {
             return (
               <div className="individual-tp-preview" key={tpId}>
                 <div className="main-tp-text">
+                  <button onClick={() => this.tpDelete(tpId, tp.questId)}>
+                    DELETE TP
+                  </button>
                   <div className="tp-preview-username">
                     Response to Question #{tp.questId}
                   </div>
@@ -165,7 +190,7 @@ class PageProfile extends React.Component {
               </div>
             );
           }
-          return;
+          return null;
         });
 
     const feedbacks =
@@ -190,6 +215,9 @@ class PageProfile extends React.Component {
                   rel="stylesheet"
                 />
                 <div className="main-tp-text">
+                  <button onClick={() => this.feedbackDelete(feedbackId, tpId)}>
+                    DELETE Feedback
+                  </button>
                   <div className="tp-preview-username">
                     Feedback to @{username}'s TP to Question #{questId}
                   </div>
@@ -227,32 +255,10 @@ class PageProfile extends React.Component {
               </div>
             );
           }
-          return;
+          return null;
         });
 
-    const display = historyParam == "tp" ? tps : feedbacks;
-
-    const history =
-      tpHistory &&
-      Object.keys(tpHistory)
-        .slice(0)
-        .reverse()
-        .map((tpId, index) => {
-          return tpId !== "test" &&
-            tpHistory[tpId].questId &&
-            tpHistory[tpId] ? (
-            <div className="tp-box" key={index}>
-              <Link
-                className="goto-text"
-                to={`/tp/${tpHistory[tpId].questId}/${tpId}`}
-              >
-                Go to your TP for Question #{tpHistory[tpId].questId}
-              </Link>
-            </div>
-          ) : (
-            <div key={index}></div>
-          );
-        });
+    const display = historyParam === "tp" ? tps : feedbacks;
 
     return (
       <div className="background2">
