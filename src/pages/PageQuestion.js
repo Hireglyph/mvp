@@ -477,15 +477,14 @@ export default compose(
     return [
       {
         path: `/questions/${questId}`,
-        storeAs: `questions/${questId}`
       },
       {
         path: `/tps/${questId}`,
         storeAs: `tps/${questId}`
+        // COMMENT FOR LATER: this 'storeAs' is for the bug!
       },
       {
         path: `/relatedQuestions/${questId}`,
-        storeAs: `relatedQuestions/${questId}`
       },
       {
         path: `/questionHistory/` + props.uid + `/${questId}`,
