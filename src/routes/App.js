@@ -5,6 +5,7 @@ import PageProfile from 'pages/PageProfile';
 import PageNotifications from 'pages/PageNotifications';
 import PageConfirmEmail from 'pages/PageConfirmEmail';
 import PageOnboard from 'pages/PageOnboard';
+import PageNotFound from 'pages/PageNotFound';
 
 import TpWrapper from 'routes/TpWrapper';
 
@@ -23,12 +24,17 @@ class App extends React.Component {
               !onboarded ? <PageOnboard /> :
               !emailVerified ? <PageConfirmEmail /> : (
                 <Switch>
+                  {/* Profile Page */}
                   <Route exact path="/profile/:historyParam?">
                     <PageProfile uid={uid} />
                   </Route>
+
+                  {/* Notifications Page */}
                   <Route exact path="/notifications">
                     <PageNotifications uid={uid} />
                   </Route>
+
+                  {/* TP Page */}
                   <Route exact path="/tp/:questId/:tpId">
                     <TpWrapper uid={uid} />
                   </Route>
@@ -38,11 +44,14 @@ class App extends React.Component {
           />
 
           {/* other routes that conditionally render based on login status */}
+          {/* TODO: change question page to check onboarded/emailVerified */}
           <Route
             path="/q"
             render={() => <TpWrapper uid={uid} />}
           />
 
+          {/* catch broken routes */}
+          <Route component={PageNotFound} />
         </Switch>
       </div>
     );

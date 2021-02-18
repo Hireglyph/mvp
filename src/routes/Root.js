@@ -50,7 +50,7 @@ class Root extends React.Component {
               />}
           />
 
-          {/* routes that need login for access */}
+          {/* routes that need login status for access */}
           <Route
             path="/(profile|notifications|tp|q)/"
             render={() =>
@@ -61,20 +61,20 @@ class Root extends React.Component {
               />}
           />
 
-          {/* open routes (log-in not required) */}
-          <Route exact path="/">
-            <PageLanding />
-          </Route>
+          {/* open routes (login not required) */}
           <Route exact path="/questions/:tag?">
             <PageProblems uid={uid} />
           </Route>
 
           {/* static routes */}
+          <Route exact path="/"        component={PageLanding} />
           <Route exact path="/content" component={PageContentPolicy} />
           <Route exact path="/privacy" component={PagePrivacyPolicy} />
           <Route exact path="/contact" component={PageContact} />
 
           {/* admin portal */}
+          {/* TODO: modify PageAddQuestion to grab uid here
+              and add to the routes that need login access */}
           <Route exact path="/addquestion">
             <PageAddQuestion />
           </Route>
