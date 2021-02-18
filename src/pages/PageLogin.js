@@ -1,27 +1,23 @@
-import React from "react";
-import { firebaseConnect } from "react-redux-firebase";
-import { connect } from "react-redux";
-import { compose } from "redux";
-import { Redirect } from "react-router-dom";
+import React from 'react';
+import { firebaseConnect } from 'react-redux-firebase';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
-import Loading from "../components/Loading.js";
-import GoogleButton from "../components/GoogleButton";
-import PageOnboard from "./PageOnboard";
-
-import "../styles/PageRegister.css";
+import Loading from 'components/Loading';
+import GoogleButton from 'components/GoogleButton';
 
 class PageLogin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
       loading: false,
     };
   }
 
   handleChange = (event) =>
-    this.setState({ [event.target.name]: event.target.value, error: "" });
+    this.setState({ [event.target.name]: event.target.value, error: '' });
 
   login = async () => {
     const credentials = {
@@ -47,18 +43,6 @@ class PageLogin extends React.Component {
   };
 
   render() {
-    if (!this.props.isLoaded) {
-      return <Loading />;
-    }
-
-    if (this.props.uid && !this.props.onboarded) {
-      return <PageOnboard />;
-    }
-
-    if (this.props.uid) {
-      return <Redirect to="/" />;
-    }
-
     return (
       <div className="register-container">
         <div className="register-block">
@@ -92,7 +76,7 @@ class PageLogin extends React.Component {
               </button>
               <br />
 
-              <GoogleButton onClick={() => this.loginWithProvider("google")} />
+              <GoogleButton onClick={() => this.loginWithProvider('google')} />
 
               <button
                 className="login"

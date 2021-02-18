@@ -1,9 +1,9 @@
-import React from "react";
-import { firebaseConnect } from "react-redux-firebase";
-import { connect } from "react-redux";
-import { compose } from "redux";
+import React from 'react';
+import { firebaseConnect } from 'react-redux-firebase';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
-import Loading from "../components/Loading.js";
+import Loading from 'components/Loading';
 
 class PageConfirmEmail extends React.Component {
   constructor(props) {
@@ -25,7 +25,7 @@ class PageConfirmEmail extends React.Component {
       await auth().currentUser.sendEmailVerification();
       this.setState({
         error:
-          "Verification email resent. Please check your inbox and your spam folder.",
+          'Verification email resent. Please check your inbox and your spam folder.',
         loading: false,
         resent: true,
       });

@@ -1,15 +1,15 @@
-import React from "react";
-import { firebaseConnect } from "react-redux-firebase";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { compose } from "redux";
+import React from 'react';
+import { firebaseConnect } from 'react-redux-firebase';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 class PageOnboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
-      error: "",
+      username: '',
+      error: '',
     };
   }
 

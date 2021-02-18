@@ -1,20 +1,20 @@
-import React from "react";
-import emailjs from "emailjs-com";
+import React from 'react';
+import emailjs from 'emailjs-com';
 
 class PageContact extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { message: "" };
+    this.state = { message: '' };
   }
 
   sendEmail = (event) => {
     event.preventDefault();
     emailjs
       .sendForm(
-        "gmail",
-        "template_0ifnav8",
+        'gmail',
+        'template_0ifnav8',
         event.target,
-        "user_YXaia2bamCLj7NUGhcG27"
+        'user_YXaia2bamCLj7NUGhcG27'
       )
       .then(
         (result) => {

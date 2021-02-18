@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux'
-import App from 'routes/App';
+import Root from 'routes/Root';
 import ScrollToTop from 'react-router-scroll-top';
 
 import { ThemeProvider } from 'theme-ui';
@@ -56,7 +56,7 @@ ReactDOM.render(
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <ScrollToTop>
-            <App />
+            <Root />
           </ScrollToTop>
         </ThemeProvider>
       </BrowserRouter>

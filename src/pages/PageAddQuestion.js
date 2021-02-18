@@ -1,29 +1,29 @@
-import React from "react";
-import { Redirect } from "react-router-dom";
-import { firebaseConnect, isLoaded } from "react-redux-firebase";
-import { connect } from "react-redux";
-import { compose } from "redux";
+import React from 'react';
+import { Redirect } from 'react-router-dom';
+import { firebaseConnect, isLoaded } from 'react-redux-firebase';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
-import { tags } from "../constants/Tags";
-import Loading from "../components/Loading.js";
+import { tags } from 'constants/Tags';
+import Loading from 'components/Loading';
 
 class PageAddQuestion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "",
-      description: "",
-      answer: "",
+      title: '',
+      description: '',
+      answer: '',
       tags: {},
       relatedQs: {},
-      difficulty: "easy",
+      difficulty: 'easy',
     };
   }
 
   handleChange = (event) => {
     const target = event.target;
 
-    if (target.type === "checkbox") {
+    if (target.type === 'checkbox') {
       let newTags;
       if (target.checked) {
         newTags = { ...this.state.tags, [target.name]: true };
@@ -52,7 +52,7 @@ class PageAddQuestion extends React.Component {
   createQuestion = () => {
     const updates = {};
     const question =
-      this.state.answer.trim() === ""
+      this.state.answer.trim() === ''
         ? {
             title: this.state.title,
             description: this.state.description,
@@ -72,15 +72,15 @@ class PageAddQuestion extends React.Component {
     ] = this.state.relatedQs;
 
     this.setState({
-      title: "",
-      description: "",
-      answer: "",
+      title: '',
+      description: '',
+      answer: '',
       tags: {},
-      difficulty: "easy",
+      difficulty: 'easy',
       relatedQs: {},
     });
 
-    this.props.firebase.update("/", updates);
+    this.props.firebase.update('/', updates);
   };
 
   render() {

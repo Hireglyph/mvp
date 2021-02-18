@@ -1,15 +1,11 @@
-import React from "react";
-import { withRouter, Redirect } from "react-router-dom";
-import { HashLink as Link } from "react-router-hash-link";
-import { firebaseConnect, isLoaded } from "react-redux-firebase";
-import { connect } from "react-redux";
-import { compose } from "redux";
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { HashLink as Link } from 'react-router-hash-link';
+import { firebaseConnect, isLoaded } from 'react-redux-firebase';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
-import Loading from "../components/Loading.js";
-import PageOnboard from "./PageOnboard";
-import PageConfirmEmail from "./PageConfirmEmail";
-
-import "../styles/PageNotifications.css";
+import Loading from 'components/Loading';
 
 class PageNotifications extends React.Component {
   viewed = (notifId) => {
@@ -28,20 +24,8 @@ class PageNotifications extends React.Component {
   }
 
   render() {
-    if (!isLoaded(this.props.notifications) || !this.props.isLoaded) {
+    if (!isLoaded(this.props.notifications)) {
       return <Loading />;
-    }
-
-    if (!this.props.uid) {
-      return <Redirect to="/register" />;
-    }
-
-    if (!this.props.onboarded) {
-      return <PageOnboard />;
-    }
-
-    if (!this.props.emailVerified) {
-      return <PageConfirmEmail />;
     }
 
     const notifications =
@@ -105,19 +89,16 @@ class PageNotifications extends React.Component {
   }
 }
 
-const mapStateToProps = (state, props) => {
-  const notifications = state.firebase.data.notifications;
-  const user = props.firebase.auth().currentUser;
-  const emailVerified = user && user.emailVerified;
-  return { notifications, emailVerified };
+const mapStateToProps = state => {
+  return { notifications:  state.firebase.data.notifications };
 };
 
 export default compose(
   withRouter,
   firebaseConnect((props) => [
     {
-      path: "/notifications/" + props.uid,
-      storeAs: "notifications",
+      path: '/notifications/' + props.uid,
+      storeAs: 'notifications',
     },
   ]),
   connect(mapStateToProps)
