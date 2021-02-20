@@ -88,7 +88,7 @@ class PageAddQuestion extends React.Component {
       return <Loading />;
     }
 
-    if (!this.props.isLoggedIn) {
+    if (!this.props.uid) {
       return <Redirect to="/" />;
     }
 
@@ -191,7 +191,6 @@ const mapStateToProps = (state, props) => {
     questions &&
     parseInt(Object.keys(questions)[Object.keys(questions).length - 1]) + 1;
   return {
-    isLoggedIn: state.firebase.auth.uid,
     admin: state.firebase.profile.admin,
     questionCount,
   };

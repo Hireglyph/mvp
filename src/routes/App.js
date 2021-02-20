@@ -1,6 +1,11 @@
 import React from 'react';
+import { firebaseConnect } from 'react-redux-firebase';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
+import PageAddQuestion from 'pages/PageAddQuestion';
+import PageProblems from 'pages/PageProblems';
 import PageProfile from 'pages/PageProfile';
 import PageNotifications from 'pages/PageNotifications';
 import PageConfirmEmail from 'pages/PageConfirmEmail';
@@ -11,7 +16,13 @@ import TpWrapper from 'routes/TpWrapper';
 
 class App extends React.Component {
   render() {
-    const { emailVerified, onboarded, uid } = this.props;
+    const {
+      emailVerified,
+      onboarded,
+      questions,
+      questionHistory,
+      uid
+    } = this.props;
 
     return (
       <div className="App">
@@ -44,7 +55,6 @@ class App extends React.Component {
           />
 
           {/* other routes that conditionally render based on login status */}
-          {/* TODO: change question page to check onboarded/emailVerified */}
           <Route
             path="/q"
             render={() =>
@@ -55,6 +65,21 @@ class App extends React.Component {
               />}
           />
 
+          <Route
+            exact path="/questions/:tag?"
+            render={() =>
+              <PageProblems
+                questions={questions}
+                questionHistory={questionHistory}
+                uid={uid}
+              />
+            }
+          />
+
+          <Route exact path="/addquestion">
+            <PageAddQuestion questions={questions} uid={uid} />
+          </Route>
+
           {/* catch broken routes */}
           <Route component={PageNotFound} />
         </Switch>
@@ -63,4 +88,17 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    questions: state.firebase.data.questions,
+    questionHistory: state.firebase.data.questionHistory || {},
+  };
+}
+
+export default compose(
+  firebaseConnect(props => [
+    { path: '/questions' },
+    { path: '/questionHistory/' + props.uid, storeAs: 'questionHistory' },
+  ]),
+  connect(mapStateToProps)
+)(App);

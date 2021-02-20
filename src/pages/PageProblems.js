@@ -1,10 +1,10 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import { firebaseConnect, isLoaded } from 'react-redux-firebase';
+import { isLoaded } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { tags } from '../constants/Tags';
-import Loading from '../components/Loading.js';
+import { tags } from 'constants/Tags';
+import Loading from 'components/Loading.js';
 
 import '../styles/PageLanding.css';
 
@@ -19,11 +19,11 @@ class PageProblems extends React.Component {
   };
 
   render() {
-    if (!isLoaded(this.props.questions)) {
+    const { tag, questions, questionHistory } = this.props;
+
+    if (!isLoaded(questions) || !isLoaded(questionHistory)) {
       return <Loading />;
     }
-
-    const { tag, questions, questionHistory } = this.props;
 
     const isDiff = tag === 'easy' || tag === 'medium' || tag === 'hard';
 
@@ -103,20 +103,13 @@ class PageProblems extends React.Component {
   }
 }
 
-const mapStateToProps = (state, props) => {
-  const { questionHistory } = state.firebase.data;
-
+const mapStateToProps = (_state, props) => {
   return {
-    questionHistory: questionHistory && questionHistory[props.uid],
-    email: state.firebase.auth.email,
     tag: props.match.params.tag,
   };
 };
 
 export default compose(
   withRouter,
-  firebaseConnect(props => [
-    { path: '/questionHistory/' + props.uid },
-  ]),
   connect(mapStateToProps)
 )(PageProblems);

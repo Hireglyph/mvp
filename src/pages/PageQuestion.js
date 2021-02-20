@@ -442,18 +442,14 @@ class PageQuestion extends React.Component {
 
 const mapStateToProps = (state, props) => {
   const { questId, questParam, sortBy } = props.match.params;
-  const { profile, data } = state.firebase;
+  const { data, profile } = state.firebase;
+  const { username } = profile || {};
 
   const question = data.questions && data.questions[questId];
   const tps = data.tps && data.tps[questId];
-  const relatedQuestions = data.relatedQuestions &&
-    data.relatedQuestions[questId];
-  const solved =
-    data.questionHistory &&
-    data.questionHistory[props.uid] &&
-    data.questionHistory[props.uid][questId];
-
-  const { username } = profile || {};
+  const relatedQuestions =
+    data.relatedQuestions && data.relatedQuestions[questId];
+  const solved = data.questionHistory && data.questionHistory[questId];
 
   return {
     question,
@@ -478,12 +474,7 @@ export default compose(
         storeAs: `tps/${questId}`
         // COMMENT FOR LATER: this 'storeAs' is for the bug!
       },
-      {
-        path: `/relatedQuestions/${questId}`,
-      },
-      {
-        path: `/questionHistory/` + props.uid + `/${questId}`,
-      },
+      { path: `/relatedQuestions/${questId}` },
     ];
   }),
   connect(mapStateToProps)
