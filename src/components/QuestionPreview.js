@@ -46,7 +46,6 @@ const mapStateToProps = (state, props) => {
 export default compose(
   withRouter,
   firebaseConnect(props => [
-    { path: '/questions/' + props.questId },
     { path: `/questionHistory/` + props.uid + `/${props.questId}` },
   ]),
   connect(mapStateToProps)

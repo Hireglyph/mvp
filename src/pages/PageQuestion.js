@@ -474,9 +474,6 @@ export default compose(
     const questId = props.match.params.questId;
     return [
       {
-        path: `/questions/${questId}`,
-      },
-      {
         path: `/tps/${questId}`,
         storeAs: `tps/${questId}`
         // COMMENT FOR LATER: this 'storeAs' is for the bug!

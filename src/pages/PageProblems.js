@@ -82,16 +82,16 @@ class PageProblems extends React.Component {
         <br />
         <div className="questions">
           <h1 className="header">Quantitative Analysis Questions</h1>
-          <button onClick={() => this.handleTagFilter("")}>
+          <button onClick={() => this.handleTagFilter('')}>
             Original list
           </button>
-          <button onClick={() => this.handleTagFilter("easy")}>
+          <button onClick={() => this.handleTagFilter('easy')}>
             Filter by easy
           </button>
-          <button onClick={() => this.handleTagFilter("medium")}>
+          <button onClick={() => this.handleTagFilter('medium')}>
             Filter by medium
           </button>
-          <button onClick={() => this.handleTagFilter("hard")}>
+          <button onClick={() => this.handleTagFilter('hard')}>
             Filter by hard
           </button>
           <br />
@@ -104,10 +104,9 @@ class PageProblems extends React.Component {
 }
 
 const mapStateToProps = (state, props) => {
-  const { questions, questionHistory } = state.firebase.data;
+  const { questionHistory } = state.firebase.data;
 
   return {
-    questions,
     questionHistory: questionHistory && questionHistory[props.uid],
     email: state.firebase.auth.email,
     tag: props.match.params.tag,
@@ -117,8 +116,7 @@ const mapStateToProps = (state, props) => {
 export default compose(
   withRouter,
   firebaseConnect(props => [
-    { path: "/questions" },
-    { path: "/questionHistory/" + props.uid },
+    { path: '/questionHistory/' + props.uid },
   ]),
   connect(mapStateToProps)
 )(PageProblems);

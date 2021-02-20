@@ -31,7 +31,7 @@ class Root extends React.Component {
       );
     }
 
-    const { emailVerified, onboarded, uid } = this.props;
+    const { emailVerified, onboarded, questions, uid } = this.props;
 
     return (
       <div className="Root">
@@ -63,7 +63,7 @@ class Root extends React.Component {
 
           {/* open routes (login not required) */}
           <Route exact path="/questions/:tag?">
-            <PageProblems uid={uid} />
+            <PageProblems questions={questions} uid={uid} />
           </Route>
 
           {/* static routes */}
@@ -76,7 +76,7 @@ class Root extends React.Component {
           {/* TODO: modify PageAddQuestion to grab uid here
               and add to the routes that need login access */}
           <Route exact path="/addquestion">
-            <PageAddQuestion />
+            <PageAddQuestion questions={questions} />
           </Route>
 
           {/* catch broken routes*/}
@@ -89,17 +89,18 @@ class Root extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const { auth, profile } = state.firebase;
+  const { auth, data, profile } = state.firebase;
 
   return {
     emailVerified: auth.emailVerified,
     isLoaded: auth.isLoaded && profile.isLoaded,
     onboarded: profile.onboarded,
+    questions: data.questions,
     uid: auth.uid,
   }
 };
 
 export default compose(
-  firebaseConnect(),
+  firebaseConnect(['/questions']),
   connect(mapStateToProps)
 )(Root);
