@@ -104,9 +104,7 @@ class PageProblems extends React.Component {
 }
 
 const mapStateToProps = (_state, props) => {
-  return {
-    tag: props.match.params.tag,
-  };
+  return { tag: props.match.params.tag };
 };
 
 export default compose(
