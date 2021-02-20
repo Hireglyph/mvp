@@ -47,7 +47,12 @@ class App extends React.Component {
           {/* TODO: change question page to check onboarded/emailVerified */}
           <Route
             path="/q"
-            render={() => <TpWrapper uid={uid} />}
+            render={() =>
+              <TpWrapper
+                uid={uid}
+                emailVerified={emailVerified}
+                onboarded={onboarded}
+              />}
           />
 
           {/* catch broken routes */}

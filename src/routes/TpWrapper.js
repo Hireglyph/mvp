@@ -7,17 +7,25 @@ import PageNotFound from 'pages/PageNotFound';
 
 class TpWrapper extends React.Component {
   render() {
-    const { uid } = this.props;
+    const { emailVerified, onboarded, uid } = this.props;
 
     return (
       <div className="TpWrapper">
         <Switch>
           {/* Question Page */}
           <Route exact path="/q/:questId/:questParam?">
-            <PageQuestion uid={uid} />
+            <PageQuestion
+              uid={uid}
+              emailVerified={emailVerified}
+              onboarded={onboarded}
+            />
           </Route>
           <Route exact path="/q/:questId/community/:sortBy">
-            <PageQuestion uid={uid} />
+            <PageQuestion
+              uid={uid}
+              emailVerified={emailVerified}
+              onboarded={onboarded}
+            />
           </Route>
 
           {/* TP Page */}

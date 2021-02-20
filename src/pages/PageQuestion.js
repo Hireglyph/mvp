@@ -452,13 +452,10 @@ const mapStateToProps = (state, props) => {
     data.questionHistory[props.uid] &&
     data.questionHistory[props.uid][questId];
 
-  const { username, onboarded } = profile || {};
-  const { emailVerified } = props.firebase.auth().currentUser || {};
+  const { username } = profile || {};
 
   return {
     question,
-    emailVerified,
-    onboarded,
     questId,
     questParam,
     sortBy,
