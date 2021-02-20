@@ -1,27 +1,27 @@
-import React from "react";
-import { Link, withRouter, Redirect } from "react-router-dom";
-import { firebaseConnect, isLoaded, isEmpty } from "react-redux-firebase";
-import { connect } from "react-redux";
-import { compose } from "redux";
-import TextareaAutosize from "react-textarea-autosize";
+import React from 'react';
+import { Link, withRouter, Redirect } from 'react-router-dom';
+import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import TextareaAutosize from 'react-textarea-autosize';
 
 import { currentVotes, upvoteTp, downvoteTp } from 'utils/vote';
 
-import TpPreview from "../components/TpPreview.js";
-import QuestionPreview from "../components/QuestionPreview.js";
-import Loading from "../components/Loading.js";
-import red from "../assets/images/red-downvote.png";
-import green from "../assets/images/green-upvote.png";
-import upvote from "../assets/images/upvote.png";
-import downvote from "../assets/images/downvote.png";
-import { length } from "../constants/PrevLength";
+import TpPreview from 'components/TpPreview';
+import QuestionPreview from 'components/QuestionPreview';
+import Loading from 'components/Loading';
+import red from 'assets/images/red-downvote.png';
+import green from 'assets/images/green-upvote.png';
+import upvote from 'assets/images/upvote.png';
+import downvote from 'assets/images/downvote.png';
+import { length } from 'constants/PrevLength';
 
-import "../styles/PageQuestion.css";
+import 'styles/PageQuestion.css';
 
 const initialState = {
-  initial: "",
-  approach: "",
-  solution: "",
+  initial: '',
+  approach: '',
+  solution: '',
   loading: true,
   keys: [],
   time: [],

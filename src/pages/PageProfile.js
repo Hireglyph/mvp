@@ -1,18 +1,16 @@
-import React from "react";
-import { withRouter, Redirect } from "react-router-dom";
-import { HashLink as Link } from "react-router-hash-link";
-import { firebaseConnect, isLoaded } from "react-redux-firebase";
-import { connect } from "react-redux";
-import { compose } from "redux";
-import Latex from "react-latex";
+import React from 'react';
+import { withRouter, Redirect } from 'react-router-dom';
+import { HashLink as Link } from 'react-router-hash-link';
+import { firebaseConnect, isLoaded } from 'react-redux-firebase';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import Latex from 'react-latex';
 
-import TpPreview from "../components/TpPreview.js";
-import Loading from "../components/Loading.js";
-import PageOnboard from "./PageOnboard";
-import PageConfirmEmail from "./PageConfirmEmail";
-import { length } from "../constants/PrevLength";
+import TpPreview from 'components/TpPreview.js';
+import Loading from 'components/Loading';
+import { length } from 'constants/PrevLength';
 
-import "../styles/PageProfile.css";
+import 'styles/PageProfile.css';
 
 class PageProfile extends React.Component {
   constructor(props) {
@@ -113,13 +111,10 @@ class PageProfile extends React.Component {
 
   render() {
     const {
-      emailVerified,
       feedbackHistory,
       historyParam,
-      onboarded,
       profile,
       tpHistory,
-      uid,
       username,
     } = this.props;
 
@@ -127,19 +122,7 @@ class PageProfile extends React.Component {
       return <Loading />;
     }
 
-    if (!uid) {
-      return <Redirect to="/register" />;
-    }
-
-    if (!onboarded) {
-      return <PageOnboard />;
-    }
-
-    if (!emailVerified) {
-      return <PageConfirmEmail />;
-    }
-
-    if (historyParam !== "tp" && historyParam !== "feedback") {
+    if (historyParam !== 'tp' && historyParam !== 'feedback') {
       return <Redirect to={`/profile/tp`} />;
     }
 
@@ -286,17 +269,14 @@ class PageProfile extends React.Component {
 
 const mapStateToProps = (state, props) => {
   const { profile, data } = state.firebase;
-  const { email, onboarded, username } = profile || {};
+  const { email, username } = profile || {};
   const { feedbackHistory, tpHistory } = data;
-  const { emailVerified } = props.firebase.auth().currentUser || {};
   const { historyParam } = props.match.params;
 
   return {
     email,
-    emailVerified,
     feedbackHistory,
     historyParam,
-    onboarded,
     profile,
     tpHistory,
     username,
@@ -307,12 +287,12 @@ export default compose(
   withRouter,
   firebaseConnect((props) => [
     {
-      path: "/tpHistory/" + props.uid,
-      storeAs: "tpHistory",
+      path: '/tpHistory/' + props.uid,
+      storeAs: 'tpHistory',
     },
     {
-      path: "/feedbackHistory/" + props.uid,
-      storeAs: "feedbackHistory",
+      path: '/feedbackHistory/' + props.uid,
+      storeAs: 'feedbackHistory',
     },
   ]),
   connect(mapStateToProps)

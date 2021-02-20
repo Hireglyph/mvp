@@ -1,21 +1,19 @@
-import React from "react";
-import { withRouter, Redirect } from "react-router-dom";
-import { HashLink as Link } from "react-router-hash-link";
-import { firebaseConnect, isLoaded, isEmpty } from "react-redux-firebase";
-import { connect } from "react-redux";
-import { compose } from "redux";
-import Latex from "react-latex";
-import TextareaAutosize from "react-textarea-autosize";
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { HashLink as Link } from 'react-router-hash-link';
+import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import Latex from 'react-latex';
+import TextareaAutosize from 'react-textarea-autosize';
 
 import { currentVotes, getVoteValues, upvoteTp, downvoteTp } from 'utils/vote';
 
-import red from "../assets/images/red-downvote.png";
-import green from "../assets/images/green-upvote.png";
-import upvote from "../assets/images/upvote.png";
-import downvote from "../assets/images/downvote.png";
-import PageOnboard from "./PageOnboard";
-import PageConfirmEmail from "./PageConfirmEmail";
-import Loading from "../components/Loading.js";
+import red from 'assets/images/red-downvote.png';
+import green from 'assets/images/green-upvote.png';
+import upvote from 'assets/images/upvote.png';
+import downvote from 'assets/images/downvote.png';
+import Loading from 'components/Loading';
 
 import "../styles/PageTp.css";
 
@@ -132,12 +130,10 @@ class PageTp extends React.Component {
   render() {
     const {
       tp,
-      emailVerified,
       feedbacks,
       isDownvoted,
       isUpvoted,
       questId,
-      onboarded,
       uid,
     } = this.props;
 
@@ -147,18 +143,6 @@ class PageTp extends React.Component {
 
     if (isEmpty(tp)) {
       return <div>Page not found!</div>;
-    }
-
-    if (!uid) {
-      return <Redirect to="/register" />;
-    }
-
-    if (!onboarded) {
-      return <PageOnboard />;
-    }
-
-    if (!emailVerified) {
-      return <PageConfirmEmail />;
     }
 
     const Feedbacks =
@@ -295,28 +279,22 @@ class PageTp extends React.Component {
 }
 
 const mapStateToProps = (state, props) => {
-  const { auth, data, profile } = state.firebase;
-  const { uid } = auth;
+  const { data, profile } = state.firebase;
   const { questId, tpId } = props.match.params;
 
   const tp = data[tpId];
-  const { isUpvoted, isDownvoted } = currentVotes(tp, uid);
+  const { isUpvoted, isDownvoted } = currentVotes(tp, props.uid);
   const feedbacks = tpId && data.feedbacks && data.feedbacks[tpId];
 
   const username = profile && profile.username;
-  const onboarded = profile && profile.onboarded;
-  const { emailVerified } = props.firebase.auth().currentUser || {};
 
   return {
     tp,
-    emailVerified,
     feedbacks,
     isDownvoted,
     isUpvoted,
-    onboarded,
     questId,
     tpId,
-    uid,
     username,
   };
 };

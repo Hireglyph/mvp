@@ -1,24 +1,18 @@
-import React from "react";
-import { firebaseConnect } from "react-redux-firebase";
-import { connect } from "react-redux";
-import { compose } from "redux";
-import { Redirect } from "react-router-dom";
+import React from 'react';
+import { firebaseConnect } from 'react-redux-firebase';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
-import PageOnboard from "./PageOnboard";
-import PageConfirmEmail from "./PageConfirmEmail";
-import Loading from "../components/Loading.js";
-import GoogleButton from "components/GoogleButton";
-
-import "../styles/PageRegister.css";
+import GoogleButton from 'components/GoogleButton';
 
 class PageRegister extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
-      username: "",
-      error: "",
+      email: '',
+      password: '',
+      username: '',
+      error: '',
     };
   }
 
@@ -55,25 +49,6 @@ class PageRegister extends React.Component {
   };
 
   render() {
-    const { isLoaded, onboarded, auth, uid } = this.props;
-    const user = auth().currentUser;
-
-    if (!isLoaded) {
-      return <Loading />;
-    }
-
-    if (uid && !onboarded) {
-      return <PageOnboard />;
-    }
-
-    if (uid && user && !user.emailVerified) {
-      return <PageConfirmEmail />;
-    }
-
-    if (uid) {
-      return <Redirect to="/" />;
-    }
-
     return (
       <div className="register-container">
         <div className="register-block">
@@ -117,12 +92,12 @@ class PageRegister extends React.Component {
           </button>
           <br />
           <GoogleButton
-            onClick={() => this.loginWithProvider("google")}
+            onClick={() => this.loginWithProvider('google')}
             text={"Sign up with Google"}
           />
           <button
             className="login"
-            onClick={() => (window.location.href = "/login")}
+            onClick={() => (window.location.href = '/login')}
           >
             login
           </button>
