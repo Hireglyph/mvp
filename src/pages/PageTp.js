@@ -9,6 +9,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 
 import { currentVotes, getVoteValues, upvoteTp, downvoteTp } from 'utils/vote';
 
+import PageNotFound from 'pages/PageNotFound';
 import red from 'assets/images/red-downvote.png';
 import green from 'assets/images/green-upvote.png';
 import upvote from 'assets/images/upvote.png';
@@ -142,7 +143,7 @@ class PageTp extends React.Component {
     }
 
     if (isEmpty(tp)) {
-      return <div>Page not found!</div>;
+      return <PageNotFound />;
     }
 
     const Feedbacks =

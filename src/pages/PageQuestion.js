@@ -9,6 +9,7 @@ import { currentVotes, upvoteTp, downvoteTp } from 'utils/vote';
 
 import TpPreview from 'components/TpPreview';
 import QuestionPreview from 'components/QuestionPreview';
+import PageNotFound from 'pages/PageNotFound';
 import Loading from 'components/Loading';
 import red from 'assets/images/red-downvote.png';
 import green from 'assets/images/green-upvote.png';
@@ -199,7 +200,7 @@ class PageQuestion extends React.Component {
     }
 
     if (isEmpty(question)) {
-      return <div>Page not found!</div>;
+      return <PageNotFound />;
     }
 
     if (
@@ -452,13 +453,10 @@ const mapStateToProps = (state, props) => {
     data.questionHistory[props.uid] &&
     data.questionHistory[props.uid][questId];
 
-  const { username, onboarded } = profile || {};
-  const { emailVerified } = props.firebase.auth().currentUser || {};
+  const { username } = profile || {};
 
   return {
     question,
-    emailVerified,
-    onboarded,
     questId,
     questParam,
     sortBy,
