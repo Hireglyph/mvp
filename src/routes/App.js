@@ -46,9 +46,15 @@ class App extends React.Component {
                   </Route>
 
                   {/* TP Page */}
-                  <Route exact path="/tp/:questId/:tpId">
-                    <TpWrapper uid={uid} />
-                  </Route>
+                  <Route
+                    exact path="/tp/:questId/:tpId"
+                    render={props =>
+                      <TpWrapper
+                        uid={uid}
+                        questId={props.match.params.questId}
+                      />}
+                  />
+
                 </Switch>
               )
             }
@@ -56,9 +62,11 @@ class App extends React.Component {
 
           {/* other routes that conditionally render based on login status */}
           <Route
-            path="/q"
-            render={() =>
+            path="/q/:questId"
+            render={props =>
               <TpWrapper
+                question={questions && questions[props.match.params.questId]}
+                questId={props.match.params.questId}
                 uid={uid}
                 emailVerified={emailVerified}
                 onboarded={onboarded}
@@ -67,10 +75,11 @@ class App extends React.Component {
 
           <Route
             exact path="/questions/:tag?"
-            render={() =>
+            render={props =>
               <PageProblems
                 questions={questions}
                 questionHistory={questionHistory}
+                tag={props.match.params.tag}
                 uid={uid}
               />
             }
@@ -91,7 +100,7 @@ class App extends React.Component {
 const mapStateToProps = state => {
   return {
     questions: state.firebase.data.questions,
-    questionHistory: state.firebase.data.questionHistory || {},
+    questionHistory: state.firebase.data.questionHistory,
   };
 }
 

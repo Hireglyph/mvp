@@ -7,9 +7,9 @@ import TextareaAutosize from 'react-textarea-autosize';
 
 import { currentVotes, upvoteTp, downvoteTp } from 'utils/vote';
 
+import PageNotFound from 'pages/PageNotFound';
 import TpPreview from 'components/TpPreview';
 import QuestionPreview from 'components/QuestionPreview';
-import PageNotFound from 'pages/PageNotFound';
 import Loading from 'components/Loading';
 import red from 'assets/images/red-downvote.png';
 import green from 'assets/images/green-upvote.png';
@@ -195,7 +195,7 @@ class PageQuestion extends React.Component {
       time
     } = this.state;
 
-    if (!isLoaded(question) || !isLoaded(tps)) {
+    if (!isLoaded(question)) {
       return <Loading />;
     }
 
@@ -441,40 +441,21 @@ class PageQuestion extends React.Component {
 }
 
 const mapStateToProps = (state, props) => {
-  const { questId, questParam, sortBy } = props.match.params;
+  const { questId } = props.match.params;
   const { data, profile } = state.firebase;
-  const { username } = profile || {};
 
-  const question = data.questions && data.questions[questId];
-  const tps = data.tps && data.tps[questId];
   const relatedQuestions =
     data.relatedQuestions && data.relatedQuestions[questId];
   const solved = data.questionHistory && data.questionHistory[questId];
 
-  return {
-    question,
-    questId,
-    questParam,
-    sortBy,
-    tps,
-    solved,
-    username,
-    relatedQuestions,
-  };
+  return { relatedQuestions, solved, username: profile && profile.username };
 };
 
-// COMMENT FOR LATER: don't get tp data if they don't get to see the tps??
 export default compose(
   withRouter,
   firebaseConnect(props => {
-    const questId = props.match.params.questId;
     return [
-      {
-        path: `/tps/${questId}`,
-        storeAs: `tps/${questId}`
-        // COMMENT FOR LATER: this 'storeAs' is for the bug!
-      },
-      { path: `/relatedQuestions/${questId}` },
+      { path: `/relatedQuestions/${props.questId}` },
     ];
   }),
   connect(mapStateToProps)

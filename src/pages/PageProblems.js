@@ -1,7 +1,6 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { isLoaded } from 'react-redux-firebase';
-import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { tags } from 'constants/Tags';
 import Loading from 'components/Loading.js';
@@ -103,11 +102,6 @@ class PageProblems extends React.Component {
   }
 }
 
-const mapStateToProps = (_state, props) => {
-  return { tag: props.match.params.tag };
-};
-
 export default compose(
   withRouter,
-  connect(mapStateToProps)
 )(PageProblems);

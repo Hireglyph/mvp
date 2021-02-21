@@ -50,7 +50,7 @@ class NavBar extends React.Component {
   navbarContent = () => {
     const { firebase, hasNotifs, uid } = this.props;
 
-    if (!this.props.isLoaded || uid && !isLoaded(hasNotifs)) {
+    if (!this.props.isLoaded || (uid && !isLoaded(hasNotifs))) {
       return;
     }
     if (!uid) {

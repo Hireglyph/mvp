@@ -138,7 +138,7 @@ class PageTp extends React.Component {
       uid,
     } = this.props;
 
-    if (!isLoaded(tp)) {
+    if (!isLoaded(feedbacks)) {
       return <Loading />;
     }
 
@@ -281,34 +281,19 @@ class PageTp extends React.Component {
 
 const mapStateToProps = (state, props) => {
   const { data, profile } = state.firebase;
-  const { questId, tpId } = props.match.params;
+  const { tpId } = props.match.params;
 
-  const tp = data[tpId];
-  const { isUpvoted, isDownvoted } = currentVotes(tp, props.uid);
-  const feedbacks = tpId && data.feedbacks && data.feedbacks[tpId];
-
+  const { isUpvoted, isDownvoted } = currentVotes(props.tp, props.uid);
+  const feedbacks = data.feedbacks && data.feedbacks[tpId];
   const username = profile && profile.username;
 
-  return {
-    tp,
-    feedbacks,
-    isDownvoted,
-    isUpvoted,
-    questId,
-    tpId,
-    username,
-  };
+  return { feedbacks, isDownvoted, isUpvoted, username };
 };
 
 export default compose(
   withRouter,
-  firebaseConnect(props => {
-    const { questId, tpId } = props.match.params;
-
-    return [
-      { path: `/tps/${questId}/${tpId}`, storeAs: tpId },
-      { path: `/feedbacks/${tpId}` },
-    ];
-  }),
+  firebaseConnect(props =>
+    [{ path: `/feedbacks/${props.match.params.tpId}` }]
+  ),
   connect(mapStateToProps)
 )(PageTp);
