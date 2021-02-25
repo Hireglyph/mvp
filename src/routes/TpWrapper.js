@@ -9,7 +9,33 @@ import PageTp from 'pages/PageTp';
 import PageNotFound from 'pages/PageNotFound';
 import Loading from 'components/Loading';
 
+const initialState = {
+  sorted: false, 
+  keys: [],
+  time: [],
+}
+
 class TpWrapper extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = initialState;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.questId !== this.props.questId) {
+      this.setState(initialState);
+    }
+    if (!prevState.sorted && isLoaded(this.props.tps)) {
+      let keys = this.props.tps ? Object.keys(this.props.tps) : [];
+      keys.sort((a, b) => this.props.tps[b].total - this.props.tps[a].total);
+      this.setState({
+        keys,
+        sorted: true,
+        time: this.props.tps ? Object.keys(this.props.tps).reverse() : [],
+      });
+    }
+  }
+
   render() {
     const { emailVerified, onboarded, question, questId, tps, uid } = this.props;
 
@@ -32,6 +58,8 @@ class TpWrapper extends React.Component {
                 questId={questId}
                 questParam={props.match.params.questParam}
                 tps={tps}
+                keys={this.state.keys}
+                time={this.state.time}
               />
             }
           />
@@ -47,6 +75,8 @@ class TpWrapper extends React.Component {
                 questId={questId}
                 sortBy={props.match.params.sortBy}
                 tps={tps}
+                keys={this.state.keys}
+                time={this.state.time}
               />
             }
           />
