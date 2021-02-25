@@ -1,5 +1,4 @@
 import React from 'react';
-import { firebaseConnect } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Switch, Route } from 'react-router-dom';
@@ -7,8 +6,6 @@ import { Switch, Route } from 'react-router-dom';
 import App from 'routes/App';
 import Auth from 'routes/Auth';
 
-import PageProblems from 'pages/PageProblems';
-import PageAddQuestion from 'pages/PageAddQuestion';
 import PageContact from 'pages/PageContact';
 import PageLanding from 'pages/PageLanding';
 import PageContentPolicy from 'pages/PageContentPolicy';
@@ -50,9 +47,9 @@ class Root extends React.Component {
               />}
           />
 
-          {/* routes that need login status for access */}
+          {/* main routes */}
           <Route
-            path="/(profile|notifications|tp|q)/"
+            path="/(profile|notifications|tp|q|questions|addquestion)/"
             render={() =>
               <App
                 emailVerified={emailVerified}
@@ -61,23 +58,11 @@ class Root extends React.Component {
               />}
           />
 
-          {/* open routes (login not required) */}
-          <Route exact path="/questions/:tag?">
-            <PageProblems uid={uid} />
-          </Route>
-
           {/* static routes */}
           <Route exact path="/"        component={PageLanding} />
           <Route exact path="/content" component={PageContentPolicy} />
           <Route exact path="/privacy" component={PagePrivacyPolicy} />
           <Route exact path="/contact" component={PageContact} />
-
-          {/* admin portal */}
-          {/* TODO: modify PageAddQuestion to grab uid here
-              and add to the routes that need login access */}
-          <Route exact path="/addquestion">
-            <PageAddQuestion />
-          </Route>
 
           {/* catch broken routes*/}
           <Route component={PageNotFound} />
@@ -100,6 +85,5 @@ const mapStateToProps = state => {
 };
 
 export default compose(
-  firebaseConnect(),
   connect(mapStateToProps)
 )(Root);

@@ -45,13 +45,15 @@ const NavBarSx = {
 };
 
 class NavBar extends React.Component {
-  handleClick = (link) => () => this.props.history.push(link);
+  handleClick = link => () => this.props.history.push(link);
 
   navbarContent = () => {
-    if (!this.props.isLoaded || !isLoaded(this.props.hasNotifs)) {
+    const { firebase, hasNotifs, uid } = this.props;
+
+    if (!this.props.isLoaded || (uid && !isLoaded(hasNotifs))) {
       return;
     }
-    if (!this.props.uid) {
+    if (!uid) {
       return (
         <div>
           <div className="link-click">
@@ -74,7 +76,7 @@ class NavBar extends React.Component {
       <div className='nav-elements'>
         <div className='link-click2'>
           <Link
-          className={!this.props.hasNotifs ? 'link-text' : 'has-notifs link-text'}
+          className={!hasNotifs ? 'link-text' : 'has-notifs link-text'}
           to='/notifications'>
             Notifications
           </Link>
@@ -88,7 +90,7 @@ class NavBar extends React.Component {
           <button
             className="button-text"
             onClick={() => {
-              this.props.firebase.logout();
+              firebase.logout();
               window.location.href = "/";
             }}
           >
@@ -112,19 +114,16 @@ class NavBar extends React.Component {
   }
 }
 
-const mapStateToProps = (state, props) => {
-  return {
-    hasNotifs:
-      state.firebase.data.hasNotifs && state.firebase.data.hasNotifs[props.uid],
-  };
+const mapStateToProps = state => {
+  return { hasNotifs: state.firebase.data.hasNotifs };
 };
 
 export default compose(
   withRouter,
-  firebaseConnect((props) => [
-    {
-      path: "/hasNotifs/" + props.uid,
-    },
-  ]),
+  firebaseConnect(props =>
+    props.uid
+      ? [{ path: '/hasNotifs/' + props.uid, storeAs: 'hasNotifs' }]
+      : []
+  ),
   connect(mapStateToProps)
 )(NavBar);

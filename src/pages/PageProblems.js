@@ -1,10 +1,9 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import { firebaseConnect, isLoaded } from 'react-redux-firebase';
-import { connect } from 'react-redux';
+import { isLoaded } from 'react-redux-firebase';
 import { compose } from 'redux';
-import { tags } from '../constants/Tags';
-import Loading from '../components/Loading.js';
+import { tags } from 'constants/Tags';
+import Loading from 'components/Loading.js';
 
 import '../styles/PageLanding.css';
 
@@ -19,11 +18,11 @@ class PageProblems extends React.Component {
   };
 
   render() {
-    if (!isLoaded(this.props.questions)) {
+    const { tag, questions, questionHistory } = this.props;
+
+    if (!isLoaded(questions) || !isLoaded(questionHistory)) {
       return <Loading />;
     }
-
-    const { tag, questions, questionHistory } = this.props;
 
     const isDiff = tag === 'easy' || tag === 'medium' || tag === 'hard';
 
@@ -82,16 +81,16 @@ class PageProblems extends React.Component {
         <br />
         <div className="questions">
           <h1 className="header">Quantitative Analysis Questions</h1>
-          <button onClick={() => this.handleTagFilter("")}>
+          <button onClick={() => this.handleTagFilter('')}>
             Original list
           </button>
-          <button onClick={() => this.handleTagFilter("easy")}>
+          <button onClick={() => this.handleTagFilter('easy')}>
             Filter by easy
           </button>
-          <button onClick={() => this.handleTagFilter("medium")}>
+          <button onClick={() => this.handleTagFilter('medium')}>
             Filter by medium
           </button>
-          <button onClick={() => this.handleTagFilter("hard")}>
+          <button onClick={() => this.handleTagFilter('hard')}>
             Filter by hard
           </button>
           <br />
@@ -103,22 +102,6 @@ class PageProblems extends React.Component {
   }
 }
 
-const mapStateToProps = (state, props) => {
-  const { questions, questionHistory } = state.firebase.data;
-
-  return {
-    questions,
-    questionHistory: questionHistory && questionHistory[props.uid],
-    email: state.firebase.auth.email,
-    tag: props.match.params.tag,
-  };
-};
-
 export default compose(
   withRouter,
-  firebaseConnect(props => [
-    { path: "/questions" },
-    { path: "/questionHistory/" + props.uid },
-  ]),
-  connect(mapStateToProps)
 )(PageProblems);
