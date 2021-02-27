@@ -22,7 +22,7 @@ class PageTp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      feedback: "",
+      feedback: '',
       loading: true,
       keys: [],
     };
@@ -38,7 +38,7 @@ class PageTp extends React.Component {
     }
   }
 
-  handleChange = (event) => {
+  handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
@@ -138,7 +138,7 @@ class PageTp extends React.Component {
       uid,
     } = this.props;
 
-    if (!isLoaded(feedbacks)) {
+    if (!isLoaded(feedbacks) || this.state.loading) {
       return <Loading />;
     }
 

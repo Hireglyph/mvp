@@ -24,40 +24,32 @@ class App extends React.Component {
       uid
     } = this.props;
 
+    const AuthComponent =
+      !uid ? <Redirect to="/register" /> :
+      !onboarded ? <PageOnboard /> :
+      !emailVerified ? <PageConfirmEmail /> : null;
+
     return (
       <div className="App">
+
         <Switch>
           {/* routes that completely require login */}
+          <Route exact path="/profile/:historyParam?">
+            {AuthComponent || <PageProfile uid={uid} />}
+          </Route>
+
+          <Route exact path="/notifications">
+            {AuthComponent || <PageNotifications uid={uid} />}
+          </Route>
+
           <Route
-            path="/(profile|notifications|tp)"
-            render={() =>
-              !uid ? <Redirect to="/register" /> :
-              !onboarded ? <PageOnboard /> :
-              !emailVerified ? <PageConfirmEmail /> : (
-                <Switch>
-                  {/* Profile Page */}
-                  <Route exact path="/profile/:historyParam?">
-                    <PageProfile uid={uid} />
-                  </Route>
-
-                  {/* Notifications Page */}
-                  <Route exact path="/notifications">
-                    <PageNotifications uid={uid} />
-                  </Route>
-
-                  {/* TP Page */}
-                  <Route
-                    exact path="/tp/:questId/:tpId"
-                    render={props =>
-                      <TpWrapper
-                        uid={uid}
-                        questId={props.match.params.questId}
-                      />}
-                  />
-
-                </Switch>
-              )
-            }
+            exact path="/tp/:questId/:tpId"
+            render={props =>
+              AuthComponent ||
+                <TpWrapper
+                  uid={uid}
+                  questId={props.match.params.questId}
+                />}
           />
 
           {/* other routes that conditionally render based on login status */}

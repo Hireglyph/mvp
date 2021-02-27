@@ -24,8 +24,6 @@ const initialState = {
   approach: '',
   solution: '',
   loading: true,
-  keys: [],
-  time: [],
   expand: {},
   showAnswer: false,
 };
@@ -41,18 +39,13 @@ class PageQuestion extends React.Component {
       this.setState(initialState);
     }
 
-    if (prevState.loading && isLoaded(this.props.tps)) {
-      let keys = this.props.tps ? Object.keys(this.props.tps) : [];
-      keys.sort((a, b) => this.props.tps[b].total - this.props.tps[a].total);
-      this.setState({ loading: false, keys });
-      if (this.props.tps) {
-        let list = {};
-        Object.keys(this.props.tps).forEach((tpId) => (list[tpId] = false));
-        this.setState({
-          time: Object.keys(this.props.tps).reverse(),
-          expand: list,
-        });
-      }
+    if (this.props.tps && !this.state.loading) {
+      let list = {};
+      Object.keys(this.props.tps).forEach((tpId) => (list[tpId] = false));
+      this.setState({
+        expand: list,
+        loading: false,
+      });
     }
   }
 
@@ -178,6 +171,8 @@ class PageQuestion extends React.Component {
       sortBy,
       tps,
       uid,
+      keys,
+      time,
     } = this.props;
     const {
       answer,
@@ -189,10 +184,8 @@ class PageQuestion extends React.Component {
     const {
       approach,
       initial,
-      keys,
       showAnswer,
       solution,
-      time
     } = this.state;
 
     if (!isLoaded(question)) {
