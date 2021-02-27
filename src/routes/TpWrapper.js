@@ -10,7 +10,7 @@ import PageNotFound from 'pages/PageNotFound';
 import Loading from 'components/Loading';
 
 const initialState = {
-  sorted: false, 
+  sorted: false,
   keys: [],
   time: [],
 }
@@ -94,7 +94,6 @@ class TpWrapper extends React.Component {
             }
           />
 
-
           {/* catch broken routes */}
           <Route component={PageNotFound} />
         </Switch>
@@ -111,8 +110,7 @@ const mapStateToProps = (state, props) => {
 export default compose(
   firebaseConnect(props =>
     props.uid
-      // NOTE: this 'storeAs' is for the bug!
-      ? [{ path: '/tps/' + props.questId, storeAs: '/tps/' + props.questId }]
+      ? [{ path: '/tps/' + props.questId }]
       : []
   ),
   connect(mapStateToProps)
