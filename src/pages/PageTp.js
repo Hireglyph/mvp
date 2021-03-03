@@ -1,9 +1,12 @@
+/** @jsx jsx */
+
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { HashLink as Link } from 'react-router-hash-link';
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { jsx } from 'theme-ui';
 import Latex from 'react-latex';
 import TextareaAutosize from 'react-textarea-autosize';
 
@@ -17,6 +20,51 @@ import downvote from 'assets/images/downvote.png';
 import Loading from 'components/Loading';
 
 import "../styles/PageTp.css";
+
+const TpSx = {
+  position: 'relative',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  marginTop: '50px',
+  marginBottom: '50px',
+  width: '70%',
+  maxWidth: '800px',
+  height: 'auto',
+  background: 'white',
+  
+  '.tp-header': {
+    display: 'flex',
+    backgroundColor: 'orange',
+    height: '50px',
+    lineHeight: '50px',
+    gap: '40px',
+  },
+
+  '.tp-body': {
+    display: 'flex',
+    backgroundColor: 'lightGrey',
+    padding: '20px',
+    gap: '20px',
+  },
+
+  '.tp-content': {
+    backgroundColor: 'white',
+    width: '100%'
+  },
+
+  '.score-center': {
+    textAlign: 'center',
+  },
+
+  '.content-label': {
+
+  },
+
+  '.content-text': {
+    
+  },
+
+};
 
 class PageTp extends React.Component {
   constructor(props) {
@@ -222,14 +270,12 @@ class PageTp extends React.Component {
       <div>
         <img
           alt="upvote"
-          className="upvote-button"
           src={isUpvoted ? green : upvote}
           onClick={() => upvoteTp(this.props)}
         />
-        <div className="score-text">{this.props.tp.total}</div>
+        <div className='score-center'>{this.props.tp.total}</div>
         <img
           alt="downvote"
-          className="downvote-button"
           src={isDownvoted ? red : downvote}
           onClick={() => downvoteTp(this.props)}
         />
@@ -239,36 +285,44 @@ class PageTp extends React.Component {
     );
 
     return (
-      <div className="full-tp">
+      <div sx={TpSx}>
         <link
           href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
           rel="stylesheet"
         />
-        <div onClick={() => this.props.history.goBack()}>GO BACK</div>
-        <div className="question-identification">
-          @{tp.username} in response to:
-          <Link className="link-to-quest" to={`/q/${questId}`}>
-            Question #{questId}
-          </Link>
+        <div className='tp-header'>
+          <div onClick={() => this.props.history.goBack()}>Back</div>
+          <div>
+            TP by @{tp.username} in response to:
+            <Link to={`/q/${questId}`}>
+              Question #{questId}
+            </Link>
+          </div>
+          <br />
         </div>
-        <br />
-        <div className="label-text">
-          {tp.initial ? "Initial Thoughts:" : ""}
+        <div className='tp-body'>
+          {scoreArrows}
+          <div className='tp-content'>
+            <div className="content-label">
+              {tp.initial ? "Initial Thoughts:" : ""}
+            </div>
+            <div className="content-text">
+              <Latex>{tp.initial}</Latex>
+            </div>
+            <div className="content-label">
+              {tp.approach ? "Approaches Tried:" : ""}
+            </div>
+            <div className="content-text">
+              <Latex>{tp.approach}</Latex>
+            </div>
+            <div className="content-label">
+              {tp.solution ? "Final Solution:" : ""}
+            </div>
+            <div className="content-text">
+              <Latex>{tp.solution}</Latex>
+            </div>
+          </div>
         </div>
-        <div className="body-text">
-          <Latex>{tp.initial}</Latex>
-        </div>
-        <div className="label-text">
-          {tp.approach ? "Approaches Tried:" : ""}
-        </div>
-        <div className="body-text">
-          <Latex>{tp.approach}</Latex>
-        </div>
-        <div className="label-text">{tp.solution ? "Final Solution:" : ""}</div>
-        <div className="body-text">
-          <Latex>{tp.solution}</Latex>
-        </div>
-        {scoreArrows}
         <br />
         <div> {myFeedback}</div>
         <br />
