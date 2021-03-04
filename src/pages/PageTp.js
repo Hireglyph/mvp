@@ -25,6 +25,7 @@ const TpSx = {
   width: '700px',
   height: 'auto',
   background: 'white',
+  fontFamily: 'Open-Sans',
   
   '.tp-header': {
     display: 'flex',
@@ -46,6 +47,7 @@ const TpSx = {
     marginTop: '20px',
     marginBottom: '20px',
     minHeight: '100px',
+    fontFamily: 'Gotham-Book',
   },
 
   '.arrows-width': {
@@ -56,7 +58,8 @@ const TpSx = {
 
   '.score-center': {
     textAlign: 'center',
-    marginTop: '10px',
+    marginTop: '5px',
+    marginBottom: '5px',
   },
 
   '.content-label': {
@@ -72,7 +75,7 @@ const TpSx = {
     marginLeft: '50px',
     resize: 'vertical',
     verticalAlign: 'bottom',
-
+    minHeight: '40px',
   },
 
   '.button-box': {
@@ -100,6 +103,7 @@ const TpSx = {
   '.feedback-content': {
     marginTop: '10px',
     width: '100%',
+    fontFamily: 'Gotham-Book',
   },
 
   '.green-upvote': {
@@ -108,9 +112,9 @@ const TpSx = {
     borderLeft: '15px solid transparent',
     borderRight: '15px solid transparent',
     borderBottom: '15px solid #00FF00',
-    display: 'block',
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    position: 'relative',
+    left: '-15px',
+    bottom: '-2px',
   },
 
   '.white-upvote': {
@@ -118,10 +122,10 @@ const TpSx = {
     height: '0px',
     borderLeft: '15px solid transparent',
     borderRight: '15px solid transparent',
-    borderBottom: '15px solid lightGrey',
-    display: 'block',
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    borderBottom: '15px solid white',
+    position: 'relative',
+    left: '-15px',
+    bottom: '-2px',
   },
   
   '.red-downvote': {
@@ -129,10 +133,10 @@ const TpSx = {
     height: '0px',
     borderLeft: '15px solid transparent',
     borderRight: '15px solid transparent',
-    borderTop: '15px solid #FF0000',
-    display: 'block',
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    borderTop: '15px solid red',
+    position: 'relative',
+    left: '-15px',
+    bottom: '17px',
   },
 
   '.white-downvote': {
@@ -140,10 +144,32 @@ const TpSx = {
     height: '0px',
     borderLeft: '15px solid transparent',
     borderRight: '15px solid transparent',
-    borderTop: '15px solid lightGrey',
+    borderTop: '15px solid white',
+    position: 'relative',
+    left: '-15px',
+    bottom: '17px',
+  },
+
+  '.upvote-border': {
     display: 'block',
     marginLeft: 'auto',
     marginRight: 'auto',
+    width: '0px', 
+    height: '0px',
+    borderLeft: '19px solid transparent',
+    borderRight: '19px solid transparent',
+    borderBottom: '19px solid black',
+  },
+
+  '.downvote-border': {
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '0px', 
+    height: '0px',
+    borderLeft: '19px solid transparent',
+    borderRight: '19px solid transparent',
+    borderTop: '19px solid black',
   },
 
 };
@@ -290,14 +316,20 @@ class PageTp extends React.Component {
           const feedbackScoreArrows = !deleted ? (
             <div>
               <div 
-                className={feedbackUpvoted ? 'green-upvote' : 'white-upvote'}
+                className='upvote-border'
                 onClick={() => this.upvoteFeedback(feedbackId)}
-              />
+              >
+                <div className={feedbackUpvoted ? 'green-upvote' : 'white-upvote'}/>
+              </div>
               <div className='score-center'>{score} </div>
               <div
-                className={feedbackDownvoted ? 'red-downvote' : 'white-downvote'}
+                className='downvote-border'
                 onClick={() => this.downvoteFeedback(feedbackId)}
-              />
+              >
+                <div 
+                  className={feedbackDownvoted ? 'red-downvote' : 'white-downvote'}
+                />
+              </div>
             </div>
           ) : (
             null
@@ -322,7 +354,7 @@ class PageTp extends React.Component {
       <div>
         <TextareaAutosize
           minRows={2}
-          className="input-feedback"
+          className='input-feedback'
           name="feedback"
           placeholder="Enter feedback here"
           onChange={this.handleChange}
@@ -345,14 +377,18 @@ class PageTp extends React.Component {
     const scoreArrows = this.props.tp.creator ? (
       <div>
         <div
-          className={isUpvoted ? 'green-upvote' : 'white-upvote'}
+          className='upvote-border'
           onClick={() => upvoteTp(this.props)}
-        />
+        >
+          <div className={isUpvoted ? 'green-upvote' : 'white-upvote'}/>
+        </div>
         <div className='score-center'>{this.props.tp.total}</div>
         <div 
-          className={isDownvoted ? 'red-downvote' : 'white-downvote'}
+          className='downvote-border'
           onClick={() => downvoteTp(this.props)}
-        />
+        >
+          <div className={isDownvoted ? 'red-downvote' : 'white-downvote'}/>
+        </div>
       </div>
     ) : (
       null
@@ -367,7 +403,7 @@ class PageTp extends React.Component {
         <div className='tp-header'>
           <div onClick={() => this.props.history.goBack()}>Back</div>
           <div>
-            TP by @{tp.username} in response to:
+            TP by @{tp.username} to &nbsp;
             <Link to={`/q/${questId}`}>
               Question #{questId}
             </Link>
