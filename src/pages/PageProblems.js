@@ -1,11 +1,75 @@
+/** @jsx jsx */
+
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { isLoaded } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { tags } from 'constants/Tags';
 import Loading from 'components/Loading.js';
+import { jsx } from 'theme-ui';
 
-import '../styles/PageLanding.css';
+const PageProblemsSx = {
+  display: 'flex',
+  fontFamily: 'Open-Sans',
+
+  '.header': {
+    color: 'white',
+  },
+  '.tags-container': {
+    margin: '100px',
+    textAlign: 'center',
+  },
+  '.questions-container': {
+    marginTop: '30px',
+  },
+  '.quest-container': {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  '.question-box': {
+    backgroundColor: 'lightGrey',
+    width: '315px',
+    height: '139px',
+    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+    marginRight: '20px',
+    marginTop: '20px',
+    padding: '20px',
+  },
+  '.tag': {
+    backgroundColor: 'orange',
+    borderRadius: '4px',
+    width: '107.61px',
+    height: '22px',
+    textAlign: 'center',
+    margin: '10px',
+  },
+  '.question-title': {
+    color: 'black',
+    fontSize: '20px',
+    textDecoration: 'none',
+    marginRight: '20px',
+  },
+  '.easy': {
+    color: '#27B12A',
+  },
+  '.medium': {
+    color: '#DE710C',
+  },
+  '.hard': {
+    color: '#DA1C1C',
+  },
+  '.difficulty': {
+    fontSize: '20px',
+    marginLeft: '20px',
+  },
+  '.check': {
+    transform: 'rotate(45deg)',
+    height: '24px',
+    width: '12px',
+    borderBottom: '3px solid #27B12A',
+    borderRight: '3px solid #27B12A',
+  },
+};
 
 class PageProblems extends React.Component {
   constructor(props) {
@@ -34,53 +98,49 @@ class PageProblems extends React.Component {
         const answered = questionHistory && questionHistory[questId];
 
         const topics = quest.tags && Object.keys(quest.tags).map(tag =>
-          <span className="topic" key={tag}>{tag}</span>
+          <div className="tag" key={tag}>{tag}</div>
         );
 
         return (
-          <div className="question" key={questId}>
-            <Link className="question-title" to={`/q/${questId}/my`}>
-              #{questId}: {quest.title} {answered ? "✔" : ""}
-            </Link>
-            <br />
-            <div className="topics">{topics}</div>
-            <div>{quest.difficulty}</div>
+          <div className="question-box" key={questId}>
+            <div style={{ display: 'flex' }}>
+              <Link className="question-title" to={`/q/${questId}/my`}>
+                #{questId}: {quest.title}
+              </Link>
+              {answered && <div className="check"></div>}
+              <div className={quest.difficulty + ' difficulty'}>
+                {quest.difficulty.toUpperCase()}
+              </div>
+            </div>
+            <div>s
+              {topics}
+            </div>
           </div>
         );
       });
 
     const tagButtons = tags.map(tag => {
       return (
-        <button onClick={() => this.handleTagFilter(tag)} key={tag}>
-          Filter by {tag}
-        </button>
+        <div
+          className="tag"
+          onClick={() => this.handleTagFilter(tag)}
+          key={tag}
+          style={{ cursor: 'pointer' }}
+        >
+          {tag}
+        </div>
       );
     });
 
     return (
-      <div className="background">
-        <div className="infobox">
-          <div className="intro">Welcome to Hireglyph!</div>
-          <div className="info">
-            Hireglyph is the future of collaborative interview preparation.
-            Using Hireglyph, you can view other users’ thought processes (TPs)
-            so that you can understand the correct logic behind solving
-            complicated interview problems. Additionally, you can receive
-            feedback on your own TPs from college students and financial
-            professionals alike.
-          </div>
-          <div className="info-email">
-            Questions, comments, or concerns? Email us at{" "}
-            <a className="email-link" href="mailto: admin@hireglyph.com">
-              admin@hireglyph.com
-            </a>.
-          </div>
-          <br />
+      <div className="PageProblems" sx={PageProblemsSx}>
+        <i className="fas fa-exclamation-triangle"></i>
+        <div className="tags-container">
+          <h2 className="header">Tags</h2>
+          {tagButtons}
         </div>
-        <br />
-        <br />
-        <div className="questions">
-          <h1 className="header">Quantitative Analysis Questions</h1>
+        <div className="questions-container">
+          <h1 className="header">Questions</h1>
           <button onClick={() => this.handleTagFilter('')}>
             Original list
           </button>
@@ -94,8 +154,9 @@ class PageProblems extends React.Component {
             Filter by hard
           </button>
           <br />
-          <div>{tagButtons}</div>
-          <div>{quests}</div>
+          <div className="quest-container">
+            {quests}
+          </div>
         </div>
       </div>
     );
