@@ -13,13 +13,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { currentVotes, getVoteValues, upvoteTp, downvoteTp } from 'utils/vote';
 
 import PageNotFound from 'pages/PageNotFound';
-import red from 'assets/images/red-downvote.png';
-import green from 'assets/images/green-upvote.png';
-import upvote from 'assets/images/upvote.png';
-import downvote from 'assets/images/downvote.png';
 import Loading from 'components/Loading';
-
-import "../styles/PageTp.css";
 
 const TpSx = {
   position: 'relative',
@@ -27,8 +21,8 @@ const TpSx = {
   marginRight: 'auto',
   marginTop: '50px',
   marginBottom: '50px',
-  width: '70%',
-  maxWidth: '800px',
+  paddingBottom: '30px',
+  width: '700px',
   height: 'auto',
   background: 'white',
   
@@ -43,17 +37,26 @@ const TpSx = {
   '.tp-body': {
     display: 'flex',
     backgroundColor: 'lightGrey',
-    padding: '20px',
-    gap: '20px',
   },
 
   '.tp-content': {
     backgroundColor: 'white',
-    width: '100%'
+    width: '100%',
+    marginRight: '50px',
+    marginTop: '20px',
+    marginBottom: '20px',
+    minHeight: '100px',
+  },
+
+  '.arrows-width': {
+    width: '60px',
+    marginTop: '20px',
+    
   },
 
   '.score-center': {
     textAlign: 'center',
+    marginTop: '10px',
   },
 
   '.content-label': {
@@ -62,6 +65,85 @@ const TpSx = {
 
   '.content-text': {
     
+  },
+
+  '.input-feedback': {
+    width: 'calc(100% - 100px)',
+    marginLeft: '50px',
+    resize: 'vertical',
+    verticalAlign: 'bottom',
+
+  },
+
+  '.button-box': {
+    width: 'calc(100% - 100px)',
+    border: '1px solid #000000',
+    marginLeft: '50px',
+    textAlign: 'right',
+  },
+
+  '.submit-button': {
+    verticalAlign: 'bottom',
+  },
+
+  '.feedback-block': {
+    display: 'flex',
+    minHeight: '60px',
+    marginTop: '30px',
+    marginRight: '50px',
+  },
+
+  '.feedback-arrows-width': {
+    width: '60px',
+  },
+
+  '.feedback-content': {
+    marginTop: '10px',
+    width: '100%',
+  },
+
+  '.green-upvote': {
+    width: '0px', 
+    height: '0px',
+    borderLeft: '15px solid transparent',
+    borderRight: '15px solid transparent',
+    borderBottom: '15px solid #00FF00',
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+
+  '.white-upvote': {
+    width: '0px', 
+    height: '0px',
+    borderLeft: '15px solid transparent',
+    borderRight: '15px solid transparent',
+    borderBottom: '15px solid lightGrey',
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  
+  '.red-downvote': {
+    width: '0px', 
+    height: '0px',
+    borderLeft: '15px solid transparent',
+    borderRight: '15px solid transparent',
+    borderTop: '15px solid #FF0000',
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+
+  '.white-downvote': {
+    width: '0px', 
+    height: '0px',
+    borderLeft: '15px solid transparent',
+    borderRight: '15px solid transparent',
+    borderTop: '15px solid lightGrey',
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
 
 };
@@ -207,35 +289,28 @@ class PageTp extends React.Component {
           const feedbackUsername = username ? username : creator;
           const feedbackScoreArrows = !deleted ? (
             <div>
-              <img
-                alt="upvote"
-                className="feedback-upvote-button"
-                src={feedbackUpvoted ? green : upvote}
+              <div 
+                className={feedbackUpvoted ? 'green-upvote' : 'white-upvote'}
                 onClick={() => this.upvoteFeedback(feedbackId)}
               />
-              <div className="feedback-score-text">{score} </div>
-              <img
-                alt="downvote"
-                className="feedback-downvote-button"
-                src={feedbackDownvoted ? red : downvote}
+              <div className='score-center'>{score} </div>
+              <div
+                className={feedbackDownvoted ? 'red-downvote' : 'white-downvote'}
                 onClick={() => this.downvoteFeedback(feedbackId)}
               />
             </div>
           ) : (
-            <div></div>
+            null
           );
           return (
-            <div className="user-feedback" key={feedbackId}>
-              <div id={`${feedbackId}`}> </div>
-              <div className="feedback-content">
-                <div className="feedback-text">@{feedbackUsername}</div>
-                <div className="feedback-text">
+            <div className='feedback-block' key={feedbackId} id={`${feedbackId}`}>
+              <div className='feedback-arrows-width'>{feedbackScoreArrows}</div>
+              <div className='feedback-content'>
+                <div>@{feedbackUsername}</div>
+                <div>
                   <Latex>{feedback}</Latex>
                 </div>
               </div>
-              <br />
-              <br />
-              {feedbackScoreArrows}
               <br />
             </div>
           );
@@ -249,39 +324,38 @@ class PageTp extends React.Component {
           minRows={2}
           className="input-feedback"
           name="feedback"
-          placeholder="Your feedback..."
+          placeholder="Enter feedback here"
           onChange={this.handleChange}
           value={this.state.feedback}
         />
-        <br />
-        <button
-          className="tp-submit-button"
-          disabled={this.state.feedback.trim() === ""}
-          onClick={this.createFeedback}
-        >
-          Submit
-        </button>
+        <div className='button-box'>
+          <button
+            className='submit-button'
+            disabled={this.state.feedback.trim() === ""}
+            onClick={this.createFeedback}
+          >
+            Submit
+          </button>
+        </div>
       </div>
     ) : (
-      <div></div>
+      null
     );
 
     const scoreArrows = this.props.tp.creator ? (
       <div>
-        <img
-          alt="upvote"
-          src={isUpvoted ? green : upvote}
+        <div
+          className={isUpvoted ? 'green-upvote' : 'white-upvote'}
           onClick={() => upvoteTp(this.props)}
         />
         <div className='score-center'>{this.props.tp.total}</div>
-        <img
-          alt="downvote"
-          src={isDownvoted ? red : downvote}
+        <div 
+          className={isDownvoted ? 'red-downvote' : 'white-downvote'}
           onClick={() => downvoteTp(this.props)}
         />
       </div>
     ) : (
-      <div></div>
+      null
     );
 
     return (
@@ -301,7 +375,7 @@ class PageTp extends React.Component {
           <br />
         </div>
         <div className='tp-body'>
-          {scoreArrows}
+          <div className='arrows-width'>{scoreArrows}</div>
           <div className='tp-content'>
             <div className="content-label">
               {tp.initial ? "Initial Thoughts:" : ""}
@@ -325,8 +399,6 @@ class PageTp extends React.Component {
         </div>
         <br />
         <div> {myFeedback}</div>
-        <br />
-        <br />
         <div>{Feedbacks}</div>
       </div>
     );
