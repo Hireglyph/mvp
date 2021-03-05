@@ -32,7 +32,13 @@ const TpSx = {
     backgroundColor: 'orange',
     height: '50px',
     lineHeight: '50px',
-    gap: '40px',
+    gap: '20px',
+  },
+
+  '.back-hover': {
+    '&:hover': {
+      color: 'red',
+    },
   },
 
   '.tp-body': {
@@ -43,15 +49,16 @@ const TpSx = {
   '.tp-content': {
     backgroundColor: 'white',
     width: '100%',
-    marginRight: '50px',
+    marginRight: '60px',
     marginTop: '20px',
     marginBottom: '20px',
     minHeight: '100px',
     fontFamily: 'Gotham-Book',
+    padding: '10px',
   },
 
   '.arrows-width': {
-    width: '60px',
+    width: '70px',
     marginTop: '20px',
     
   },
@@ -71,33 +78,37 @@ const TpSx = {
   },
 
   '.input-feedback': {
-    width: 'calc(100% - 100px)',
-    marginLeft: '50px',
+    width: 'calc(100% - 120px)',
+    marginLeft: '60px',
     resize: 'vertical',
     verticalAlign: 'bottom',
     minHeight: '40px',
   },
 
   '.button-box': {
-    width: 'calc(100% - 100px)',
+    width: 'calc(100% - 120px)',
     border: '1px solid #000000',
-    marginLeft: '50px',
+    marginLeft: '60px',
     textAlign: 'right',
   },
 
   '.submit-button': {
     verticalAlign: 'bottom',
+    height: '30px',
+    width: '70px',
+    backgroundColor: 'orange',
+    color: 'black',
   },
 
   '.feedback-block': {
     display: 'flex',
     minHeight: '60px',
     marginTop: '30px',
-    marginRight: '50px',
+    marginRight: '60px',
   },
 
   '.feedback-arrows-width': {
-    width: '60px',
+    width: '70px',
   },
 
   '.feedback-content': {
@@ -122,10 +133,13 @@ const TpSx = {
     height: '0px',
     borderLeft: '15px solid transparent',
     borderRight: '15px solid transparent',
-    borderBottom: '15px solid white',
+    borderBottom: '15px solid #A9A9A9',
     position: 'relative',
     left: '-15px',
     bottom: '-2px',
+    '&:hover': {
+      borderBottom: '15px solid #00FF00',
+    },
   },
   
   '.red-downvote': {
@@ -144,10 +158,13 @@ const TpSx = {
     height: '0px',
     borderLeft: '15px solid transparent',
     borderRight: '15px solid transparent',
-    borderTop: '15px solid white',
+    borderTop: '15px solid #A9A9A9',
     position: 'relative',
     left: '-15px',
     bottom: '17px',
+    '&:hover': {
+      borderTop: '15px solid red',
+    },
   },
 
   '.upvote-border': {
@@ -401,7 +418,9 @@ class PageTp extends React.Component {
           rel="stylesheet"
         />
         <div className='tp-header'>
-          <div onClick={() => this.props.history.goBack()}>Back</div>
+          <div className='back-hover' onClick={() => this.props.history.goBack()}>
+            &nbsp;&lt;Back
+          </div>
           <div>
             TP by @{tp.username} to &nbsp;
             <Link to={`/q/${questId}`}>
