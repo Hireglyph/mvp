@@ -1,11 +1,62 @@
+/** @jsx jsx */
+
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { HashLink as Link } from 'react-router-hash-link';
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { jsx } from 'theme-ui';
 
 import Loading from 'components/Loading';
+
+const NotifSx = {
+  position: 'relative',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  marginTop: '50px',
+  marginBottom: '50px',
+  width: '700px',
+  height: 'auto',
+  fontFamily: 'Open-Sans',
+  display: 'flex',
+  flexDirection: 'column',
+
+  '.notif-title-box': {
+    border: '1px solid black',
+    padding: '5px',
+    width: '200px',
+    backgroundColor: 'orange',
+    fontSize: '20px',
+  },
+
+  '.notif-link': {
+    textDecoration: 'none',
+  },
+
+  '.box-viewed': {
+    width: '100%',
+    padding: '5px',
+    border: '1px solid black',
+    backgroundColor: 'lightGrey',
+    color: '#3E3C3C',
+    '&:hover': {
+      border: '2px solid #0000FF',
+    },
+  },
+
+  '.box-unviewed': {
+    width: '100%',
+    padding: '5px',
+    border: '1px solid black',
+    backgroundColor: 'white',
+    color: 'black',
+    '&:hover': {
+      border: '2px solid #0000FF',
+    },
+  },
+
+};
 
 class PageNotifications extends React.Component {
   viewed = (notifId) => {
@@ -39,13 +90,13 @@ class PageNotifications extends React.Component {
             return (
               <div key={notifId}>
                 <Link
-                  className={notification.viewed ? "light-link" : "dark-link"}
+                  className='notif-link'
                   to={`/tp/${notification.questId}/${notification.tpId}`}
                   onClick={() => this.viewed(notifId)}
                 >
-                  <div>
-                    Your TP to Question #{notification.questId} was upvoted by @
-                    {notification.username}
+                  <div className={notification.viewed ? 'box-viewed' : 'box-unviewed'}>
+                    @{notification.username} upvoted your TP to Question 
+                    #{notification.questId}
                   </div>
                 </Link>
               </div>
@@ -55,13 +106,13 @@ class PageNotifications extends React.Component {
             return (
               <div key={notifId}>
                 <Link
-                  className={notification.viewed ? "light-link" : "dark-link"}
+                  className='notif-link'
                   to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
                   onClick={() => this.viewed(notifId)}
                 >
-                  <div>
-                    Your feedback to @{notification.author}'s TP to Question #
-                    {notification.questId} was upvoted by @{notification.username}
+                  <div className={notification.viewed ? 'box-viewed' : 'box-unviewed'}>
+                    @{notification.username} upvoted your feedback to 
+                    @{notification.author}'s TP to Question #{notification.questId}
                   </div>
                 </Link>
               </div>
@@ -71,11 +122,11 @@ class PageNotifications extends React.Component {
             return (
               <div key={notifId}>
                 <Link
-                  className={notification.viewed ? "light-link" : "dark-link"}
+                  className='notif-link'
                   to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
                   onClick={() => this.viewed(notifId)}
                 >
-                  <div>
+                  <div className={notification.viewed ? 'box-viewed' : 'box-unviewed'}>
                     @{notification.username} gave feedback to your TP to Question
                     #{notification.questId}
                   </div>
@@ -85,7 +136,12 @@ class PageNotifications extends React.Component {
           }
           return null;
         });
-    return <div>{notifications}</div>;
+    return (
+      <div sx={NotifSx}>
+        <div className='notif-title-box'>Notifications</div>
+        {notifications}
+      </div>
+    );
   }
 }
 
