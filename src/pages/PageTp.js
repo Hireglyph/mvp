@@ -1,4 +1,7 @@
+/** @jsx jsx */
+
 import React from 'react';
+import { jsx } from 'theme-ui';
 import { withRouter } from 'react-router-dom';
 import { HashLink as Link } from 'react-router-hash-link';
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
@@ -8,15 +11,178 @@ import Latex from 'react-latex';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import { currentVotes, getVoteValues, upvoteTp, downvoteTp } from 'utils/vote';
-
 import PageNotFound from 'pages/PageNotFound';
-import red from 'assets/images/red-downvote.png';
-import green from 'assets/images/green-upvote.png';
-import upvote from 'assets/images/upvote.png';
-import downvote from 'assets/images/downvote.png';
 import Loading from 'components/Loading';
 
-import "../styles/PageTp.css";
+const TpSx = {
+  position: 'relative',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  marginTop: '50px',
+  marginBottom: '50px',
+  paddingBottom: '30px',
+  width: '700px',
+  height: 'auto',
+  background: 'white',
+  fontFamily: 'Open-Sans',
+
+  '.tp-header': {
+    display: 'flex',
+    backgroundColor: 'orange',
+    height: '50px',
+    lineHeight: '50px',
+    gap: '20px',
+  },
+
+  '.back-hover': {
+    '&:hover': {
+      color: 'red',
+    },
+  },
+
+  '.tp-body': {
+    display: 'flex',
+    backgroundColor: 'lightGrey',
+  },
+
+  '.tp-content': {
+    backgroundColor: 'white',
+    width: '100%',
+    marginRight: '60px',
+    marginTop: '20px',
+    marginBottom: '20px',
+    minHeight: '100px',
+    fontFamily: 'Gotham-Book',
+    padding: '10px',
+  },
+
+  '.arrows-width': {
+    width: '70px',
+    marginTop: '20px',
+
+  },
+
+  '.score-center': {
+    textAlign: 'center',
+    marginTop: '5px',
+    marginBottom: '5px',
+  },
+
+  '.input-feedback': {
+    width: 'calc(100% - 120px)',
+    marginLeft: '60px',
+    resize: 'vertical',
+    verticalAlign: 'bottom',
+    minHeight: '40px',
+    fontFamily: 'Open-Sans',
+    lineHeight: '20px',
+  },
+
+  '.button-box': {
+    width: 'calc(100% - 120px)',
+    border: '1px solid #000000',
+    marginLeft: '60px',
+    textAlign: 'right',
+  },
+
+  '.submit-button': {
+    verticalAlign: 'bottom',
+    height: '30px',
+    width: '70px',
+    backgroundColor: 'orange',
+    color: 'black',
+  },
+
+  '.feedback-block': {
+    display: 'flex',
+    minHeight: '60px',
+    marginTop: '30px',
+    marginRight: '60px',
+  },
+
+  '.feedback-arrows-width': {
+    width: '70px',
+  },
+
+  '.feedback-content': {
+    marginTop: '10px',
+    width: '100%',
+    fontFamily: 'Gotham-Book',
+  },
+
+  '.green-upvote': {
+    width: '0px',
+    height: '0px',
+    borderLeft: '15px solid transparent',
+    borderRight: '15px solid transparent',
+    borderBottom: '15px solid #00FF00',
+    position: 'relative',
+    left: '-15px',
+    bottom: '-2px',
+  },
+
+  '.white-upvote': {
+    width: '0px',
+    height: '0px',
+    borderLeft: '15px solid transparent',
+    borderRight: '15px solid transparent',
+    borderBottom: '15px solid #A9A9A9',
+    position: 'relative',
+    left: '-15px',
+    bottom: '-2px',
+    '&:hover': {
+      borderBottom: '15px solid #00FF00',
+    },
+  },
+
+  '.red-downvote': {
+    width: '0px',
+    height: '0px',
+    borderLeft: '15px solid transparent',
+    borderRight: '15px solid transparent',
+    borderTop: '15px solid red',
+    position: 'relative',
+    left: '-15px',
+    bottom: '17px',
+  },
+
+  '.white-downvote': {
+    width: '0px',
+    height: '0px',
+    borderLeft: '15px solid transparent',
+    borderRight: '15px solid transparent',
+    borderTop: '15px solid #A9A9A9',
+    position: 'relative',
+    left: '-15px',
+    bottom: '17px',
+    '&:hover': {
+      borderTop: '15px solid red',
+    },
+  },
+
+  '.upvote-border': {
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '0px',
+    height: '0px',
+    borderLeft: '19px solid transparent',
+    borderRight: '19px solid transparent',
+    borderBottom: '19px solid black',
+  },
+
+  '.downvote-border': {
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '0px',
+    height: '0px',
+    borderLeft: '19px solid transparent',
+    borderRight: '19px solid transparent',
+    borderTop: '19px solid black',
+  },
+
+};
 
 class PageTp extends React.Component {
   constructor(props) {
@@ -159,35 +325,36 @@ class PageTp extends React.Component {
           const feedbackUsername = username ? username : creator;
           const feedbackScoreArrows = !deleted ? (
             <div>
-              <img
-                alt="upvote"
-                className="feedback-upvote-button"
-                src={feedbackUpvoted ? green : upvote}
+              <div
+                className="upvote-border"
                 onClick={() => this.upvoteFeedback(feedbackId)}
-              />
-              <div className="feedback-score-text">{score} </div>
-              <img
-                alt="downvote"
-                className="feedback-downvote-button"
-                src={feedbackDownvoted ? red : downvote}
+              >
+                <div className={feedbackUpvoted ? "green-upvote" : "white-upvote"}/>
+              </div>
+              <div className="score-center">{score}</div>
+              <div
+                className="downvote-border"
                 onClick={() => this.downvoteFeedback(feedbackId)}
-              />
+              >
+                <div
+                  className={feedbackDownvoted ? "red-downvote" : "white-downvote"}
+                />
+              </div>
             </div>
           ) : (
-            <div></div>
+            null
           );
           return (
-            <div className="user-feedback" key={feedbackId}>
-              <div id={`${feedbackId}`}> </div>
+            <div className="feedback-block" key={feedbackId} id={`${feedbackId}`}>
+              <div className="feedback-arrows-width">
+                {feedbackScoreArrows}
+              </div>
               <div className="feedback-content">
-                <div className="feedback-text">@{feedbackUsername}</div>
-                <div className="feedback-text">
+                <div>@{feedbackUsername}</div>
+                <div>
                   <Latex>{feedback}</Latex>
                 </div>
               </div>
-              <br />
-              <br />
-              {feedbackScoreArrows}
               <br />
             </div>
           );
@@ -201,78 +368,87 @@ class PageTp extends React.Component {
           minRows={2}
           className="input-feedback"
           name="feedback"
-          placeholder="Your feedback..."
+          placeholder="Enter feedback here"
           onChange={this.handleChange}
           value={this.state.feedback}
         />
-        <br />
-        <button
-          className="tp-submit-button"
-          disabled={this.state.feedback.trim() === ""}
-          onClick={this.createFeedback}
-        >
-          Submit
-        </button>
+        <div className="button-box">
+          <button
+            className="submit-button"
+            disabled={this.state.feedback.trim() === ""}
+            onClick={this.createFeedback}
+          >
+            Submit
+          </button>
+        </div>
       </div>
     ) : (
-      <div></div>
+      null
     );
 
     const scoreArrows = this.props.tp.creator ? (
       <div>
-        <img
-          alt="upvote"
-          className="upvote-button"
-          src={isUpvoted ? green : upvote}
+        <div
+          className="upvote-border"
           onClick={() => upvoteTp(this.props)}
-        />
-        <div className="score-text">{this.props.tp.total}</div>
-        <img
-          alt="downvote"
-          className="downvote-button"
-          src={isDownvoted ? red : downvote}
+        >
+          <div className={isUpvoted ? "green-upvote" : "white-upvote"}/>
+        </div>
+        <div className="score-center">{this.props.tp.total}</div>
+        <div
+          className="downvote-border"
           onClick={() => downvoteTp(this.props)}
-        />
+        >
+          <div className={isDownvoted ? "red-downvote" : "white-downvote"}/>
+        </div>
       </div>
     ) : (
-      <div></div>
+      null
     );
 
     return (
-      <div className="full-tp">
+      <div sx={TpSx}>
         <link
           href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
           rel="stylesheet"
         />
-        <div onClick={() => this.props.history.goBack()}>GO BACK</div>
-        <div className="question-identification">
-          @{tp.username} in response to:
-          <Link className="link-to-quest" to={`/q/${questId}`}>
-            Question #{questId}
-          </Link>
+        <div className="tp-header">
+          <div className="back-hover" onClick={() => this.props.history.goBack()}>
+            &nbsp;&lt;Back
+          </div>
+          <div>
+            TP by @{tp.username} to &nbsp;
+            <Link to={`/q/${questId}`}>
+              Question #{questId}
+            </Link>
+          </div>
+          <br />
         </div>
-        <br />
-        <div className="label-text">
-          {tp.initial ? "Initial Thoughts:" : ""}
+        <div className="tp-body">
+          <div className="arrows-width">{scoreArrows}</div>
+          <div className="tp-content">
+            <div className="content-label">
+              {tp.initial && 'Initial Thoughts:'}
+            </div>
+            <div className="content-text">
+              <Latex>{tp.initial}</Latex>
+            </div>
+            <div className="content-label">
+              {tp.approach && 'Approaches Tried:'}
+            </div>
+            <div className="content-text">
+              <Latex>{tp.approach}</Latex>
+            </div>
+            <div className="content-label">
+              {tp.solution && 'Final Solution:'}
+            </div>
+            <div className="content-text">
+              <Latex>{tp.solution}</Latex>
+            </div>
+          </div>
         </div>
-        <div className="body-text">
-          <Latex>{tp.initial}</Latex>
-        </div>
-        <div className="label-text">
-          {tp.approach ? "Approaches Tried:" : ""}
-        </div>
-        <div className="body-text">
-          <Latex>{tp.approach}</Latex>
-        </div>
-        <div className="label-text">{tp.solution ? "Final Solution:" : ""}</div>
-        <div className="body-text">
-          <Latex>{tp.solution}</Latex>
-        </div>
-        {scoreArrows}
         <br />
         <div> {myFeedback}</div>
-        <br />
-        <br />
         <div>{Feedbacks}</div>
       </div>
     );

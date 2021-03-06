@@ -1,212 +1,216 @@
 /** @jsx jsx */
-import { jsx } from 'theme-ui'
+
+import { jsx } from 'theme-ui';
+import { ContentPrivacySx } from 'theme/ContentPrivacyStyle';
 
 const PagePrivacyPolicy = function () {
   return (
-    <div>
-      <div>Privacy Policy for Hireglyph LLC</div>
-      <div>
-        <div>Information You Provide to Us</div>
+    <div sx={ContentPrivacySx}>
+      <div className="main-title">Privacy Policy for Hireglyph LLC</div>
+      <div className="content-chunk">
+        <div className="sub-title">Information You Provide to Us</div>
         <div>
-          <div>Account information:</div>
+          <div className="info-label">Account information:</div>
           <div>
             If you create a Hireglyph account, we will require
-            you to provide a username. Your username is public, 
-            and it doesn’t have to be related to your real name. 
-            If you do not “Sign Up with Google,” you will be 
-            required to create a password; however, the Hireglyph 
-            team does not have access to this password, as it is 
-            managed by the Firebase Realtime Database system. If 
-            you do “Sign Up with Google,” your email address will 
-            be shared with us. Through Firebase, we can also 
-            access the date you created your account and the date 
+            you to provide a username. Your username is public,
+            and it doesn’t have to be related to your real name.
+            If you do not “Sign Up with Google,” you will be
+            required to create a password; however, the Hireglyph
+            team does not have access to this password, as it is
+            managed by the Firebase Realtime Database system. If
+            you do “Sign Up with Google,” your email address will
+            be shared with us. Through Firebase, we can also
+            access the date you created your account and the date
             of your most recent login.
           </div>
         </div>
         <div>
-          <div>Content you submit:</div>
+          <div className="info-label">Content you submit:</div>
           <div>
-            We collect the content you submit to the Hireglyph 
-            platform. This includes Thought Processes (TPs) and 
-            feedback. Your content may include text, with or 
-            without LaTeX, and links. We also collect how other 
-            users interact with your content—the upvotes and/or 
-            downvotes your content has received from other users, 
-            and the feedback your TPs have received from other 
-            users. 
+            We collect the content you submit to the Hireglyph
+            platform. This includes Thought Processes (TPs) and
+            feedback. Your content may include text, with or
+            without LaTeX, and links. We also collect how other
+            users interact with your content—the upvotes and/or
+            downvotes your content has received from other users,
+            and the feedback your TPs have received from other
+            users.
           </div>
         </div>
         <div>
-          <div>Actions you take:</div>
+          <div className="info-label">Actions you take:</div>
           <div>
-            We collect information about the actions you take when 
-            using Hireglyph. This includes your interactions with 
-            content, specifically upvoting and downvoting TPs and 
-            feedback, as well as the questions you’ve solved by 
+            We collect information about the actions you take when
+            using Hireglyph. This includes your interactions with
+            content, specifically upvoting and downvoting TPs and
+            feedback, as well as the questions you’ve solved by
             submitting TPs.
           </div>
         </div>
         <div>
-          <div>Other information:</div>
+          <div className="info-label">Other information:</div>
           <div>
-            You may choose to provide other information directly to 
-            us. For example, we may collect information when you 
-            contact us, either through emailing us at 
-            “admin@hireglyph.com” or using our “Contact Us” form on 
+            You may choose to provide other information directly to
+            us. For example, we may collect information when you
+            contact us, either through emailing us at
+            “admin@hireglyph.com” or using our “Contact Us” form on
             our website.
           </div>
         </div>
       </div>
-      <div>
-        <div>Information We Collect Automatically</div>
+      <div className="content-chunk">
+        <div className="sub-title">Information We Collect Automatically</div>
         <div>
-          To extract useful insights about Hireglyph in order to 
-          make your and other users’ experiences more enjoyable, we 
-          use the “Google Analytics for Firebase” package. Google 
-          Analytics automatically collects information about your 
-          usage with our platform, including metrics like session 
-          duration, pages per session, bounce rate, and more. The 
-          package will log events, such as user actions, system 
-          events, or errors. Google Analytics may also collect basic 
-          demographic information about you, such as IP address and 
-          approximate geographical position, but it will not provide 
-          us information about age, gender, or interest. Learn more 
-          about Google’s policies at 
-          https://support.google.com/firebase/answer/6318039?hl=en. 
+          To extract useful insights about Hireglyph in order to
+          make your and other users’ experiences more enjoyable, we
+          use the “Google Analytics for Firebase” package. Google
+          Analytics automatically collects information about your
+          usage with our platform, including metrics like session
+          duration, pages per session, bounce rate, and more. The
+          package will log events, such as user actions, system
+          events, or errors. Google Analytics may also collect basic
+          demographic information about you, such as IP address and
+          approximate geographical position, but it will not provide
+          us information about age, gender, or interest. Learn more
+          about Google’s policies at
+          https://support.google.com/firebase/answer/6318039?hl=en.
         </div>
       </div>
-      <div>
-        <div>Cookies</div>
+      <div className="content-chunk">
+        <div className="sub-title">Cookies</div>
         <div>
-          Hireglyph uses “cookies” to enhance your experience. A 
-          cookie is a small amount of data generated by a website 
-          and saved by your web browser. Its purpose is to remember 
-          information about you. Cookies are necessary to enable 
-          Hireglyph’s users to “Sign Up with Google” and/or “Sign 
-          In with Google,” improving our site’s ease-of-use. Google 
-          Analytics also uses cookies to compile aggregate data about 
-          site traffic and site interaction so that we can offer 
-          better site experiences and tools in the future. If you 
-          prefer, you can usually choose to set your browser to 
-          remove or reject first- and third-party cookies. Please 
-          note that if you choose to remove or reject cookies, this 
-          could affect the availability and functionality of our 
-          services. 
+          Hireglyph uses “cookies” to enhance your experience. A
+          cookie is a small amount of data generated by a website
+          and saved by your web browser. Its purpose is to remember
+          information about you. Cookies are necessary to enable
+          Hireglyph’s users to “Sign Up with Google” and/or “Sign
+          In with Google,” improving our site’s ease-of-use. Google
+          Analytics also uses cookies to compile aggregate data about
+          site traffic and site interaction so that we can offer
+          better site experiences and tools in the future. If you
+          prefer, you can usually choose to set your browser to
+          remove or reject first- and third-party cookies. Please
+          note that if you choose to remove or reject cookies, this
+          could affect the availability and functionality of our
+          services.
         </div>
       </div>
-      <div>
-        <div>Third Party Privacy Policies</div>
+      <div className="content-chunk">
+        <div className="sub-title">Third Party Privacy Policies</div>
         <div>
-          Occasionally, at our discretion, we may include or offer 
-          third party products or services on our website, including 
-          EmailJS, which powers our “Contact Us” form. Hireglyph’s 
-          users may also promote third party products or services on 
-          our website, specifically by explicitly naming them and/or 
-          including links in the TPs and feedback they submit. These 
-          third party sites have separate and independent privacy 
-          policies. We therefore have no responsibility or liability 
+          Occasionally, at our discretion, we may include or offer
+          third party products or services on our website, including
+          EmailJS, which powers our “Contact Us” form. Hireglyph’s
+          users may also promote third party products or services on
+          our website, specifically by explicitly naming them and/or
+          including links in the TPs and feedback they submit. These
+          third party sites have separate and independent privacy
+          policies. We therefore have no responsibility or liability
           for the content and activities of these linked sites.
         </div>
       </div>
-      <div>
-        <div>Do we disclose any information to outside parties?</div>
+      <div className="content-chunk">
+        <div className="sub-title">
+          Do we disclose any information to outside parties?
+        </div>
         <div>
-          We do not sell, trade, or otherwise transfer to outside 
-          parties your personally identifiable information. This 
-          does not include trusted third parties who assist us in 
-          operating our website, conducting our business, or 
-          servicing you, so long as those parties agree to keep 
-          this information confidential; significant third parties 
-          we rely on include, but are not limited to, Firebase, 
+          We do not sell, trade, or otherwise transfer to outside
+          parties your personally identifiable information. This
+          does not include trusted third parties who assist us in
+          operating our website, conducting our business, or
+          servicing you, so long as those parties agree to keep
+          this information confidential; significant third parties
+          we rely on include, but are not limited to, Firebase,
           Google Analytics, and EmailJS.
         </div>
       </div>
-      <div>
-        <div>
+      <div className="content-chunk">
+        <div className="sub-title">
           CCPA Privacy Rights (Do Not Sell My Personal Information)
         </div>
         <div>
-          Under the CCPA, among other rights, California consumers 
+          Under the CCPA, among other rights, California consumers
           have the right to:
           <ul>
             <li>
-              Request that a business that collects a consumer's 
-              personal data disclose the categories and specific 
-              pieces of personal data that a business has collected 
+              Request that a business that collects a consumer's
+              personal data disclose the categories and specific
+              pieces of personal data that a business has collected
               about consumers.
             </li>
             <li>
-              Request that a business delete any personal data about 
+              Request that a business delete any personal data about
               the consumer that a business has collected.
             </li>
             <li>
-              Request that a business that sells a consumer's personal 
+              Request that a business that sells a consumer's personal
               data, not sell the consumer's personal data.
             </li>
           </ul>
-          If you make a request, we have one month to respond to 
-          you. If you would like to exercise any of these rights, 
+          If you make a request, we have one month to respond to
+          you. If you would like to exercise any of these rights,
           please contact us.
         </div>
       </div>
-      <div>
-        <div>GDPR Data Protection Rights</div>
+      <div className="content-chunk">
+        <div className="sub-title">GDPR Data Protection Rights</div>
         <div>
-          Under GDPR, European Union consumers are entitled to 
+          Under GDPR, European Union consumers are entitled to
           the following:
           <ul>
             <li>
-              The right to access – You have the right to request 
-              copies of your personal data. We may charge you a 
+              The right to access – You have the right to request
+              copies of your personal data. We may charge you a
               small fee for this service.
             </li>
             <li>
-              The right to rectification – You have the right 
-              to request that we correct any information you 
-              believe is inaccurate. You also have the right to 
-              request that we complete the information you believe 
+              The right to rectification – You have the right
+              to request that we correct any information you
+              believe is inaccurate. You also have the right to
+              request that we complete the information you believe
               is incomplete.
             </li>
             <li>
-              The right to erasure – You have the right to request 
-              that we erase your personal data, under certain 
+              The right to erasure – You have the right to request
+              that we erase your personal data, under certain
               conditions.
             </li>
             <li>
-              The right to restrict processing – You have the right 
-              to request that we restrict the processing of your 
+              The right to restrict processing – You have the right
+              to request that we restrict the processing of your
               personal data, under certain conditions.
             </li>
             <li>
-              The right to object to processing – You have the right 
-              to object to our processing of your personal data, 
+              The right to object to processing – You have the right
+              to object to our processing of your personal data,
               under certain conditions.
             </li>
             <li>
-              The right to data portability – You have the right to 
-              request that we transfer the data that we have 
-              collected to another organization, or directly to 
+              The right to data portability – You have the right to
+              request that we transfer the data that we have
+              collected to another organization, or directly to
               you, under certain conditions.
             </li>
           </ul>
-          If you make a request, we have one month to respond to 
-          you. If you would like to exercise any of these rights, 
+          If you make a request, we have one month to respond to
+          you. If you would like to exercise any of these rights,
           please contact us.
         </div>
       </div>
-      <div>
-        <div>Children’s Information</div>
+      <div className="content-chunk">
+        <div className="sub-title">Children’s Information</div>
         <div>
-          Hireglyph does not knowingly collect any Personal 
-          Identifiable Information from children under the age of 
-          13. If you think that your child provided this kind of 
-          information on our website, we strongly encourage you 
-          to contact us immediately and we will do our best efforts 
+          Hireglyph does not knowingly collect any Personal
+          Identifiable Information from children under the age of
+          13. If you think that your child provided this kind of
+          information on our website, we strongly encourage you
+          to contact us immediately and we will do our best efforts
           to promptly remove such information from our records.
         </div>
       </div>
-      <div>
-        <div>Your Consent</div>
+      <div className="content-chunk">
+        <div className="sub-title">Your Consent</div>
         <div>
           By using our site, you consent to our privacy policy.
         </div>
