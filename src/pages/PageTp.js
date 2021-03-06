@@ -1,17 +1,16 @@
 /** @jsx jsx */
 
 import React from 'react';
+import { jsx } from 'theme-ui';
 import { withRouter } from 'react-router-dom';
 import { HashLink as Link } from 'react-router-hash-link';
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { jsx } from 'theme-ui';
 import Latex from 'react-latex';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import { currentVotes, getVoteValues, upvoteTp, downvoteTp } from 'utils/vote';
-
 import PageNotFound from 'pages/PageNotFound';
 import Loading from 'components/Loading';
 
@@ -26,7 +25,7 @@ const TpSx = {
   height: 'auto',
   background: 'white',
   fontFamily: 'Open-Sans',
-  
+
   '.tp-header': {
     display: 'flex',
     backgroundColor: 'orange',
@@ -60,21 +59,13 @@ const TpSx = {
   '.arrows-width': {
     width: '70px',
     marginTop: '20px',
-    
+
   },
 
   '.score-center': {
     textAlign: 'center',
     marginTop: '5px',
     marginBottom: '5px',
-  },
-
-  '.content-label': {
-
-  },
-
-  '.content-text': {
-    
   },
 
   '.input-feedback': {
@@ -120,7 +111,7 @@ const TpSx = {
   },
 
   '.green-upvote': {
-    width: '0px', 
+    width: '0px',
     height: '0px',
     borderLeft: '15px solid transparent',
     borderRight: '15px solid transparent',
@@ -131,7 +122,7 @@ const TpSx = {
   },
 
   '.white-upvote': {
-    width: '0px', 
+    width: '0px',
     height: '0px',
     borderLeft: '15px solid transparent',
     borderRight: '15px solid transparent',
@@ -143,9 +134,9 @@ const TpSx = {
       borderBottom: '15px solid #00FF00',
     },
   },
-  
+
   '.red-downvote': {
-    width: '0px', 
+    width: '0px',
     height: '0px',
     borderLeft: '15px solid transparent',
     borderRight: '15px solid transparent',
@@ -156,7 +147,7 @@ const TpSx = {
   },
 
   '.white-downvote': {
-    width: '0px', 
+    width: '0px',
     height: '0px',
     borderLeft: '15px solid transparent',
     borderRight: '15px solid transparent',
@@ -173,7 +164,7 @@ const TpSx = {
     display: 'block',
     marginLeft: 'auto',
     marginRight: 'auto',
-    width: '0px', 
+    width: '0px',
     height: '0px',
     borderLeft: '19px solid transparent',
     borderRight: '19px solid transparent',
@@ -184,7 +175,7 @@ const TpSx = {
     display: 'block',
     marginLeft: 'auto',
     marginRight: 'auto',
-    width: '0px', 
+    width: '0px',
     height: '0px',
     borderLeft: '19px solid transparent',
     borderRight: '19px solid transparent',
@@ -334,19 +325,19 @@ class PageTp extends React.Component {
           const feedbackUsername = username ? username : creator;
           const feedbackScoreArrows = !deleted ? (
             <div>
-              <div 
-                className='upvote-border'
+              <div
+                className="upvote-border"
                 onClick={() => this.upvoteFeedback(feedbackId)}
               >
-                <div className={feedbackUpvoted ? 'green-upvote' : 'white-upvote'}/>
+                <div className={feedbackUpvoted ? "green-upvote" : "white-upvote"}/>
               </div>
-              <div className='score-center'>{score} </div>
+              <div className="score-center">{score}</div>
               <div
-                className='downvote-border'
+                className="downvote-border"
                 onClick={() => this.downvoteFeedback(feedbackId)}
               >
-                <div 
-                  className={feedbackDownvoted ? 'red-downvote' : 'white-downvote'}
+                <div
+                  className={feedbackDownvoted ? "red-downvote" : "white-downvote"}
                 />
               </div>
             </div>
@@ -354,9 +345,11 @@ class PageTp extends React.Component {
             null
           );
           return (
-            <div className='feedback-block' key={feedbackId} id={`${feedbackId}`}>
-              <div className='feedback-arrows-width'>{feedbackScoreArrows}</div>
-              <div className='feedback-content'>
+            <div className="feedback-block" key={feedbackId} id={`${feedbackId}`}>
+              <div className="feedback-arrows-width">
+                {feedbackScoreArrows}
+              </div>
+              <div className="feedback-content">
                 <div>@{feedbackUsername}</div>
                 <div>
                   <Latex>{feedback}</Latex>
@@ -373,15 +366,15 @@ class PageTp extends React.Component {
       <div>
         <TextareaAutosize
           minRows={2}
-          className='input-feedback'
+          className="input-feedback"
           name="feedback"
           placeholder="Enter feedback here"
           onChange={this.handleChange}
           value={this.state.feedback}
         />
-        <div className='button-box'>
+        <div className="button-box">
           <button
-            className='submit-button'
+            className="submit-button"
             disabled={this.state.feedback.trim() === ""}
             onClick={this.createFeedback}
           >
@@ -396,17 +389,17 @@ class PageTp extends React.Component {
     const scoreArrows = this.props.tp.creator ? (
       <div>
         <div
-          className='upvote-border'
+          className="upvote-border"
           onClick={() => upvoteTp(this.props)}
         >
-          <div className={isUpvoted ? 'green-upvote' : 'white-upvote'}/>
+          <div className={isUpvoted ? "green-upvote" : "white-upvote"}/>
         </div>
-        <div className='score-center'>{this.props.tp.total}</div>
-        <div 
-          className='downvote-border'
+        <div className="score-center">{this.props.tp.total}</div>
+        <div
+          className="downvote-border"
           onClick={() => downvoteTp(this.props)}
         >
-          <div className={isDownvoted ? 'red-downvote' : 'white-downvote'}/>
+          <div className={isDownvoted ? "red-downvote" : "white-downvote"}/>
         </div>
       </div>
     ) : (
@@ -419,8 +412,8 @@ class PageTp extends React.Component {
           href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
           rel="stylesheet"
         />
-        <div className='tp-header'>
-          <div className='back-hover' onClick={() => this.props.history.goBack()}>
+        <div className="tp-header">
+          <div className="back-hover" onClick={() => this.props.history.goBack()}>
             &nbsp;&lt;Back
           </div>
           <div>
@@ -431,23 +424,23 @@ class PageTp extends React.Component {
           </div>
           <br />
         </div>
-        <div className='tp-body'>
-          <div className='arrows-width'>{scoreArrows}</div>
-          <div className='tp-content'>
+        <div className="tp-body">
+          <div className="arrows-width">{scoreArrows}</div>
+          <div className="tp-content">
             <div className="content-label">
-              {tp.initial ? "Initial Thoughts:" : ""}
+              {tp.initial && 'Initial Thoughts:'}
             </div>
             <div className="content-text">
               <Latex>{tp.initial}</Latex>
             </div>
             <div className="content-label">
-              {tp.approach ? "Approaches Tried:" : ""}
+              {tp.approach && 'Approaches Tried:'}
             </div>
             <div className="content-text">
               <Latex>{tp.approach}</Latex>
             </div>
             <div className="content-label">
-              {tp.solution ? "Final Solution:" : ""}
+              {tp.solution && 'Final Solution:'}
             </div>
             <div className="content-text">
               <Latex>{tp.solution}</Latex>

@@ -1,12 +1,12 @@
 /** @jsx jsx */
 
 import React from 'react';
+import { jsx } from 'theme-ui';
 import { withRouter } from 'react-router-dom';
 import { HashLink as Link } from 'react-router-hash-link';
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { jsx } from 'theme-ui';
 
 import Loading from 'components/Loading';
 
@@ -24,8 +24,8 @@ const NotifSx = {
 
   '.notif-title-box': {
     border: '1px solid black',
-    padding: '5px',
-    width: '200px',
+    padding: '9px',
+    width: '140px',
     backgroundColor: 'orange',
     fontSize: '20px',
   },
@@ -41,7 +41,7 @@ const NotifSx = {
     backgroundColor: 'lightGrey',
     color: '#3E3C3C',
     '&:hover': {
-      border: '2px solid #0000FF',
+      border: '2px solid orange',
     },
   },
 
@@ -52,10 +52,9 @@ const NotifSx = {
     backgroundColor: 'white',
     color: 'black',
     '&:hover': {
-      border: '2px solid #0000FF',
+      border: '2px solid orange',
     },
   },
-
 };
 
 class PageNotifications extends React.Component {
@@ -90,12 +89,12 @@ class PageNotifications extends React.Component {
             return (
               <div key={notifId}>
                 <Link
-                  className='notif-link'
+                  className="notif-link"
                   to={`/tp/${notification.questId}/${notification.tpId}`}
                   onClick={() => this.viewed(notifId)}
                 >
-                  <div className={notification.viewed ? 'box-viewed' : 'box-unviewed'}>
-                    @{notification.username} upvoted your TP to Question 
+                  <div className={notification.viewed ? "box-viewed" : "box-unviewed"}>
+                    @{notification.username} upvoted your TP to Question
                     #{notification.questId}
                   </div>
                 </Link>
@@ -106,12 +105,12 @@ class PageNotifications extends React.Component {
             return (
               <div key={notifId}>
                 <Link
-                  className='notif-link'
+                  className="notif-link"
                   to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
                   onClick={() => this.viewed(notifId)}
                 >
                   <div className={notification.viewed ? 'box-viewed' : 'box-unviewed'}>
-                    @{notification.username} upvoted your feedback to 
+                    @{notification.username} upvoted your feedback to
                     @{notification.author}'s TP to Question #{notification.questId}
                   </div>
                 </Link>
@@ -122,11 +121,11 @@ class PageNotifications extends React.Component {
             return (
               <div key={notifId}>
                 <Link
-                  className='notif-link'
+                  className="notif-link"
                   to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
                   onClick={() => this.viewed(notifId)}
                 >
-                  <div className={notification.viewed ? 'box-viewed' : 'box-unviewed'}>
+                  <div className={notification.viewed ? "box-viewed" : "box-unviewed"}>
                     @{notification.username} gave feedback to your TP to Question
                     #{notification.questId}
                   </div>
@@ -138,7 +137,7 @@ class PageNotifications extends React.Component {
         });
     return (
       <div sx={NotifSx}>
-        <div className='notif-title-box'>Notifications</div>
+        <div className="notif-title-box">Notifications</div>
         {notifications}
       </div>
     );
