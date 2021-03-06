@@ -21,7 +21,12 @@ export const theme = {
     text: '#000000',
     background: '#556B7B',
     orange: '#EA9A28',
+    darkOrange: '#CA8522',
     lightGrey: '#E3E3E3',
+    mediumGrey: '#CACACA',
+    easyGreen: '#27B12A',
+    medOrange: '#DE710C',
+    hardRed: '#DA1C1C',
   },
   text: {
     heading: {

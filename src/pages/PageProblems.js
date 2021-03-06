@@ -18,11 +18,27 @@ const PageProblemsSx = {
     textDecoration: 'none',
     color: 'black',
   },
-  '.header': {
+  '.white': {
     color: 'white',
   },
-  '.tags-container': {
-    margin: '100px',
+  '.pointer': {
+    cursor: 'pointer',
+  },
+  '.flex': {
+    display: 'flex',
+  },
+  '.original-list': {
+    marginLeft: 'auto',
+    marginRight: '85px',
+    marginTop: '50px',
+  },
+  '.original-list:hover': {
+    color: 'mediumGrey',
+  },
+  '.sortby-container': {
+    marginTop: '130px',
+    marginRight: '50px',
+    marginLeft: '50px',
     textAlign: 'center',
   },
   '.questions-container': {
@@ -35,11 +51,14 @@ const PageProblemsSx = {
   '.question-box': {
     backgroundColor: 'lightGrey',
     width: '320px',
-    height: '139px',
+    height: '145px',
     marginRight: '20px',
     marginTop: '10px',
     marginBottom: '10px',
     padding: '20px',
+  },
+  '.question-box:hover': {
+    backgroundColor: 'mediumGrey',
   },
   '.tag-container': {
     display: 'flex',
@@ -57,24 +76,44 @@ const PageProblemsSx = {
     margin: '5px',
     paddingTop: '2px',
   },
+  '.tag-button:hover': {
+    backgroundColor: 'darkOrange',
+  },
+  '.diff-button': {
+    display: 'inline-block',
+    margin: '5px',
+    backgroundColor: 'lightGrey',
+    borderRadius: '4px',
+    width: '80px',
+  },
+  '.diff-button:hover': {
+    backgroundColor: 'mediumGrey',
+  },
+  '.tag-button-container': {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    width: '270px',
+  },
   '.question-title': {
     fontSize: '18px',
   },
   '.easy': {
-    color: '#27B12A',
+    color: 'easyGreen',
   },
   '.medium': {
-    color: '#DE710C',
+    color: 'medOrange',
   },
   '.hard': {
-    color: '#DA1C1C',
+    color: 'hardRed',
   },
   '.difficulty': {
     fontSize: '16px',
     marginLeft: 'auto',
   },
   '.check': {
-    color: '#27B12A',
+    color: 'easyGreen',
+    marginRight: '5px',
     marginLeft: '5px',
     marginTop: '3px',
   },
@@ -101,7 +140,7 @@ class PageProblems extends React.Component {
 
     const quests = Object.keys(questions)
       .filter(questId => !isDiff || questions[questId].difficulty === tag)
-      .filter(questId => isDiff || !tag || questions[questId].tags && questions[questId].tags[tag])
+      .filter(questId => isDiff || !tag || (questions[questId].tags && questions[questId].tags[tag]))
       .map(questId => {
         const quest = questions[questId];
         const answered = questionHistory && questionHistory[questId];
@@ -112,11 +151,11 @@ class PageProblems extends React.Component {
 
         return (
           <Link className="question-box link" to={`/q/${questId}/my`} key={questId}>
-            <div style={{ display: 'flex' }}>
+            <div className="flex">
               <div className="question-title">
                 #{questId}: {quest.title}
+                {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
               </div>
-              {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
               <div className={quest.difficulty + ' difficulty'}>
                 {quest.difficulty.toUpperCase()}
               </div>
@@ -131,10 +170,9 @@ class PageProblems extends React.Component {
     const tagButtons = tags.map(tag => {
       return (
         <div
-          className="tag"
+          className="tag tag-button pointer"
           onClick={() => this.handleTagFilter(tag)}
           key={tag}
-          style={{ cursor: 'pointer' }}
         >
           {tag}
         </div>
@@ -143,25 +181,42 @@ class PageProblems extends React.Component {
 
     return (
       <div className="PageProblems" sx={PageProblemsSx}>
-        <div className="tags-container">
-          <h2 className="header">Tags</h2>
-          {tagButtons}
+        <div className="sortby-container">
+          <h2 className="white">Difficulty</h2>
+          <div
+            className="diff-button pointer easy"
+            onClick={() => this.handleTagFilter('easy')}
+          >
+            EASY
+          </div>
+          <div
+            className="diff-button pointer medium"
+            onClick={() => this.handleTagFilter('medium')}
+          >
+            MEDIUM
+          </div>
+          <div
+            className="diff-button pointer hard"
+            onClick={() => this.handleTagFilter('hard')}
+          >
+            HARD
+          </div>
+          <h2 className="white">Tags</h2>
+          <div className="tag-button-container">
+            {tagButtons}
+          </div>
         </div>
         <div className="questions-container">
-          <h1 className="header">Questions</h1>
-          <button onClick={() => this.handleTagFilter('')}>
-            Original list
-          </button>
-          <button onClick={() => this.handleTagFilter('easy')}>
-            Filter by easy
-          </button>
-          <button onClick={() => this.handleTagFilter('medium')}>
-            Filter by medium
-          </button>
-          <button onClick={() => this.handleTagFilter('hard')}>
-            Filter by hard
-          </button>
-          <br />
+          <div className="flex">
+            <h1 className="white">Questions</h1>
+            {tag &&
+              <div
+                className="original-list pointer white"
+                onClick={() => this.handleTagFilter('')}
+              >
+                  See full list
+              </div>}
+          </div>
           <div className="quest-container">
             {quests}
           </div>
