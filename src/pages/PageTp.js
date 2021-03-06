@@ -83,6 +83,8 @@ const TpSx = {
     resize: 'vertical',
     verticalAlign: 'bottom',
     minHeight: '40px',
+    fontFamily: 'Open-Sans',
+    lineHeight: '20px',
   },
 
   '.button-box': {
