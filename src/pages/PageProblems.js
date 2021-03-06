@@ -7,11 +7,17 @@ import { compose } from 'redux';
 import { tags } from 'constants/Tags';
 import Loading from 'components/Loading.js';
 import { jsx } from 'theme-ui';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
 
 const PageProblemsSx = {
   display: 'flex',
   fontFamily: 'Open-Sans',
 
+  '.link': {
+    textDecoration: 'none',
+    color: 'black',
+  },
   '.header': {
     color: 'white',
   },
@@ -28,26 +34,31 @@ const PageProblemsSx = {
   },
   '.question-box': {
     backgroundColor: 'lightGrey',
-    width: '315px',
+    width: '320px',
     height: '139px',
-    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
     marginRight: '20px',
-    marginTop: '20px',
+    marginTop: '10px',
+    marginBottom: '10px',
     padding: '20px',
   },
+  '.tag-container': {
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+    height: '70px',
+  },
   '.tag': {
+    fontSize: '1vw',
     backgroundColor: 'orange',
     borderRadius: '4px',
     width: '107.61px',
     height: '22px',
     textAlign: 'center',
-    margin: '10px',
+    margin: '5px',
+    paddingTop: '2px',
   },
   '.question-title': {
-    color: 'black',
-    fontSize: '20px',
-    textDecoration: 'none',
-    marginRight: '20px',
+    fontSize: '18px',
   },
   '.easy': {
     color: '#27B12A',
@@ -59,15 +70,13 @@ const PageProblemsSx = {
     color: '#DA1C1C',
   },
   '.difficulty': {
-    fontSize: '20px',
-    marginLeft: '20px',
+    fontSize: '16px',
+    marginLeft: 'auto',
   },
   '.check': {
-    transform: 'rotate(45deg)',
-    height: '24px',
-    width: '12px',
-    borderBottom: '3px solid #27B12A',
-    borderRight: '3px solid #27B12A',
+    color: '#27B12A',
+    marginLeft: '5px',
+    marginTop: '3px',
   },
 };
 
@@ -92,7 +101,7 @@ class PageProblems extends React.Component {
 
     const quests = Object.keys(questions)
       .filter(questId => !isDiff || questions[questId].difficulty === tag)
-      .filter(questId => isDiff || !tag || questions[questId].tags[tag])
+      .filter(questId => isDiff || !tag || questions[questId].tags && questions[questId].tags[tag])
       .map(questId => {
         const quest = questions[questId];
         const answered = questionHistory && questionHistory[questId];
@@ -102,20 +111,20 @@ class PageProblems extends React.Component {
         );
 
         return (
-          <div className="question-box" key={questId}>
+          <Link className="question-box link" to={`/q/${questId}/my`} key={questId}>
             <div style={{ display: 'flex' }}>
-              <Link className="question-title" to={`/q/${questId}/my`}>
+              <div className="question-title">
                 #{questId}: {quest.title}
-              </Link>
-              {answered && <div className="check"></div>}
+              </div>
+              {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
               <div className={quest.difficulty + ' difficulty'}>
                 {quest.difficulty.toUpperCase()}
               </div>
             </div>
-            <div>s
+            <div className="tag-container">
               {topics}
             </div>
-          </div>
+          </Link>
         );
       });
 
@@ -134,7 +143,6 @@ class PageProblems extends React.Component {
 
     return (
       <div className="PageProblems" sx={PageProblemsSx}>
-        <i className="fas fa-exclamation-triangle"></i>
         <div className="tags-container">
           <h2 className="header">Tags</h2>
           {tagButtons}
