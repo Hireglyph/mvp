@@ -1,7 +1,11 @@
+/** @jsx jsx */
+
 import React from 'react';
 import { firebaseConnect } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { jsx } from 'theme-ui';
+import { LoginRegisterSx } from 'theme/LoginRegisterStyle';
 
 import Loading from 'components/Loading';
 import GoogleButton from 'components/GoogleButton';
@@ -44,15 +48,14 @@ class PageLogin extends React.Component {
 
   render() {
     return (
-      <div className="register-container">
-        <div className="register-block">
-          <div className="register-title">
+      <div sx={LoginRegisterSx}>
+        <div>
+          <div>
             <h2>Welcome back!</h2>
           </div>
           <div>
             <div>{this.state.error}</div>
             <input
-              className="input"
               name="email"
               onChange={this.handleChange}
               placeholder="Email"
@@ -60,7 +63,6 @@ class PageLogin extends React.Component {
             />
             <br />
             <input
-              className="input"
               name="password"
               onChange={this.handleChange}
               placeholder="Password"
@@ -71,7 +73,7 @@ class PageLogin extends React.Component {
           <br />
           {!this.state.loading ? (
             <div>
-              <button className="button" onClick={this.login}>
+              <button onClick={this.login}>
                 login!
               </button>
               <br />
@@ -79,7 +81,6 @@ class PageLogin extends React.Component {
               <GoogleButton onClick={() => this.loginWithProvider('google')} />
 
               <button
-                className="login"
                 onClick={() => this.props.history.push("/register")}
               >
                 register
