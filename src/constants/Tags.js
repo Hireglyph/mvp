@@ -1,5 +1,8 @@
 export const tags = [
   'geometry',
   'algebra',
-  'divisibility'
+  'divisibility',
+  'algorithms',
+  'number theory',
+  'calculus'
 ];
