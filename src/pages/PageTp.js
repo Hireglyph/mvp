@@ -9,6 +9,8 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Latex from 'react-latex';
 import TextareaAutosize from 'react-textarea-autosize';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons'
 
 import { currentVotes, getVoteValues, upvoteTp, downvoteTp } from 'utils/vote';
 import PageNotFound from 'pages/PageNotFound';
@@ -35,8 +37,11 @@ const TpSx = {
   },
 
   '.back-hover': {
+    cursor: 'pointer',
+    fontSize: '20px',
+    marginLeft: '15px',
     '&:hover': {
-      color: 'red',
+      color: '#505050',
     },
   },
 
@@ -119,6 +124,7 @@ const TpSx = {
     position: 'relative',
     left: '-15px',
     bottom: '-2px',
+    cursor: 'pointer',
   },
 
   '.white-upvote': {
@@ -130,6 +136,7 @@ const TpSx = {
     position: 'relative',
     left: '-15px',
     bottom: '-2px',
+    cursor: 'pointer',
     '&:hover': {
       borderBottom: '15px solid #00FF00',
     },
@@ -144,6 +151,7 @@ const TpSx = {
     position: 'relative',
     left: '-15px',
     bottom: '17px',
+    cursor: 'pointer',
   },
 
   '.white-downvote': {
@@ -155,6 +163,7 @@ const TpSx = {
     position: 'relative',
     left: '-15px',
     bottom: '17px',
+    cursor: 'pointer',
     '&:hover': {
       borderTop: '15px solid red',
     },
@@ -325,19 +334,17 @@ class PageTp extends React.Component {
           const feedbackUsername = username ? username : creator;
           const feedbackScoreArrows = !deleted ? (
             <div>
-              <div
-                className="upvote-border"
-                onClick={() => this.upvoteFeedback(feedbackId)}
-              >
-                <div className={feedbackUpvoted ? "green-upvote" : "white-upvote"}/>
+              <div className="upvote-border">
+                <div 
+                  className={feedbackUpvoted ? "green-upvote" : "white-upvote"}
+                  onClick={() => this.upvoteFeedback(feedbackId)}
+                />
               </div>
               <div className="score-center">{score}</div>
-              <div
-                className="downvote-border"
-                onClick={() => this.downvoteFeedback(feedbackId)}
-              >
+              <div className="downvote-border" >
                 <div
                   className={feedbackDownvoted ? "red-downvote" : "white-downvote"}
+                  onClick={() => this.downvoteFeedback(feedbackId)}
                 />
               </div>
             </div>
@@ -388,18 +395,18 @@ class PageTp extends React.Component {
 
     const scoreArrows = this.props.tp.creator ? (
       <div>
-        <div
-          className="upvote-border"
-          onClick={() => upvoteTp(this.props)}
-        >
-          <div className={isUpvoted ? "green-upvote" : "white-upvote"}/>
+        <div className="upvote-border">
+          <div 
+            className={isUpvoted ? "green-upvote" : "white-upvote"}
+            onClick={() => upvoteTp(this.props)}
+          />
         </div>
         <div className="score-center">{this.props.tp.total}</div>
-        <div
-          className="downvote-border"
-          onClick={() => downvoteTp(this.props)}
-        >
-          <div className={isDownvoted ? "red-downvote" : "white-downvote"}/>
+        <div className="downvote-border">
+          <div 
+            className={isDownvoted ? "red-downvote" : "white-downvote"}
+            onClick={() => downvoteTp(this.props)}
+          />
         </div>
       </div>
     ) : (
@@ -414,7 +421,7 @@ class PageTp extends React.Component {
         />
         <div className="tp-header">
           <div className="back-hover" onClick={() => this.props.history.goBack()}>
-            &nbsp;&lt;Back
+            <FontAwesomeIcon icon={faArrowCircleLeft}/>
           </div>
           <div>
             TP by @{tp.username} to &nbsp;

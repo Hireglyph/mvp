@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Google from "assets/Google.svg";
+import Google from "assets/images/Google.svg";
 
 export default class GoogleButton extends Component {
   render() {

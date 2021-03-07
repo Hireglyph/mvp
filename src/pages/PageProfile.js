@@ -113,12 +113,11 @@ class PageProfile extends React.Component {
     const {
       feedbackHistory,
       historyParam,
-      profile,
       tpHistory,
       username,
     } = this.props;
 
-    if (!isLoaded(profile)) {
+    if (!isLoaded(tpHistory) || !isLoaded(feedbackHistory)) {
       return <Loading />;
     }
 
@@ -269,15 +268,13 @@ class PageProfile extends React.Component {
 
 const mapStateToProps = (state, props) => {
   const { profile, data } = state.firebase;
-  const { email, username } = profile || {};
+  const username = profile && profile.username;
   const { feedbackHistory, tpHistory } = data;
   const { historyParam } = props.match.params;
 
   return {
-    email,
     feedbackHistory,
     historyParam,
-    profile,
     tpHistory,
     username,
   };
