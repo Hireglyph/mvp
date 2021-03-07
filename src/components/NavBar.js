@@ -91,7 +91,7 @@ class NavBar extends React.Component {
             className="button-text"
             onClick={() => {
               firebase.logout();
-              window.location.href = "/";
+              this.props.history.push("/");
             }}
           >
             Logout

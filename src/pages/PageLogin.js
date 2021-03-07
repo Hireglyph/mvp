@@ -80,7 +80,7 @@ class PageLogin extends React.Component {
 
               <button
                 className="login"
-                onClick={() => (window.location.href = "/register")}
+                onClick={() => this.props.history.push("/register")}
               >
                 register
               </button>

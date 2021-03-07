@@ -97,7 +97,7 @@ class PageRegister extends React.Component {
           />
           <button
             className="login"
-            onClick={() => (window.location.href = '/login')}
+            onClick={() => this.props.history.push('/login')}
           >
             login
           </button>
