@@ -193,6 +193,7 @@ class PageQuestion extends React.Component {
     }
 
     if (isEmpty(question)) {
+      //TODO: fix not found problem w/ PageQuestion
       return <PageNotFound />;
     }
 
