@@ -1,8 +1,13 @@
+/** @jsx jsx */
+
 import React from 'react';
 import { firebaseConnect } from 'react-redux-firebase';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { jsx } from 'theme-ui';
+
+import { LoginRegisterSx } from 'theme/LoginRegisterStyle';
 
 class PageOnboard extends React.Component {
   constructor(props) {
@@ -29,22 +34,21 @@ class PageOnboard extends React.Component {
 
   render() {
     return (
-      <div>
-        Before proceeding, set your username!
-        <br />
+      <div sx={LoginRegisterSx}>
+        <div className="auth-title">Onboard</div>
         <input
-          className="input"
+          className="auth-input"
           name="username"
           onChange={this.handleChange}
           placeholder="Username"
           value={this.state.username}
         />
         <button
-          className="button"
+          className="auth-button"
           disabled={!this.state.username.trim()}
           onClick={this.register}
         >
-          Confirm!
+          Register Username
         </button>
       </div>
     );

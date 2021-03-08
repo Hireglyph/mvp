@@ -2,11 +2,12 @@
 
 import React from 'react';
 import { firebaseConnect } from 'react-redux-firebase';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { jsx } from 'theme-ui';
-import { LoginRegisterSx } from 'theme/LoginRegisterStyle';
 
+import { LoginRegisterSx } from 'theme/LoginRegisterStyle';
 import Loading from 'components/Loading';
 import GoogleButton from 'components/GoogleButton';
 
@@ -51,12 +52,12 @@ class PageLogin extends React.Component {
       <div sx={LoginRegisterSx}>
         <div>
           <div>
-            <h2>Welcome back!</h2>
+            <div className="auth-title">Login</div>
           </div>
           <div>
-            <div>{this.state.error}</div>
             <input
               name="email"
+              className="auth-input"
               onChange={this.handleChange}
               placeholder="Email"
               value={this.state.email}
@@ -64,27 +65,32 @@ class PageLogin extends React.Component {
             <br />
             <input
               name="password"
+              className="auth-input"
               onChange={this.handleChange}
               placeholder="Password"
               type="password"
               value={this.state.password}
             />
           </div>
-          <br />
           {!this.state.loading ? (
             <div>
-              <button onClick={this.login}>
-                login!
+              <button className="auth-button" onClick={this.login}>
+                Log In
               </button>
-              <br />
+              <div className="auth-error">{this.state.error}</div>
+              <div className="auth-line">
+                ━━━━━━&nbsp;&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;&nbsp;━━━━━━
+              </div>
 
               <GoogleButton onClick={() => this.loginWithProvider('google')} />
 
-              <button
-                onClick={() => this.props.history.push("/register")}
-              >
-                register
-              </button>
+              <div className="auth-closing">
+                New to Hireglyph?&nbsp;
+                <Link to="register" className="auth-closing-link">
+                  Register Here!
+                </Link>
+              </div>
+
             </div>
           ) : (
             <Loading />

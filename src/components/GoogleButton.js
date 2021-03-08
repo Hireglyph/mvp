@@ -1,24 +1,43 @@
-import React, { Component } from "react";
-import Google from "assets/images/Google.svg";
+/** @jsx jsx */
+
+import { Component } from "react";
+import { jsx } from 'theme-ui';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGoogle } from '@fortawesome/free-brands-svg-icons'
+
+const GoogleButtonSx = {
+
+  '.google-button': {
+    marginRight: '60px',
+    marginLeft: '60px',
+    width: 'calc(100% - 120px)',
+    height: '35px',
+    lineHeight: '35px',
+    border: '1px solid #000000',
+    backgroundColor: 'white',
+    cursor: 'pointer',
+    fontFamily: 'Open-Sans',
+    fontSize: '20px',
+    '&:hover': {
+      backgroundColor: 'lightGrey',
+    },
+  },
+
+};
 
 export default class GoogleButton extends Component {
   render() {
     return (
-      <div>
+      <div sx={GoogleButtonSx}>
         <button
-          type="button"
           className="google-button"
+          type="button"
           onClick={this.props.onClick}
         >
-          <span className="google-button__icon">
-            <img src={Google} alt="Google icon" />
-          </span>
-          <span className="google-button__text">
-            {this.props.text || "Sign in with Google"}
-          </span>
+          <FontAwesomeIcon icon={faGoogle}/>
+          &nbsp;&nbsp;&nbsp;
+          {this.props.text || "Sign in with Google"}
         </button>
-        <br />
-        <br />
       </div>
     );
   }
