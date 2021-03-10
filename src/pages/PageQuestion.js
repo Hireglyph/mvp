@@ -188,12 +188,11 @@ class PageQuestion extends React.Component {
       solution,
     } = this.state;
 
-    if (!isLoaded(question)) {
+    if (!isLoaded(relatedQuestions)) {
       return <Loading />;
     }
 
     if (isEmpty(question)) {
-      //TODO: fix not found problem w/ PageQuestion
       return <PageNotFound />;
     }
 
