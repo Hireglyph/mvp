@@ -55,6 +55,7 @@ const ProfileSx = {
     fontFamily: 'Open-Sans',
     height: '25px',
     width: '100px',
+    textAlign: 'center',
     backgroundColor: 'orange',
     color: 'black',
     border: '1px solid black',
@@ -268,12 +269,14 @@ class PageProfile extends React.Component {
                   >
                     Delete TP
                   </div>
-                  <button
-                    className="profile-onclick"
-                    onClick={() => this.props.history.push(`/tp/${tp.questId}/${tpId}`)}
+                  <Link
+                    sx = {{ textDecoration: 'none' }}
+                    to={`/tp/${tp.questId}/${tpId}`}
                   >
-                    Full TP Page
-                  </button>
+                    <div className="profile-onclick">
+                      Full TP Page
+                    </div>
+                  </Link>
                 </div>
               </div>
             );

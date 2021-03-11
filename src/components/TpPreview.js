@@ -1,13 +1,20 @@
-import React, { Component } from "react";
+/** @jsx jsx */
+
+import { Component } from "react";
+import { jsx } from 'theme-ui';
 import Latex from "react-latex";
 
 import { length } from "../constants/PrevLength";
+
+const TpPreviewSx = {
+  fontFamily: 'Gotham-Book',
+};
 
 export default class TpPreview extends Component {
   render() {
     const { initial, approach, solution, expanded } = this.props;
     return (
-      <div>
+      <div sx={TpPreviewSx}>
         <link
           href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
           rel="stylesheet"
