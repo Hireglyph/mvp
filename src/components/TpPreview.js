@@ -13,8 +13,8 @@ export default class TpPreview extends Component {
           rel="stylesheet"
         />
         <div>
-          <span className="tp-preview-head">{initial ? "Initial:" : ""}</span>
-          <span className="tp-preview-tail">
+          <span>{initial ? "Initial:" : ""}</span>
+          <span>
             {expanded ? (
               <Latex>{initial}</Latex>
             ) : (
@@ -28,10 +28,10 @@ export default class TpPreview extends Component {
           </span>
         </div>
         <div>
-          <span className="tp-preview-head">
+          <span>
             {approach ? "Approaches:" : ""}
           </span>
-          <span className="tp-preview-tail">
+          <span>
             {expanded ? (
               <Latex>{approach}</Latex>
             ) : (
@@ -45,8 +45,8 @@ export default class TpPreview extends Component {
           </span>
         </div>
         <div>
-          <span className="tp-preview-head">{solution ? "Solution:" : ""}</span>
-          <span className="tp-preview-tail">
+          <span>{solution ? "Solution:" : ""}</span>
+          <span>
             {expanded ? (
               <Latex>{solution}</Latex>
             ) : (

@@ -96,6 +96,12 @@ const TpSx = {
     width: '70px',
     backgroundColor: 'orange',
     color: 'black',
+    fontFamily: 'Open-Sans',
+    cursor: 'pointer',
+    border: '0px solid black',
+    '&:hover': {
+      backgroundColor: 'darkOrange',
+    },
   },
 
   '.feedback-block': {
@@ -137,9 +143,6 @@ const TpSx = {
     left: '-15px',
     bottom: '-2px',
     cursor: 'pointer',
-    '&:hover': {
-      borderBottom: '15px solid #00FF00',
-    },
   },
 
   '.red-downvote': {
@@ -164,9 +167,6 @@ const TpSx = {
     left: '-15px',
     bottom: '17px',
     cursor: 'pointer',
-    '&:hover': {
-      borderTop: '15px solid red',
-    },
   },
 
   '.upvote-border': {

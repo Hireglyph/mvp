@@ -1,4 +1,7 @@
+/** @jsx jsx */
+
 import React from 'react';
+import { jsx } from 'theme-ui';
 import { withRouter, Redirect } from 'react-router-dom';
 import { HashLink as Link } from 'react-router-hash-link';
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
@@ -10,7 +13,95 @@ import TpPreview from 'components/TpPreview.js';
 import Loading from 'components/Loading';
 import { length } from 'constants/PrevLength';
 
-import 'styles/PageProfile.css';
+const ProfileSx = {
+  position: 'relative',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  marginTop: '50px',
+  marginBottom: '50px',
+  width: '700px',
+  height: 'auto',
+  fontFamily: 'Open-Sans',
+  display: 'flex',
+  flexDirection: 'column',
+
+  '.profile-box': {
+    width: '100%',
+    marginBottom: '10px',
+    backgroundColor: 'lightGrey',
+  },
+
+  '.profile-header': {
+    display: 'flex',
+    marginTop: '10px',
+    marginLeft: '10px',
+    marginRight: '20px',
+  },
+
+  '.profile-header-button': {
+    marginRight: '0px',
+    marginLeft: 'auto',
+  },
+
+  '.profile-box-bottom': {
+    display: 'flex',
+    float: 'right',
+    marginRight: '20px',
+    marginBottom: '5px',
+    gap: '10px',
+  },
+
+  '.profile-onclick': {
+    fontFamily: 'Open-Sans',
+    height: '25px',
+    width: '100px',
+    backgroundColor: 'orange',
+    color: 'black',
+    border: '1px solid black',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: 'darkOrange',
+    },
+  },
+
+  '.profile-delete': {
+    cursor: 'pointer',
+    color: 'black',
+    fontSize: '12px',
+    lineHeight: '25px',
+    '&:hover': {
+      color: 'red',
+    },
+  },
+
+  '.profile-message': {
+    cursor: 'pointer',
+    color: 'black',
+    fontSize: '12px',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  },
+
+  '.profile-box-content': {
+    display: 'flex',
+    marginTop: '5px',
+    marginBottom: '5px',
+    marginRight: '20px',
+  },
+
+  '.profile-box-interior': {
+    backgroundColor: 'white',
+    width: '100%',
+    padding: '5px',
+  },
+
+  '.profile-box-score': {
+    textAlign: 'center',
+    width: '40px',
+  },
+
+};
 
 class PageProfile extends React.Component {
   constructor(props) {
@@ -45,11 +136,21 @@ class PageProfile extends React.Component {
   generateTpMessage = (isExpanded, tpId) => {
     if (!isExpanded) {
       return (
-        <div onClick={() => this.changeTpExpand(true, tpId)}>Expand TP</div>
+        <div 
+          onClick={() => this.changeTpExpand(true, tpId)}
+          className="profile-message"
+        >
+          Expand TP
+        </div>
       );
     }
     return (
-      <div onClick={() => this.changeTpExpand(false, tpId)}>Collapse TP</div>
+      <div 
+        onClick={() => this.changeTpExpand(false, tpId)}
+        className="profile-message"
+      >
+        Collapse TP
+      </div>
     );
   };
 
@@ -134,41 +235,46 @@ class PageProfile extends React.Component {
           const tp = tpHistory[tpId];
           if (tp) {
             return (
-              <div className="individual-tp-preview" key={tpId}>
-                <div className="main-tp-text">
-                  <button onClick={() => this.tpDelete(tpId, tp.questId)}>
-                    DELETE TP
-                  </button>
-                  <div className="tp-preview-username">
+              <div className="profile-box" key={tpId}>
+                <div className="profile-header">
+                  <div>
                     Response to Question #{tp.questId}
                   </div>
-                  <TpPreview
-                    initial={tp.initial}
-                    approach={tp.approach}
-                    solution={tp.solution}
-                    expanded={this.state.tpExpand[tpId]}
-                  />
-                  <div>
-                    <span className="tp-preview-head">Score:</span>
-                    <span className="tp-preview-tail">
-                      {typeof tp.total === "undefined" ? "NA" : tp.total}
-                    </span>
-                  </div>
-                  <div className="align-right">
+                  <div className="profile-header-button">
                     {(tp.initial && tp.initial.length > length) ||
                     (tp.approach && tp.approach.length > length) ||
                     (tp.solution && tp.solution.length > length)
                       ? this.generateTpMessage(this.state.tpExpand[tpId], tpId)
                       : ""}
-                    <Link
-                      className="tp-full-goto"
-                      to={`/tp/${tp.questId}/${tpId}`}
-                    >
-                      Go to full TP
-                    </Link>
                   </div>
                 </div>
-                <br />
+                <div className="profile-box-content">
+                  <div className="profile-box-score">
+                    {typeof tp.total === "undefined" ? "NA" : tp.total}
+                  </div>
+                  <div className="profile-box-interior">
+                    <TpPreview
+                      initial={tp.initial}
+                      approach={tp.approach}
+                      solution={tp.solution}
+                      expanded={this.state.tpExpand[tpId]}
+                    />
+                  </div>
+                </div>
+                <div className="profile-box-bottom">
+                  <div
+                    className="profile-delete"
+                    onClick={() => this.tpDelete(tpId, tp.questId)}
+                  >
+                    Delete TP
+                  </div>
+                  <button
+                    className="profile-onclick"
+                    onClick={() => this.props.history.push(`/tp/${tp.questId}/${tpId}`)}
+                  >
+                    Full TP Page
+                  </button>
+                </div>
               </div>
             );
           }
@@ -191,21 +297,21 @@ class PageProfile extends React.Component {
               : feedbackHistory[feedbackId].score;
           if (feedback && username && questId && tpId) {
             return (
-              <div className="individual-tp-preview" key={feedbackId}>
+              <div key={feedbackId}>
                 <link
                   href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
                   rel="stylesheet"
                 />
-                <div className="main-tp-text">
+                <div>
                   <button onClick={() => this.feedbackDelete(feedbackId, tpId)}>
                     DELETE Feedback
                   </button>
-                  <div className="tp-preview-username">
+                  <div>
                     Feedback to @{username}'s TP to Question #{questId}
                   </div>
                   <div>
-                    <span className="tp-preview-head">Feedback:</span>
-                    <span className="tp-preview-tail">
+                    <span>Feedback:</span>
+                    <span>
                       <Latex>
                         {this.state.feedbackExpand[feedbackId]
                           ? feedback
@@ -215,10 +321,10 @@ class PageProfile extends React.Component {
                     </span>
                   </div>
                   <div>
-                    <span className="tp-preview-head">Score:</span>
-                    <span className="tp-preview-tail"> {score}</span>
+                    <span>Score:</span>
+                    <span> {score}</span>
                   </div>
-                  <div className="align-right">
+                  <div>
                     {feedback.length > length
                       ? this.generateFeedbackMessage(
                           this.state.feedbackExpand[feedbackId],
@@ -226,14 +332,12 @@ class PageProfile extends React.Component {
                         )
                       : ""}
                     <Link
-                      className="tp-full-goto"
                       to={`/tp/${questId}/${tpId}#${feedbackId}`}
                     >
                       Go to Feedback
                     </Link>
                   </div>
                 </div>
-                <br />
               </div>
             );
           }
@@ -243,23 +347,22 @@ class PageProfile extends React.Component {
     const display = historyParam === "tp" ? tps : feedbacks;
 
     return (
-      <div className="background2">
-        <div className="intro2">Your profile, @{username} </div>
+      <div sx={ProfileSx}>
+        <div>Your profile, @{username} </div>
         <div>
           <button
             disabled={historyParam === "tp"}
             onClick={() => this.handleTps("tp")}
           >
-            My TP History
+            TPs Submitted
           </button>
           <button
             disabled={historyParam === "feedback"}
             onClick={() => this.handleTps("feedback")}
           >
-            My Feedback History
+            Feedbacks Given
           </button>
         </div>
-        <br />
         {display}
       </div>
     );
