@@ -53,8 +53,9 @@ const ProfileSx = {
 
   '.profile-onclick': {
     fontFamily: 'Open-Sans',
-    height: '25px',
-    width: '100px',
+    fontSize: '15px',
+    height: '20px',
+    width: '125px',
     textAlign: 'center',
     backgroundColor: 'orange',
     color: 'black',
@@ -69,7 +70,7 @@ const ProfileSx = {
     cursor: 'pointer',
     color: 'black',
     fontSize: '12px',
-    lineHeight: '25px',
+    lineHeight: '20px',
     '&:hover': {
       color: 'red',
     },
@@ -100,6 +101,39 @@ const ProfileSx = {
   '.profile-box-score': {
     textAlign: 'center',
     width: '40px',
+  },
+
+  '.profile-page-header': {
+    display: 'flex',
+    border: '1px solid black',
+    marginBottom: '10px',
+  },
+
+  '.username-box': {
+    width: '50%',
+    height: '35px',
+    lineHeight: '35px',
+    textAlign: 'center',
+    border: '1px solid black',
+    backgroundColor: 'lightGrey',
+  },
+
+  '.profile-page-buttons': {
+    width: '25%',
+    height: '35px',
+    border: '1px solid black',
+    backgroundColor: 'white',
+    fontFamily: 'Open-Sans',
+    color: 'black',
+    cursor: 'pointer',
+    '&:hover': {
+      opacity: '0.8',
+    },
+    '&:disabled': {
+      backgroundColor: 'orange',
+      cursor: 'default',
+      opacity: '1.0',
+    },
   },
 
 };
@@ -158,13 +192,19 @@ class PageProfile extends React.Component {
   generateFeedbackMessage = (isExpanded, feedbackId) => {
     if (!isExpanded) {
       return (
-        <div onClick={() => this.changeFeedbackExpand(true, feedbackId)}>
+        <div 
+          onClick={() => this.changeFeedbackExpand(true, feedbackId)}
+          className="profile-message"
+        >
           Expand Feedback
         </div>
       );
     }
     return (
-      <div onClick={() => this.changeFeedbackExpand(false, feedbackId)}>
+      <div 
+        onClick={() => this.changeFeedbackExpand(false, feedbackId)}
+        className="profile-message"
+      >
         Collapse Feedback
       </div>
     );
@@ -274,7 +314,7 @@ class PageProfile extends React.Component {
                     to={`/tp/${tp.questId}/${tpId}`}
                   >
                     <div className="profile-onclick">
-                      Full TP Page
+                      Go to TP
                     </div>
                   </Link>
                 </div>
@@ -300,46 +340,50 @@ class PageProfile extends React.Component {
               : feedbackHistory[feedbackId].score;
           if (feedback && username && questId && tpId) {
             return (
-              <div key={feedbackId}>
+              <div className="profile-box" key={feedbackId}>
                 <link
                   href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
                   rel="stylesheet"
                 />
-                <div>
-                  <button onClick={() => this.feedbackDelete(feedbackId, tpId)}>
-                    DELETE Feedback
-                  </button>
+                <div className="profile-header">
                   <div>
                     Feedback to @{username}'s TP to Question #{questId}
                   </div>
-                  <div>
-                    <span>Feedback:</span>
-                    <span>
-                      <Latex>
-                        {this.state.feedbackExpand[feedbackId]
-                          ? feedback
-                          : feedback.slice(0, length + 1) +
-                            (feedback.length > length ? "..." : "")}
-                      </Latex>
-                    </span>
-                  </div>
-                  <div>
-                    <span>Score:</span>
-                    <span> {score}</span>
-                  </div>
-                  <div>
+                  <div className="profile-header-button">
                     {feedback.length > length
                       ? this.generateFeedbackMessage(
                           this.state.feedbackExpand[feedbackId],
                           feedbackId
                         )
                       : ""}
-                    <Link
-                      to={`/tp/${questId}/${tpId}#${feedbackId}`}
-                    >
-                      Go to Feedback
-                    </Link>
                   </div>
+                </div>
+                <div className="profile-box-content">
+                  <div className="profile-box-score">{score}</div>
+                  <div className="profile-box-interior">
+                    <Latex>
+                      {this.state.feedbackExpand[feedbackId]
+                        ? feedback
+                        : feedback.slice(0, length + 1) +
+                          (feedback.length > length ? "..." : "")}
+                    </Latex>
+                  </div>
+                </div>
+                <div className="profile-box-bottom">
+                  <div 
+                    className="profile-delete"
+                    onClick={() => this.feedbackDelete(feedbackId, tpId)}
+                  >
+                    Delete Feedback
+                  </div>
+                  <Link
+                    sx = {{ textDecoration: 'none' }}
+                    to={`/tp/${questId}/${tpId}#${feedbackId}`}
+                  >
+                    <div className="profile-onclick">
+                      Go to Feedback
+                    </div>
+                  </Link>
                 </div>
               </div>
             );
@@ -351,15 +395,19 @@ class PageProfile extends React.Component {
 
     return (
       <div sx={ProfileSx}>
-        <div>Your profile, @{username} </div>
-        <div>
+        <div className="profile-page-header">
+          <div className="username-box">
+            @{username}
+          </div>
           <button
+            className="profile-page-buttons"
             disabled={historyParam === "tp"}
             onClick={() => this.handleTps("tp")}
           >
             TPs Submitted
           </button>
           <button
+            className="profile-page-buttons"
             disabled={historyParam === "feedback"}
             onClick={() => this.handleTps("feedback")}
           >
