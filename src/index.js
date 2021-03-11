@@ -7,6 +7,8 @@ import ScrollToTop from 'react-router-scroll-top';
 
 import { ThemeProvider } from 'theme-ui';
 import theme from 'theme';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 import 'theme/global.css';
 
 import firebase from 'firebase/app'
