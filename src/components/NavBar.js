@@ -134,8 +134,8 @@ class NavBar extends React.Component {
           <NavDropdown.Item>
             <div
               onClick={() => {
+                this.props.history.push('/');
                 firebase.logout();
-                window.location.href = "/";
               }}
             >
               Logout
