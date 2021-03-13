@@ -6,47 +6,82 @@ import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { jsx } from 'theme-ui';
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUserCircle, faBell } from '@fortawesome/free-solid-svg-icons';
+
+import logo from 'assets/images/logo.svg';
 
 const NavBarSx = {
   backgroundColor: 'orange',
-  width: '100%',
   height: '62px',
   paddingTop: '0.8em',
   paddingLeft: '2em',
   paddingRight: '2em',
   fontFamily: 'Open-Sans',
-  display: 'flex',
   position: 'sticky',
   top: 0,
   zIndex: 10,
 
-  '.title-text': {
-    fontSize: '30px',
-    color: 'text',
+  '.link': {
     textDecoration: 'none',
   },
 
-  '.link-text, .button-text': {
-    fontSize: '20px',
-    color: 'text',
-    textDecoration: 'none',
+  '.red-dot': {
+    position: 'absolute',
+    height: '15px',
+    width: '15px',
+    borderRadius: '50%',
+    borderStyle: 'solid',
+    borderWidth: '2px',
+    textAlign: 'center',
+    color: 'orange',
+    backgroundColor: 'red',
+    marginLeft: '23px',
+    bottom: '10px',
   },
 
-  '.has-notifs': {
-    color: 'red',
+  '.icon': {
+    color: 'background',
+    marginLeft: '7px',
+    '&:hover': {
+      color: 'darkBackground',
+    }
   },
 
-  '.nav-elements': {
-    display: 'flex',
-    marginTop: '10px',
-    marginLeft: 'auto',
-    gap: '40px',
+  '.user-icon-bg': {
+    position: 'absolute',
+    height: '26px',
+    width: '26px',
+    borderRadius: '50%',
+    backgroundColor: 'black',
+    marginLeft: '11px',
+    bottom: '11px',
+    zIndex: '-1',
+  },
+
+  '.nav-text': {
+    color: 'black',
+    marginTop: '5px',
+    marginRight: '20px',
+    fontSize: '18px',
+    '&:hover': {
+      textDecoration: 'underline',
+    }
+  },
+
+  '.dropdown-toggle::after': {
+    display: 'none',
+  },
+
+  '.dropdown-item.active, .dropdown-item:active': {
+    color: 'black',
+    backgroundColor: 'orange',
   },
 };
 
 class NavBar extends React.Component {
-  handleClick = link => () => this.props.history.push(link);
-
   navbarContent = () => {
     const { firebase, hasNotifs, uid } = this.props;
 
@@ -55,61 +90,91 @@ class NavBar extends React.Component {
     }
     if (!uid) {
       return (
-        <div>
-          <div className="link-click">
-            <Link className="link-text" to="/register">
-              Register
+        <React.Fragment>
+          <Nav.Link>
+            <Link className="link" to='/register'>
+              <div className="nav-text">
+                Register
+              </div>
             </Link>
-          </div>
-          <div className="button-click">
-            <button
-              className="button-text"
-              onClick={this.handleClick("/login")}
-            >
-              Login
-            </button>
-          </div>
-        </div>
+          </Nav.Link>
+          <Nav.Link>
+            <Link className="link" to='/login'>
+              <div className="nav-text">
+                Login
+              </div>
+            </Link>
+          </Nav.Link>
+        </React.Fragment>
       );
     }
     return (
-      <div className='nav-elements'>
-        <div className='link-click2'>
-          <Link
-          className={!hasNotifs ? 'link-text' : 'has-notifs link-text'}
-          to='/notifications'>
-            Notifications
+      <React.Fragment>
+        <Nav.Link>
+          <Link to='/notifications'>
+              {hasNotifs && <div className="red-dot"></div>}
+              <FontAwesomeIcon icon={faBell} size="2x" className="icon" />
           </Link>
-        </div>
-        <div className="link-click">
-          <Link className="link-text" to="/profile/tp">
-            Profile
-          </Link>
-        </div>
-        <div className="button-click">
-          <button
-            className="button-text"
-            onClick={() => {
-              firebase.logout();
-              this.props.history.push("/");
-            }}
+        </Nav.Link>
+        <NavDropdown
+            title={
+              <div>
+                <div className="user-icon-bg"></div>
+                <FontAwesomeIcon icon={faUserCircle} size="2x" className="icon" />
+              </div>
+            }
+            alignRight
           >
-            Logout
-          </button>
-        </div>
-      </div>
+          <NavDropdown.Item>
+            <Link to="/profile/tp" className="link" style={{color: 'black'}}>
+              <div>Profile</div>
+            </Link>
+          </NavDropdown.Item>
+          <NavDropdown.Divider />
+          <NavDropdown.Item>
+            <div
+              onClick={() => {
+                this.props.history.push('/');
+                firebase.logout();
+              }}
+            >
+              Logout
+            </div>
+          </NavDropdown.Item>
+        </NavDropdown>
+      </React.Fragment>
     );
   };
 
   render() {
+    const navbarContent = this.navbarContent();
+
     return (
-      <div className='navbar' sx={NavBarSx}>
-        <div className='title'>
-          <Link className='title-text' to='/'>Hireglyph</Link>
-          <Link className='link-text' to='/questions'>Questions</Link>
-        </div>
-        {this.navbarContent()}
-      </div>
+      <Navbar collapseOnSelect expand="lg" sx={NavBarSx}>
+        <Navbar.Brand>
+          <Link to='/'>
+            <img
+              alt="Hireglyph"
+              src={logo}
+              style={{ height: '18px', marginBottom: '7px' }}
+            />
+          </Link>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto"></Nav>
+          <Nav className="ml-auto">
+            {navbarContent && <Nav.Link>
+              <Link className="link" to='/questions'>
+                <div className="nav-text">
+                  Questions
+                </div>
+              </Link>
+            </Nav.Link>}
+            {navbarContent}
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
     );
   }
 }
