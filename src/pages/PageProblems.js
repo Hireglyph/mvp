@@ -4,11 +4,13 @@ import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { isLoaded } from 'react-redux-firebase';
 import { compose } from 'redux';
+import { jsx } from 'theme-ui';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+
 import { tags } from 'constants/Tags';
 import Loading from 'components/Loading.js';
-import { jsx } from 'theme-ui';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck } from '@fortawesome/free-solid-svg-icons'
 
 const PageProblemsSx = {
   display: 'flex',
