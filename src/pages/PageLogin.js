@@ -52,7 +52,7 @@ class PageLogin extends React.Component {
       <div sx={LoginRegisterSx}>
         <div>
           <div>
-            <div className="auth-title">Login</div>
+            <div className="auth-title">Log In</div>
           </div>
           <div>
             <input
@@ -75,11 +75,11 @@ class PageLogin extends React.Component {
           {!this.state.loading ? (
             <div>
               <button className="auth-button" onClick={this.login}>
-                Log In
+                Log in
               </button>
               <div className="auth-error">{this.state.error}</div>
               <div className="auth-line">
-                ━━━━━━&nbsp;&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;&nbsp;━━━━━━
+                ──────&nbsp;&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;&nbsp;──────
               </div>
 
               <GoogleButton onClick={() => this.loginWithProvider('google')} />

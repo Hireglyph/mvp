@@ -53,9 +53,12 @@ const ProfileSx = {
 
   '.profile-onclick': {
     fontFamily: 'Open-Sans',
-    fontSize: '15px',
+    fontSize: '12px',
     height: '20px',
-    width: '125px',
+    lineHeight: '20px',
+    width: 'auto',
+    paddingRight: '5px',
+    paddingLeft: '5px',
     textAlign: 'center',
     backgroundColor: 'orange',
     color: 'black',
@@ -174,7 +177,7 @@ class PageProfile extends React.Component {
           onClick={() => this.changeTpExpand(true, tpId)}
           className="profile-message"
         >
-          Expand TP
+          Expand
         </div>
       );
     }
@@ -183,7 +186,7 @@ class PageProfile extends React.Component {
         onClick={() => this.changeTpExpand(false, tpId)}
         className="profile-message"
       >
-        Collapse TP
+        Collapse
       </div>
     );
   };
@@ -195,7 +198,7 @@ class PageProfile extends React.Component {
           onClick={() => this.changeFeedbackExpand(true, feedbackId)}
           className="profile-message"
         >
-          Expand Feedback
+          Expand
         </div>
       );
     }
@@ -204,7 +207,7 @@ class PageProfile extends React.Component {
         onClick={() => this.changeFeedbackExpand(false, feedbackId)}
         className="profile-message"
       >
-        Collapse Feedback
+        Collapse
       </div>
     );
   };
@@ -306,7 +309,7 @@ class PageProfile extends React.Component {
                     className="profile-delete"
                     onClick={() => this.tpDelete(tpId, tp.questId)}
                   >
-                    Delete TP
+                    Delete
                   </div>
                   <Link
                     sx = {{ textDecoration: 'none' }}
@@ -373,7 +376,7 @@ class PageProfile extends React.Component {
                     className="profile-delete"
                     onClick={() => this.feedbackDelete(feedbackId, tpId)}
                   >
-                    Delete Feedback
+                    Delete
                   </div>
                   <Link
                     sx = {{ textDecoration: 'none' }}

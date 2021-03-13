@@ -17,6 +17,7 @@ const GoogleButtonSx = {
     cursor: 'pointer',
     fontFamily: 'Open-Sans',
     fontSize: '20px',
+    fontWeight: '100',
     '&:hover': {
       backgroundColor: 'lightGrey',
     },
@@ -51,7 +52,7 @@ export default class GoogleButton extends Component {
           <span
             className="google-text"
           >
-            {this.props.text || "Sign In with Google"}
+            {this.props.text || "Sign in with Google"}
           </span>
         </button>
       </div>

@@ -87,11 +87,11 @@ class PageRegister extends React.Component {
         </button>
         <div className="auth-error">{this.state.error}</div>
         <div className="auth-line">
-          ━━━━━━&nbsp;&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;&nbsp;━━━━━━
+          ──────&nbsp;&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;&nbsp;──────
         </div>
         <GoogleButton
           onClick={() => this.loginWithProvider('google')}
-          text={"Sign Up with Google"}
+          text={"Sign up with Google"}
         />
       </div>
     );
