@@ -134,8 +134,8 @@ class NavBar extends React.Component {
           <NavDropdown.Item>
             <div
               onClick={() => {
-                firebase.logout();
                 this.props.history.push('/');
+                firebase.logout();
               }}
             >
               Logout
