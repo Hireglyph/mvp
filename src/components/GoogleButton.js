@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 
 const GoogleButtonSx = {
-
   '.google-button': {
     marginRight: '60px',
     marginLeft: '60px',
@@ -22,7 +21,6 @@ const GoogleButtonSx = {
       backgroundColor: 'lightGrey',
     },
   },
-
 };
 
 export default class GoogleButton extends Component {

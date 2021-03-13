@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Latex from 'react-latex';
 
-import TpPreview from 'components/TpPreview.js';
+import TpPreview from 'components/TpPreview';
 import Loading from 'components/Loading';
 import { length } from 'constants/PrevLength';
 
@@ -135,7 +135,6 @@ const ProfileSx = {
       opacity: '1.0',
     },
   },
-
 };
 
 class PageProfile extends React.Component {
@@ -171,7 +170,7 @@ class PageProfile extends React.Component {
   generateTpMessage = (isExpanded, tpId) => {
     if (!isExpanded) {
       return (
-        <div 
+        <div
           onClick={() => this.changeTpExpand(true, tpId)}
           className="profile-message"
         >
@@ -180,7 +179,7 @@ class PageProfile extends React.Component {
       );
     }
     return (
-      <div 
+      <div
         onClick={() => this.changeTpExpand(false, tpId)}
         className="profile-message"
       >
@@ -192,7 +191,7 @@ class PageProfile extends React.Component {
   generateFeedbackMessage = (isExpanded, feedbackId) => {
     if (!isExpanded) {
       return (
-        <div 
+        <div
           onClick={() => this.changeFeedbackExpand(true, feedbackId)}
           className="profile-message"
         >
@@ -201,7 +200,7 @@ class PageProfile extends React.Component {
       );
     }
     return (
-      <div 
+      <div
         onClick={() => this.changeFeedbackExpand(false, feedbackId)}
         className="profile-message"
       >
@@ -370,7 +369,7 @@ class PageProfile extends React.Component {
                   </div>
                 </div>
                 <div className="profile-box-bottom">
-                  <div 
+                  <div
                     className="profile-delete"
                     onClick={() => this.feedbackDelete(feedbackId, tpId)}
                   >

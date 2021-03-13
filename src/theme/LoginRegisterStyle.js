@@ -1,4 +1,4 @@
-//use in PageLogin, PageRegister, and PageOnboard
+// used in PageLogin, PageRegister, and PageOnboard
 
 export const LoginRegisterSx = {
   position: 'relative',
@@ -75,5 +75,4 @@ export const LoginRegisterSx = {
       color: 'darkOrange',
     },
   },
-
 };
