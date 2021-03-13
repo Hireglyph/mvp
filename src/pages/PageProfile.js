@@ -51,6 +51,10 @@ const ProfileSx = {
     gap: '10px',
   },
 
+  '.profile-link': {
+    textDecoration: 'none',
+  },
+
   '.profile-onclick': {
     fontFamily: 'Open-Sans',
     fontSize: '12px',
@@ -99,6 +103,7 @@ const ProfileSx = {
     backgroundColor: 'white',
     width: '100%',
     padding: '5px',
+    fontFamily: 'Gotham-Book',
   },
 
   '.profile-box-score': {
@@ -106,26 +111,30 @@ const ProfileSx = {
     width: '40px',
   },
 
+  '.positive-score': {
+    color: '#27B12A',
+  },
+
+  '.negative-score': {
+    color: 'red',
+  },
+
   '.profile-page-header': {
     display: 'flex',
-    border: '1px solid black',
     marginBottom: '10px',
   },
 
-  '.username-box': {
-    width: '50%',
-    height: '35px',
-    lineHeight: '35px',
-    textAlign: 'center',
-    border: '1px solid black',
-    backgroundColor: 'lightGrey',
+  '.profile-username': {
+    color: 'white',
+    fontSize: '25px',
+    marginBottom: '10px',
   },
 
   '.profile-page-buttons': {
-    width: '25%',
+    width: '50%',
     height: '35px',
-    border: '1px solid black',
-    backgroundColor: 'white',
+    backgroundColor: 'lightGrey',
+    border: 'none',
     fontFamily: 'Open-Sans',
     color: 'black',
     cursor: 'pointer',
@@ -292,7 +301,18 @@ class PageProfile extends React.Component {
                   </div>
                 </div>
                 <div className="profile-box-content">
-                  <div className="profile-box-score">
+                  <div 
+                    className={
+                      (tp.total 
+                        ? 
+                          (tp.total > 0 ? "positive-score" 
+                          : 
+                          tp.total < 0 ? "negative-score" 
+                          : "") 
+                        : "" )
+                        + " profile-box-score"
+                    }
+                  >
                     {typeof tp.total === "undefined" ? "NA" : tp.total}
                   </div>
                   <div className="profile-box-interior">
@@ -312,7 +332,7 @@ class PageProfile extends React.Component {
                     Delete
                   </div>
                   <Link
-                    sx = {{ textDecoration: 'none' }}
+                    className="profile-link"
                     to={`/tp/${tp.questId}/${tpId}`}
                   >
                     <div className="profile-onclick">
@@ -343,10 +363,6 @@ class PageProfile extends React.Component {
           if (feedback && username && questId && tpId) {
             return (
               <div className="profile-box" key={feedbackId}>
-                <link
-                  href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
-                  rel="stylesheet"
-                />
                 <div className="profile-header">
                   <div>
                     Feedback to @{username}'s TP to Question #{questId}
@@ -361,7 +377,16 @@ class PageProfile extends React.Component {
                   </div>
                 </div>
                 <div className="profile-box-content">
-                  <div className="profile-box-score">{score}</div>
+                  <div className={
+                    (score === "NA" ? "" 
+                      :
+                      score > 0 ? "positive-score" 
+                      : 
+                      score < 0 ? "negative-score" : "")
+                    + " profile-box-score"
+                  }>
+                    {score}
+                  </div>
                   <div className="profile-box-interior">
                     <Latex>
                       {this.state.feedbackExpand[feedbackId]
@@ -379,7 +404,7 @@ class PageProfile extends React.Component {
                     Delete
                   </div>
                   <Link
-                    sx = {{ textDecoration: 'none' }}
+                    className="profile-link"
                     to={`/tp/${questId}/${tpId}#${feedbackId}`}
                   >
                     <div className="profile-onclick">
@@ -397,10 +422,14 @@ class PageProfile extends React.Component {
 
     return (
       <div sx={ProfileSx}>
+        <link
+          href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
+          rel="stylesheet"
+        />
+        <div className="profile-username">
+          Your profile, @{username}
+        </div>
         <div className="profile-page-header">
-          <div className="username-box">
-            @{username}
-          </div>
           <button
             className="profile-page-buttons"
             disabled={historyParam === "tp"}
