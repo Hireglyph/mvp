@@ -166,6 +166,7 @@ class PageQuestion extends React.Component {
       question,
       onboarded,
       questId,
+      questIsLoaded,
       questParam,
       relatedQuestions,
       sortBy,
@@ -188,7 +189,7 @@ class PageQuestion extends React.Component {
       solution,
     } = this.state;
 
-    if (!isLoaded(question)) {
+    if (!questIsLoaded || !isLoaded(relatedQuestions)) {
       return <Loading />;
     }
 
