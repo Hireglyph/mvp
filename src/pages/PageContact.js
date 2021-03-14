@@ -11,6 +11,7 @@ const ContactSx = {
   marginRight: 'auto',
   marginTop: '50px',
   marginBottom: '50px',
+  paddingBottom: '10px',
   width: '500px',
   height: 'auto',
   fontFamily: 'Open-Sans',
@@ -52,7 +53,7 @@ const ContactSx = {
 
   '.contact-submit': {
     marginTop: '10px',
-    marginBottom: '20px',
+    marginBottom: '10px',
     fontFamily: 'Open-Sans',
     width: '150px',
     marginRight: 'calc(50% - 75px)',
@@ -64,6 +65,15 @@ const ContactSx = {
     '&:hover': {
       backgroundColor: 'darkOrange',
     },
+  },
+
+  '.contact-message': {
+    color: 'red',
+    marginLeft: '60px',
+    marginRight: '60px',
+    textAlign: 'center',
+    fontSize: '12px',
+    marginBottom: '10px',
   },
 };
 
@@ -103,24 +113,28 @@ class PageContact extends React.Component {
             type="text" 
             name="name" 
             className="contact-input"
+            required
           />
           <div className="contact-label">Email Address</div>
           <input
             type="email"
             name="email"
             className="contact-input"
+            required
           />
           <div className="contact-label">Subject</div>
           <input
             type="text" 
             name="subject"
             className="contact-input"
+            required
           />
           <div className="contact-label">Message</div>
           <TextareaAutosize
             minRows={4}
             name="message"
             className="contact-textarea"
+            required
           />
           <input
             className="contact-submit"
@@ -128,7 +142,7 @@ class PageContact extends React.Component {
             value="Send Message" 
           />
         </form>
-        <div>{this.state.message}</div>
+        <div className="contact-message">{this.state.message}</div>
       </div>
     );
   }
