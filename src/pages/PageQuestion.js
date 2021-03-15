@@ -1,4 +1,7 @@
+/** @jsx jsx */
+
 import React from 'react';
+import { jsx } from 'theme-ui';
 import { Link, withRouter, Redirect } from 'react-router-dom';
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { connect } from 'react-redux';
@@ -11,13 +14,108 @@ import PageNotFound from 'pages/PageNotFound';
 import TpPreview from 'components/TpPreview';
 import QuestionPreview from 'components/QuestionPreview';
 import Loading from 'components/Loading';
-import red from 'assets/images/red-downvote.png';
-import green from 'assets/images/green-upvote.png';
-import upvote from 'assets/images/upvote.png';
-import downvote from 'assets/images/downvote.png';
 import { length } from 'constants/PrevLength';
 
-import 'styles/PageQuestion.css';
+const QuestionSx = {
+  display: 'flex',
+  fontFamily: 'Open-Sans',
+
+  '.question-block': {
+    width: '300px',
+  },
+
+  '.display-block': {
+    width: '400px',
+  },
+
+  '.score-center': {
+    textAlign: 'center',
+    marginTop: '5px',
+    marginBottom: '5px',
+  },
+
+  '.green-upvote': {
+    width: '0px',
+    height: '0px',
+    borderLeft: '15px solid transparent',
+    borderRight: '15px solid transparent',
+    borderBottom: '15px solid #00FF00',
+    position: 'relative',
+    left: '-15px',
+    bottom: '-2px',
+    cursor: 'pointer',
+    '&:hover': {
+      opacity: '0.8',
+    },
+  },
+
+  '.white-upvote': {
+    width: '0px',
+    height: '0px',
+    borderLeft: '15px solid transparent',
+    borderRight: '15px solid transparent',
+    borderBottom: '15px solid #A9A9A9',
+    position: 'relative',
+    left: '-15px',
+    bottom: '-2px',
+    cursor: 'pointer',
+    '&:hover': {
+      opacity: '0.8',
+    },
+  },
+
+  '.red-downvote': {
+    width: '0px',
+    height: '0px',
+    borderLeft: '15px solid transparent',
+    borderRight: '15px solid transparent',
+    borderTop: '15px solid red',
+    position: 'relative',
+    left: '-15px',
+    bottom: '17px',
+    cursor: 'pointer',
+    '&:hover': {
+      opacity: '0.8',
+    },
+  },
+
+  '.white-downvote': {
+    width: '0px',
+    height: '0px',
+    borderLeft: '15px solid transparent',
+    borderRight: '15px solid transparent',
+    borderTop: '15px solid #A9A9A9',
+    position: 'relative',
+    left: '-15px',
+    bottom: '17px',
+    cursor: 'pointer',
+    '&:hover': {
+      opacity: '0.8',
+    },
+  },
+
+  '.upvote-border': {
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '0px',
+    height: '0px',
+    borderLeft: '19px solid transparent',
+    borderRight: '19px solid transparent',
+    borderBottom: '19px solid black',
+  },
+
+  '.downvote-border': {
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '0px',
+    height: '0px',
+    borderLeft: '19px solid transparent',
+    borderRight: '19px solid transparent',
+    borderTop: '19px solid black',
+  },
+};
 
 const initialState = {
   initial: '',
@@ -67,46 +165,44 @@ class PageQuestion extends React.Component {
     const tpInfo = {tp, tpId, isUpvoted, isDownvoted, ...this.props};
 
     return tp ? (
-      <div className="individual-tp-preview" key={tpId}>
-        <div className="main-tp-text">
-          <div className="tp-preview-username">@{username}</div>
-          <TpPreview
-            initial={tp.initial}
-            approach={tp.approach}
-            solution={tp.solution}
-            expanded={expanded}
-          />
-          <div className="align-right">
-            {(tp.initial && tp.initial.length > length) ||
-            (tp.approach && tp.approach.length > length) ||
-            (tp.solution && tp.solution.length > length)
-              ? this.generateMessage(expanded, tpId)
-              : ""}
-            <Link
-              className="tp-full-goto"
-              to={`/tp/${this.props.questId}/${tpId}`}
-            >
-              Go to full TP
-            </Link>
+      <div key={tpId}>
+        <div>@{username}</div>
+        <div>
+          <div className="upvote-border">
+            <div
+              className={isUpvoted ? "green-upvote" : "white-upvote"}
+              onClick={() => upvoteTp(tpInfo)}
+            />
+          </div>
+          <div className="score-center">{tp.total}</div>
+          <div className="downvote-border">
+            <div
+              className={isDownvoted ? "red-downvote" : "white-downvote"}
+              onClick={() => downvoteTp(tpInfo)}
+            />
           </div>
         </div>
-        <img
-          alt="upvote"
-          className="feedback-upvote-button"
-          src={isUpvoted ? green : upvote}
-          onClick={() => upvoteTp(tpInfo)}
+        <TpPreview
+          initial={tp.initial}
+          approach={tp.approach}
+          solution={tp.solution}
+          expanded={expanded}
         />
-        <div className="feedback-score-text">{tp.total}</div>
-        <img
-          alt="downvote"
-          className="feedback-downvote-button"
-          src={isDownvoted ? red : downvote}
-          onClick={() => downvoteTp(tpInfo)}
-        />
-        <br />
+        <div>
+          {(tp.initial && tp.initial.length > length) ||
+          (tp.approach && tp.approach.length > length) ||
+          (tp.solution && tp.solution.length > length)
+            ? this.generateMessage(expanded, tpId)
+            : ""}
+          <Link
+            to={`/tp/${this.props.questId}/${tpId}`}
+          >
+            Go to full TP
+          </Link>
+        </div>
       </div>
     ) : (
-      <div key={tpId}></div>
+      null
     );
   };
 
@@ -218,7 +314,7 @@ class PageQuestion extends React.Component {
       Object.keys(tags).map((tag) => {
         return (
           <Link to={`/questions/${tag}`} key={tag}>
-            <span className="topic-2">{tag} </span>
+            {tag}
           </Link>
         );
       });
@@ -274,22 +370,18 @@ class PageQuestion extends React.Component {
 
     const myTp =
       difficulty === "easy" ? (
-        <div className="my-tp-submit">
-          <p className="tp-instructions-text">
+        <div>
+          <div>
             Enter your Thought Process below:
-          </p>
+          </div>
           <TextareaAutosize
             minRows={3}
-            className="tp-input-box"
             name="solution"
             placeholder="Final solution!"
             onChange={this.handleChange}
             value={solution}
           />
-          <br />
-          <br />
           <button
-            className="tp-submit-green"
             disabled={solution.trim() === ""}
             onClick={this.createTp}
           >
@@ -297,40 +389,32 @@ class PageQuestion extends React.Component {
           </button>
         </div>
       ) : (
-        <div className="my-tp-submit">
-          <p className="tp-instructions-text">
+        <div>
+          <div>
             Enter your Thought Process below:
-          </p>
+          </div>
           <TextareaAutosize
             minRows={3}
-            className="tp-input-box"
             name="initial"
             placeholder="What were your initial thoughts?"
             onChange={this.handleChange}
             value={initial}
           />
-
           <TextareaAutosize
             minRows={3}
-            className="tp-input-box"
             name="approach"
             placeholder="Different approaches you tried..."
             onChange={this.handleChange}
             value={approach}
           />
-
           <TextareaAutosize
             minRows={3}
-            className="tp-input-box"
             name="solution"
             placeholder="Final solution!"
             onChange={this.handleChange}
             value={solution}
           />
-          <br />
-          <br />
           <button
-            className="tp-submit-green"
             disabled={
               initial.trim() === "" ||
               approach.trim() === "" ||
@@ -354,13 +438,13 @@ class PageQuestion extends React.Component {
 
     if (!uid) {
       section = (
-        <div className="login-message">
+        <div>
           <p>You need to log in or register to write your own TP.</p>
         </div>
       );
     } else if (!onboarded) {
       section = (
-        <div className="login-message">
+        <div>
           <p>
             You need to set your username on the &nbsp;
             <Link to={`/profile`}>Profile</Link>
@@ -370,7 +454,7 @@ class PageQuestion extends React.Component {
       );
     } else if (!this.props.emailVerified) {
       section = (
-        <div className="login-message">
+        <div>
           <p>
             You need to verify your email on the &nbsp;
             <Link to={`/profile`}>Profile</Link>
@@ -381,53 +465,47 @@ class PageQuestion extends React.Component {
     }
 
     return (
-      <div>
+      <div sx={QuestionSx}>
         <link
           href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
           rel="stylesheet"
         />
         <div className="question-block">
-          <div className="question-title-2">
-            <h1>
-              #{this.props.questId}: {title}{" "}
-              {this.props.solved ? "✔" : ""}
-            </h1>
+          <div>
+            #{this.props.questId}: {title}{" "}
+            {this.props.solved ? "✔" : ""}
           </div>
-          <div className="question-description">
-            <p>{description}</p>
+          <div>
+            {description}
           </div>
           <div>{difficulty}</div>
-          <div className="topics-2">{topics}</div>
+          <div>{topics}</div>
           <div>{answerDisplay}</div>
         </div>
         <div>
-          <button
-            className="my-tp-button-1"
-            disabled={questParam === "my"}
-            onClick={() => this.handleClick("my")}
-          >
-            My TP
-          </button>
-          <button
-            className="community-tp-button-1"
-            disabled={sortBy}
-            onClick={() => this.handleClick("community/top")}
-          >
-            Community TPs
-          </button>
-          <button
-            className="related-qs-button-1"
-            disabled={questParam === "related"}
-            onClick={() => this.handleClick("related")}
-          >
-            Related Questions
-          </button>
-          <hr
-            className={questParam === "my" ? "divider-line" : "divider-line-2"}
-          />
-        </div>
-        <div className={questParam === "my" ? "px-break" : "px-break-2"}>
-          {section}
+          <div>
+            <button
+              disabled={questParam === "my"}
+              onClick={() => this.handleClick("my")}
+            >
+              My TP
+            </button>
+            <button
+              disabled={sortBy}
+              onClick={() => this.handleClick("community/top")}
+            >
+              Community TPs
+            </button>
+            <button
+              disabled={questParam === "related"}
+              onClick={() => this.handleClick("related")}
+            >
+              Related Questions
+            </button>
+          </div>
+          <div className="display-block">
+            {section}
+          </div>
         </div>
       </div>
     );
