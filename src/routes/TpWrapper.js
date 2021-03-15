@@ -37,7 +37,7 @@ class TpWrapper extends React.Component {
   }
 
   render() {
-    const { emailVerified, onboarded, question, questId, tps, uid } = this.props;
+    const { emailVerified, onboarded, question, questId, questIsLoaded, tps, uid } = this.props;
 
     if (uid && !isLoaded(tps)) {
       return <Loading />
@@ -56,6 +56,7 @@ class TpWrapper extends React.Component {
                 onboarded={onboarded}
                 question={question}
                 questId={questId}
+                questIsLoaded={questIsLoaded}
                 questParam={props.match.params.questParam}
                 tps={tps}
                 keys={this.state.keys}
@@ -73,6 +74,7 @@ class TpWrapper extends React.Component {
                 onboarded={onboarded}
                 question={question}
                 questId={questId}
+                questIsLoaded={questIsLoaded}
                 sortBy={props.match.params.sortBy}
                 tps={tps}
                 keys={this.state.keys}
