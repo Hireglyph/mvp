@@ -10,6 +10,9 @@ import TextareaAutosize from 'react-textarea-autosize';
 
 import { currentVotes, upvoteTp, downvoteTp } from 'utils/vote';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+
 import PageNotFound from 'pages/PageNotFound';
 import TpPreview from 'components/TpPreview';
 import QuestionPreview from 'components/QuestionPreview';
@@ -18,14 +21,85 @@ import { length } from 'constants/PrevLength';
 
 const QuestionSx = {
   display: 'flex',
+  alignItems: 'flex-start',
   fontFamily: 'Open-Sans',
+  width: '900px',
+  gap: '25px',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  marginTop: '50px',
+  marginBottom: '50px',
+
+  '.check': {
+    color: 'easyGreen',
+  },
 
   '.question-block': {
-    width: '300px',
+    width: '350px',
+    backgroundColor: 'white',
+    padding: '30px',
+  },
+
+  '.question-title': {
+    fontSize: '20px',
+    marginBottom: '10px',
+  },
+
+  '.easy': {
+    color: 'easyGreen',
+  },
+
+  '.medium': {
+    color: 'medOrange',
+  },
+
+  '.hard': {
+    color: 'hardRed',
+  },
+
+  '.difficulty': {
+    marginBottom: '10px',
+  },
+
+  '.question-description': {
+    fontFamily: 'Gotham-Book',
+    marginBottom: '10px',
   },
 
   '.display-block': {
-    width: '400px',
+    width: '525px',
+  },
+  
+  '.tag-container': {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginBottom: '10px',
+  },
+
+  '.tag': {
+    fontSize: '1vw',
+    backgroundColor: 'orange',
+    borderRadius: '4px',
+    width: '107.61px',
+    height: '22px',
+    textAlign: 'center',
+    margin: '5px',
+    paddingTop: '2px',
+    cursor: 'pointer',
+    color: 'black',
+    textDecoration: 'none',
+    '&:hover': {
+      backgroundColor: 'darkOrange',
+    },
+  },
+
+  '.answer-display': {
+    fontSize: '12px',
+    cursor: 'pointer',
+    '&:hover': {
+      color: 'red',
+    },
   },
 
   '.score-center': {
@@ -313,7 +387,7 @@ class PageQuestion extends React.Component {
       tags &&
       Object.keys(tags).map((tag) => {
         return (
-          <Link to={`/questions/${tag}`} key={tag}>
+          <Link to={`/questions/${tag}`} className="tag" key={tag}>
             {tag}
           </Link>
         );
@@ -327,8 +401,14 @@ class PageQuestion extends React.Component {
 
     const answerDisplay = answer && (
       <div>
-        <div onClick={() => this.changeShowAnswer()}>Click to see answer</div>
-        <div>{showAnswer ? answer : ""}</div>
+        <span
+          className="answer-display"
+          onClick={() => this.changeShowAnswer()}
+        >
+          {showAnswer ? '▼' : '►'}
+          &nbsp;See answer
+        </span>
+        {showAnswer && <div sx={{ marginLeft: '15px' }}>{answer}</div>}
       </div>
     );
 
@@ -471,15 +551,15 @@ class PageQuestion extends React.Component {
           rel="stylesheet"
         />
         <div className="question-block">
-          <div>
+          <div className="question-title">
             #{this.props.questId}: {title}{" "}
-            {this.props.solved ? "✔" : ""}
+            {this.props.solved && <FontAwesomeIcon icon={faCheck} className="check" />}
           </div>
-          <div>
+          <div className={difficulty + ' difficulty'}>{difficulty.toUpperCase()}</div>
+          <div className="question-description">
             {description}
           </div>
-          <div>{difficulty}</div>
-          <div>{topics}</div>
+          <div className="tag-container">{topics}</div>
           <div>{answerDisplay}</div>
         </div>
         <div>
