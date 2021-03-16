@@ -35,6 +35,10 @@ const QuestionSx = {
   },
 
   '.question-block': {
+    position: 'sticky',
+    top: '112px',
+    height: 'calc(100vh - 212px)',
+    overflowY: 'auto',
     width: '350px',
     backgroundColor: 'white',
     padding: '30px',
