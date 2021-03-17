@@ -1,9 +1,62 @@
+/** @jsx jsx */
+
+import { jsx } from 'theme-ui';
 import React from 'react';
 import { firebaseConnect } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 import Loading from 'components/Loading';
+
+const ConfirmEmailSx = {
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  marginTop: '50px',
+  marginBottom: '50px',
+  width: '400px',
+  height: 'auto',
+  background: 'lightGrey',
+  fontFamily: 'Open-Sans',
+  border: '1px solid #000000',
+
+  '.confirm-email-title': {
+    marginTop: '20px',
+    marginBottom: '10px',
+    textAlign: 'center',
+    fontSize: '20px',
+  },
+
+  '.confirm-email-text': {
+    textAlign: 'center',
+    marginBottom: '15px',
+    marginRight: '20px',
+    marginLeft: '20px',
+  },
+
+  '.confirm-email-resent': {
+    marginBottom: '20px',
+    color: 'red',
+    textAlign: 'center',
+    fontSize: '12px',
+  },
+
+  '.confirm-email-button': {
+    lineHeight: '15px',
+    marginBottom: '20px',
+    width: '250px',
+    height: '35px',
+    fontFamily: 'Open-Sans',
+    fontSize: '15px',
+    marginRight: 'calc(50% - 125px)',
+    marginLeft: 'calc(50% - 125px)',
+    backgroundColor: 'orange',
+    cursor: 'pointer',
+    border: '1px solid #000000',
+    '&:hover': {
+      backgroundColor: 'darkOrange',
+    },
+  },
+};
 
 class PageConfirmEmail extends React.Component {
   constructor(props) {
@@ -42,12 +95,15 @@ class PageConfirmEmail extends React.Component {
     }
 
     if (resent) {
-      return <div>Email sent!</div>;
+      return <div className="confirm-email-resent">Email sent!</div>;
     }
 
     if (!resent) {
       return (
-        <button onClick={this.resendConfirmationEmail}>
+        <button
+          className="confirm-email-button"
+          onClick={this.resendConfirmationEmail}
+        >
           Resend verification email
         </button>
       );
@@ -56,12 +112,9 @@ class PageConfirmEmail extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Confirm Your Email</h1>
-        <br />
-        <div>{this.state.error}</div>
-        <br />
-        <br />
+      <div sx={ConfirmEmailSx}>
+        <div className="confirm-email-title">Email Verification</div>
+        <div className="confirm-email-text">{this.state.error}</div>
         {this.renderButton()}
       </div>
     );

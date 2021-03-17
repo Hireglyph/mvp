@@ -1,8 +1,12 @@
+/** @jsx jsx */
+
 import React from 'react';
 import { firebaseConnect } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { jsx } from 'theme-ui';
 
+import { LoginRegisterSx } from 'theme/LoginRegisterStyle';
 import GoogleButton from 'components/GoogleButton';
 
 class PageRegister extends React.Component {
@@ -50,58 +54,45 @@ class PageRegister extends React.Component {
 
   render() {
     return (
-      <div className="register-container">
-        <div className="register-block">
-          <div className="register-title">
-            <h2>Join the community!</h2>
-          </div>
-          <div>
-            <div>{this.state.error}</div>
-            <input
-              className="input"
-              name="email"
-              onChange={this.handleChange}
-              placeholder="Email"
-              value={this.state.email}
-            />
-            <br />
-            <input
-              className="input"
-              name="password"
-              onChange={this.handleChange}
-              placeholder="Password"
-              type="password"
-              value={this.state.password}
-            />
-            <br />
-            <input
-              className="input"
-              name="username"
-              onChange={this.handleChange}
-              placeholder="Username"
-              value={this.state.username}
-            />
-          </div>
-          <br />
-          <button
-            className="button"
-            disabled={!this.state.username.trim()}
-            onClick={this.register}
-          >
-            register!
-          </button>
-          <br />
-          <GoogleButton
-            onClick={() => this.loginWithProvider('google')}
-            text={"Sign up with Google"}
-          />
-          <button
-            className="login"
-            onClick={() => (window.location.href = '/login')}
-          >
-            login
-          </button>
+      <div sx={LoginRegisterSx}>
+        <div className="auth-title">Register</div>
+        <input
+          className="auth-input"
+          name="email"
+          onChange={this.handleChange}
+          placeholder="Email"
+          value={this.state.email}
+        />
+        <input
+          className="auth-input"
+          name="password"
+          onChange={this.handleChange}
+          placeholder="Password"
+          type="password"
+          value={this.state.password}
+        />
+        <input
+          className="auth-input"
+          name="username"
+          onChange={this.handleChange}
+          placeholder="Username"
+          value={this.state.username}
+        />
+        <button
+          className="auth-button"
+          disabled={!this.state.username.trim()}
+          onClick={this.register}
+        >
+          Register
+        </button>
+        <div className="auth-error">{this.state.error}</div>
+        <div className="auth-line">
+          ──────&nbsp;&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;&nbsp;──────
         </div>
+        <GoogleButton
+          onClick={() => this.loginWithProvider('google')}
+          text={"Sign up with Google"}
+        />
       </div>
     );
   }

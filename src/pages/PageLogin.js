@@ -1,8 +1,13 @@
+/** @jsx jsx */
+
 import React from 'react';
 import { firebaseConnect } from 'react-redux-firebase';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { jsx } from 'theme-ui';
 
+import { LoginRegisterSx } from 'theme/LoginRegisterStyle';
 import Loading from 'components/Loading';
 import GoogleButton from 'components/GoogleButton';
 
@@ -44,46 +49,48 @@ class PageLogin extends React.Component {
 
   render() {
     return (
-      <div className="register-container">
-        <div className="register-block">
-          <div className="register-title">
-            <h2>Welcome back!</h2>
+      <div sx={LoginRegisterSx}>
+        <div>
+          <div>
+            <div className="auth-title">Log In</div>
           </div>
           <div>
-            <div>{this.state.error}</div>
             <input
-              className="input"
               name="email"
+              className="auth-input"
               onChange={this.handleChange}
               placeholder="Email"
               value={this.state.email}
             />
             <br />
             <input
-              className="input"
               name="password"
+              className="auth-input"
               onChange={this.handleChange}
               placeholder="Password"
               type="password"
               value={this.state.password}
             />
           </div>
-          <br />
           {!this.state.loading ? (
             <div>
-              <button className="button" onClick={this.login}>
-                login!
+              <button className="auth-button" onClick={this.login}>
+                Log in
               </button>
-              <br />
+              <div className="auth-error">{this.state.error}</div>
+              <div className="auth-line">
+                ──────&nbsp;&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;&nbsp;──────
+              </div>
 
               <GoogleButton onClick={() => this.loginWithProvider('google')} />
 
-              <button
-                className="login"
-                onClick={() => (window.location.href = "/register")}
-              >
-                register
-              </button>
+              <div className="auth-closing">
+                New to Hireglyph?&nbsp;
+                <Link to="register" className="auth-closing-link">
+                  Register Here!
+                </Link>
+              </div>
+
             </div>
           ) : (
             <Loading />
