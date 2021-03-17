@@ -1,5 +1,5 @@
 import React from 'react';
-import { firebaseConnect } from 'react-redux-firebase';
+import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
@@ -28,6 +28,8 @@ class App extends React.Component {
       !uid ? <Redirect to="/register" /> :
       !onboarded ? <PageOnboard /> :
       !emailVerified ? <PageConfirmEmail /> : null;
+
+    const questIsLoaded = isLoaded(questions);
 
     return (
       <div className="App">
@@ -59,6 +61,7 @@ class App extends React.Component {
               <TpWrapper
                 question={questions && questions[props.match.params.questId]}
                 questId={props.match.params.questId}
+                questIsLoaded={questIsLoaded}
                 uid={uid}
                 emailVerified={emailVerified}
                 onboarded={onboarded}
