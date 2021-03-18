@@ -37,7 +37,8 @@ const QuestionSx = {
   '.question-block': {
     position: 'sticky',
     top: '112px',
-    height: 'calc(100vh - 212px)',
+    height: '500px',
+    maxHeight: 'calc(100vh - 162px)',
     overflowY: 'auto',
     width: '350px',
     backgroundColor: 'white',
@@ -566,7 +567,7 @@ class PageQuestion extends React.Component {
           <div className="tag-container">{topics}</div>
           <div>{answerDisplay}</div>
         </div>
-        <div>
+        <div className="display-block">
           <div>
             <button
               disabled={questParam === "my"}
@@ -587,7 +588,7 @@ class PageQuestion extends React.Component {
               Related Questions
             </button>
           </div>
-          <div className="display-block">
+          <div>
             {section}
           </div>
         </div>
