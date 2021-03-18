@@ -22,7 +22,7 @@ import Loading from 'components/Loading';
 const RootSx = {
   '.root-body': {
     minHeight: 'calc(100vh - 62px - 25px)'
-  }
+  },
 }
 
 class Root extends React.Component {
@@ -31,9 +31,9 @@ class Root extends React.Component {
       return (
         <div className="Root" sx={RootSx}>
           <NavBar />
-          <div className="root-body">
-            <Loading />
-          </div>
+            <div className="root-body">
+              <Loading />
+            </div>
           <Footer />
         </div>
       );
