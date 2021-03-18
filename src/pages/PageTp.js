@@ -102,12 +102,12 @@ const TpSx = {
     color: 'black',
     fontFamily: 'Open-Sans',
     cursor: 'pointer',
-    border: '0px solid black',
+    border: 'none',
     '&:hover': {
       backgroundColor: 'darkOrange',
     },
     '&:disabled': {
-      backgroundColor: 'orange',
+      backgroundColor: 'darkGrey',
       cursor: 'default',
     },
   },
@@ -127,6 +127,7 @@ const TpSx = {
     marginTop: '10px',
     width: '100%',
     fontFamily: 'Gotham-Book',
+    overflow: 'auto',
   },
 
   '.green-upvote': {

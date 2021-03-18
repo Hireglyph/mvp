@@ -23,7 +23,7 @@ const QuestionSx = {
   display: 'flex',
   alignItems: 'flex-start',
   fontFamily: 'Open-Sans',
-  width: '900px',
+  width: '950px',
   gap: '25px',
   marginLeft: 'auto',
   marginRight: 'auto',
@@ -40,14 +40,17 @@ const QuestionSx = {
     height: '500px',
     maxHeight: 'calc(100vh - 162px)',
     overflowY: 'auto',
-    width: '350px',
+    width: '400px',
     backgroundColor: 'white',
-    padding: '30px',
+    paddingRight: '40px',
+    paddingLeft: '40px',
+    paddingTop: '60px',
+    paddingBottom: '60px',
   },
 
   '.question-title': {
     fontSize: '20px',
-    marginBottom: '10px',
+    marginBottom: '15px',
   },
 
   '.easy': {
@@ -63,12 +66,12 @@ const QuestionSx = {
   },
 
   '.difficulty': {
-    marginBottom: '10px',
+    marginBottom: '15px',
   },
 
   '.question-description': {
     fontFamily: 'Gotham-Book',
-    marginBottom: '10px',
+    marginBottom: '15px',
   },
 
   '.display-block': {
@@ -79,11 +82,11 @@ const QuestionSx = {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: '10px',
+    marginBottom: '15px',
   },
 
   '.tag': {
-    fontSize: '1vw',
+    fontSize: '12px',
     backgroundColor: 'orange',
     borderRadius: '4px',
     width: '107.61px',
@@ -193,6 +196,79 @@ const QuestionSx = {
     borderLeft: '19px solid transparent',
     borderRight: '19px solid transparent',
     borderTop: '19px solid black',
+  },
+
+  '.question-button': {
+    width: '33.3%',
+    height: '35px',
+    backgroundColor: 'lightGrey',
+    borderTop: 'none',
+    borderBottom: 'none',
+    borderLeft: 'none',
+    borderRight: 'none',
+    fontFamily: 'Open-Sans',
+    color: 'black',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: 'darkGrey',
+    },
+    '&:disabled': {
+      backgroundColor: 'orange',
+      cursor: 'default',
+    },
+  },
+
+  '.middle-button': {
+    borderRight: '1px solid black',
+    borderLeft: '1px solid black',
+  },
+
+  '.orange-line': {
+    width: '100%',
+    height: '10px',
+    backgroundColor: 'orange',
+  },
+
+  '.myTp-background': {
+    width: '100%',
+    height: 'auto',
+    backgroundColor: 'lightGrey',
+    display: 'flex',
+    flexDirection: 'column',
+    paddingTop: '30px',
+    paddingBottom: '30px',
+  },
+
+  '.my-tp': {
+    marginLeft: '50px',
+    marginRight: '50px',
+    marginBottom: '15px',
+    paddingRight: '10px',
+    paddingLeft: '10px',
+    resize: 'vertical',
+    lineHeight: '20px',
+    fontSize: '15px',
+    fontFamily: 'Open-Sans',
+    border: 'none',
+  },
+
+  '.tp-submit-button': {
+    height: '30px',
+    width: '100px',
+    backgroundColor: 'orange',
+    color: 'black',
+    fontFamily: 'Open-Sans',
+    cursor: 'pointer',
+    border: 'none',
+    marginRight: '50px',
+    marginLeft: 'auto',
+    '&:hover': {
+      backgroundColor: 'darkOrange',
+    },
+    '&:disabled': {
+      backgroundColor: 'darkGrey',
+      cursor: 'default',
+    },
   },
 };
 
@@ -455,18 +531,17 @@ class PageQuestion extends React.Component {
 
     const myTp =
       difficulty === "easy" ? (
-        <div>
-          <div>
-            Enter your Thought Process below:
-          </div>
+        <div className="myTp-background">
           <TextareaAutosize
-            minRows={3}
+            className="my-tp"
+            minRows={5}
             name="solution"
-            placeholder="Final solution!"
+            placeholder="Final solution..."
             onChange={this.handleChange}
             value={solution}
           />
           <button
+            className="tp-submit-button"
             disabled={solution.trim() === ""}
             onClick={this.createTp}
           >
@@ -474,32 +549,33 @@ class PageQuestion extends React.Component {
           </button>
         </div>
       ) : (
-        <div>
-          <div>
-            Enter your Thought Process below:
-          </div>
+        <div className="myTp-background">
           <TextareaAutosize
-            minRows={3}
+            className="my-tp"
+            minRows={5}
             name="initial"
-            placeholder="What were your initial thoughts?"
+            placeholder="Initial thoughts..."
             onChange={this.handleChange}
             value={initial}
           />
           <TextareaAutosize
-            minRows={3}
+            className="my-tp"
+            minRows={5}
             name="approach"
-            placeholder="Different approaches you tried..."
+            placeholder="Different approaches..."
             onChange={this.handleChange}
             value={approach}
           />
           <TextareaAutosize
-            minRows={3}
+            className="my-tp"
+            minRows={5}
             name="solution"
-            placeholder="Final solution!"
+            placeholder="Final solution..."
             onChange={this.handleChange}
             value={solution}
           />
           <button
+            className="tp-submit-button"
             disabled={
               initial.trim() === "" ||
               approach.trim() === "" ||
@@ -570,24 +646,28 @@ class PageQuestion extends React.Component {
         <div className="display-block">
           <div>
             <button
+              className="question-button"
               disabled={questParam === "my"}
               onClick={() => this.handleClick("my")}
             >
               My TP
             </button>
             <button
+              className="question-button middle-button"
               disabled={sortBy}
               onClick={() => this.handleClick("community/top")}
             >
               Community TPs
             </button>
             <button
+              className="question-button"
               disabled={questParam === "related"}
               onClick={() => this.handleClick("related")}
             >
               Related Questions
             </button>
           </div>
+          <div className="orange-line"/>
           <div>
             {section}
           </div>
