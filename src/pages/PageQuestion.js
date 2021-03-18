@@ -270,6 +270,41 @@ const QuestionSx = {
       cursor: 'default',
     },
   },
+
+  '.communityTps-background': {
+    width: '100%',
+    height: 'auto',
+    backgroundColor: 'lightGrey',
+    display: 'flex',
+    flexDirection: 'column',
+    paddingTop: '15px',
+    paddingBottom: '15px',
+  },
+
+  '.sort-button-block': {
+    display: 'flex',
+    marginRight: '50px',
+    marginLeft: 'auto',
+  },
+
+  '.sort-button': {
+    border: '1px solid #8E8E8E',
+    cursor: 'pointer',
+    backgroundColor: 'white',
+    width: '75px',
+    color: 'black',
+    fontFamily: 'Open-Sans',
+    fontSize: '15px',
+    height: '25px',
+    lineHeight: '15px',
+    '&:hover': {
+      backgroundColor: 'darkGrey',
+    },
+    '&:disabled': {
+      backgroundColor: 'orange',
+      cursor: 'default',
+    },
+  },
 };
 
 const initialState = {
@@ -512,19 +547,23 @@ class PageQuestion extends React.Component {
       });
 
     const communityTps = (
-      <div>
-        <button
-          disabled={sortBy === "top"}
-          onClick={() => this.changeOrder("top")}
-        >
-          Top TPs
-        </button>
-        <button
-          disabled={sortBy === "new"}
-          onClick={() => this.changeOrder("new")}
-        >
-          New TPs
-        </button>
+      <div className="communityTps-background">
+        <div className="sort-button-block">
+          <button
+            className="sort-button"
+            disabled={sortBy === "top"}
+            onClick={() => this.changeOrder("top")}
+          >
+            Top
+          </button>
+          <button
+            className="sort-button"
+            disabled={sortBy === "new"}
+            onClick={() => this.changeOrder("new")}
+          >
+            New
+          </button>
+        </div>
         {sortBy === "top" ? tpsByVote : tpsByTime}
       </div>
     );
