@@ -307,7 +307,7 @@ const QuestionSx = {
   },
 
   '.tp-preview': {
-    overflow: 'auto',
+    
   },
 };
 
