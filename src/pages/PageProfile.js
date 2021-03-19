@@ -104,6 +104,7 @@ const ProfileSx = {
     width: '100%',
     padding: '5px',
     fontFamily: 'Gotham-Book',
+    overflow: 'auto',
   },
 
   '.profile-box-score': {

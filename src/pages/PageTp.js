@@ -63,6 +63,11 @@ const TpSx = {
     minHeight: '100px',
     fontFamily: 'Gotham-Book',
     padding: '10px',
+    overflow: 'auto',
+  },
+
+  '.content-label': {
+    fontFamily: 'Gotham-Bold'
   },
 
   '.arrows-width': {

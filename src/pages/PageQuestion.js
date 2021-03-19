@@ -305,6 +305,10 @@ const QuestionSx = {
       cursor: 'default',
     },
   },
+
+  '.tp-preview': {
+    overflow: 'auto',
+  },
 };
 
 const initialState = {
@@ -372,12 +376,14 @@ class PageQuestion extends React.Component {
             />
           </div>
         </div>
-        <TpPreview
-          initial={tp.initial}
-          approach={tp.approach}
-          solution={tp.solution}
-          expanded={expanded}
-        />
+        <div className="tp-preview">
+          <TpPreview
+            initial={tp.initial}
+            approach={tp.approach}
+            solution={tp.solution}
+            expanded={expanded}
+          />
+        </div>
         <div>
           {(tp.initial && tp.initial.length > length) ||
           (tp.approach && tp.approach.length > length) ||
