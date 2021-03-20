@@ -77,7 +77,7 @@ const QuestionSx = {
   '.display-block': {
     width: '525px',
   },
-  
+
   '.tag-container': {
     display: 'flex',
     flexDirection: 'row',
@@ -310,7 +310,7 @@ const QuestionSx = {
   '.tp-header': {
     display: 'flex',
   },
-  
+
   '.expand-collapse': {
     cursor: 'pointer',
     color: 'black',
@@ -416,7 +416,7 @@ class PageQuestion extends React.Component {
     const { isUpvoted, isDownvoted } = currentVotes(tp, this.props.uid);
     const tpInfo = {tp, tpId, isUpvoted, isDownvoted, ...this.props};
 
-    return tp ? (
+    return tp && (
       <div className="tp-block" key={tpId}>
         <div className="tp-arrows-width">
           <div className="upvote-border">
@@ -462,8 +462,6 @@ class PageQuestion extends React.Component {
           </div>
         </div>
       </div>
-    ) : (
-      null
     );
   };
 

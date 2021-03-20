@@ -1,15 +1,15 @@
 /** @jsx jsx */
 
 import { jsx } from 'theme-ui';
-import { Component } from "react";
-import Latex from "react-latex";
-import { length } from "constants/PrevLength";
+import { Component } from 'react';
+import Latex from 'react-latex';
+import { length } from 'constants/PrevLength';
 
 const TpPreviewSx = {
   '.tp-preview-label': {
     fontFamily: 'Gotham-Bold',
   },
-  
+
   '.tp-preview-block': {
     marginBottom: '2px',
   },
@@ -63,7 +63,7 @@ export default class TpPreview extends Component {
             <span>
               <Latex>
                 {initial.slice(0, length + 1) +
-                (initial.length > length ? "..." : "")}
+                (initial.length > length ? '...' : '')}
               </Latex>
             </span>
           </div>
@@ -76,7 +76,7 @@ export default class TpPreview extends Component {
             <span>
               <Latex>
                 {approach.slice(0, length + 1) +
-                (approach.length > length ? "..." : "")}
+                (approach.length > length ? '...' : '')}
               </Latex>
             </span>
           </div>
@@ -89,7 +89,7 @@ export default class TpPreview extends Component {
             <span>
               <Latex>
                 {solution.slice(0, length + 1) +
-                (solution.length > length ? "..." : "")}
+                (solution.length > length ? '...' : '')}
               </Latex>
             </span>
           </div>
