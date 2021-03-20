@@ -1,7 +1,10 @@
+/** @jsx jsx */
+
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Switch, Route } from 'react-router-dom';
+import { jsx } from 'theme-ui';
 
 import App from 'routes/App';
 import Auth from 'routes/Auth';
@@ -16,13 +19,21 @@ import NavBar from 'components/NavBar';
 import Footer from 'components/Footer';
 import Loading from 'components/Loading';
 
+const RootSx = {
+  '.root-body': {
+    minHeight: 'calc(100vh - 62px - 25px)'
+  },
+}
+
 class Root extends React.Component {
   render() {
     if (!this.props.isLoaded) {
       return (
-        <div className="Root">
+        <div className="Root" sx={RootSx}>
           <NavBar />
-          <Loading />
+            <div className="root-body">
+              <Loading />
+            </div>
           <Footer />
         </div>
       );
@@ -31,42 +42,43 @@ class Root extends React.Component {
     const { emailVerified, onboarded, uid } = this.props;
 
     return (
-      <div className="Root">
+      <div className="Root" sx={RootSx}>
         <NavBar uid={uid} isLoaded={this.props.isLoaded} />
+        <div className="root-body">
+          <Switch>
+            {/* authentification routes */}
+            <Route
+              exact
+              path="/(login|register)/"
+              render={() =>
+                <Auth
+                  emailVerified={emailVerified}
+                  onboarded={onboarded}
+                  uid={uid}
+                />}
+            />
 
-        <Switch>
-          {/* authentification routes */}
-          <Route
-            exact
-            path="/(login|register)/"
-            render={() =>
-              <Auth
-                emailVerified={emailVerified}
-                onboarded={onboarded}
-                uid={uid}
-              />}
-          />
+            {/* main routes */}
+            <Route
+              path="/(profile|notifications|tp|q|questions|addquestion)/"
+              render={() =>
+                <App
+                  emailVerified={emailVerified}
+                  onboarded={onboarded}
+                  uid={uid}
+                />}
+            />
 
-          {/* main routes */}
-          <Route
-            path="/(profile|notifications|tp|q|questions|addquestion)/"
-            render={() =>
-              <App
-                emailVerified={emailVerified}
-                onboarded={onboarded}
-                uid={uid}
-              />}
-          />
+            {/* static routes */}
+            <Route exact path="/"        component={PageLanding} />
+            <Route exact path="/content" component={PageContentPolicy} />
+            <Route exact path="/privacy" component={PagePrivacyPolicy} />
+            <Route exact path="/contact" component={PageContact} />
 
-          {/* static routes */}
-          <Route exact path="/"        component={PageLanding} />
-          <Route exact path="/content" component={PageContentPolicy} />
-          <Route exact path="/privacy" component={PagePrivacyPolicy} />
-          <Route exact path="/contact" component={PageContact} />
-
-          {/* catch broken routes*/}
-          <Route component={PageNotFound} />
-        </Switch>
+            {/* catch broken routes*/}
+            <Route component={PageNotFound} />
+          </Switch>
+        </div>
         <Footer />
       </div>
     );

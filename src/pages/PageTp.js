@@ -17,16 +17,20 @@ import PageNotFound from 'pages/PageNotFound';
 import Loading from 'components/Loading';
 
 const TpSx = {
-  position: 'relative',
-  marginLeft: 'auto',
-  marginRight: 'auto',
-  marginTop: '50px',
-  marginBottom: '50px',
-  paddingBottom: '30px',
-  width: '700px',
-  height: 'auto',
-  background: 'white',
-  fontFamily: 'Open-Sans',
+  display: 'flex',
+
+  '.tp-container': {
+    position: 'relative',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: '50px',
+    marginBottom: '50px',
+    paddingBottom: '30px',
+    width: '700px',
+    height: 'auto',
+    background: 'white',
+    fontFamily: 'Open-Sans',
+  },
 
   '.tp-header': {
     display: 'flex',
@@ -266,17 +270,17 @@ class PageTp extends React.Component {
       feedbackId,
       username,
       viewed: false,
-      type: "tpFeedback",
+      type: 'tpFeedback',
     };
     updates[`/hasNotifs/${tp.creator}`] = true;
-    this.setState({ feedback: "" });
+    this.setState({ feedback: '' });
 
     const onComplete = () => {
       keys.unshift(feedbackId);
       this.setState({ keys });
     };
 
-    this.props.firebase.update("/", updates, onComplete);
+    this.props.firebase.update('/', updates, onComplete);
   };
 
   upvoteFeedback = (feedbackId) => {
@@ -293,7 +297,7 @@ class PageTp extends React.Component {
         tpId,
         username,
         viewed: false,
-        type: "tpFeedbackUpvote",
+        type: 'tpFeedbackUpvote',
         feedbackId,
         author: tp.username,
       };
@@ -303,7 +307,7 @@ class PageTp extends React.Component {
     updates[`/feedbacks/${tpId}/${feedbackId}/score`] = feedback.score + diff;
     updates[`/feedbackHistory/${feedback.creator}/${feedbackId}/score`] = feedback.score + diff;
     updates[`/feedbacks/${tpId}/${feedbackId}/users/${uid}`] = vote;
-    firebase.update("/", updates);
+    firebase.update('/', updates);
   };
 
   downvoteFeedback = (feedbackId) => {
@@ -316,7 +320,7 @@ class PageTp extends React.Component {
     updates[`/feedbacks/${tpId}/${feedbackId}/score`] = feedback.score - diff;
     updates[`/feedbackHistory/${feedback.creator}/${feedbackId}/score`] = feedback.score - diff;
     updates[`/feedbacks/${tpId}/${feedbackId}/users/${uid}`] = -1 * vote;
-    firebase.update("/", updates);
+    firebase.update('/', updates);
   };
 
   render() {
@@ -348,10 +352,10 @@ class PageTp extends React.Component {
           const feedbackUpvoted = users && uid in users && users[uid] === 1;
           const feedbackDownvoted = users && uid in users && users[uid] === -1;
           const feedbackUsername = username ? username : creator;
-          const feedbackScoreArrows = !deleted ? (
+          const feedbackScoreArrows = !deleted && (
             <div>
               <div className="upvote-border">
-                <div 
+                <div
                   className={feedbackUpvoted ? "green-upvote" : "white-upvote"}
                   onClick={() => this.upvoteFeedback(feedbackId)}
                 />
@@ -364,9 +368,8 @@ class PageTp extends React.Component {
                 />
               </div>
             </div>
-          ) : (
-            null
           );
+
           return (
             <div className="feedback-block" key={feedbackId} id={`${feedbackId}`}>
               <div className="feedback-arrows-width">
@@ -385,7 +388,7 @@ class PageTp extends React.Component {
         return <div />;
       });
 
-    const myFeedback = this.props.tp.creator ? (
+    const myFeedback = this.props.tp.creator && (
       <div>
         <TextareaAutosize
           minRows={2}
@@ -405,28 +408,24 @@ class PageTp extends React.Component {
           </button>
         </div>
       </div>
-    ) : (
-      null
     );
 
-    const scoreArrows = this.props.tp.creator ? (
+    const scoreArrows = this.props.tp.creator && (
       <div>
         <div className="upvote-border">
-          <div 
+          <div
             className={isUpvoted ? "green-upvote" : "white-upvote"}
             onClick={() => upvoteTp(this.props)}
           />
         </div>
         <div className="score-center">{this.props.tp.total}</div>
         <div className="downvote-border">
-          <div 
+          <div
             className={isDownvoted ? "red-downvote" : "white-downvote"}
             onClick={() => downvoteTp(this.props)}
           />
         </div>
       </div>
-    ) : (
-      null
     );
 
     return (
@@ -435,44 +434,46 @@ class PageTp extends React.Component {
           href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
           rel="stylesheet"
         />
-        <div className="tp-header">
-          <div className="back-hover" onClick={() => this.props.history.goBack()}>
-            <FontAwesomeIcon icon={faArrowCircleLeft}/>
+        <div className="tp-container">
+          <div className="tp-header">
+            <div className="back-hover" onClick={() => this.props.history.goBack()}>
+              <FontAwesomeIcon icon={faArrowCircleLeft}/>
+            </div>
+            <div>
+              TP by @{tp.username} to &nbsp;
+              <Link to={`/q/${questId}`}>
+                Question #{questId}
+              </Link>
+            </div>
+            <br />
           </div>
-          <div>
-            TP by @{tp.username} to &nbsp;
-            <Link to={`/q/${questId}`}>
-              Question #{questId}
-            </Link>
+          <div className="tp-body">
+            <div className="arrows-width">{scoreArrows}</div>
+            <div className="tp-content">
+              <div className="content-label">
+                {tp.initial && 'Initial Thoughts:'}
+              </div>
+              <div className="content-text">
+                <Latex>{tp.initial}</Latex>
+              </div>
+              <div className="content-label">
+                {tp.approach && 'Approaches Tried:'}
+              </div>
+              <div className="content-text">
+                <Latex>{tp.approach}</Latex>
+              </div>
+              <div className="content-label">
+                {tp.solution && 'Final Solution:'}
+              </div>
+              <div className="content-text">
+                <Latex>{tp.solution}</Latex>
+              </div>
+            </div>
           </div>
           <br />
+          {myFeedback}
+          {Feedbacks}
         </div>
-        <div className="tp-body">
-          <div className="arrows-width">{scoreArrows}</div>
-          <div className="tp-content">
-            <div className="content-label">
-              {tp.initial && 'Initial Thoughts:'}
-            </div>
-            <div className="content-text">
-              <Latex>{tp.initial}</Latex>
-            </div>
-            <div className="content-label">
-              {tp.approach && 'Approaches Tried:'}
-            </div>
-            <div className="content-text">
-              <Latex>{tp.approach}</Latex>
-            </div>
-            <div className="content-label">
-              {tp.solution && 'Final Solution:'}
-            </div>
-            <div className="content-text">
-              <Latex>{tp.solution}</Latex>
-            </div>
-          </div>
-        </div>
-        <br />
-        <div> {myFeedback}</div>
-        <div>{Feedbacks}</div>
       </div>
     );
   }

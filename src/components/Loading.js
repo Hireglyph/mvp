@@ -1,9 +1,21 @@
-import React from "react";
-import ReactLoading from "react-loading";
+/** @jsx jsx */
+
+import ReactLoading from 'react-loading';
+import { jsx } from 'theme-ui';
+
+const LoadingSx = {
+  alignItems: 'center',
+  display: 'flex',
+  justifyContent: 'center',
+  paddingTop: '100px'
+}
 
 const Loading = function () {
-  //TODO: fix styling for loading animation
-  return <ReactLoading type={"bars"} width={200} />;
+  return (
+    <div sx={LoadingSx}>
+      <ReactLoading type="bars" width={150} />
+    </div>
+  );
 };
 
 export default Loading;

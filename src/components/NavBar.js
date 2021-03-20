@@ -91,30 +91,24 @@ class NavBar extends React.Component {
     if (!uid) {
       return (
         <React.Fragment>
-          <Nav.Link>
-            <Link className="link" to='/register'>
-              <div className="nav-text">
-                Register
-              </div>
-            </Link>
+          <Nav.Link as={Link} className="link" to='/register'>
+            <div className="nav-text">
+              Register
+            </div>
           </Nav.Link>
-          <Nav.Link>
-            <Link className="link" to='/login'>
-              <div className="nav-text">
-                Login
-              </div>
-            </Link>
+          <Nav.Link as={Link} className="link" to='/login'>
+            <div className="nav-text">
+              Login
+            </div>
           </Nav.Link>
         </React.Fragment>
       );
     }
     return (
       <React.Fragment>
-        <Nav.Link>
-          <Link to='/notifications'>
-              {hasNotifs && <div className="red-dot"></div>}
-              <FontAwesomeIcon icon={faBell} size="2x" className="icon" />
-          </Link>
+        <Nav.Link as={Link} to='/notifications'>
+          {hasNotifs && <div className="red-dot"></div>}
+          <FontAwesomeIcon icon={faBell} size="2x" className="icon" />
         </Nav.Link>
         <NavDropdown
             title={
@@ -164,13 +158,12 @@ class NavBar extends React.Component {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto"></Nav>
           <Nav className="ml-auto">
-            {navbarContent && <Nav.Link>
-              <Link className="link" to='/questions'>
+            {navbarContent &&
+              <Nav.Link as={Link} className="link" to='/questions'>
                 <div className="nav-text">
                   Questions
                 </div>
-              </Link>
-            </Nav.Link>}
+              </Nav.Link>}
             {navbarContent}
           </Nav>
         </Navbar.Collapse>
