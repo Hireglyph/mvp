@@ -2,7 +2,7 @@
 
 import { jsx } from 'theme-ui';
 import React from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { isLoaded } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -93,14 +93,13 @@ class QuestionPreview extends React.Component {
             <div className="preview-top">
               <div>
                 #{questId}: {question.title}
-                {solved && 
-                  <FontAwesomeIcon 
-                    icon={faCheck} 
-                    className="check-mark" 
-                  />
-                }
+                {solved &&
+                  <FontAwesomeIcon
+                    icon={faCheck}
+                    className="check-mark"
+                  />}
               </div>
-              <div 
+              <div
                 className={question.difficulty + ' preview-difficulty'}
               >
                 {question.difficulty.toUpperCase()}
@@ -125,6 +124,5 @@ const mapStateToProps = (state, props) => {
 }
 
 export default compose(
-  withRouter,
   connect(mapStateToProps)
 )(QuestionPreview);
