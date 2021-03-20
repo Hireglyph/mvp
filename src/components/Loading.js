@@ -7,7 +7,7 @@ const LoadingSx = {
   alignItems: 'center',
   display: 'flex',
   justifyContent: 'center',
-  marginTop: '100px'
+  paddingTop: '100px'
 }
 
 const Loading = function () {
