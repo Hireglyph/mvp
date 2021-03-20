@@ -355,6 +355,18 @@ const QuestionSx = {
     marginBottom: '30px',
     marginRight: '60px',
   },
+
+  '.message-section': {
+    width: '100%',
+    height: 'auto',
+    backgroundColor: 'lightGrey',
+    padding: '30px',
+    fontStyle: 'italic',
+  },
+
+  '.message-link': {
+    color: 'darkOrange',
+  },
 };
 
 const initialState = {
@@ -697,28 +709,37 @@ class PageQuestion extends React.Component {
 
     if (!uid) {
       section = (
-        <div>
-          <p>You need to log in or register to write your own TP.</p>
+        <div className="message-section">
+          You need to log in or register before writing
+          your own TP or accessing community TPs.
         </div>
       );
     } else if (!onboarded) {
       section = (
-        <div>
-          <p>
-            You need to set your username on the &nbsp;
-            <Link to={`/profile`}>Profile</Link>
-            &nbsp; page before writing your own TP.
-          </p>
+        <div className="message-section">
+          You need to set your username on the {' '}
+          <Link
+            className="message-link"
+            to={`/profile`}
+          >
+            Profile
+          </Link>
+          {' '} page before writing your own TP or
+          accessing community TPs.
         </div>
       );
     } else if (!this.props.emailVerified) {
       section = (
-        <div>
-          <p>
-            You need to verify your email on the &nbsp;
-            <Link to={`/profile`}>Profile</Link>
-            &nbsp; page before writing your own TP.
-          </p>
+        <div className="message-section">
+          You need to verify your email on the {' '}
+          <Link
+            className="message-link"
+            to={`/profile`}
+          >
+            Profile
+          </Link>
+          {' '} page before writing your own TP or
+          accessing community TPs.
         </div>
       );
     }
