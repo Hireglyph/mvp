@@ -9,6 +9,10 @@ const TpPreviewSx = {
   '.tp-preview-label': {
     fontFamily: 'Gotham-Bold',
   },
+  
+  '.tp-preview-block': {
+    marginBottom: '2px',
+  },
 };
 
 export default class TpPreview extends Component {
@@ -19,7 +23,7 @@ export default class TpPreview extends Component {
       ?
       <div sx={TpPreviewSx}>
         {initial && (
-          <div>
+          <div className="tp-preview-block">
             <div className="tp-preview-label">
               Initial:
             </div>
@@ -29,7 +33,7 @@ export default class TpPreview extends Component {
           </div>
         )}
         {approach && (
-          <div>
+          <div className="tp-preview-block">
             <div className="tp-preview-label">
               Approaches:
             </div>
@@ -39,7 +43,7 @@ export default class TpPreview extends Component {
           </div>
         )}
         {solution && (
-          <div>
+          <div className="tp-preview-block">
             <div className="tp-preview-label">
               Solution:
             </div>
@@ -52,9 +56,9 @@ export default class TpPreview extends Component {
       :
       <div sx={TpPreviewSx}>
         {initial && (
-          <div>
+          <div className="tp-preview-block">
             <span className="tp-preview-label">
-              Initial:
+              Initial:&nbsp;
             </span>
             <span>
               <Latex>
@@ -65,9 +69,9 @@ export default class TpPreview extends Component {
           </div>
         )}
         {approach && (
-          <div>
+          <div className="tp-preview-block">
             <span className="tp-preview-label">
-              Approaches:
+              Approaches:&nbsp;
             </span>
             <span>
               <Latex>
@@ -78,9 +82,9 @@ export default class TpPreview extends Component {
           </div>
         )}
         {solution && (
-          <div>
+          <div className="tp-preview-block">
             <span className="tp-preview-label">
-              Solution:
+              Solution:&nbsp;
             </span>
             <span>
               <Latex>

@@ -63,7 +63,7 @@ const TpSx = {
     minHeight: '100px',
     fontFamily: 'Gotham-Book',
     padding: '10px',
-    overflow: 'auto',
+    overflow: 'hidden',
   },
 
   '.content-label': {
@@ -132,7 +132,7 @@ const TpSx = {
     marginTop: '10px',
     width: '100%',
     fontFamily: 'Gotham-Book',
-    overflow: 'auto',
+    overflow: 'hidden',
   },
 
   '.green-upvote': {

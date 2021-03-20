@@ -285,6 +285,7 @@ const QuestionSx = {
     display: 'flex',
     marginRight: '50px',
     marginLeft: 'auto',
+    marginBottom: '15px',
   },
 
   '.sort-button': {
@@ -306,8 +307,53 @@ const QuestionSx = {
     },
   },
 
+  '.tp-header': {
+    display: 'flex',
+  },
+  
+  '.expand-collapse': {
+    cursor: 'pointer',
+    color: 'black',
+    fontSize: '12px',
+    marginRight: '0px',
+    marginLeft: 'auto',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  },
+
+  '.see-feedback': {
+    color: 'black',
+    backgroundColor: 'white',
+    fontStyle: 'italic',
+    width: '150px',
+    paddingLeft: '5px',
+  },
+
+  '.see-feedback-link': {
+    color: 'black',
+  },
+
   '.tp-preview': {
-    
+    backgroundColor: 'white',
+    padding: '5px',
+    fontFamily: 'Gotham-Book',
+  },
+
+  '.tp-interior':{
+    overflow: 'hidden',
+    width: '100%',
+  },
+
+  '.tp-arrows-width': {
+    width: '80px',
+  },
+
+  '.tp-block': {
+    display: 'flex',
+    minHeight: '60px',
+    marginBottom: '30px',
+    marginRight: '60px',
   },
 };
 
@@ -359,9 +405,8 @@ class PageQuestion extends React.Component {
     const tpInfo = {tp, tpId, isUpvoted, isDownvoted, ...this.props};
 
     return tp ? (
-      <div key={tpId}>
-        <div>@{username}</div>
-        <div>
+      <div className="tp-block" key={tpId}>
+        <div className="tp-arrows-width">
           <div className="upvote-border">
             <div
               className={isUpvoted ? "green-upvote" : "white-upvote"}
@@ -376,25 +421,33 @@ class PageQuestion extends React.Component {
             />
           </div>
         </div>
-        <div className="tp-preview">
-          <TpPreview
-            initial={tp.initial}
-            approach={tp.approach}
-            solution={tp.solution}
-            expanded={expanded}
-          />
-        </div>
-        <div>
-          {(tp.initial && tp.initial.length > length) ||
-          (tp.approach && tp.approach.length > length) ||
-          (tp.solution && tp.solution.length > length)
-            ? this.generateMessage(expanded, tpId)
-            : ""}
-          <Link
-            to={`/tp/${this.props.questId}/${tpId}`}
-          >
-            Go to full TP
-          </Link>
+        <div className="tp-interior">
+          <div className="tp-header">
+            <div>@{username}</div>
+            <div className="expand-collapse">
+              {(tp.initial && tp.initial.length > length) ||
+              (tp.approach && tp.approach.length > length) ||
+              (tp.solution && tp.solution.length > length)
+                ? this.generateMessage(expanded, tpId)
+                : ""}
+            </div>
+          </div>
+          <div className="tp-preview">
+            <TpPreview
+              initial={tp.initial}
+              approach={tp.approach}
+              solution={tp.solution}
+              expanded={expanded}
+            />
+          </div>
+          <div className="see-feedback">
+            <Link
+              className="see-feedback-link"
+              to={`/tp/${this.props.questId}/${tpId}`}
+            >
+              See Feedback...
+            </Link>
+          </div>
         </div>
       </div>
     ) : (
