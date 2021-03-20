@@ -77,6 +77,12 @@ const PageLanding = function () {
           <img src={meeting} alt="meeting" style={{ height: '200px' }} />
         </div>
       </div>
+      <div>
+        Submit Tps
+      </div>
+      <div>
+        Post Feedback
+      </div>
     </div>
   );
 };
