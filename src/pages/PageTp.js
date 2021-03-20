@@ -459,19 +459,19 @@ class PageTp extends React.Component {
               <div className="content-label">
                 {tp.initial && 'Initial Thoughts:'}
               </div>
-              <div className="content-text">
+              <div>
                 <Latex>{tp.initial}</Latex>
               </div>
               <div className="content-label">
                 {tp.approach && 'Approaches Tried:'}
               </div>
-              <div className="content-text">
+              <div>
                 <Latex>{tp.approach}</Latex>
               </div>
               <div className="content-label">
                 {tp.solution && 'Final Solution:'}
               </div>
-              <div className="content-text">
+              <div>
                 <Latex>{tp.solution}</Latex>
               </div>
             </div>
