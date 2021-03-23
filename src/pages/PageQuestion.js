@@ -1,4 +1,7 @@
+/** @jsx jsx */
+
 import React from 'react';
+import { jsx } from 'theme-ui';
 import { Link, withRouter, Redirect } from 'react-router-dom';
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { connect } from 'react-redux';
@@ -7,17 +10,364 @@ import TextareaAutosize from 'react-textarea-autosize';
 
 import { currentVotes, upvoteTp, downvoteTp } from 'utils/vote';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+
 import PageNotFound from 'pages/PageNotFound';
 import TpPreview from 'components/TpPreview';
 import QuestionPreview from 'components/QuestionPreview';
 import Loading from 'components/Loading';
-import red from 'assets/images/red-downvote.png';
-import green from 'assets/images/green-upvote.png';
-import upvote from 'assets/images/upvote.png';
-import downvote from 'assets/images/downvote.png';
 import { length } from 'constants/PrevLength';
 
-import 'styles/PageQuestion.css';
+const QuestionSx = {
+  display: 'flex',
+  alignItems: 'flex-start',
+  fontFamily: 'Open-Sans',
+  width: '950px',
+  gap: '25px',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  marginTop: '50px',
+  marginBottom: '50px',
+
+  '.check': {
+    color: 'easyGreen',
+  },
+
+  '.question-block': {
+    position: 'sticky',
+    top: '112px',
+    height: '500px',
+    maxHeight: 'calc(100vh - 162px)',
+    overflowY: 'auto',
+    width: '400px',
+    backgroundColor: 'white',
+    paddingRight: '40px',
+    paddingLeft: '40px',
+    paddingTop: '60px',
+    paddingBottom: '60px',
+  },
+
+  '.question-title': {
+    fontSize: '20px',
+    marginBottom: '15px',
+  },
+
+  '.easy': {
+    color: 'easyGreen',
+  },
+
+  '.medium': {
+    color: 'medOrange',
+  },
+
+  '.hard': {
+    color: 'hardRed',
+  },
+
+  '.difficulty': {
+    marginBottom: '15px',
+  },
+
+  '.question-description': {
+    fontFamily: 'Gotham-Book',
+    marginBottom: '15px',
+  },
+
+  '.display-block': {
+    width: '525px',
+  },
+
+  '.tag-container': {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginBottom: '15px',
+  },
+
+  '.tag': {
+    fontSize: '12px',
+    backgroundColor: 'orange',
+    borderRadius: '4px',
+    width: '107.61px',
+    height: '22px',
+    textAlign: 'center',
+    margin: '5px',
+    paddingTop: '2px',
+    cursor: 'pointer',
+    color: 'black',
+    textDecoration: 'none',
+    '&:hover': {
+      backgroundColor: 'darkOrange',
+    },
+  },
+
+  '.answer-display': {
+    fontSize: '12px',
+    cursor: 'pointer',
+    '&:hover': {
+      color: 'red',
+    },
+  },
+
+  '.score-center': {
+    textAlign: 'center',
+    marginTop: '5px',
+    marginBottom: '5px',
+  },
+
+  '.green-upvote': {
+    width: '0px',
+    height: '0px',
+    borderLeft: '15px solid transparent',
+    borderRight: '15px solid transparent',
+    borderBottom: '15px solid #00FF00',
+    position: 'relative',
+    left: '-15px',
+    bottom: '-2px',
+    cursor: 'pointer',
+    '&:hover': {
+      opacity: '0.8',
+    },
+  },
+
+  '.white-upvote': {
+    width: '0px',
+    height: '0px',
+    borderLeft: '15px solid transparent',
+    borderRight: '15px solid transparent',
+    borderBottom: '15px solid #A9A9A9',
+    position: 'relative',
+    left: '-15px',
+    bottom: '-2px',
+    cursor: 'pointer',
+    '&:hover': {
+      opacity: '0.8',
+    },
+  },
+
+  '.red-downvote': {
+    width: '0px',
+    height: '0px',
+    borderLeft: '15px solid transparent',
+    borderRight: '15px solid transparent',
+    borderTop: '15px solid red',
+    position: 'relative',
+    left: '-15px',
+    bottom: '17px',
+    cursor: 'pointer',
+    '&:hover': {
+      opacity: '0.8',
+    },
+  },
+
+  '.white-downvote': {
+    width: '0px',
+    height: '0px',
+    borderLeft: '15px solid transparent',
+    borderRight: '15px solid transparent',
+    borderTop: '15px solid #A9A9A9',
+    position: 'relative',
+    left: '-15px',
+    bottom: '17px',
+    cursor: 'pointer',
+    '&:hover': {
+      opacity: '0.8',
+    },
+  },
+
+  '.upvote-border': {
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '0px',
+    height: '0px',
+    borderLeft: '19px solid transparent',
+    borderRight: '19px solid transparent',
+    borderBottom: '19px solid black',
+  },
+
+  '.downvote-border': {
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '0px',
+    height: '0px',
+    borderLeft: '19px solid transparent',
+    borderRight: '19px solid transparent',
+    borderTop: '19px solid black',
+  },
+
+  '.question-button': {
+    width: '33.3%',
+    height: '35px',
+    backgroundColor: 'lightGrey',
+    borderTop: 'none',
+    borderBottom: 'none',
+    borderLeft: 'none',
+    borderRight: 'none',
+    fontFamily: 'Open-Sans',
+    color: 'black',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: 'darkGrey',
+    },
+    '&:disabled': {
+      backgroundColor: 'orange',
+      cursor: 'default',
+    },
+  },
+
+  '.middle-button': {
+    borderRight: '1px solid black',
+    borderLeft: '1px solid black',
+  },
+
+  '.orange-line': {
+    width: '100%',
+    height: '10px',
+    backgroundColor: 'orange',
+  },
+
+  '.myTp-background': {
+    width: '100%',
+    height: 'auto',
+    backgroundColor: 'lightGrey',
+    display: 'flex',
+    flexDirection: 'column',
+    paddingTop: '30px',
+    paddingBottom: '30px',
+  },
+
+  '.my-tp': {
+    marginLeft: '50px',
+    marginRight: '50px',
+    marginBottom: '15px',
+    paddingRight: '10px',
+    paddingLeft: '10px',
+    resize: 'vertical',
+    lineHeight: '20px',
+    fontSize: '15px',
+    fontFamily: 'Open-Sans',
+    border: 'none',
+  },
+
+  '.tp-submit-button': {
+    height: '30px',
+    width: '100px',
+    backgroundColor: 'orange',
+    color: 'black',
+    fontFamily: 'Open-Sans',
+    cursor: 'pointer',
+    border: 'none',
+    marginRight: '50px',
+    marginLeft: 'auto',
+    '&:hover': {
+      backgroundColor: 'darkOrange',
+    },
+    '&:disabled': {
+      backgroundColor: 'darkGrey',
+      cursor: 'default',
+    },
+  },
+
+  '.communityTps-background': {
+    width: '100%',
+    height: 'auto',
+    backgroundColor: 'lightGrey',
+    display: 'flex',
+    flexDirection: 'column',
+    paddingTop: '15px',
+    paddingBottom: '15px',
+  },
+
+  '.sort-button-block': {
+    display: 'flex',
+    marginRight: '50px',
+    marginLeft: 'auto',
+    marginBottom: '15px',
+  },
+
+  '.sort-button': {
+    border: '1px solid #8E8E8E',
+    cursor: 'pointer',
+    backgroundColor: 'white',
+    width: '75px',
+    color: 'black',
+    fontFamily: 'Open-Sans',
+    fontSize: '15px',
+    height: '25px',
+    lineHeight: '15px',
+    '&:hover': {
+      backgroundColor: 'darkGrey',
+    },
+    '&:disabled': {
+      backgroundColor: 'orange',
+      cursor: 'default',
+    },
+  },
+
+  '.tp-header': {
+    display: 'flex',
+  },
+
+  '.expand-collapse': {
+    cursor: 'pointer',
+    color: 'black',
+    fontSize: '12px',
+    marginRight: '0px',
+    marginLeft: 'auto',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  },
+
+  '.see-feedback': {
+    color: 'black',
+    backgroundColor: 'white',
+    fontStyle: 'italic',
+    width: '150px',
+    paddingLeft: '5px',
+  },
+
+  '.see-feedback-link': {
+    color: 'black',
+  },
+
+  '.tp-preview': {
+    backgroundColor: 'white',
+    padding: '5px',
+    fontFamily: 'Gotham-Book',
+  },
+
+  '.tp-interior':{
+    overflow: 'hidden',
+    width: '100%',
+  },
+
+  '.tp-arrows-width': {
+    width: '80px',
+  },
+
+  '.tp-block': {
+    display: 'flex',
+    minHeight: '60px',
+    marginBottom: '30px',
+    marginRight: '60px',
+  },
+
+  '.message-section': {
+    width: '100%',
+    height: 'auto',
+    backgroundColor: 'lightGrey',
+    padding: '30px',
+    fontStyle: 'italic',
+  },
+
+  '.message-link': {
+    color: 'darkOrange',
+  },
+};
 
 const initialState = {
   initial: '',
@@ -66,47 +416,52 @@ class PageQuestion extends React.Component {
     const { isUpvoted, isDownvoted } = currentVotes(tp, this.props.uid);
     const tpInfo = {tp, tpId, isUpvoted, isDownvoted, ...this.props};
 
-    return tp ? (
-      <div className="individual-tp-preview" key={tpId}>
-        <div className="main-tp-text">
-          <div className="tp-preview-username">@{username}</div>
-          <TpPreview
-            initial={tp.initial}
-            approach={tp.approach}
-            solution={tp.solution}
-            expanded={expanded}
-          />
-          <div className="align-right">
-            {(tp.initial && tp.initial.length > length) ||
-            (tp.approach && tp.approach.length > length) ||
-            (tp.solution && tp.solution.length > length)
-              ? this.generateMessage(expanded, tpId)
-              : ""}
+    return tp && (
+      <div className="tp-block" key={tpId}>
+        <div className="tp-arrows-width">
+          <div className="upvote-border">
+            <div
+              className={isUpvoted ? "green-upvote" : "white-upvote"}
+              onClick={() => upvoteTp(tpInfo)}
+            />
+          </div>
+          <div className="score-center">{tp.total}</div>
+          <div className="downvote-border">
+            <div
+              className={isDownvoted ? "red-downvote" : "white-downvote"}
+              onClick={() => downvoteTp(tpInfo)}
+            />
+          </div>
+        </div>
+        <div className="tp-interior">
+          <div className="tp-header">
+            <div>@{username}</div>
+            <div className="expand-collapse">
+              {(tp.initial && tp.initial.length > length) ||
+              (tp.approach && tp.approach.length > length) ||
+              (tp.solution && tp.solution.length > length)
+                ? this.generateMessage(expanded, tpId)
+                : ""}
+            </div>
+          </div>
+          <div className="tp-preview">
+            <TpPreview
+              initial={tp.initial}
+              approach={tp.approach}
+              solution={tp.solution}
+              expanded={expanded}
+            />
+          </div>
+          <div className="see-feedback">
             <Link
-              className="tp-full-goto"
+              className="see-feedback-link"
               to={`/tp/${this.props.questId}/${tpId}`}
             >
-              Go to full TP
+              See Feedback...
             </Link>
           </div>
         </div>
-        <img
-          alt="upvote"
-          className="feedback-upvote-button"
-          src={isUpvoted ? green : upvote}
-          onClick={() => upvoteTp(tpInfo)}
-        />
-        <div className="feedback-score-text">{tp.total}</div>
-        <img
-          alt="downvote"
-          className="feedback-downvote-button"
-          src={isDownvoted ? red : downvote}
-          onClick={() => downvoteTp(tpInfo)}
-        />
-        <br />
       </div>
-    ) : (
-      <div key={tpId}></div>
     );
   };
 
@@ -217,8 +572,8 @@ class PageQuestion extends React.Component {
       tags &&
       Object.keys(tags).map((tag) => {
         return (
-          <Link to={`/questions/${tag}`} key={tag}>
-            <span className="topic-2">{tag} </span>
+          <Link to={`/questions/${tag}`} className="tag" key={tag}>
+            {tag}
           </Link>
         );
       });
@@ -231,8 +586,14 @@ class PageQuestion extends React.Component {
 
     const answerDisplay = answer && (
       <div>
-        <div onClick={() => this.changeShowAnswer()}>Click to see answer</div>
-        <div>{showAnswer ? answer : ""}</div>
+        <span
+          className="answer-display"
+          onClick={() => this.changeShowAnswer()}
+        >
+          {showAnswer ? '▼' : '►'}
+          &nbsp;See answer
+        </span>
+        {showAnswer && <div sx={{ marginLeft: '15px' }}>{answer}</div>}
       </div>
     );
 
@@ -255,41 +616,40 @@ class PageQuestion extends React.Component {
       });
 
     const communityTps = (
-      <div>
-        <button
-          disabled={sortBy === "top"}
-          onClick={() => this.changeOrder("top")}
-        >
-          Top TPs
-        </button>
-        <button
-          disabled={sortBy === "new"}
-          onClick={() => this.changeOrder("new")}
-        >
-          New TPs
-        </button>
+      <div className="communityTps-background">
+        <div className="sort-button-block">
+          <button
+            className="sort-button"
+            disabled={sortBy === "top"}
+            onClick={() => this.changeOrder("top")}
+          >
+            Top
+          </button>
+          <button
+            className="sort-button"
+            disabled={sortBy === "new"}
+            onClick={() => this.changeOrder("new")}
+          >
+            New
+          </button>
+        </div>
         {sortBy === "top" ? tpsByVote : tpsByTime}
       </div>
     );
 
     const myTp =
       difficulty === "easy" ? (
-        <div className="my-tp-submit">
-          <p className="tp-instructions-text">
-            Enter your Thought Process below:
-          </p>
+        <div className="myTp-background">
           <TextareaAutosize
-            minRows={3}
-            className="tp-input-box"
+            className="my-tp"
+            minRows={5}
             name="solution"
-            placeholder="Final solution!"
+            placeholder="Final solution..."
             onChange={this.handleChange}
             value={solution}
           />
-          <br />
-          <br />
           <button
-            className="tp-submit-green"
+            className="tp-submit-button"
             disabled={solution.trim() === ""}
             onClick={this.createTp}
           >
@@ -297,40 +657,33 @@ class PageQuestion extends React.Component {
           </button>
         </div>
       ) : (
-        <div className="my-tp-submit">
-          <p className="tp-instructions-text">
-            Enter your Thought Process below:
-          </p>
+        <div className="myTp-background">
           <TextareaAutosize
-            minRows={3}
-            className="tp-input-box"
+            className="my-tp"
+            minRows={5}
             name="initial"
-            placeholder="What were your initial thoughts?"
+            placeholder="Initial thoughts..."
             onChange={this.handleChange}
             value={initial}
           />
-
           <TextareaAutosize
-            minRows={3}
-            className="tp-input-box"
+            className="my-tp"
+            minRows={5}
             name="approach"
-            placeholder="Different approaches you tried..."
+            placeholder="Different approaches..."
             onChange={this.handleChange}
             value={approach}
           />
-
           <TextareaAutosize
-            minRows={3}
-            className="tp-input-box"
+            className="my-tp"
+            minRows={5}
             name="solution"
-            placeholder="Final solution!"
+            placeholder="Final solution..."
             onChange={this.handleChange}
             value={solution}
           />
-          <br />
-          <br />
           <button
-            className="tp-submit-green"
+            className="tp-submit-button"
             disabled={
               initial.trim() === "" ||
               approach.trim() === "" ||
@@ -354,80 +707,87 @@ class PageQuestion extends React.Component {
 
     if (!uid) {
       section = (
-        <div className="login-message">
-          <p>You need to log in or register to write your own TP.</p>
+        <div className="message-section">
+          You need to log in or register before writing
+          your own TP or accessing community TPs.
         </div>
       );
     } else if (!onboarded) {
       section = (
-        <div className="login-message">
-          <p>
-            You need to set your username on the &nbsp;
-            <Link to={`/profile`}>Profile</Link>
-            &nbsp; page before writing your own TP.
-          </p>
+        <div className="message-section">
+          You need to set your username on the {' '}
+          <Link
+            className="message-link"
+            to={`/profile`}
+          >
+            Profile
+          </Link>
+          {' '} page before writing your own TP or
+          accessing community TPs.
         </div>
       );
     } else if (!this.props.emailVerified) {
       section = (
-        <div className="login-message">
-          <p>
-            You need to verify your email on the &nbsp;
-            <Link to={`/profile`}>Profile</Link>
-            &nbsp; page before writing your own TP.
-          </p>
+        <div className="message-section">
+          You need to verify your email on the {' '}
+          <Link
+            className="message-link"
+            to={`/profile`}
+          >
+            Profile
+          </Link>
+          {' '} page before writing your own TP or
+          accessing community TPs.
         </div>
       );
     }
 
     return (
-      <div>
+      <div sx={QuestionSx}>
         <link
           href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
           rel="stylesheet"
         />
         <div className="question-block">
-          <div className="question-title-2">
-            <h1>
-              #{this.props.questId}: {title}{" "}
-              {this.props.solved ? "✔" : ""}
-            </h1>
+          <div className="question-title">
+            #{this.props.questId}: {title}{" "}
+            {this.props.solved && <FontAwesomeIcon icon={faCheck} className="check" />}
           </div>
+          <div className={difficulty + ' difficulty'}>{difficulty.toUpperCase()}</div>
           <div className="question-description">
-            <p>{description}</p>
+            {description}
           </div>
-          <div>{difficulty}</div>
-          <div className="topics-2">{topics}</div>
+          <div className="tag-container">{topics}</div>
           <div>{answerDisplay}</div>
         </div>
-        <div>
-          <button
-            className="my-tp-button-1"
-            disabled={questParam === "my"}
-            onClick={() => this.handleClick("my")}
-          >
-            My TP
-          </button>
-          <button
-            className="community-tp-button-1"
-            disabled={sortBy}
-            onClick={() => this.handleClick("community/top")}
-          >
-            Community TPs
-          </button>
-          <button
-            className="related-qs-button-1"
-            disabled={questParam === "related"}
-            onClick={() => this.handleClick("related")}
-          >
-            Related Questions
-          </button>
-          <hr
-            className={questParam === "my" ? "divider-line" : "divider-line-2"}
-          />
-        </div>
-        <div className={questParam === "my" ? "px-break" : "px-break-2"}>
-          {section}
+        <div className="display-block">
+          <div>
+            <button
+              className="question-button"
+              disabled={questParam === "my"}
+              onClick={() => this.handleClick("my")}
+            >
+              My TP
+            </button>
+            <button
+              className="question-button middle-button"
+              disabled={sortBy}
+              onClick={() => this.handleClick("community/top")}
+            >
+              Community TPs
+            </button>
+            <button
+              className="question-button"
+              disabled={questParam === "related"}
+              onClick={() => this.handleClick("related")}
+            >
+              Related Questions
+            </button>
+          </div>
+          <div className="orange-line"/>
+          <div>
+            {section}
+          </div>
         </div>
       </div>
     );

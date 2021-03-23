@@ -13,6 +13,13 @@
   src: url(../assets/fonts/Montserrat-Regular.ttf) format('opentype');
 }
 
+@font-face {
+  font-family: 'Gotham-Bold';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../assets/fonts/Montserrat-Bold.ttf) format('opentype');
+}
+
 Link {
   font-size: 90px;
 }

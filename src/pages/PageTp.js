@@ -63,6 +63,11 @@ const TpSx = {
     minHeight: '100px',
     fontFamily: 'Gotham-Book',
     padding: '10px',
+    overflow: 'hidden',
+  },
+
+  '.content-label': {
+    fontFamily: 'Gotham-Bold'
   },
 
   '.arrows-width': {
@@ -102,12 +107,12 @@ const TpSx = {
     color: 'black',
     fontFamily: 'Open-Sans',
     cursor: 'pointer',
-    border: '0px solid black',
+    border: 'none',
     '&:hover': {
       backgroundColor: 'darkOrange',
     },
     '&:disabled': {
-      backgroundColor: 'orange',
+      backgroundColor: 'darkGrey',
       cursor: 'default',
     },
   },
@@ -127,6 +132,7 @@ const TpSx = {
     marginTop: '10px',
     width: '100%',
     fontFamily: 'Gotham-Book',
+    overflow: 'hidden',
   },
 
   '.green-upvote': {
@@ -453,19 +459,19 @@ class PageTp extends React.Component {
               <div className="content-label">
                 {tp.initial && 'Initial Thoughts:'}
               </div>
-              <div className="content-text">
+              <div>
                 <Latex>{tp.initial}</Latex>
               </div>
               <div className="content-label">
                 {tp.approach && 'Approaches Tried:'}
               </div>
-              <div className="content-text">
+              <div>
                 <Latex>{tp.approach}</Latex>
               </div>
               <div className="content-label">
                 {tp.solution && 'Final Solution:'}
               </div>
-              <div className="content-text">
+              <div>
                 <Latex>{tp.solution}</Latex>
               </div>
             </div>

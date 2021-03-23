@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
+import { Link } from 'react-router-dom';
 import { jsx } from 'theme-ui';
-import { withRouter } from 'react-router-dom';
 
 const NotFoundSx = {
   marginLeft: 'auto',
@@ -26,37 +26,44 @@ const NotFoundSx = {
     marginBottom: '15px',
   },
 
-  '.not-found-button': {
+  '.link-centered': {
+    textAlign: 'center',
+    margin: 'auto',
     marginBottom: '20px',
-    width: '150px',
-    height: '35px',
-    fontFamily: 'Open-Sans',
-    fontSize: '15px',
-    marginRight: 'calc(50% - 75px)',
-    marginLeft: 'calc(50% - 75px)',
+  },
+
+  '.not-found-button': {
     backgroundColor: 'orange',
-    cursor: 'pointer',
-    border: '1px solid #000000',
+    color: 'black',
+    paddingTop: '4px',
+    paddingBottom: '4px',
+    paddingLeft: '10px',
+    paddingRight: '10px',
+    textDecoration: 'none',
+    border: '1px solid black',
+
     '&:hover': {
       backgroundColor: 'darkOrange',
-    },
+    }
   },
 
 };
 
-function PageNotFound(props) {
+const PageNotFound = function () {
   return (
     <div sx={NotFoundSx}>
       <div className="not-found-title">Page Not Found</div>
       <div className="not-found-text">The page you are looking for cannot be found.</div>
-      <button 
-        className="not-found-button"
-        onClick={() => props.history.push("/")}
-      >
-        Back to Home
-      </button>
+      <div className="link-centered">
+        <Link
+          className="not-found-button"
+          to='/'
+        >
+          Back to Home
+        </Link>
+      </div>
     </div>
   );
 }
 
-export default withRouter(PageNotFound);
+export default PageNotFound;
