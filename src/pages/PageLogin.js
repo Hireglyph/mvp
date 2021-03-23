@@ -50,7 +50,7 @@ class PageLogin extends React.Component {
   render() {
     return (
       <div sx={LoginRegisterSx}>
-        <div>
+        <div className="page-container">
           <div>
             <div className="auth-title">Log In</div>
           </div>

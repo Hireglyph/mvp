@@ -14,16 +14,20 @@ import Loading from 'components/Loading';
 import { length } from 'constants/PrevLength';
 
 const ProfileSx = {
-  position: 'relative',
-  marginLeft: 'auto',
-  marginRight: 'auto',
-  marginTop: '50px',
-  marginBottom: '50px',
-  width: '700px',
-  height: 'auto',
-  fontFamily: 'Open-Sans',
   display: 'flex',
-  flexDirection: 'column',
+
+  '.page-container': {
+    position: 'relative',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: '50px',
+    marginBottom: '50px',
+    width: '700px',
+    height: 'auto',
+    fontFamily: 'Open-Sans',
+    display: 'flex',
+    flexDirection: 'column',
+  },
 
   '.profile-box': {
     width: '100%',
@@ -302,14 +306,14 @@ class PageProfile extends React.Component {
                   </div>
                 </div>
                 <div className="profile-box-content">
-                  <div 
+                  <div
                     className={
-                      (tp.total 
-                        ? 
-                          (tp.total > 0 ? "positive-score" 
-                          : 
-                          tp.total < 0 ? "negative-score" 
-                          : "") 
+                      (tp.total
+                        ?
+                          (tp.total > 0 ? "positive-score"
+                          :
+                          tp.total < 0 ? "negative-score"
+                          : "")
                         : "" )
                         + " profile-box-score"
                     }
@@ -379,10 +383,10 @@ class PageProfile extends React.Component {
                 </div>
                 <div className="profile-box-content">
                   <div className={
-                    (score === "NA" ? "" 
+                    (score === "NA" ? ""
                       :
-                      score > 0 ? "positive-score" 
-                      : 
+                      score > 0 ? "positive-score"
+                      :
                       score < 0 ? "negative-score" : "")
                     + " profile-box-score"
                   }>
@@ -427,26 +431,28 @@ class PageProfile extends React.Component {
           href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
           rel="stylesheet"
         />
-        <div className="profile-username">
-          Your profile, @{username}
+        <div className="page-container">
+          <div className="profile-username">
+            Your profile, @{username}
+          </div>
+          <div className="profile-page-header">
+            <button
+              className="profile-page-buttons"
+              disabled={historyParam === "tp"}
+              onClick={() => this.handleTps("tp")}
+            >
+              TPs Submitted
+            </button>
+            <button
+              className="profile-page-buttons"
+              disabled={historyParam === "feedback"}
+              onClick={() => this.handleTps("feedback")}
+            >
+              Feedbacks Given
+            </button>
+          </div>
+          {display}
         </div>
-        <div className="profile-page-header">
-          <button
-            className="profile-page-buttons"
-            disabled={historyParam === "tp"}
-            onClick={() => this.handleTps("tp")}
-          >
-            TPs Submitted
-          </button>
-          <button
-            className="profile-page-buttons"
-            disabled={historyParam === "feedback"}
-            onClick={() => this.handleTps("feedback")}
-          >
-            Feedbacks Given
-          </button>
-        </div>
-        {display}
       </div>
     );
   }

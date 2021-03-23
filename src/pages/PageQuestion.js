@@ -8,11 +8,12 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import TextareaAutosize from 'react-textarea-autosize';
 
-import { currentVotes, upvoteTp, downvoteTp } from 'utils/vote';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCheck,
+         faCaretUp,
+         faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
+import { currentVotes, upvoteTp, downvoteTp } from 'utils/vote';
 import PageNotFound from 'pages/PageNotFound';
 import TpPreview from 'components/TpPreview';
 import QuestionPreview from 'components/QuestionPreview';
@@ -21,14 +22,18 @@ import { length } from 'constants/PrevLength';
 
 const QuestionSx = {
   display: 'flex',
-  alignItems: 'flex-start',
-  fontFamily: 'Open-Sans',
-  width: '950px',
-  gap: '25px',
-  marginLeft: 'auto',
-  marginRight: 'auto',
-  marginTop: '50px',
-  marginBottom: '50px',
+
+  '.page-container': {
+    display: 'flex',
+    alignItems: 'flex-start',
+    fontFamily: 'Open-Sans',
+    width: '950px',
+    gap: '25px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: '50px',
+    marginBottom: '50px',
+  },
 
   '.check': {
     color: 'easyGreen',
@@ -37,8 +42,7 @@ const QuestionSx = {
   '.question-block': {
     position: 'sticky',
     top: '112px',
-    height: '500px',
-    maxHeight: 'calc(100vh - 162px)',
+    height: '492px',
     overflowY: 'auto',
     width: '400px',
     backgroundColor: 'white',
@@ -108,94 +112,6 @@ const QuestionSx = {
     '&:hover': {
       color: 'red',
     },
-  },
-
-  '.score-center': {
-    textAlign: 'center',
-    marginTop: '5px',
-    marginBottom: '5px',
-  },
-
-  '.green-upvote': {
-    width: '0px',
-    height: '0px',
-    borderLeft: '15px solid transparent',
-    borderRight: '15px solid transparent',
-    borderBottom: '15px solid #00FF00',
-    position: 'relative',
-    left: '-15px',
-    bottom: '-2px',
-    cursor: 'pointer',
-    '&:hover': {
-      opacity: '0.8',
-    },
-  },
-
-  '.white-upvote': {
-    width: '0px',
-    height: '0px',
-    borderLeft: '15px solid transparent',
-    borderRight: '15px solid transparent',
-    borderBottom: '15px solid #A9A9A9',
-    position: 'relative',
-    left: '-15px',
-    bottom: '-2px',
-    cursor: 'pointer',
-    '&:hover': {
-      opacity: '0.8',
-    },
-  },
-
-  '.red-downvote': {
-    width: '0px',
-    height: '0px',
-    borderLeft: '15px solid transparent',
-    borderRight: '15px solid transparent',
-    borderTop: '15px solid red',
-    position: 'relative',
-    left: '-15px',
-    bottom: '17px',
-    cursor: 'pointer',
-    '&:hover': {
-      opacity: '0.8',
-    },
-  },
-
-  '.white-downvote': {
-    width: '0px',
-    height: '0px',
-    borderLeft: '15px solid transparent',
-    borderRight: '15px solid transparent',
-    borderTop: '15px solid #A9A9A9',
-    position: 'relative',
-    left: '-15px',
-    bottom: '17px',
-    cursor: 'pointer',
-    '&:hover': {
-      opacity: '0.8',
-    },
-  },
-
-  '.upvote-border': {
-    display: 'block',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    width: '0px',
-    height: '0px',
-    borderLeft: '19px solid transparent',
-    borderRight: '19px solid transparent',
-    borderBottom: '19px solid black',
-  },
-
-  '.downvote-border': {
-    display: 'block',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    width: '0px',
-    height: '0px',
-    borderLeft: '19px solid transparent',
-    borderRight: '19px solid transparent',
-    borderTop: '19px solid black',
   },
 
   '.question-button': {
@@ -345,10 +261,6 @@ const QuestionSx = {
     width: '100%',
   },
 
-  '.tp-arrows-width': {
-    width: '80px',
-  },
-
   '.tp-block': {
     display: 'flex',
     minHeight: '60px',
@@ -366,6 +278,34 @@ const QuestionSx = {
 
   '.message-link': {
     color: 'darkOrange',
+  },
+
+  '.tp-arrows': {
+    textAlign: 'center',
+    marginTop: '20px',
+  },
+
+  '.fa-layers': {
+    height: '18px',
+    width: '50px',
+  },
+
+  '.upvoted-arrow': {
+    color: '#00D305',
+  },
+
+  '.downvoted-arrow': {
+    color: '#E44C4C',
+  },
+
+  '.blank-arrow': {
+    color: 'white',
+  },
+
+  '.fa-caret-up, .fa-caret-down': {
+    stroke: 'black',
+    strokeWidth: '7',
+    transform: 'scaleY(0.8)',
   },
 };
 
@@ -418,19 +358,19 @@ class PageQuestion extends React.Component {
 
     return tp && (
       <div className="tp-block" key={tpId}>
-        <div className="tp-arrows-width">
-          <div className="upvote-border">
-            <div
-              className={isUpvoted ? "green-upvote" : "white-upvote"}
-              onClick={() => upvoteTp(tpInfo)}
-            />
+        <div className="tp-arrows">
+          <div
+            className={(isUpvoted ? "upvoted-arrow" : "blank-arrow") + " fa-layers"}
+            onClick={() => upvoteTp(tpInfo)}
+          >
+            <FontAwesomeIcon icon={faCaretUp} size="3x" />
           </div>
-          <div className="score-center">{tp.total}</div>
-          <div className="downvote-border">
-            <div
-              className={isDownvoted ? "red-downvote" : "white-downvote"}
-              onClick={() => downvoteTp(tpInfo)}
-            />
+          <div className="centered">{tp.total}</div>
+          <div
+            className={(isDownvoted ? "downvoted-arrow" : "blank-arrow") + " fa-layers"}
+            onClick={() => downvoteTp(tpInfo)}
+          >
+            <FontAwesomeIcon icon={faCaretDown} size="3x" />
           </div>
         </div>
         <div className="tp-interior">
@@ -748,44 +688,44 @@ class PageQuestion extends React.Component {
           href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
           rel="stylesheet"
         />
-        <div className="question-block">
-          <div className="question-title">
-            #{this.props.questId}: {title}{" "}
-            {this.props.solved && <FontAwesomeIcon icon={faCheck} className="check" />}
+        <div className="page-container">
+          <div className="question-block">
+            <div className="question-title">
+              #{this.props.questId}: {title}{" "}
+              {this.props.solved && <FontAwesomeIcon icon={faCheck} className="check" />}
+            </div>
+            <div className={difficulty + ' difficulty'}>{difficulty.toUpperCase()}</div>
+            <div className="question-description">
+              {description}
+            </div>
+            <div className="tag-container">{topics}</div>
+            <div>{answerDisplay}</div>
           </div>
-          <div className={difficulty + ' difficulty'}>{difficulty.toUpperCase()}</div>
-          <div className="question-description">
-            {description}
-          </div>
-          <div className="tag-container">{topics}</div>
-          <div>{answerDisplay}</div>
-        </div>
-        <div className="display-block">
-          <div>
-            <button
-              className="question-button"
-              disabled={questParam === "my"}
-              onClick={() => this.handleClick("my")}
-            >
-              My TP
-            </button>
-            <button
-              className="question-button middle-button"
-              disabled={sortBy}
-              onClick={() => this.handleClick("community/top")}
-            >
-              Community TPs
-            </button>
-            <button
-              className="question-button"
-              disabled={questParam === "related"}
-              onClick={() => this.handleClick("related")}
-            >
-              Related Questions
-            </button>
-          </div>
-          <div className="orange-line"/>
-          <div>
+          <div className="display-block">
+            <div>
+              <button
+                className="question-button"
+                disabled={questParam === "my"}
+                onClick={() => this.handleClick("my")}
+              >
+                My TP
+              </button>
+              <button
+                className="question-button middle-button"
+                disabled={sortBy}
+                onClick={() => this.handleClick("community/top")}
+              >
+                Community TPs
+              </button>
+              <button
+                className="question-button"
+                disabled={questParam === "related"}
+                onClick={() => this.handleClick("related")}
+              >
+                Related Questions
+              </button>
+            </div>
+            <div className="orange-line"/>
             {section}
           </div>
         </div>

@@ -9,15 +9,19 @@ import { compose } from 'redux';
 import Loading from 'components/Loading';
 
 const ConfirmEmailSx = {
-  marginLeft: 'auto',
-  marginRight: 'auto',
-  marginTop: '50px',
-  marginBottom: '50px',
-  width: '400px',
-  height: 'auto',
-  background: 'lightGrey',
-  fontFamily: 'Open-Sans',
-  border: '1px solid #000000',
+  display: 'flex',
+
+  '.page-container': {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: '50px',
+    marginBottom: '50px',
+    width: '400px',
+    height: 'auto',
+    background: 'lightGrey',
+    fontFamily: 'Open-Sans',
+    border: '1px solid #000000',
+  },
 
   '.confirm-email-title': {
     marginTop: '20px',
@@ -113,9 +117,11 @@ class PageConfirmEmail extends React.Component {
   render() {
     return (
       <div sx={ConfirmEmailSx}>
-        <div className="confirm-email-title">Email Verification</div>
-        <div className="confirm-email-text">{this.state.error}</div>
-        {this.renderButton()}
+        <div className="page-container">
+          <div className="confirm-email-title">Email Verification</div>
+          <div className="confirm-email-text">{this.state.error}</div>
+          {this.renderButton()}
+        </div>
       </div>
     );
   }

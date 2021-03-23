@@ -11,16 +11,20 @@ import { compose } from 'redux';
 import Loading from 'components/Loading';
 
 const NotifSx = {
-  position: 'relative',
-  marginLeft: 'auto',
-  marginRight: 'auto',
-  marginTop: '50px',
-  marginBottom: '50px',
-  width: '700px',
-  height: 'auto',
-  fontFamily: 'Open-Sans',
   display: 'flex',
-  flexDirection: 'column',
+
+  '.page-container': {
+    position: 'relative',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: '50px',
+    marginBottom: '50px',
+    width: '700px',
+    height: 'auto',
+    fontFamily: 'Open-Sans',
+    display: 'flex',
+    flexDirection: 'column',
+  },
 
   '.notif-title-box': {
     border: '1px solid black',
@@ -137,8 +141,10 @@ class PageNotifications extends React.Component {
         });
     return (
       <div sx={NotifSx}>
-        <div className="notif-title-box">Notifications</div>
-        {notifications}
+        <div className="page-container">
+          <div className="notif-title-box">Notifications</div>
+          {notifications}
+        </div>
       </div>
     );
   }

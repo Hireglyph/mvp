@@ -119,21 +119,22 @@ class NavBar extends React.Component {
             }
             alignRight
           >
-          <NavDropdown.Item>
-            <Link to="/profile/tp" className="link" style={{color: 'black'}}>
-              <div>Profile</div>
-            </Link>
+          <NavDropdown.Item
+            as={Link}
+            to="/profile/tp"
+            className="link"
+            style={{color: 'black'}}
+          >
+            Profile
           </NavDropdown.Item>
           <NavDropdown.Divider />
-          <NavDropdown.Item>
-            <div
-              onClick={() => {
-                this.props.history.push('/');
-                firebase.logout();
-              }}
-            >
-              Logout
-            </div>
+          <NavDropdown.Item
+            onClick={() => {
+              this.props.history.push('/');
+              firebase.logout();
+            }}
+          >
+            Logout
           </NavDropdown.Item>
         </NavDropdown>
       </React.Fragment>
