@@ -21,7 +21,7 @@ import Loading from 'components/Loading';
 const TpSx = {
   display: 'flex',
 
-  '.tp-container': {
+  '.page-container': {
     position: 'relative',
     marginLeft: 'auto',
     marginRight: 'auto',
@@ -378,7 +378,7 @@ class PageTp extends React.Component {
           href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
           rel="stylesheet"
         />
-        <div className="tp-container">
+        <div className="page-container">
           <div className="tp-header">
             <div className="back-hover" onClick={() => this.props.history.goBack()}>
               <FontAwesomeIcon icon={faArrowCircleLeft} />

@@ -35,21 +35,23 @@ class PageOnboard extends React.Component {
   render() {
     return (
       <div sx={LoginRegisterSx}>
-        <div className="auth-title">Onboard</div>
-        <input
-          className="auth-input"
-          name="username"
-          onChange={this.handleChange}
-          placeholder="Username"
-          value={this.state.username}
-        />
-        <button
-          className="auth-button"
-          disabled={!this.state.username.trim()}
-          onClick={this.register}
-        >
-          Register Username
-        </button>
+        <div className="page-container">
+          <div className="auth-title">Onboard</div>
+          <input
+            className="auth-input"
+            name="username"
+            onChange={this.handleChange}
+            placeholder="Username"
+            value={this.state.username}
+          />
+          <button
+            className="auth-button"
+            disabled={!this.state.username.trim()}
+            onClick={this.register}
+          >
+            Register Username
+          </button>
+        </div>
       </div>
     );
   }

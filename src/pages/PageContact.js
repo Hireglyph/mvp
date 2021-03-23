@@ -6,17 +6,21 @@ import emailjs from 'emailjs-com';
 import TextareaAutosize from 'react-textarea-autosize';
 
 const ContactSx = {
-  position: 'relative',
-  marginLeft: 'auto',
-  marginRight: 'auto',
-  marginTop: '50px',
-  marginBottom: '50px',
-  paddingBottom: '10px',
-  width: '500px',
-  height: 'auto',
-  fontFamily: 'Open-Sans',
-  backgroundColor: 'lightGrey',
-  border: '2px solid black',
+  display: 'flex',
+
+  '.page-container': {
+    position: 'relative',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: '50px',
+    marginBottom: '50px',
+    paddingBottom: '10px',
+    width: '500px',
+    height: 'auto',
+    fontFamily: 'Open-Sans',
+    backgroundColor: 'lightGrey',
+    border: '2px solid black',
+  },
 
   '.contact-title': {
     marginTop: '20px',
@@ -106,43 +110,45 @@ class PageContact extends React.Component {
   render() {
     return (
       <div sx={ContactSx}>
-        <div className="contact-title">Contact Us</div>
-        <form onSubmit={this.sendEmail}>
-          <div className="contact-label">Name</div>
-          <input
-            type="text" 
-            name="name" 
-            className="contact-input"
-            required
-          />
-          <div className="contact-label">Email Address</div>
-          <input
-            type="email"
-            name="email"
-            className="contact-input"
-            required
-          />
-          <div className="contact-label">Subject</div>
-          <input
-            type="text" 
-            name="subject"
-            className="contact-input"
-            required
-          />
-          <div className="contact-label">Message</div>
-          <TextareaAutosize
-            minRows={4}
-            name="message"
-            className="contact-textarea"
-            required
-          />
-          <input
-            className="contact-submit"
-            type="submit" 
-            value="Send Message" 
-          />
-        </form>
-        <div className="contact-message">{this.state.message}</div>
+        <div className="page-container">
+          <div className="contact-title">Contact Us</div>
+          <form onSubmit={this.sendEmail}>
+            <div className="contact-label">Name</div>
+            <input
+              type="text"
+              name="name"
+              className="contact-input"
+              required
+            />
+            <div className="contact-label">Email Address</div>
+            <input
+              type="email"
+              name="email"
+              className="contact-input"
+              required
+            />
+            <div className="contact-label">Subject</div>
+            <input
+              type="text"
+              name="subject"
+              className="contact-input"
+              required
+            />
+            <div className="contact-label">Message</div>
+            <TextareaAutosize
+              minRows={4}
+              name="message"
+              className="contact-textarea"
+              required
+            />
+            <input
+              className="contact-submit"
+              type="submit"
+              value="Send Message"
+            />
+          </form>
+          <div className="contact-message">{this.state.message}</div>
+        </div>
       </div>
     );
   }

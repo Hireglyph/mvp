@@ -22,14 +22,18 @@ import { length } from 'constants/PrevLength';
 
 const QuestionSx = {
   display: 'flex',
-  alignItems: 'flex-start',
-  fontFamily: 'Open-Sans',
-  width: '950px',
-  gap: '25px',
-  marginLeft: 'auto',
-  marginRight: 'auto',
-  marginTop: '50px',
-  marginBottom: '50px',
+
+  '.page-container': {
+    display: 'flex',
+    alignItems: 'flex-start',
+    fontFamily: 'Open-Sans',
+    width: '950px',
+    gap: '25px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: '50px',
+    marginBottom: '50px',
+  },
 
   '.check': {
     color: 'easyGreen',
@@ -38,8 +42,7 @@ const QuestionSx = {
   '.question-block': {
     position: 'sticky',
     top: '112px',
-    height: '500px',
-    maxHeight: 'calc(100vh - 162px)',
+    height: '492px',
     overflowY: 'auto',
     width: '400px',
     backgroundColor: 'white',
@@ -685,44 +688,44 @@ class PageQuestion extends React.Component {
           href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
           rel="stylesheet"
         />
-        <div className="question-block">
-          <div className="question-title">
-            #{this.props.questId}: {title}{" "}
-            {this.props.solved && <FontAwesomeIcon icon={faCheck} className="check" />}
+        <div className="page-container">
+          <div className="question-block">
+            <div className="question-title">
+              #{this.props.questId}: {title}{" "}
+              {this.props.solved && <FontAwesomeIcon icon={faCheck} className="check" />}
+            </div>
+            <div className={difficulty + ' difficulty'}>{difficulty.toUpperCase()}</div>
+            <div className="question-description">
+              {description}
+            </div>
+            <div className="tag-container">{topics}</div>
+            <div>{answerDisplay}</div>
           </div>
-          <div className={difficulty + ' difficulty'}>{difficulty.toUpperCase()}</div>
-          <div className="question-description">
-            {description}
-          </div>
-          <div className="tag-container">{topics}</div>
-          <div>{answerDisplay}</div>
-        </div>
-        <div className="display-block">
-          <div>
-            <button
-              className="question-button"
-              disabled={questParam === "my"}
-              onClick={() => this.handleClick("my")}
-            >
-              My TP
-            </button>
-            <button
-              className="question-button middle-button"
-              disabled={sortBy}
-              onClick={() => this.handleClick("community/top")}
-            >
-              Community TPs
-            </button>
-            <button
-              className="question-button"
-              disabled={questParam === "related"}
-              onClick={() => this.handleClick("related")}
-            >
-              Related Questions
-            </button>
-          </div>
-          <div className="orange-line"/>
-          <div>
+          <div className="display-block">
+            <div>
+              <button
+                className="question-button"
+                disabled={questParam === "my"}
+                onClick={() => this.handleClick("my")}
+              >
+                My TP
+              </button>
+              <button
+                className="question-button middle-button"
+                disabled={sortBy}
+                onClick={() => this.handleClick("community/top")}
+              >
+                Community TPs
+              </button>
+              <button
+                className="question-button"
+                disabled={questParam === "related"}
+                onClick={() => this.handleClick("related")}
+              >
+                Related Questions
+              </button>
+            </div>
+            <div className="orange-line"/>
             {section}
           </div>
         </div>
