@@ -10,7 +10,9 @@ import { compose } from 'redux';
 import Latex from 'react-latex';
 import TextareaAutosize from 'react-textarea-autosize';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons'
+import { faArrowCircleLeft,
+         faCaretUp,
+         faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 import { currentVotes, getVoteValues, upvoteTp, downvoteTp } from 'utils/vote';
 import PageNotFound from 'pages/PageNotFound';
@@ -70,16 +72,12 @@ const TpSx = {
     fontFamily: 'Gotham-Bold'
   },
 
-  '.arrows-width': {
-    width: '70px',
+  '.arrows-container': {
     marginTop: '20px',
-
   },
 
-  '.score-center': {
+  '.centered': {
     textAlign: 'center',
-    marginTop: '5px',
-    marginBottom: '5px',
   },
 
   '.input-feedback': {
@@ -135,88 +133,28 @@ const TpSx = {
     overflow: 'hidden',
   },
 
-  '.green-upvote': {
-    width: '0px',
-    height: '0px',
-    borderLeft: '15px solid transparent',
-    borderRight: '15px solid transparent',
-    borderBottom: '15px solid #00FF00',
-    position: 'relative',
-    left: '-15px',
-    bottom: '-2px',
-    cursor: 'pointer',
-    '&:hover': {
-      opacity: '0.8',
-    },
+  '.fa-layers': {
+    height: '18px',
+    width: '70px',
   },
 
-  '.white-upvote': {
-    width: '0px',
-    height: '0px',
-    borderLeft: '15px solid transparent',
-    borderRight: '15px solid transparent',
-    borderBottom: '15px solid #A9A9A9',
-    position: 'relative',
-    left: '-15px',
-    bottom: '-2px',
-    cursor: 'pointer',
-    '&:hover': {
-      opacity: '0.8',
-    },
+  '.upvoted-arrow': {
+    color: '#00D305',
   },
 
-  '.red-downvote': {
-    width: '0px',
-    height: '0px',
-    borderLeft: '15px solid transparent',
-    borderRight: '15px solid transparent',
-    borderTop: '15px solid red',
-    position: 'relative',
-    left: '-15px',
-    bottom: '17px',
-    cursor: 'pointer',
-    '&:hover': {
-      opacity: '0.8',
-    },
+  '.downvoted-arrow': {
+    color: '#E44C4C',
   },
 
-  '.white-downvote': {
-    width: '0px',
-    height: '0px',
-    borderLeft: '15px solid transparent',
-    borderRight: '15px solid transparent',
-    borderTop: '15px solid #A9A9A9',
-    position: 'relative',
-    left: '-15px',
-    bottom: '17px',
-    cursor: 'pointer',
-    '&:hover': {
-      opacity: '0.8',
-    },
+  '.blank-arrow': {
+    color: 'white',
   },
 
-  '.upvote-border': {
-    display: 'block',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    width: '0px',
-    height: '0px',
-    borderLeft: '19px solid transparent',
-    borderRight: '19px solid transparent',
-    borderBottom: '19px solid black',
+  '.fa-caret-up, .fa-caret-down': {
+    stroke: 'black',
+    strokeWidth: '7',
+    transform: 'scaleY(0.8)',
   },
-
-  '.downvote-border': {
-    display: 'block',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    width: '0px',
-    height: '0px',
-    borderLeft: '19px solid transparent',
-    borderRight: '19px solid transparent',
-    borderTop: '19px solid black',
-  },
-
 };
 
 class PageTp extends React.Component {
@@ -359,19 +297,19 @@ class PageTp extends React.Component {
           const feedbackDownvoted = users && uid in users && users[uid] === -1;
           const feedbackUsername = username ? username : creator;
           const feedbackScoreArrows = !deleted && (
-            <div>
-              <div className="upvote-border">
-                <div
-                  className={feedbackUpvoted ? "green-upvote" : "white-upvote"}
-                  onClick={() => this.upvoteFeedback(feedbackId)}
-                />
+            <div className="centered">
+              <div
+                className={(feedbackUpvoted ? "upvoted-arrow" : "blank-arrow") + " fa-layers"}
+                onClick={() => this.upvoteFeedback(feedbackId)}
+              >
+                <FontAwesomeIcon icon={faCaretUp} size="3x" />
               </div>
-              <div className="score-center">{score}</div>
-              <div className="downvote-border" >
-                <div
-                  className={feedbackDownvoted ? "red-downvote" : "white-downvote"}
-                  onClick={() => this.downvoteFeedback(feedbackId)}
-                />
+              <div>{score}</div>
+              <div
+                className={(feedbackDownvoted ? "downvoted-arrow" : "blank-arrow") + " fa-layers"}
+                onClick={() => this.downvoteFeedback(feedbackId)}
+              >
+                <FontAwesomeIcon icon={faCaretDown} size="3x" />
               </div>
             </div>
           );
@@ -417,19 +355,19 @@ class PageTp extends React.Component {
     );
 
     const scoreArrows = this.props.tp.creator && (
-      <div>
-        <div className="upvote-border">
-          <div
-            className={isUpvoted ? "green-upvote" : "white-upvote"}
-            onClick={() => upvoteTp(this.props)}
-          />
+      <div className="centered">
+        <div
+          className={(isUpvoted ? "upvoted-arrow" : "blank-arrow") + " fa-layers"}
+          onClick={() => upvoteTp(this.props)}
+        >
+          <FontAwesomeIcon icon={faCaretUp} size="3x" />
         </div>
-        <div className="score-center">{this.props.tp.total}</div>
-        <div className="downvote-border">
-          <div
-            className={isDownvoted ? "red-downvote" : "white-downvote"}
-            onClick={() => downvoteTp(this.props)}
-          />
+        <div>{this.props.tp.total}</div>
+        <div
+          className={(isDownvoted ? "downvoted-arrow" : "blank-arrow") + " fa-layers"}
+          onClick={() => downvoteTp(this.props)}
+        >
+          <FontAwesomeIcon icon={faCaretDown} size="3x" />
         </div>
       </div>
     );
@@ -443,7 +381,7 @@ class PageTp extends React.Component {
         <div className="tp-container">
           <div className="tp-header">
             <div className="back-hover" onClick={() => this.props.history.goBack()}>
-              <FontAwesomeIcon icon={faArrowCircleLeft}/>
+              <FontAwesomeIcon icon={faArrowCircleLeft} />
             </div>
             <div>
               TP by @{tp.username} to &nbsp;
@@ -454,7 +392,7 @@ class PageTp extends React.Component {
             <br />
           </div>
           <div className="tp-body">
-            <div className="arrows-width">{scoreArrows}</div>
+            <div className="arrows-container">{scoreArrows}</div>
             <div className="tp-content">
               <div className="content-label">
                 {tp.initial && 'Initial Thoughts:'}
