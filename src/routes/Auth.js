@@ -17,7 +17,7 @@ class Auth extends React.Component {
       if (!emailVerified) {
         return <PageConfirmEmail />;
       }
-      return <Redirect to="/" />;
+      return <Redirect to="/questions" />;
     }
 
     return (
