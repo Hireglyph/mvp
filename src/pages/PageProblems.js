@@ -69,7 +69,7 @@ const PageProblemsSx = {
     height: '70px',
   },
   '.tag': {
-    fontSize: '1vw',
+    fontSize: '12px',
     backgroundColor: 'orange',
     borderRadius: '4px',
     width: '107.61px',
