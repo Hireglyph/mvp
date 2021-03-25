@@ -5,12 +5,14 @@ import { withRouter, Link } from 'react-router-dom';
 import { isLoaded } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { jsx } from 'theme-ui';
+import { ReactTitle } from 'react-meta-tags';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 import { tags } from 'constants/Tags';
 import Loading from 'components/Loading.js';
+import PageNotFound from 'pages/PageNotFound';
 
 const PageProblemsSx = {
   display: 'flex',
@@ -140,6 +142,10 @@ class PageProblems extends React.Component {
 
     const isDiff = tag === 'easy' || tag === 'medium' || tag === 'hard';
 
+    if (tag && !isDiff && !tags.includes(tag)) {
+      return <PageNotFound />;
+    }
+
     const quests = Object.keys(questions)
       .filter(questId => !isDiff || questions[questId].difficulty === tag)
       .filter(questId => isDiff || !tag || (questions[questId].tags && questions[questId].tags[tag]))
@@ -183,6 +189,17 @@ class PageProblems extends React.Component {
 
     return (
       <div className="PageProblems" sx={PageProblemsSx}>
+        {tag 
+          ?
+          <ReactTitle
+            title={`${tag.charAt(0).toUpperCase() + tag.slice(1)} 
+            Questions | Hireglyph`}
+          />
+          :
+          <ReactTitle
+            title={`Questions | Hireglyph`}
+          />
+        }
         <div className="sortby-container">
           <h2 className="white">Difficulty</h2>
           <div
