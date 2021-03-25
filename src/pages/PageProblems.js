@@ -30,9 +30,9 @@ const PageProblemsSx = {
     display: 'flex',
   },
   '.original-list': {
-    marginLeft: 'auto',
-    marginRight: '85px',
-    marginTop: '50px',
+    marginLeft: '20px',
+    marginRight: 'auto',
+    marginTop: '23px',
   },
   '.original-list:hover': {
     color: 'mediumGrey',
@@ -216,7 +216,7 @@ class PageProblems extends React.Component {
                 className="original-list pointer white"
                 onClick={() => this.handleTagFilter('')}
               >
-                  See full list
+                  View full list
               </div>}
           </div>
           <div className="quest-container">
