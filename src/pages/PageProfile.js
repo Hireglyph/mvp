@@ -8,6 +8,7 @@ import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Latex from 'react-latex';
+import { ReactTitle } from 'react-meta-tags';
 
 import TpPreview from 'components/TpPreview';
 import Loading from 'components/Loading';
@@ -431,6 +432,7 @@ class PageProfile extends React.Component {
           href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
           rel="stylesheet"
         />
+        <ReactTitle title="Profile | Hireglyph"/>
         <div className="page-container">
           <div className="profile-username">
             Your profile, @{username}

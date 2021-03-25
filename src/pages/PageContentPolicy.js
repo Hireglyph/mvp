@@ -2,10 +2,12 @@
 
 import { jsx } from 'theme-ui';
 import { ContentPrivacySx } from 'theme/ContentPrivacyStyle';
+import { ReactTitle } from 'react-meta-tags';
 
 const PageContentPolicy = function () {
   return (
     <div sx={ContentPrivacySx}>
+      <ReactTitle title="Content Policy | Hireglyph"/>
       <div className="main-title">Hireglyph Content Policy</div>
       <div>
         Hireglyph is a place of learning and community based on
