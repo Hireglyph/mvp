@@ -8,6 +8,7 @@ import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Latex from 'react-latex';
+import { ReactTitle } from 'react-meta-tags';
 
 import TpPreview from 'components/TpPreview';
 import Loading from 'components/Loading';
@@ -374,11 +375,10 @@ class PageProfile extends React.Component {
                   </div>
                   <div className="profile-header-button">
                     {feedback.length > length
-                      ? this.generateFeedbackMessage(
+                      && this.generateFeedbackMessage(
                           this.state.feedbackExpand[feedbackId],
                           feedbackId
-                        )
-                      : ""}
+                        )}
                   </div>
                 </div>
                 <div className="profile-box-content">
@@ -430,6 +430,13 @@ class PageProfile extends React.Component {
         <link
           href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
           rel="stylesheet"
+        />
+        <ReactTitle
+          title={
+            historyParam === "tp"
+              ? "Profile - TPs | Hireglyph"
+              : "Profile - Feedbacks | Hireglyph"
+          }
         />
         <div className="page-container">
           <div className="profile-username">

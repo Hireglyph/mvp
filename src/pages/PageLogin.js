@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { jsx } from 'theme-ui';
+import { ReactTitle } from 'react-meta-tags';
 
 import { LoginRegisterSx } from 'theme/LoginRegisterStyle';
 import Loading from 'components/Loading';
@@ -50,6 +51,7 @@ class PageLogin extends React.Component {
   render() {
     return (
       <div sx={LoginRegisterSx}>
+        <ReactTitle title="Login | Hireglyph"/>
         <div className="page-container">
           <div>
             <div className="auth-title">Log In</div>

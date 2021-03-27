@@ -2,6 +2,7 @@
 
 import { Link } from 'react-router-dom';
 import { jsx } from 'theme-ui'
+import { ReactTitle } from 'react-meta-tags';
 
 import meeting from 'assets/images/meeting.svg';
 import submitTPs from 'assets/images/submitTPs.png';
@@ -90,6 +91,9 @@ const PageLandingSx = {
 const PageLanding = function () {
   return (
     <div sx={PageLandingSx}>
+      <ReactTitle
+        title="Hireglyph - The Future of Collaborative Interview Preparation"
+      />
       <div className="flex-elements centered">
         <div className="main-text">
           <h2 className="heading">Ace your next finance interview</h2>

@@ -2,6 +2,7 @@
 
 import { Link } from 'react-router-dom';
 import { jsx } from 'theme-ui';
+import { ReactTitle } from 'react-meta-tags';
 
 const NotFoundSx = {
   display: 'flex',
@@ -15,11 +16,11 @@ const NotFoundSx = {
     height: 'auto',
     background: 'lightGrey',
     fontFamily: 'Open-Sans',
-    border: '1px solid #000000',
+    border: '2px solid #000000',
   },
 
   '.not-found-title': {
-    marginTop: '20px',
+    marginTop: '25px',
     marginBottom: '10px',
     textAlign: 'center',
     fontSize: '20px',
@@ -27,13 +28,15 @@ const NotFoundSx = {
 
   '.not-found-text': {
     textAlign: 'center',
-    marginBottom: '15px',
+    marginBottom: '20px',
+    marginRight: '20px',
+    marginLeft: '20px',
   },
 
   '.link-centered': {
     textAlign: 'center',
     margin: 'auto',
-    marginBottom: '20px',
+    marginBottom: '30px',
   },
 
   '.not-found-button': {
@@ -56,9 +59,12 @@ const NotFoundSx = {
 const PageNotFound = function () {
   return (
     <div sx={NotFoundSx}>
+      <ReactTitle title="Page Not Found | Hireglyph"/>
       <div className="page-container">
         <div className="not-found-title">Page Not Found</div>
-        <div className="not-found-text">The page you are looking for cannot be found.</div>
+        <div className="not-found-text">
+          The page you are looking for cannot be found.
+        </div>
         <div className="link-centered">
           <Link
             className="not-found-button"

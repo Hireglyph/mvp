@@ -2,10 +2,12 @@
 
 import { jsx } from 'theme-ui';
 import { ContentPrivacySx } from 'theme/ContentPrivacyStyle';
+import { ReactTitle } from 'react-meta-tags';
 
 const PagePrivacyPolicy = function () {
   return (
     <div sx={ContentPrivacySx}>
+      <ReactTitle title="Privacy Policy | Hireglyph"/>
       <div className="main-title">Privacy Policy for Hireglyph LLC</div>
       <div className="content-chunk">
         <div className="sub-title">Information You Provide to Us</div>

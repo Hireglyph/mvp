@@ -7,6 +7,7 @@ import { HashLink as Link } from 'react-router-hash-link';
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { ReactTitle } from 'react-meta-tags';
 
 import Loading from 'components/Loading';
 
@@ -141,6 +142,7 @@ class PageNotifications extends React.Component {
         });
     return (
       <div sx={NotifSx}>
+        <ReactTitle title="Notifications | Hireglyph"/>
         <div className="page-container">
           <div className="notif-title-box">Notifications</div>
           {notifications}

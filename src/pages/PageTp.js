@@ -10,6 +10,7 @@ import { compose } from 'redux';
 import Latex from 'react-latex';
 import TextareaAutosize from 'react-textarea-autosize';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { ReactTitle } from 'react-meta-tags';
 import { faArrowCircleLeft,
          faCaretUp,
          faCaretDown } from '@fortawesome/free-solid-svg-icons';
@@ -377,6 +378,9 @@ class PageTp extends React.Component {
         <link
           href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
           rel="stylesheet"
+        />
+        <ReactTitle
+          title={`TP by @${tp.username} to #${questId} | Hireglyph`}
         />
         <div className="page-container">
           <div className="tp-header">

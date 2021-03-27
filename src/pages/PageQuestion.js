@@ -7,6 +7,7 @@ import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import TextareaAutosize from 'react-textarea-autosize';
+import { ReactTitle } from 'react-meta-tags';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck,
@@ -687,6 +688,9 @@ class PageQuestion extends React.Component {
         <link
           href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
           rel="stylesheet"
+        />
+        <ReactTitle
+          title={`#${this.props.questId}: ${title} | Hireglyph`}
         />
         <div className="page-container">
           <div className="question-block">

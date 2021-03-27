@@ -5,6 +5,7 @@ import { firebaseConnect } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { jsx } from 'theme-ui';
+import { ReactTitle } from 'react-meta-tags';
 
 import { LoginRegisterSx } from 'theme/LoginRegisterStyle';
 import GoogleButton from 'components/GoogleButton';
@@ -55,6 +56,7 @@ class PageRegister extends React.Component {
   render() {
     return (
       <div sx={LoginRegisterSx}>
+        <ReactTitle title="Register | Hireglyph"/>
         <div className="page-container">
           <div className="auth-title">Register</div>
           <input

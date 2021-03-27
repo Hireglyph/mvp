@@ -4,6 +4,7 @@ import { jsx } from 'theme-ui';
 import React from 'react';
 import emailjs from 'emailjs-com';
 import TextareaAutosize from 'react-textarea-autosize';
+import { ReactTitle } from 'react-meta-tags';
 
 const ContactSx = {
   display: 'flex',
@@ -110,6 +111,7 @@ class PageContact extends React.Component {
   render() {
     return (
       <div sx={ContactSx}>
+        <ReactTitle title="Contact Us | Hireglyph"/>
         <div className="page-container">
           <div className="contact-title">Contact Us</div>
           <form onSubmit={this.sendEmail}>
