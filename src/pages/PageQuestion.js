@@ -638,16 +638,12 @@ class PageQuestion extends React.Component {
       );
 
     let section;
-    let metaTag;
     if (questParam === "my") {
       section = myTp;
-      metaTag = "My TP";
     } else if (questParam === "related") {
       section = relatedQs;
-      metaTag = "Related Questions";
     } else {
       section = communityTps;
-      metaTag = "Community TPs";
     }
 
     if (!uid) {
@@ -694,7 +690,7 @@ class PageQuestion extends React.Component {
           rel="stylesheet"
         />
         <ReactTitle
-          title={`#${this.props.questId}: ${title} - ${metaTag} | Hireglyph`}
+          title={`#${this.props.questId}: ${title} | Hireglyph`}
         />
         <div className="page-container">
           <div className="question-block">

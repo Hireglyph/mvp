@@ -375,11 +375,10 @@ class PageProfile extends React.Component {
                   </div>
                   <div className="profile-header-button">
                     {feedback.length > length
-                      ? this.generateFeedbackMessage(
+                      && this.generateFeedbackMessage(
                           this.state.feedbackExpand[feedbackId],
                           feedbackId
-                        )
-                      : ""}
+                        )}
                   </div>
                 </div>
                 <div className="profile-box-content">
@@ -433,9 +432,11 @@ class PageProfile extends React.Component {
           rel="stylesheet"
         />
         <ReactTitle
-          title={historyParam === "tp" ?
-            "Profile - TPs | Hireglyph" :
-            "Profile - Feedbacks | Hireglyph"}
+          title={
+            historyParam === "tp"
+              ? "Profile - TPs | Hireglyph"
+              : "Profile - Feedbacks | Hireglyph"
+          }
         />
         <div className="page-container">
           <div className="profile-username">

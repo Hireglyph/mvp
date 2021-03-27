@@ -189,16 +189,14 @@ class PageProblems extends React.Component {
 
     return (
       <div className="PageProblems" sx={PageProblemsSx}>
-        {tag 
-          ?
-          <ReactTitle
-            title={`${tag.charAt(0).toUpperCase() + tag.slice(1)} 
-            Questions | Hireglyph`}
-          />
-          :
-          <ReactTitle
-            title={`Questions | Hireglyph`}
-          />
+        {tag
+          ? <ReactTitle
+              title={`${tag[0].toUpperCase() + tag.slice(1)}
+              Questions | Hireglyph`}
+            />
+          : <ReactTitle
+              title={`Questions | Hireglyph`}
+            />
         }
         <div className="sortby-container">
           <h2 className="white">Difficulty</h2>
