@@ -14,6 +14,7 @@ import 'theme/global.css';
 import firebase from 'firebase/app'
 import 'firebase/database'
 import 'firebase/auth'
+import 'firebase/analytics'
 import { createStore, combineReducers } from 'redux'
 import {
   ReactReduxFirebaseProvider,
@@ -26,6 +27,7 @@ import { FIREBASE_CONFIG } from './constants/Firebase';
 require('dotenv').config();
 
 firebase.initializeApp(FIREBASE_CONFIG);
+firebase.analytics();
 
 // Add firebase to reducers
 const rootReducer = combineReducers({
