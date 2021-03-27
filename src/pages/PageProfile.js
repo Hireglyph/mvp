@@ -432,7 +432,11 @@ class PageProfile extends React.Component {
           href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
           rel="stylesheet"
         />
-        <ReactTitle title="Profile | Hireglyph"/>
+        <ReactTitle
+          title={historyParam === "tp" ?
+            "Profile - TPs | Hireglyph" :
+            "Profile - Feedbacks | Hireglyph"}
+        />
         <div className="page-container">
           <div className="profile-username">
             Your profile, @{username}
