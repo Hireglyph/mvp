@@ -1,8 +1,14 @@
 export const tags = [
   'geometry',
   'algebra',
-  'divisibility',
-  'algorithms',
-  'number theory',
-  'calculus'
+  'jane street',
+  'brain teaser',
+  'arithmetic',
+  'statistics',
+  'probability',
+  'expected value',
+  'finance',
+  'accounting',
+  'technology',
+  'personal',
 ];
