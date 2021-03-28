@@ -98,7 +98,8 @@ const PageLanding = function () {
         <div className="main-text">
           <h2 className="heading">Ace your next finance interview</h2>
           <div className="description centered">
-            Get access to hundreds of challenging interview questions and a collaborative community to help you solve them
+            Solve quant and traditional finance questions. Learn from 
+            others. Receive feedback. Land your dream job.
           </div>
           <div className="button-container centered">
             <Link to='/questions' className="start-button">
@@ -117,7 +118,7 @@ const PageLanding = function () {
           <img src={submitTPs} alt="Submit TPs" style={{ height: '300px' }} />
         </div>
         <div className="centered" style={{ marginRight: '200px' }}>
-          <h3>Submit Tps</h3>
+          <h3>Submit TPs</h3>
           <br />
           <div className="body-text">
             Users submit <em>thought processes</em> (TPs) to practice finance interview problems, broken down into your initial thoughts, different approaches, and final solution

@@ -40,16 +40,20 @@ const TpSx = {
     backgroundColor: 'orange',
     height: '50px',
     lineHeight: '50px',
-    gap: '20px',
   },
 
   '.back-hover': {
     cursor: 'pointer',
     fontSize: '20px',
-    marginLeft: '15px',
+    width: '60px',
+    textAlign: 'center',
     '&:hover': {
       color: '#505050',
     },
+  },
+
+  '.question-link': {
+    color: 'black',
   },
 
   '.tp-body': {
@@ -83,6 +87,7 @@ const TpSx = {
 
   '.input-feedback': {
     width: 'calc(100% - 120px)',
+    padding: '5px',
     marginLeft: '60px',
     resize: 'vertical',
     verticalAlign: 'bottom',
@@ -384,8 +389,11 @@ class PageTp extends React.Component {
               <FontAwesomeIcon icon={faArrowCircleLeft} />
             </div>
             <div>
-              TP by @{tp.username} to &nbsp;
-              <Link to={`/q/${questId}`}>
+              TP by @{tp.username} to {" "}
+              <Link
+                className="question-link"
+                to={`/q/${questId}`}
+              >
                 Question #{questId}
               </Link>
             </div>
