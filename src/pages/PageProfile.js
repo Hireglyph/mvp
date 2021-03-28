@@ -472,7 +472,7 @@ class PageProfile extends React.Component {
               disabled={historyParam === "feedback"}
               onClick={() => this.handleTps("feedback")}
             >
-              Feedbacks Given
+              Feedback Given
             </button>
           </div>
           {display}
