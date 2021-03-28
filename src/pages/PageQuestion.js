@@ -357,7 +357,7 @@ class PageQuestion extends React.Component {
     const { isUpvoted, isDownvoted } = currentVotes(tp, this.props.uid);
     const tpInfo = {tp, tpId, isUpvoted, isDownvoted, ...this.props};
 
-    return tp && (
+    return tp && tp.creator && (
       <div className="tp-block" key={tpId}>
         <div className="tp-arrows">
           <div
@@ -538,23 +538,19 @@ class PageQuestion extends React.Component {
       </div>
     );
 
-    const tpsByVote =
-      tps &&
-      keys.map((tpId) => {
-        if (tps[tpId] && !tps[tpId].creator) {
-          return <div key={tpId}></div>;
-        }
-        return this.displayTp(tpId);
-      });
+    const noTps =
+      <div className="message-section">
+        There are no TPs yet for this question. Be the first to write one!
+      </div>;
 
-    const tpsByTime =
-      tps &&
-      time.map((tpId) => {
-        if (tps[tpId] && !tps[tpId].creator) {
-          return <div key={tpId}></div>;
-        }
-        return this.displayTp(tpId);
-      });
+    let tpsByVote = tps && keys.map((tpId) => this.displayTp(tpId));
+
+    let tpsByTime = tps && time.map((tpId) => this.displayTp(tpId));
+
+    if (!tpsByVote.every(tp => tp)) {
+      tpsByVote  = noTps;
+      tpsByTime = noTps;
+    }
 
     const communityTps = (
       <div className="communityTps-background">

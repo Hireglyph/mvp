@@ -60,6 +60,14 @@ const NotifSx = {
       border: '2px solid orange',
     },
   },
+
+  '.message-section': {
+    width: '100%',
+    height: 'auto',
+    backgroundColor: 'lightGrey',
+    padding: '30px',
+    fontStyle: 'italic',
+  },
 };
 
 class PageNotifications extends React.Component {
@@ -84,62 +92,68 @@ class PageNotifications extends React.Component {
     }
 
     const notifications =
-      this.props.notifications &&
-      Object.keys(this.props.notifications)
-        .slice(0)
-        .reverse()
-        .map((notifId) => {
-          const notification = this.props.notifications[notifId];
-          if (notification && notification.type === "tpUpvote") {
-            return (
-              <div key={notifId}>
-                <Link
-                  className="notif-link"
-                  to={`/tp/${notification.questId}/${notification.tpId}`}
-                  onClick={() => this.viewed(notifId)}
-                >
-                  <div className={notification.viewed ? "box-viewed" : "box-unviewed"}>
-                    @{notification.username} upvoted your TP to Question
-                    #{notification.questId}
-                  </div>
-                </Link>
-              </div>
-            );
-          }
-          if (notification && notification.type === "tpFeedbackUpvote") {
-            return (
-              <div key={notifId}>
-                <Link
-                  className="notif-link"
-                  to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
-                  onClick={() => this.viewed(notifId)}
-                >
-                  <div className={notification.viewed ? 'box-viewed' : 'box-unviewed'}>
-                    @{notification.username} upvoted your feedback to
-                    @{notification.author}'s TP to Question #{notification.questId}
-                  </div>
-                </Link>
-              </div>
-            );
-          }
-          if (notification && notification.type === "tpFeedback") {
-            return (
-              <div key={notifId}>
-                <Link
-                  className="notif-link"
-                  to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
-                  onClick={() => this.viewed(notifId)}
-                >
-                  <div className={notification.viewed ? "box-viewed" : "box-unviewed"}>
-                    @{notification.username} gave feedback to your TP to Question
-                    #{notification.questId}
-                  </div>
-                </Link>
-              </div>
-            );
-          }
-          return null;
-        });
+      this.props.notifications ? (
+        Object.keys(this.props.notifications)
+          .slice(0)
+          .reverse()
+          .map((notifId) => {
+            const notification = this.props.notifications[notifId];
+            if (notification && notification.type === "tpUpvote") {
+              return (
+                <div key={notifId}>
+                  <Link
+                    className="notif-link"
+                    to={`/tp/${notification.questId}/${notification.tpId}`}
+                    onClick={() => this.viewed(notifId)}
+                  >
+                    <div className={notification.viewed ? "box-viewed" : "box-unviewed"}>
+                      @{notification.username} upvoted your TP to Question
+                      #{notification.questId}
+                    </div>
+                  </Link>
+                </div>
+              );
+            }
+            if (notification && notification.type === "tpFeedbackUpvote") {
+              return (
+                <div key={notifId}>
+                  <Link
+                    className="notif-link"
+                    to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
+                    onClick={() => this.viewed(notifId)}
+                  >
+                    <div className={notification.viewed ? 'box-viewed' : 'box-unviewed'}>
+                      @{notification.username} upvoted your feedback to
+                      @{notification.author}'s TP to Question #{notification.questId}
+                    </div>
+                  </Link>
+                </div>
+              );
+            }
+            if (notification && notification.type === "tpFeedback") {
+              return (
+                <div key={notifId}>
+                  <Link
+                    className="notif-link"
+                    to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
+                    onClick={() => this.viewed(notifId)}
+                  >
+                    <div className={notification.viewed ? "box-viewed" : "box-unviewed"}>
+                      @{notification.username} gave feedback to your TP to Question
+                      #{notification.questId}
+                    </div>
+                  </Link>
+                </div>
+              );
+            }
+            return null;
+          })
+      ) : (
+        <div className="message-section">
+          You have no notifications. You will receive a notification when one
+          of your TPs gets upvoted or receives feedback!
+        </div>
+      );
     return (
       <div sx={NotifSx}>
         <ReactTitle title="Notifications | Hireglyph"/>
