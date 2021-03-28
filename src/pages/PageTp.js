@@ -74,7 +74,7 @@ const TpSx = {
   },
 
   '.arrows-container': {
-    marginTop: '20px',
+    width: '60px',
   },
 
   '.centered': {
@@ -123,10 +123,6 @@ const TpSx = {
     marginRight: '60px',
   },
 
-  '.feedback-arrows-width': {
-    width: '70px',
-  },
-
   '.feedback-content': {
     marginTop: '10px',
     width: '100%',
@@ -136,7 +132,7 @@ const TpSx = {
 
   '.fa-layers': {
     height: '18px',
-    width: '70px',
+    width: '60px',
   },
 
   '.upvoted-arrow': {
@@ -317,7 +313,7 @@ class PageTp extends React.Component {
 
           return (
             <div className="feedback-block" key={feedbackId} id={`${feedbackId}`}>
-              <div className="feedback-arrows-width">
+              <div className="arrows-container">
                 {feedbackScoreArrows}
               </div>
               <div className="feedback-content">
@@ -396,7 +392,9 @@ class PageTp extends React.Component {
             <br />
           </div>
           <div className="tp-body">
-            <div className="arrows-container">{scoreArrows}</div>
+            <div className="arrows-container" style={{ marginTop: '20px' }}>
+              {scoreArrows}
+            </div>
             <div className="tp-content">
               <div className="content-label">
                 {tp.initial && 'Initial Thoughts:'}
