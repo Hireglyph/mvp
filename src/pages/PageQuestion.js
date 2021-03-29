@@ -547,7 +547,7 @@ class PageQuestion extends React.Component {
 
     let tpsByTime = tps && time.map((tpId) => this.displayTp(tpId));
 
-    if (!tpsByVote || (tpsByVote && !tpsByVote.some(tp => tp))) {
+    if (!tpsByVote || !tpsByVote.some(tp => tp)) {
       tpsByVote  = noTps;
       tpsByTime = noTps;
     }
