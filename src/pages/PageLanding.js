@@ -5,8 +5,9 @@ import { jsx } from 'theme-ui'
 import { ReactTitle } from 'react-meta-tags';
 
 import meeting from 'assets/images/meeting.svg';
+import accessQuestions from 'assets/images/accessQuestions.png';
 import submitTPs from 'assets/images/submitTPs.png';
-import postFeedbacks from 'assets/images/postFeedbacks.png';
+import postFeedback from 'assets/images/postFeedback.png';
 import communicate from 'assets/images/communicate.svg';
 import lightbulb from 'assets/images/lightbulb.svg';
 import network from 'assets/images/network.svg';
@@ -114,6 +115,20 @@ const PageLanding = function () {
       <br />
       <br />
       <div className="flex-elements">
+        <div className="centered" style={{ marginLeft: '150px' }}>
+          <h3>Access Questions</h3>
+          <br />
+          <div className="body-text">
+            Get access to a variety of finance interview questions,
+            and sort by difficulty or topic to find the right problems
+            to solve.
+          </div>
+        </div>
+        <div className="centered">
+          <img src={accessQuestions} alt="Access Questions" style={{ height: '300px' }} />
+        </div>
+      </div>
+      <div className="flex-elements">
         <div className="centered">
           <img src={submitTPs} alt="Submit TPs" style={{ height: '300px' }} />
         </div>
@@ -121,20 +136,24 @@ const PageLanding = function () {
           <h3>Submit TPs</h3>
           <br />
           <div className="body-text">
-            Users submit <em>thought processes</em> (TPs) to practice finance interview problems, broken down into your initial thoughts, different approaches, and final solution
+            Develop communication skills by submitting {" "}
+            <em>thought processes</em> (TPs) to practice 
+            problems, which may include your initial thoughts, 
+            different approaches, and final solution.
           </div>
         </div>
       </div>
       <div className="flex-elements">
-        <div className="centered" style={{ marginLeft: '250px' }}>
+        <div className="centered" style={{ marginLeft: '150px' }}>
           <h3>Post Feedback</h3>
           <br />
           <div className="body-text">
-            Users provide feedback on TPs, fostering community discussion and improving the quality of answers.
+            Post and receive feedback to TPs, fostering community discussion and 
+            enabling all users to have their work evaluated.
           </div>
         </div>
         <div className="centered">
-          <img src={postFeedbacks} alt="Post Feedback" style={{ height: '350px' }} />
+          <img src={postFeedback} alt="Post Feedback" style={{ height: '300px' }} />
         </div>
       </div>
       <div className="flex-elements centered">
