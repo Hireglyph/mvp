@@ -53,10 +53,10 @@ const ProfileSx = {
     float: 'right',
     marginRight: '20px',
     marginBottom: '5px',
-    gap: '10px',
   },
 
   '.profile-link': {
+    marginLeft: '10px',
     textDecoration: 'none',
   },
 
