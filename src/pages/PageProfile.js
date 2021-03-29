@@ -53,10 +53,10 @@ const ProfileSx = {
     float: 'right',
     marginRight: '20px',
     marginBottom: '5px',
-    gap: '10px',
   },
 
   '.profile-link': {
+    marginLeft: '10px',
     textDecoration: 'none',
   },
 
@@ -152,6 +152,18 @@ const ProfileSx = {
       cursor: 'default',
       opacity: '1.0',
     },
+  },
+
+  '.message-section': {
+    width: '100%',
+    height: 'auto',
+    backgroundColor: 'lightGrey',
+    padding: '30px',
+    fontStyle: 'italic',
+  },
+
+  '.message-link': {
+    color: 'darkOrange',
   },
 };
 
@@ -284,8 +296,7 @@ class PageProfile extends React.Component {
       return <Redirect to={`/profile/tp`} />;
     }
 
-    const tps =
-      tpHistory &&
+    const tps = tpHistory ? (
       Object.keys(tpHistory)
         .slice(0)
         .reverse()
@@ -295,31 +306,25 @@ class PageProfile extends React.Component {
             return (
               <div className="profile-box" key={tpId}>
                 <div className="profile-header">
-                  <div>
-                    Response to Question #{tp.questId}
-                  </div>
+                  <div>Response to Question #{tp.questId}</div>
                   <div className="profile-header-button">
-                    {(tp.initial && tp.initial.length > length) ||
-                    (tp.approach && tp.approach.length > length) ||
-                    (tp.solution && tp.solution.length > length)
-                      ? this.generateTpMessage(this.state.tpExpand[tpId], tpId)
-                      : ""}
+                    {((tp.initial && tp.initial.length > length) ||
+                      (tp.approach && tp.approach.length > length) ||
+                      (tp.solution && tp.solution.length > length))
+                     && this.generateTpMessage(this.state.tpExpand[tpId], tpId)}
                   </div>
                 </div>
                 <div className="profile-box-content">
                   <div
                     className={
-                      (tp.total
-                        ?
-                          (tp.total > 0 ? "positive-score"
-                          :
-                          tp.total < 0 ? "negative-score"
-                          : "")
-                        : "" )
-                        + " profile-box-score"
+                      (tp.total &&
+                        tp.total > 0
+                          ? "positive-score"
+                          : tp.total < 0 && "negative-score")
+                      + " profile-box-score"
                     }
                   >
-                    {typeof tp.total === "undefined" ? "NA" : tp.total}
+                    {tp.total}
                   </div>
                   <div className="profile-box-interior">
                     <TpPreview
@@ -341,19 +346,25 @@ class PageProfile extends React.Component {
                     className="profile-link"
                     to={`/tp/${tp.questId}/${tpId}`}
                   >
-                    <div className="profile-onclick">
-                      Go to TP
-                    </div>
+                    <div className="profile-onclick">Go to TP</div>
                   </Link>
                 </div>
               </div>
             );
           }
           return null;
-        });
+        })
+    ) : (
+      <div className="message-section">
+        You have not written any TPs yet. Go to our{' '}
+        <Link className="message-link" to={`/questions`}>
+          Questions
+        </Link>{' '}
+        page to choose a problem to solve!
+      </div>
+    );
 
-    const feedbacks =
-      feedbackHistory &&
+    const feedbacks = feedbackHistory ? (
       Object.keys(feedbackHistory)
         .slice(0)
         .reverse()
@@ -362,10 +373,8 @@ class PageProfile extends React.Component {
             feedbackId
           ];
 
-          const score =
-            typeof feedbackHistory[feedbackId].score === "undefined"
-              ? "NA"
-              : feedbackHistory[feedbackId].score;
+          const score = feedbackHistory[feedbackId].score;
+
           if (feedback && username && questId && tpId) {
             return (
               <div className="profile-box" key={feedbackId}>
@@ -383,11 +392,10 @@ class PageProfile extends React.Component {
                 </div>
                 <div className="profile-box-content">
                   <div className={
-                    (score === "NA" ? ""
-                      :
-                      score > 0 ? "positive-score"
-                      :
-                      score < 0 ? "negative-score" : "")
+                    (score &&
+                      score > 0
+                        ? "positive-score"
+                        : score < 0 && "negative-score")
                     + " profile-box-score"
                   }>
                     {score}
@@ -421,7 +429,16 @@ class PageProfile extends React.Component {
             );
           }
           return null;
-        });
+        })
+      ) : (
+        <div className="message-section">
+          You have not written any feedback yet. Go to our{' '}
+          <Link className="message-link" to={`/questions`}>
+            Questions
+          </Link>{' '}
+          page to choose a problem to give other users feedback on!
+        </div>
+      );
 
     const display = historyParam === "tp" ? tps : feedbacks;
 
@@ -455,7 +472,7 @@ class PageProfile extends React.Component {
               disabled={historyParam === "feedback"}
               onClick={() => this.handleTps("feedback")}
             >
-              Feedbacks Given
+              Feedback Given
             </button>
           </div>
           {display}
