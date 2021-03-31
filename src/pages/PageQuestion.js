@@ -330,7 +330,7 @@ class PageQuestion extends React.Component {
       this.setState(initialState);
     }
 
-    if (this.props.tps && !this.state.loading) {
+    if (this.props.tps && this.state.loading) {
       let list = {};
       Object.keys(this.props.tps).forEach((tpId) => (list[tpId] = false));
       this.setState({
@@ -452,7 +452,9 @@ class PageQuestion extends React.Component {
     updates[`/questionHistory/${uid}/${questId}`] = true;
 
     const onComplete = () => {
-      this.props.history.push(`/tp/${questId}/${tpId}`);
+      this.props.tpCreated();
+      this.setState(initialState);
+      this.props.history.push(`/q/${questId}/community/new`);
     };
     this.props.firebase.update("/", updates, onComplete);
   };
