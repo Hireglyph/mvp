@@ -236,7 +236,7 @@ class PageTp extends React.Component {
     const { isUpvoted, isDownvoted } = currentVotes(feedback, uid);
     const { diff, vote } = getVoteValues(isUpvoted, isDownvoted);
 
-    if (!isUpvoted) {
+    if (!isUpvoted && uid !== feedback.creator) {
       const notificationId = firebase.push(`/notifications/${feedback.creator}`).key;
       updates[`/notifications/${feedback.creator}/${notificationId}`] = {
         questId,
