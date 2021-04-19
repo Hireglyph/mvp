@@ -23,7 +23,7 @@ const PageLandingSx = {
 
   '.flex-elements': {
     display: 'flex',
-    marginTop: '40px',
+    marginTop: '80px',
   },
 
   '.main-text': {
@@ -68,6 +68,10 @@ const PageLandingSx = {
     width: '300px',
   },
 
+  '.white-text': {
+    color: 'white',
+  },
+
   '.icon-caption': {
     marginTop: '8px',
     width: '200px',
@@ -86,6 +90,22 @@ const PageLandingSx = {
     width: '0px',
     border: '5px solid #EA9A28',
     margin: 'auto',
+  },
+
+  '.text-body': {
+    textAlign: 'center',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+  },
+
+  '.left-text': {
+    marginRight: '80px',
+    marginLeft: 'auto',
+  },
+
+  '.right-text': {
+    marginLeft: '80px',
+    marginRight: 'auto',
   },
 }
 
@@ -115,27 +135,25 @@ const PageLanding = function () {
       <br />
       <br />
       <div className="flex-elements">
-        <div className="centered" style={{ marginLeft: '150px' }}>
-          <h3>Access Questions</h3>
-          <br />
-          <div className="body-text">
+        <div className="text-body left-text">
+          <h3 className="white-text">Access Questions</h3>
+          <div className="body-text white-text">
             Get access to a variety of finance interview questions,
             and sort by difficulty or topic to find the right problems
             to solve.
           </div>
         </div>
-        <div className="centered">
+        <div sx={{marginLeft: '0', marginRight: 'auto'}}>
           <img src={accessQuestions} alt="Access Questions" style={{ height: '300px' }} />
         </div>
       </div>
       <div className="flex-elements">
-        <div className="centered">
+        <div sx={{marginRight: '0', marginLeft: 'auto'}}>
           <img src={submitTPs} alt="Submit TPs" style={{ height: '300px' }} />
         </div>
-        <div className="centered" style={{ marginRight: '200px' }}>
-          <h3>Submit TPs</h3>
-          <br />
-          <div className="body-text">
+        <div className="text-body right-text">
+          <h3 className="white-text">Submit TPs</h3>
+          <div className="body-text white-text">
             Develop communication skills by submitting {" "}
             <em>thought processes</em> (TPs) to practice 
             problems, which may include your initial thoughts, 
@@ -144,15 +162,14 @@ const PageLanding = function () {
         </div>
       </div>
       <div className="flex-elements">
-        <div className="centered" style={{ marginLeft: '150px' }}>
-          <h3>Post Feedback</h3>
-          <br />
-          <div className="body-text">
+        <div className="text-body left-text">
+          <h3 className="white-text">Post Feedback</h3>
+          <div className="body-text white-text">
             Post and receive feedback to TPs, fostering community discussion and 
             enabling all users to have their work evaluated.
           </div>
         </div>
-        <div className="centered">
+        <div sx={{marginLeft: '0', marginRight: 'auto'}}>
           <img src={postFeedback} alt="Post Feedback" style={{ height: '300px' }} />
         </div>
       </div>
