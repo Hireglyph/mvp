@@ -25,7 +25,7 @@ class TpWrapper extends React.Component {
     if (prevProps.questId !== this.props.questId) {
       this.setState(initialState);
     }
-    if (!prevState.sorted && isLoaded(this.props.tps)) {
+    if (this.props.isPageQuestion && !prevState.sorted && isLoaded(this.props.tps)) {
       let keys = this.props.tps ? Object.keys(this.props.tps) : [];
       keys.sort((a, b) => this.props.tps[b].total - this.props.tps[a].total);
       this.setState({
@@ -37,9 +37,18 @@ class TpWrapper extends React.Component {
   }
 
   render() {
-    const { emailVerified, onboarded, question, questId, questIsLoaded, tps, uid } = this.props;
+    const { 
+      emailVerified,
+      onboarded,
+      question,
+      questId,
+      questIsLoaded,
+      tps,
+      uid,
+      isPageQuestion
+    } = this.props;
 
-    if (uid && !isLoaded(tps)) {
+    if (isPageQuestion && uid && !isLoaded(tps)) {
       return <Loading />
     }
 
@@ -90,7 +99,6 @@ class TpWrapper extends React.Component {
               <PageTp
                 uid={uid}
                 questId={questId}
-                tp={tps && tps[props.match.params.tpId]}
                 tpId={props.match.params.tpId}
               />
             }
@@ -111,7 +119,7 @@ const mapStateToProps = (state, props) => {
 
 export default compose(
   firebaseConnect(props =>
-    props.uid
+    props.uid && props.isPageQuestion
       ? [{ path: '/tps/' + props.questId }]
       : []
   ),

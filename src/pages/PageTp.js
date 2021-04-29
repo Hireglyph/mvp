@@ -4,7 +4,7 @@ import React from 'react';
 import { jsx } from 'theme-ui';
 import { withRouter } from 'react-router-dom';
 import { HashLink as Link } from 'react-router-hash-link';
-import { isEmpty, firebaseConnect } from 'react-redux-firebase';
+import { isLoaded, isEmpty, firebaseConnect } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Latex from 'react-latex';
@@ -290,7 +290,7 @@ class PageTp extends React.Component {
       uid,
     } = this.props;
 
-    if (this.state.loading) {
+    if (!isLoaded(tp) || this.state.loading) {
       return <Loading />;
     }
 
@@ -445,15 +445,21 @@ class PageTp extends React.Component {
 }
 
 const mapStateToProps = (state, props) => {
-  const profile = state.firebase.profile;
-  const { isUpvoted, isDownvoted } = currentVotes(props.tp, props.uid);
+  const { profile, data } = state.firebase;
   const username = profile && profile.username;
-
-  return { isDownvoted, isUpvoted, username };
+  const tp = data.tp && data.tp[props.questId]
+    && data.tp[props.questId][props.tpId];
+  const { isUpvoted, isDownvoted } = currentVotes(tp, props.uid);
+  return { isDownvoted, isUpvoted, username, tp };
 };
 
 export default compose(
   withRouter,
-  firebaseConnect(),
+  firebaseConnect( props =>
+    [{
+      path: `/tps/${props.questId}/${props.tpId}`,
+      storeAs: `/tp/${props.questId}/${props.tpId}`
+    }]
+  ),
   connect(mapStateToProps)
 )(PageTp);

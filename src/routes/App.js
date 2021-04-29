@@ -65,6 +65,7 @@ class App extends React.Component {
                 uid={uid}
                 emailVerified={emailVerified}
                 onboarded={onboarded}
+                isPageQuestion={true}
               />}
           />
 
