@@ -4,7 +4,7 @@ import React from 'react';
 import { jsx } from 'theme-ui';
 import { withRouter } from 'react-router-dom';
 import { HashLink as Link } from 'react-router-hash-link';
-import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
+import { isEmpty, firebaseConnect } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Latex from 'react-latex';
@@ -166,17 +166,26 @@ class PageTp extends React.Component {
       feedback: '',
       loading: true,
       keys: [],
+      feedbacks: {},
     };
   }
+  
+  componentDidMount() {
+    this.props.firebase.database().ref(`/feedbacks/${this.props.tpId}`).on('value', data => {
+      if (data.val()) {
+        if(this.state.loading) {
+          let keys = Object.keys(data.val());
+          keys.sort((a, b) => data.val()[b].score - data.val()[a].score);
+          this.setState({ keys });
+        }
+        this.setState({ feedbacks: data.val() })
+      }
+      this.setState({ loading: false })
+    });
+  }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { feedbacks } = this.props;
-    if (prevState.loading && isLoaded(feedbacks)) {
-      let keys = feedbacks ? Object.keys(feedbacks) : [];
-      keys.sort((a, b) => feedbacks[b].score - feedbacks[a].score);
-
-      this.setState({ loading: false, keys });
-    }
+  componentWillUnmount() {
+    this.props.firebase.database().ref(`/feedbacks/${this.props.tpId}`).off();
   }
 
   handleChange = event => {
@@ -230,7 +239,8 @@ class PageTp extends React.Component {
   };
 
   upvoteFeedback = (feedbackId) => {
-    const { feedbacks, firebase, questId, tpId, tp, uid, username } = this.props;
+    const feedbacks = this.state.feedbacks;
+    const { firebase, questId, tpId, tp, uid, username } = this.props;
     const feedback = feedbacks[feedbackId];
     const updates = {};
     const { isUpvoted, isDownvoted } = currentVotes(feedback, uid);
@@ -257,7 +267,8 @@ class PageTp extends React.Component {
   };
 
   downvoteFeedback = (feedbackId) => {
-    const { feedbacks, firebase, tpId, uid } = this.props;
+    const feedbacks = this.state.feedbacks;
+    const { firebase, tpId, uid } = this.props;
     const feedback = feedbacks[feedbackId];
     const updates = {};
     const { isUpvoted, isDownvoted } = currentVotes(feedback, uid);
@@ -270,16 +281,16 @@ class PageTp extends React.Component {
   };
 
   render() {
+    const feedbacks = this.state.feedbacks;
     const {
       tp,
-      feedbacks,
       isDownvoted,
       isUpvoted,
       questId,
       uid,
     } = this.props;
 
-    if (!isLoaded(feedbacks) || this.state.loading) {
+    if (this.state.loading) {
       return <Loading />;
     }
 
@@ -434,20 +445,15 @@ class PageTp extends React.Component {
 }
 
 const mapStateToProps = (state, props) => {
-  const { data, profile } = state.firebase;
-  const { tpId } = props.match.params;
-
+  const profile = state.firebase.profile;
   const { isUpvoted, isDownvoted } = currentVotes(props.tp, props.uid);
-  const feedbacks = data.feedbacks && data.feedbacks[tpId];
   const username = profile && profile.username;
 
-  return { feedbacks, isDownvoted, isUpvoted, username };
+  return { isDownvoted, isUpvoted, username };
 };
 
 export default compose(
   withRouter,
-  firebaseConnect(props =>
-    [{ path: `/feedbacks/${props.match.params.tpId}` }]
-  ),
+  firebaseConnect(),
   connect(mapStateToProps)
 )(PageTp);
