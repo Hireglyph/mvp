@@ -177,26 +177,6 @@ class PageProfile extends React.Component {
     };
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { feedbackHistory, tpHistory } = this.props;
-
-    if (prevState.loading && isLoaded(tpHistory) && isLoaded(feedbackHistory)) {
-      if (tpHistory) {
-        let tpList = {};
-        Object.keys(tpHistory).forEach((tpId) => (tpList[tpId] = false));
-        this.setState({ tpExpand: tpList });
-      }
-      if (feedbackHistory) {
-        let feedbackList = {};
-        Object.keys(feedbackHistory).forEach(
-          (feedbackId) => (feedbackList[feedbackId] = false)
-        );
-        this.setState({ feedbackExpand: feedbackList });
-      }
-      this.setState({ loading: false });
-    }
-  }
-
   generateTpMessage = (isExpanded, tpId) => {
     if (!isExpanded) {
       return (
@@ -240,13 +220,27 @@ class PageProfile extends React.Component {
   };
 
   changeTpExpand = (value, tpId) => {
-    this.setState({ tpExpand: { ...this.state.tpExpand, [tpId]: value } });
+    if (value) {
+      this.setState({ tpExpand: { ...this.state.tpExpand, [tpId]: true } });
+    }
+    else {
+      const newTpExpand = { ...this.state.tpExpand };
+      delete newTpExpand[tpId];
+      this.setState({ tpExpand: newTpExpand })
+    }
   };
 
   changeFeedbackExpand = (value, feedbackId) => {
-    this.setState({
-      feedbackExpand: { ...this.state.feedbackExpand, [feedbackId]: value },
-    });
+    if (value) {
+      this.setState({
+        feedbackExpand: { ...this.state.feedbackExpand, [feedbackId]: true } 
+      });
+    }
+    else {
+      const newFeedbackExpand = { ...this.state.feedbackExpand };
+      delete newFeedbackExpand[feedbackId];
+      this.setState({ feedbackExpand: newFeedbackExpand })
+    }
   };
 
   tpDelete = (tpId, questId) => {

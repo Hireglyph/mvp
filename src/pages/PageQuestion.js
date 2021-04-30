@@ -329,15 +329,6 @@ class PageQuestion extends React.Component {
     if (prevProps.questId !== this.props.questId) {
       this.setState(initialState);
     }
-
-    if (this.props.tps && !this.state.loading) {
-      let list = {};
-      Object.keys(this.props.tps).forEach((tpId) => (list[tpId] = false));
-      this.setState({
-        expand: list,
-        loading: false,
-      });
-    }
   }
 
   generateMessage = (isExpanded, tpId) => {
@@ -407,12 +398,8 @@ class PageQuestion extends React.Component {
   };
 
   changeOrder = (sortBy) => {
-    const { questId, tps } = this.props;
-    if (tps) {
-      let list = {};
-      Object.keys(tps).forEach((tpId) => (list[tpId] = false));
-      this.setState({ expand: list });
-    }
+    const questId = this.props.questId;
+    this.setState({ expand: {} });
     this.props.history.push(`/q/${questId}/community/${sortBy}`);
   };
 
@@ -421,7 +408,14 @@ class PageQuestion extends React.Component {
   };
 
   changeExpand = (value, tpId) => {
-    this.setState({ expand: { ...this.state.expand, [tpId]: value } });
+    if (value) {
+      this.setState({ expand: { ...this.state.expand, [tpId]: true } });
+    }
+    else {
+      const newExpand = { ...this.state.expand };
+      delete newExpand[tpId];
+      this.setState({ expand: newExpand })
+    }
   };
 
   handleClick = (questParam) => {
