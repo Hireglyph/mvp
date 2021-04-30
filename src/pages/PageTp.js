@@ -221,15 +221,17 @@ class PageTp extends React.Component {
       username: tp.username,
       score: 0,
     };
-    updates[`/notifications/${tp.creator}/${notificationId}`] = {
-      questId,
-      tpId,
-      feedbackId,
-      username,
-      viewed: false,
-      type: 'tpFeedback',
-    };
-    updates[`/hasNotifs/${tp.creator}`] = true;
+    if (uid !== tp.creator) {
+      updates[`/notifications/${tp.creator}/${notificationId}`] = {
+        questId,
+        tpId,
+        feedbackId,
+        username,
+        viewed: false,
+        type: 'tpFeedback',
+      };
+      updates[`/hasNotifs/${tp.creator}`] = true;
+    }
     this.setState({ feedback: '' });
 
     const onComplete = () => {
@@ -248,7 +250,7 @@ class PageTp extends React.Component {
     const { isUpvoted, isDownvoted } = currentVotes(feedback, uid);
     const { diff, vote } = getVoteValues(isUpvoted, isDownvoted);
 
-    if (!isUpvoted) {
+    if (!isUpvoted && uid !== feedback.creator) {
       const notificationId = firebase.push(`/notifications/${feedback.creator}`).key;
       updates[`/notifications/${feedback.creator}/${notificationId}`] = {
         questId,
