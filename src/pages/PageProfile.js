@@ -172,7 +172,6 @@ class PageProfile extends React.Component {
     super(props);
     this.state = {
       feedbackExpand: {},
-      loading: true,
       tpExpand: {},
     };
   }

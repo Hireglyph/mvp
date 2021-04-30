@@ -314,7 +314,6 @@ const initialState = {
   initial: '',
   approach: '',
   solution: '',
-  loading: true,
   expand: {},
   showAnswer: false,
 };
