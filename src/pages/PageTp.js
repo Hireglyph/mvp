@@ -300,7 +300,7 @@ class PageTp extends React.Component {
       return <PageNotFound />;
     }
 
-    const Feedbacks =
+    const feedbacksDisplay =
       feedbacks &&
       this.state.keys.map((feedbackId) => {
         if (feedbacks[feedbackId]) {
@@ -443,7 +443,7 @@ class PageTp extends React.Component {
             : (
             <div>
               {myFeedback}
-              {Feedbacks}
+              {feedbacksDisplay}
             </div>
           )}
         </div>
