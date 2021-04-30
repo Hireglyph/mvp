@@ -290,7 +290,7 @@ class PageTp extends React.Component {
       uid,
     } = this.props;
 
-    if (!isLoaded(tp) || this.state.loading) {
+    if (!isLoaded(tp)) {
       return <Loading />;
     }
 
@@ -342,7 +342,7 @@ class PageTp extends React.Component {
             </div>
           );
         }
-        return <div />;
+        return null;
       });
 
     const myFeedback = this.props.tp.creator && (
@@ -436,8 +436,14 @@ class PageTp extends React.Component {
             </div>
           </div>
           <br />
-          {myFeedback}
-          {Feedbacks}
+          {this.state.loading ?
+            <Loading/>
+            :
+            <div>
+              {myFeedback}
+              {Feedbacks}
+            </div>
+          }
         </div>
       </div>
     );
