@@ -11,6 +11,7 @@ import Loading from 'components/Loading';
 
 const initialState = {
   sorted: false,
+  createdTP: false,
   keys: [],
   time: [],
 }
@@ -25,16 +26,24 @@ class TpWrapper extends React.Component {
     if (prevProps.questId !== this.props.questId) {
       this.setState(initialState);
     }
-    if (this.props.isPageQuestion && !prevState.sorted && isLoaded(this.props.tps)) {
+    if (this.props.isPageQuestion && 
+      ((!prevState.sorted && isLoaded(this.props.tps)) ||
+      this.state.createdTP)
+      ) {
       let keys = this.props.tps ? Object.keys(this.props.tps) : [];
       keys.sort((a, b) => this.props.tps[b].total - this.props.tps[a].total);
       this.setState({
         keys,
         sorted: true,
+        createdTP: false,
         time: this.props.tps ? Object.keys(this.props.tps).reverse() : [],
       });
     }
   }
+  
+  tpCreated = () => {
+    this.setState({ createdTP: true });
+  };
 
   render() {
     const { 
@@ -70,6 +79,7 @@ class TpWrapper extends React.Component {
                 tps={tps}
                 keys={this.state.keys}
                 time={this.state.time}
+                tpCreated={this.tpCreated}
               />
             }
           />
@@ -88,6 +98,7 @@ class TpWrapper extends React.Component {
                 tps={tps}
                 keys={this.state.keys}
                 time={this.state.time}
+                tpCreated={this.tpCreated}
               />
             }
           />

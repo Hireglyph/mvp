@@ -452,7 +452,9 @@ class PageQuestion extends React.Component {
     updates[`/questionHistory/${uid}/${questId}`] = true;
 
     const onComplete = () => {
-      this.props.history.push(`/tp/${questId}/${tpId}`);
+      this.props.tpCreated();
+      this.setState(initialState);
+      this.props.history.push(`/q/${questId}/community/new`);
     };
     this.props.firebase.update("/", updates, onComplete);
   };
