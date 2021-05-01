@@ -112,6 +112,10 @@ const ProfileSx = {
     overflow: 'hidden',
   },
 
+  '.format-fix': {
+    whiteSpace: 'pre-wrap',
+  },
+
   '.profile-box-score': {
     textAlign: 'center',
     width: '40px',
@@ -393,7 +397,12 @@ class PageProfile extends React.Component {
                   }>
                     {score}
                   </div>
-                  <div className="profile-box-interior">
+                  <div
+                    className={
+                      "profile-box-interior" +
+                      (this.state.feedbackExpand[feedbackId] ? " format-fix" : "")
+                    }
+                  >
                     <Latex>
                       {this.state.feedbackExpand[feedbackId]
                         ? feedback

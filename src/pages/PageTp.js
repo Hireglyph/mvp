@@ -71,6 +71,7 @@ const TpSx = {
     fontFamily: 'Gotham-Book',
     padding: '10px',
     overflow: 'hidden',
+    whiteSpace: 'pre-wrap',
   },
 
   '.content-label': {
@@ -133,6 +134,7 @@ const TpSx = {
     width: '100%',
     fontFamily: 'Gotham-Book',
     overflow: 'hidden',
+    whiteSpace: 'pre-wrap',
   },
 
   '.fa-layers': {
