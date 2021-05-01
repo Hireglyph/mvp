@@ -314,8 +314,7 @@ const initialState = {
   initial: '',
   approach: '',
   solution: '',
-  loading: true,
-  expand: {},
+  expand: new Set(),
   showAnswer: false,
 };
 
@@ -328,15 +327,6 @@ class PageQuestion extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.questId !== this.props.questId) {
       this.setState(initialState);
-    }
-
-    if (this.props.tps && !this.state.loading) {
-      let list = {};
-      Object.keys(this.props.tps).forEach((tpId) => (list[tpId] = false));
-      this.setState({
-        expand: list,
-        loading: false,
-      });
     }
   }
 
@@ -352,7 +342,7 @@ class PageQuestion extends React.Component {
   displayTp = tpId => {
     const tp = this.props.tps[tpId];
     const username = tp && (tp.username ? tp.username : tp.creator);
-    const expanded = this.state.expand[tpId];
+    const expanded = this.state.expand.has(tpId);
 
     const { isUpvoted, isDownvoted } = currentVotes(tp, this.props.uid);
     const tpInfo = {tp, tpId, isUpvoted, isDownvoted, ...this.props};
@@ -407,12 +397,8 @@ class PageQuestion extends React.Component {
   };
 
   changeOrder = (sortBy) => {
-    const { questId, tps } = this.props;
-    if (tps) {
-      let list = {};
-      Object.keys(tps).forEach((tpId) => (list[tpId] = false));
-      this.setState({ expand: list });
-    }
+    const questId = this.props.questId;
+    this.setState({ expand: new Set() });
     this.props.history.push(`/q/${questId}/community/${sortBy}`);
   };
 
@@ -421,7 +407,9 @@ class PageQuestion extends React.Component {
   };
 
   changeExpand = (value, tpId) => {
-    this.setState({ expand: { ...this.state.expand, [tpId]: value } });
+    const cloneSet = new Set(this.state.expand);
+    value ? cloneSet.add(tpId) : cloneSet.delete(tpId);
+    this.setState({ expand: cloneSet });
   };
 
   handleClick = (questParam) => {
@@ -452,7 +440,9 @@ class PageQuestion extends React.Component {
     updates[`/questionHistory/${uid}/${questId}`] = true;
 
     const onComplete = () => {
-      this.props.history.push(`/tp/${questId}/${tpId}`);
+      this.props.tpCreated();
+      this.setState(initialState);
+      this.props.history.push(`/q/${questId}/community/new`);
     };
     this.props.firebase.update("/", updates, onComplete);
   };

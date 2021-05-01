@@ -21,7 +21,7 @@ export const upvoteTp = ({
   const updates = {};
   const { diff, vote } = getVoteValues(isUpvoted, isDownvoted);
 
-  if (!isUpvoted) {
+  if (!isUpvoted && uid !== tp.creator) {
     const notificationId = firebase.push(`/notifications/${tp.creator}`).key;
     updates[`/notifications/${tp.creator}/${notificationId}`] = {
       questId,

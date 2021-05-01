@@ -112,6 +112,10 @@ const ProfileSx = {
     overflow: 'hidden',
   },
 
+  '.format-text': {
+    whiteSpace: 'pre-wrap',
+  },
+
   '.profile-box-score': {
     textAlign: 'center',
     width: '40px',
@@ -171,37 +175,16 @@ class PageProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      feedbackExpand: {},
-      loading: true,
-      tpExpand: {},
+      feedbackExpand: new Set(),
+      tpExpand: new Set(),
     };
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const { feedbackHistory, tpHistory } = this.props;
-
-    if (prevState.loading && isLoaded(tpHistory) && isLoaded(feedbackHistory)) {
-      if (tpHistory) {
-        let tpList = {};
-        Object.keys(tpHistory).forEach((tpId) => (tpList[tpId] = false));
-        this.setState({ tpExpand: tpList });
-      }
-      if (feedbackHistory) {
-        let feedbackList = {};
-        Object.keys(feedbackHistory).forEach(
-          (feedbackId) => (feedbackList[feedbackId] = false)
-        );
-        this.setState({ feedbackExpand: feedbackList });
-      }
-      this.setState({ loading: false });
-    }
   }
 
   generateTpMessage = (isExpanded, tpId) => {
     if (!isExpanded) {
       return (
         <div
-          onClick={() => this.changeTpExpand(true, tpId)}
+          onClick={() => this.changeExpand(true, tpId, true)}
           className="profile-message"
         >
           Expand
@@ -210,7 +193,7 @@ class PageProfile extends React.Component {
     }
     return (
       <div
-        onClick={() => this.changeTpExpand(false, tpId)}
+        onClick={() => this.changeExpand(false, tpId, true)}
         className="profile-message"
       >
         Collapse
@@ -222,7 +205,7 @@ class PageProfile extends React.Component {
     if (!isExpanded) {
       return (
         <div
-          onClick={() => this.changeFeedbackExpand(true, feedbackId)}
+          onClick={() => this.changeExpand(true, feedbackId, false)}
           className="profile-message"
         >
           Expand
@@ -231,7 +214,7 @@ class PageProfile extends React.Component {
     }
     return (
       <div
-        onClick={() => this.changeFeedbackExpand(false, feedbackId)}
+        onClick={() => this.changeExpand(false, feedbackId, false)}
         className="profile-message"
       >
         Collapse
@@ -239,14 +222,13 @@ class PageProfile extends React.Component {
     );
   };
 
-  changeTpExpand = (value, tpId) => {
-    this.setState({ tpExpand: { ...this.state.tpExpand, [tpId]: value } });
-  };
 
-  changeFeedbackExpand = (value, feedbackId) => {
-    this.setState({
-      feedbackExpand: { ...this.state.feedbackExpand, [feedbackId]: value },
-    });
+  changeExpand = (value, id, isTp) => {
+    const expandName = isTp ? 'tpExpand' : 'feedbackExpand';
+    const cloneSet = isTp ?
+      new Set(this.state.tpExpand) : new Set(this.state.feedbackExpand);
+    value ? cloneSet.add(id) : cloneSet.delete(id);
+    this.setState({ [expandName]: cloneSet });
   };
 
   tpDelete = (tpId, questId) => {
@@ -302,6 +284,7 @@ class PageProfile extends React.Component {
         .reverse()
         .map((tpId) => {
           const tp = tpHistory[tpId];
+          const isTpExpanded = this.state.tpExpand.has(tpId);
           if (tp) {
             return (
               <div className="profile-box" key={tpId}>
@@ -311,7 +294,7 @@ class PageProfile extends React.Component {
                     {((tp.initial && tp.initial.length > length) ||
                       (tp.approach && tp.approach.length > length) ||
                       (tp.solution && tp.solution.length > length))
-                     && this.generateTpMessage(this.state.tpExpand[tpId], tpId)}
+                     && this.generateTpMessage(isTpExpanded, tpId)}
                   </div>
                 </div>
                 <div className="profile-box-content">
@@ -331,7 +314,7 @@ class PageProfile extends React.Component {
                       initial={tp.initial}
                       approach={tp.approach}
                       solution={tp.solution}
-                      expanded={this.state.tpExpand[tpId]}
+                      expanded={isTpExpanded}
                     />
                   </div>
                 </div>
@@ -374,6 +357,7 @@ class PageProfile extends React.Component {
           ];
 
           const score = feedbackHistory[feedbackId].score;
+          const isFeedbackExpanded = this.state.feedbackExpand.has(feedbackId);
 
           if (feedback && username && questId && tpId) {
             return (
@@ -385,7 +369,7 @@ class PageProfile extends React.Component {
                   <div className="profile-header-button">
                     {feedback.length > length
                       && this.generateFeedbackMessage(
-                          this.state.feedbackExpand[feedbackId],
+                          isFeedbackExpanded,
                           feedbackId
                         )}
                   </div>
@@ -400,12 +384,17 @@ class PageProfile extends React.Component {
                   }>
                     {score}
                   </div>
-                  <div className="profile-box-interior">
+                  <div
+                    className={
+                      "profile-box-interior" +
+                      (isFeedbackExpanded ? " format-text" : "")
+                    }
+                  >
                     <Latex>
-                      {this.state.feedbackExpand[feedbackId]
+                      {isFeedbackExpanded
                         ? feedback
                         : feedback.slice(0, length + 1) +
-                          (feedback.length > length ? "..." : "")}
+                          (feedback.length > length ? '...' : '')}
                     </Latex>
                   </div>
                 </div>
