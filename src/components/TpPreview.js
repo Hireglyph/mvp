@@ -14,7 +14,7 @@ const TpPreviewSx = {
     marginBottom: '2px',
   },
 
-  '.format-fix': {
+  '.format-text': {
     whiteSpace: 'pre-wrap',
   },
 };
@@ -27,7 +27,7 @@ export default class TpPreview extends Component {
       ?
       <div sx={TpPreviewSx}>
         {initial && (
-          <div className="tp-preview-block format-fix">
+          <div className="tp-preview-block format-text">
             <div className="tp-preview-label">
               Initial:
             </div>
@@ -37,7 +37,7 @@ export default class TpPreview extends Component {
           </div>
         )}
         {approach && (
-          <div className="tp-preview-block format-fix">
+          <div className="tp-preview-block format-text">
             <div className="tp-preview-label">
               Approaches:
             </div>
@@ -47,7 +47,7 @@ export default class TpPreview extends Component {
           </div>
         )}
         {solution && (
-          <div className="tp-preview-block format-fix">
+          <div className="tp-preview-block format-text">
             <div className="tp-preview-label">
               Solution:
             </div>

@@ -26,10 +26,8 @@ class TpWrapper extends React.Component {
     if (prevProps.questId !== this.props.questId) {
       this.setState(initialState);
     }
-    if (this.props.isPageQuestion && 
-      ((!prevState.sorted && isLoaded(this.props.tps)) ||
-      this.state.createdTP)
-      ) {
+    if (this.props.isPageQuestion && isLoaded(this.props.tps)
+        && (!prevState.sorted || this.state.createdTP)) {
       let keys = this.props.tps ? Object.keys(this.props.tps) : [];
       keys.sort((a, b) => this.props.tps[b].total - this.props.tps[a].total);
       this.setState({
@@ -40,13 +38,11 @@ class TpWrapper extends React.Component {
       });
     }
   }
-  
-  tpCreated = () => {
-    this.setState({ createdTP: true });
-  };
+
+  tpCreated = () => this.setState({ createdTP: true });
 
   render() {
-    const { 
+    const {
       emailVerified,
       onboarded,
       question,

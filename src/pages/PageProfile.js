@@ -112,7 +112,7 @@ const ProfileSx = {
     overflow: 'hidden',
   },
 
-  '.format-fix': {
+  '.format-text': {
     whiteSpace: 'pre-wrap',
   },
 
@@ -236,7 +236,7 @@ class PageProfile extends React.Component {
   changeFeedbackExpand = (value, feedbackId) => {
     if (value) {
       this.setState({
-        feedbackExpand: { ...this.state.feedbackExpand, [feedbackId]: true } 
+        feedbackExpand: { ...this.state.feedbackExpand, [feedbackId]: true }
       });
     }
     else {
@@ -400,14 +400,14 @@ class PageProfile extends React.Component {
                   <div
                     className={
                       "profile-box-interior" +
-                      (this.state.feedbackExpand[feedbackId] ? " format-fix" : "")
+                      (this.state.feedbackExpand[feedbackId] ? ' format-test' : '')
                     }
                   >
                     <Latex>
                       {this.state.feedbackExpand[feedbackId]
                         ? feedback
                         : feedback.slice(0, length + 1) +
-                          (feedback.length > length ? "..." : "")}
+                          (feedback.length > length ? '...' : '')}
                     </Latex>
                   </div>
                 </div>
