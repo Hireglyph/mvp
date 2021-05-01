@@ -184,7 +184,7 @@ class PageProfile extends React.Component {
     if (!isExpanded) {
       return (
         <div
-          onClick={() => this.changeTpExpand(true, tpId)}
+          onClick={() => this.changeExpand(true, tpId, true)}
           className="profile-message"
         >
           Expand
@@ -193,7 +193,7 @@ class PageProfile extends React.Component {
     }
     return (
       <div
-        onClick={() => this.changeTpExpand(false, tpId)}
+        onClick={() => this.changeExpand(false, tpId, true)}
         className="profile-message"
       >
         Collapse
@@ -205,7 +205,7 @@ class PageProfile extends React.Component {
     if (!isExpanded) {
       return (
         <div
-          onClick={() => this.changeFeedbackExpand(true, feedbackId)}
+          onClick={() => this.changeExpand(true, feedbackId, false)}
           className="profile-message"
         >
           Expand
@@ -214,7 +214,7 @@ class PageProfile extends React.Component {
     }
     return (
       <div
-        onClick={() => this.changeFeedbackExpand(false, feedbackId)}
+        onClick={() => this.changeExpand(false, feedbackId, false)}
         className="profile-message"
       >
         Collapse
@@ -222,27 +222,17 @@ class PageProfile extends React.Component {
     );
   };
 
-  changeTpExpand = (value, tpId) => {
-    if (value) {
-      this.setState({ tpExpand: { ...this.state.tpExpand, [tpId]: true } });
-    }
-    else {
-      const newTpExpand = { ...this.state.tpExpand };
-      delete newTpExpand[tpId];
-      this.setState({ tpExpand: newTpExpand })
-    }
-  };
 
-  changeFeedbackExpand = (value, feedbackId) => {
+  changeExpand = (value, id, isTp) => {
+    const expandName = isTp ? 'tpExpand' : 'feedbackExpand';
+
     if (value) {
-      this.setState({
-        feedbackExpand: { ...this.state.feedbackExpand, [feedbackId]: true }
-      });
+      this.setState({ [expandName]: { ...this.state[expandName], [id]: true } });
     }
     else {
-      const newFeedbackExpand = { ...this.state.feedbackExpand };
-      delete newFeedbackExpand[feedbackId];
-      this.setState({ feedbackExpand: newFeedbackExpand })
+      const newExpand = { ...this.state[expandName] };
+      delete newExpand[id];
+      this.setState({ [expandName]: newExpand })
     }
   };
 
