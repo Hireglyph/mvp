@@ -13,6 +13,7 @@ import { ReactTitle } from 'react-meta-tags';
 import TpPreview from 'components/TpPreview';
 import Loading from 'components/Loading';
 import { length } from 'constants/PrevLength';
+import { displayContent } from 'utils/display';
 
 const ProfileSx = {
   display: 'flex',
@@ -392,9 +393,11 @@ class PageProfile extends React.Component {
                   >
                     <Latex>
                       {isFeedbackExpanded
-                        ? feedback
-                        : feedback.slice(0, length + 1) +
-                          (feedback.length > length ? '...' : '')}
+                        ? displayContent(feedback)
+                        : displayContent(
+                            feedback.slice(0, length + 1) + 
+                            (feedback.length > length ? '...' : '')
+                      )}
                     </Latex>
                   </div>
                 </div>
