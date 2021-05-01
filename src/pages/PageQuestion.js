@@ -314,7 +314,7 @@ const initialState = {
   initial: '',
   approach: '',
   solution: '',
-  expand: {},
+  expand: new Set(),
   showAnswer: false,
 };
 
@@ -342,7 +342,7 @@ class PageQuestion extends React.Component {
   displayTp = tpId => {
     const tp = this.props.tps[tpId];
     const username = tp && (tp.username ? tp.username : tp.creator);
-    const expanded = this.state.expand[tpId];
+    const expanded = this.state.expand.has(tpId);
 
     const { isUpvoted, isDownvoted } = currentVotes(tp, this.props.uid);
     const tpInfo = {tp, tpId, isUpvoted, isDownvoted, ...this.props};
@@ -398,7 +398,7 @@ class PageQuestion extends React.Component {
 
   changeOrder = (sortBy) => {
     const questId = this.props.questId;
-    this.setState({ expand: {} });
+    this.setState({ expand: new Set() });
     this.props.history.push(`/q/${questId}/community/${sortBy}`);
   };
 
@@ -407,14 +407,9 @@ class PageQuestion extends React.Component {
   };
 
   changeExpand = (value, tpId) => {
-    if (value) {
-      this.setState({ expand: { ...this.state.expand, [tpId]: true } });
-    }
-    else {
-      const newExpand = { ...this.state.expand };
-      delete newExpand[tpId];
-      this.setState({ expand: newExpand })
-    }
+    const cloneSet = new Set(this.state.expand);
+    value ? cloneSet.add(tpId) : cloneSet.delete(tpId);
+    this.setState({ expand: cloneSet });
   };
 
   handleClick = (questParam) => {
