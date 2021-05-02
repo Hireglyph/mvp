@@ -4,6 +4,7 @@ import { jsx } from 'theme-ui';
 import { Component } from 'react';
 import Latex from 'react-latex';
 import { length } from 'constants/PrevLength';
+import { displayContent } from 'utils/display';
 
 const TpPreviewSx = {
   '.tp-preview-label': {
@@ -32,7 +33,7 @@ export default class TpPreview extends Component {
               Initial:
             </div>
             <div>
-              <Latex>{initial}</Latex>
+              <Latex>{displayContent(initial)}</Latex>
             </div>
           </div>
         )}
@@ -42,7 +43,7 @@ export default class TpPreview extends Component {
               Approaches:
             </div>
             <div>
-              <Latex>{approach}</Latex>
+              <Latex>{displayContent(approach)}</Latex>
             </div>
           </div>
         )}
@@ -52,7 +53,7 @@ export default class TpPreview extends Component {
               Solution:
             </div>
             <div>
-              <Latex>{solution}</Latex>
+              <Latex>{displayContent(solution)}</Latex>
             </div>
           </div>
         )}
@@ -66,8 +67,10 @@ export default class TpPreview extends Component {
             </span>
             <span>
               <Latex>
-                {initial.slice(0, length + 1) +
-                (initial.length > length ? '...' : '')}
+                {displayContent(
+                  initial.slice(0, length + 1) + 
+                  (initial.length > length ? '...' : '')
+                )}
               </Latex>
             </span>
           </div>
@@ -79,8 +82,10 @@ export default class TpPreview extends Component {
             </span>
             <span>
               <Latex>
-                {approach.slice(0, length + 1) +
-                (approach.length > length ? '...' : '')}
+                {displayContent(
+                  approach.slice(0, length + 1) + 
+                  (approach.length > length ? '...' : '')
+                )}
               </Latex>
             </span>
           </div>
@@ -92,8 +97,10 @@ export default class TpPreview extends Component {
             </span>
             <span>
               <Latex>
-                {solution.slice(0, length + 1) +
-                (solution.length > length ? '...' : '')}
+                {displayContent(
+                  solution.slice(0, length + 1) + 
+                  (solution.length > length ? '...' : '')
+                )}
               </Latex>
             </span>
           </div>

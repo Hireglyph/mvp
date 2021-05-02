@@ -16,6 +16,7 @@ import { faArrowCircleLeft,
          faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 import { currentVotes, getVoteValues, upvoteTp, downvoteTp } from 'utils/vote';
+import { displayContent } from 'utils/display';
 import PageNotFound from 'pages/PageNotFound';
 import Loading from 'components/Loading';
 
@@ -341,7 +342,7 @@ class PageTp extends React.Component {
               <div className="feedback-content">
                 <div>@{feedbackUsername}</div>
                 <div>
-                  <Latex>{feedback}</Latex>
+                  <Latex>{displayContent(feedback)}</Latex>
                 </div>
               </div>
               <br />
@@ -425,19 +426,19 @@ class PageTp extends React.Component {
                 {tp.initial && 'Initial Thoughts:'}
               </div>
               <div>
-                <Latex>{tp.initial}</Latex>
+                <Latex>{tp.initial && displayContent(tp.initial)}</Latex>
               </div>
               <div className="content-label">
                 {tp.approach && 'Approaches Tried:'}
               </div>
               <div>
-                <Latex>{tp.approach}</Latex>
+                <Latex>{tp.approach && displayContent(tp.approach)}</Latex>
               </div>
               <div className="content-label">
                 {tp.solution && 'Final Solution:'}
               </div>
               <div>
-                <Latex>{tp.solution}</Latex>
+                <Latex>{tp.solution && displayContent(tp.solution)}</Latex>
               </div>
             </div>
           </div>
