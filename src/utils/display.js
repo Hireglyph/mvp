@@ -1,11 +1,11 @@
 export const displayContent = (content) => {
-    var contentCopy = content;
-    var mapObj = {
+    let contentCopy = content;
+    const mapObj = {
         $$:"$",
         $:"$\\$$"
     };
     contentCopy = contentCopy.replace(/\$\$|\$/gi, function(matched){
         return mapObj[matched];
     });
-    return(contentCopy);
+    return contentCopy;
 }
