@@ -99,6 +99,14 @@ const PageProblemsSx = {
     justifyContent: 'center',
     width: '270px',
   },
+  '.tag-selected': {
+    border: '3px #000000 solid'
+  },
+  '.no-quest': {
+    backgroundColor: 'mediumGrey',
+    width: '400px',
+    padding: '25px',
+  },
   '.question-title': {
     fontSize: '18px',
   },
@@ -130,25 +138,41 @@ class PageProblems extends React.Component {
   }
 
   handleTagFilter = (tag) => {
-    this.props.history.push(`/questions/${tag}`);
+    const base = (this.props.diff ? `diff=${this.props.diff}` : '');
+    this.props.history.push(
+      this.props.tag === tag ?
+        '/questions/?' + base :
+        `/questions/?tag=${tag}&` + base
+    );
   };
 
+  handleDiffFilter = (diff) => {
+    const base = (this.props.tag ? `tag=${this.props.tag}` : '');
+    this.props.history.push(
+      this.props.diff === diff ?
+        '/questions/?' + base :
+        `/questions/?diff=${diff}&` + base
+    );
+  }
+
   render() {
-    const { tag, questions, questionHistory } = this.props;
+    const { tag, diff, questions, questionHistory } = this.props;
 
     if (!isLoaded(questions) || !isLoaded(questionHistory)) {
       return <Loading />;
     }
 
-    const isDiff = tag === 'easy' || tag === 'medium' || tag === 'hard';
+    const isDiff = diff === 'easy' || diff === 'medium' || diff === 'hard';
 
-    if (tag && !isDiff && !tags.includes(tag)) {
+    if ((diff && !isDiff) || (tag && !tags.includes(tag))) {
+      console.log(tag);
+      console.log(isDiff);
       return <PageNotFound />;
     }
 
     const quests = Object.keys(questions)
-      .filter(questId => !isDiff || questions[questId].difficulty === tag)
-      .filter(questId => isDiff || !tag || (questions[questId].tags && questions[questId].tags[tag]))
+      .filter(questId => !isDiff || questions[questId].difficulty === diff)
+      .filter(questId => !tag || (questions[questId].tags && questions[questId].tags[tag]))
       .map(questId => {
         const quest = questions[questId];
         const answered = questionHistory && questionHistory[questId];
@@ -175,10 +199,20 @@ class PageProblems extends React.Component {
         );
       });
 
+    const noQuests = (
+      <div className="no-quest">
+        There are no questions that match your search. Please try changing
+        the difficulty or tag to find questions.
+      </div>
+    );
+
     const tagButtons = tags.map(tag => {
       return (
         <div
-          className="tag tag-button pointer"
+          className={
+            (this.props.tag === tag && " tag-selected") +
+            " tag tag-button pointer"
+          }
           onClick={() => this.handleTagFilter(tag)}
           key={tag}
         >
@@ -201,20 +235,29 @@ class PageProblems extends React.Component {
         <div className="sortby-container">
           <h2 className="white">Difficulty</h2>
           <div
-            className="diff-button pointer easy"
-            onClick={() => this.handleTagFilter('easy')}
+            className={
+              (this.props.diff === 'easy' && " tag-selected") +
+              " diff-button pointer easy"
+            }
+            onClick={() => this.handleDiffFilter('easy')}
           >
             EASY
           </div>
           <div
-            className="diff-button pointer medium"
-            onClick={() => this.handleTagFilter('medium')}
+            className={
+              (this.props.diff === 'medium' && " tag-selected") +
+              " diff-button pointer medium"
+            }
+            onClick={() => this.handleDiffFilter('medium')}
           >
             MEDIUM
           </div>
           <div
-            className="diff-button pointer hard"
-            onClick={() => this.handleTagFilter('hard')}
+            className={
+              (this.props.diff === 'hard' && " tag-selected") +
+              " diff-button pointer hard"
+            }
+            onClick={() => this.handleDiffFilter('hard')}
           >
             HARD
           </div>
@@ -229,13 +272,13 @@ class PageProblems extends React.Component {
             {tag &&
               <div
                 className="original-list pointer white"
-                onClick={() => this.handleTagFilter('')}
+                onClick={() => this.props.history.push('/questions')}
               >
                   View full list
               </div>}
           </div>
           <div className="quest-container">
-            {quests}
+            {quests.length ? quests : noQuests}
           </div>
         </div>
       </div>

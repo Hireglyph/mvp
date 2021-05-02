@@ -503,7 +503,7 @@ class PageQuestion extends React.Component {
       tags &&
       Object.keys(tags).map((tag) => {
         return (
-          <Link to={`/questions/${tag}`} className="tag" key={tag}>
+          <Link to={`/questions?tag=${tag}`} className="tag" key={tag}>
             {tag}
           </Link>
         );

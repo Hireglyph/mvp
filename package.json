@@ -18,6 +18,7 @@
     "emailjs-com": "^2.6.4",
     "firebase": "^7.24.0",
     "font-awesome": "^4.7.0",
+    "query-string": "^7.0.0",
     "react": "^16.13.1",
     "react-bootstrap": "^1.5.1",
     "react-dom": "^16.13.1",
