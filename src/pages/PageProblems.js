@@ -138,7 +138,7 @@ class PageProblems extends React.Component {
   }
 
   handleTagFilter = (tag) => {
-    const base = (this.props.diff ? `diff=${this.props.diff}` : '');
+    const base = this.props.diff ? `diff=${this.props.diff}` : '';
     this.props.history.push(
       this.props.tag === tag ?
         '/questions/?' + base :
@@ -147,7 +147,7 @@ class PageProblems extends React.Component {
   };
 
   handleDiffFilter = (diff) => {
-    const base = (this.props.tag ? `tag=${this.props.tag}` : '');
+    const base = this.props.tag ? `tag=${this.props.tag}` : '';
     this.props.history.push(
       this.props.diff === diff ?
         '/questions/?' + base :
@@ -165,8 +165,6 @@ class PageProblems extends React.Component {
     const isDiff = diff === 'easy' || diff === 'medium' || diff === 'hard';
 
     if ((diff && !isDiff) || (tag && !tags.includes(tag))) {
-      console.log(tag);
-      console.log(isDiff);
       return <PageNotFound />;
     }
 
