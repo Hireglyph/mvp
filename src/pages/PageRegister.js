@@ -16,6 +16,7 @@ class PageRegister extends React.Component {
     this.state = {
       email: '',
       password: '',
+      confirmPassword: '',
       username: '',
       error: '',
     };
@@ -25,23 +26,28 @@ class PageRegister extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
 
   register = async () => {
-    const credentials = {
-      email: this.state.email,
-      password: this.state.password,
-    };
+    if (this.state.password === this.state.confirmPassword) {
+      const credentials = {
+        email: this.state.email,
+        password: this.state.password,
+      };
 
-    const profile = {
-      email: this.state.email,
-      username: this.state.username,
-      onboarded: true,
-      admin: false,
-    };
+      const profile = {
+        email: this.state.email,
+        username: this.state.username,
+        onboarded: true,
+        admin: false,
+      };
 
-    try {
-      await this.props.registerUser(credentials, profile);
-      await this.props.auth().currentUser.sendEmailVerification();
-    } catch (error) {
-      this.setState({ error: error.message });
+      try {
+        await this.props.registerUser(credentials, profile);
+        await this.props.auth().currentUser.sendEmailVerification();
+      } catch (error) {
+        this.setState({ error: error.message });
+      }
+    }
+    else {
+      this.setState({ error: "Passwords do not match" });
     }
   };
 
@@ -73,6 +79,14 @@ class PageRegister extends React.Component {
             placeholder="Password"
             type="password"
             value={this.state.password}
+          />
+          <input
+            className="auth-input"
+            name="confirmPassword"
+            onChange={this.handleChange}
+            placeholder="Confirm password"
+            type="password"
+            value={this.state.confirmPassword}
           />
           <input
             className="auth-input"
