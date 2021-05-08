@@ -26,7 +26,7 @@ class PageRegister extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
 
   register = async () => {
-    if(this.state.password === this.state.confirmPassword) {
+    if (this.state.password === this.state.confirmPassword) {
       const credentials = {
         email: this.state.email,
         password: this.state.password,
