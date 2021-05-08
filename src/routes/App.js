@@ -2,7 +2,8 @@ import React from 'react';
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { withRouter, Redirect, Route, Switch } from 'react-router-dom';
+import queryString from 'query-string';
 
 import PageAddQuestion from 'pages/PageAddQuestion';
 import PageProblems from 'pages/PageProblems';
@@ -75,7 +76,8 @@ class App extends React.Component {
               <PageProblems
                 questions={questions}
                 questionHistory={questionHistory}
-                tag={props.match.params.tag}
+                tag={queryString.parse(this.props.location.search).tag}
+                diff={queryString.parse(this.props.location.search).diff}
                 uid={uid}
               />
             }
@@ -101,6 +103,7 @@ const mapStateToProps = state => {
 }
 
 export default compose(
+  withRouter,
   firebaseConnect(props => [
     { path: '/questions' },
     { path: '/questionHistory/' + props.uid, storeAs: 'questionHistory' },
