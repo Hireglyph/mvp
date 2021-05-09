@@ -170,6 +170,10 @@ class PageTp extends React.Component {
       loading: true,
       keys: [],
       feedbacks: {},
+      replyQuery: true,
+      replyLoaded: {},
+      replyKeys: {},
+      replies: {},
     };
   }
 
@@ -187,6 +191,31 @@ class PageTp extends React.Component {
         }
         this.setState({ loading: false })
       });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.keys.length && this.state.replyQuery) {
+      this.state.keys.forEach(feedbackId =>
+        this.props.firebase.database()
+          .ref(`/replies/${feedbackId}`)
+          .on('value', data => {
+            if (data.val()) {
+              if (!this.state.replyLoaded[feedbackId]) {
+                this.setState({ replyKeys: 
+                  {...this.state.replyKeys, [feedbackId]: Object.keys(data.val())} 
+                })
+              }
+              this.setState({ replies:
+                {...this.state.replies, [feedbackId]: data.val()}
+              })
+            }
+            this.setState({ replyLoaded:
+              {...this.state.replyLoaded, [feedbackId]: true}
+            })
+          })
+      );
+      this.setState({ replyQuery: false });
+    }
   }
 
   componentWillUnmount() {
