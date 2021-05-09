@@ -170,8 +170,7 @@ class PageTp extends React.Component {
       loading: true,
       keys: [],
       feedbacks: {},
-      replyQuery: true,
-      replyLoaded: {},
+      replyLoading: true,
       replyKeys: {},
       replies: {},
     };
@@ -187,39 +186,31 @@ class PageTp extends React.Component {
             keys.sort((a, b) => data.val()[b].score - data.val()[a].score);
             this.setState({ keys });
           }
-          this.setState({ feedbacks: data.val() })
+          this.setState({ feedbacks: data.val() });
         }
-        this.setState({ loading: false })
+        this.setState({ loading: false });
       });
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.keys.length && this.state.replyQuery) {
-      this.state.keys.forEach(feedbackId =>
-        this.props.firebase.database()
-          .ref(`/replies/${feedbackId}`)
-          .on('value', data => {
-            if (data.val()) {
-              if (!this.state.replyLoaded[feedbackId]) {
-                this.setState({ replyKeys: 
-                  {...this.state.replyKeys, [feedbackId]: Object.keys(data.val())} 
-                })
-              }
-              this.setState({ replies:
-                {...this.state.replies, [feedbackId]: data.val()}
-              })
-            }
-            this.setState({ replyLoaded:
-              {...this.state.replyLoaded, [feedbackId]: true}
-            })
-          })
-      );
-      this.setState({ replyQuery: false });
-    }
+    
+    this.props.firebase.database()
+      .ref(`/replies/${this.props.tpId}`)
+      .on('value', data => {
+        if (data.val()) {
+          if (this.state.replyLoading) {
+            var replyKeysCopy = this.state.replyKeys;
+            Object.keys(data.val()).forEach(feedbackId => {
+              replyKeysCopy[feedbackId] = Object.keys(data.val()[feedbackId]);
+            });
+            this.setState({ replyKeys: replyKeysCopy });
+          }
+          this.setState({ replies: data.val() });
+        }
+        this.setState({ replyLoading: false });
+      });
   }
 
   componentWillUnmount() {
     this.props.firebase.database().ref(`/feedbacks/${this.props.tpId}`).off();
+    this.props.firebase.database().ref(`/replies/${this.props.tpId}`).off();
   }
 
   handleChange = event => {
