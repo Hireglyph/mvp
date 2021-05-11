@@ -119,7 +119,7 @@ class PageNotifications extends React.Component {
                 <div key={notifId}>
                   <Link
                     className="notif-link"
-                    to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
+                    smooth to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
                     onClick={() => this.viewed(notifId)}
                   >
                     <div className={notification.viewed ? 'box-viewed' : 'box-unviewed'}>
@@ -135,7 +135,7 @@ class PageNotifications extends React.Component {
                 <div key={notifId}>
                   <Link
                     className="notif-link"
-                    to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
+                    smooth to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
                     onClick={() => this.viewed(notifId)}
                   >
                     <div className={notification.viewed ? "box-viewed" : "box-unviewed"}>

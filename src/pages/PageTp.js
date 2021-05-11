@@ -308,7 +308,8 @@ class PageTp extends React.Component {
   };
 
   render() {
-    const feedbacks = this.state.feedbacks;
+    const { feedbacks, replies }  = this.state;
+    
     const {
       tp,
       isDownvoted,
@@ -353,7 +354,25 @@ class PageTp extends React.Component {
               </div>
             </div>
           );
-
+          const repliesTo = replies && replies[feedbackId];
+          const repliesDisplay = repliesTo &&
+            this.state.replyKeys[feedbackId].map((replyId) => {
+              const { reply, replyToID, toUsername } = repliesTo[replyId];
+              const replyCreator = repliesTo[replyId].creator;
+              const replyUsername = repliesTo[replyId].username;
+              const deleted = !replyCreator;
+              return (
+                <div key={`${replyToID}`} id={`${replyId}`}>
+                  <div>@{replyUsername}</div>
+                  <div>
+                    <a href={`#${replyToID}`}>
+                      {toUsername}
+                    </a>
+                    <Latex>{displayContent(reply)}</Latex>
+                  </div>
+                </div>
+              );
+            })
           return (
             <div className="feedback-block" key={feedbackId} id={`${feedbackId}`}>
               <div className="arrows-container">
@@ -363,6 +382,9 @@ class PageTp extends React.Component {
                 <div>@{feedbackUsername}</div>
                 <div>
                   <Latex>{displayContent(feedback)}</Latex>
+                </div>
+                <div>
+                  {repliesDisplay}
                 </div>
               </div>
               <br />
@@ -463,7 +485,7 @@ class PageTp extends React.Component {
             </div>
           </div>
           <br />
-          {this.state.loading
+          {this.state.loading || this.state.replyLoading
             ? <Loading/>
             : (
             <div>

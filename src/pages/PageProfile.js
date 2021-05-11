@@ -410,7 +410,7 @@ class PageProfile extends React.Component {
                   </div>
                   <Link
                     className="profile-link"
-                    to={`/tp/${questId}/${tpId}#${feedbackId}`}
+                    smooth to={`/tp/${questId}/${tpId}#${feedbackId}`}
                   >
                     <div className="profile-onclick">
                       Go to Feedback
