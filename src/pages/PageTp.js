@@ -365,6 +365,13 @@ class PageTp extends React.Component {
       toUsername,
       username
     };
+    updates[`/feedbackHistory/${uid}/${replyId}`] = {
+      tpId,
+      reply,
+      questId,
+      replyFeedbackID,
+      username,
+    };
     if (uid !== replyToCreator) {
       updates[`/notifications/${replyToCreator}/${notifId}`] = {
         questId,

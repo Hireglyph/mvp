@@ -259,6 +259,18 @@ class PageProfile extends React.Component {
     this.props.firebase.update("/", updates);
   }
 
+  replyDelete = (replyId, replyFeedbackID, tpId) => {
+    const updates = {};
+
+    updates[`/replies/${tpId}/${replyFeedbackID}/${replyId}/reply`] = "[deleted]";
+    updates[`/replies/${tpId}/${replyFeedbackID}/${replyId}/username`] = "[deleted]";
+    updates[`/replies/${tpId}/${replyFeedbackID}/${replyId}/creator`] = null;
+
+    updates[`feedbackHistory/${this.props.uid}/${replyId}`] = null;
+
+    this.props.firebase.update("/", updates);
+  }
+
   handleTps = (historyParam) => {
     this.props.history.push(`/profile/${historyParam}`);
   };
@@ -353,9 +365,14 @@ class PageProfile extends React.Component {
         .slice(0)
         .reverse()
         .map((feedbackId) => {
-          const { feedback, questId, tpId, username } = feedbackHistory[
-            feedbackId
-          ];
+          const {
+            feedback,
+            reply,
+            replyFeedbackID,
+            questId,
+            tpId,
+            username,
+          } = feedbackHistory[feedbackId];
 
           const score = feedbackHistory[feedbackId].score;
           const isFeedbackExpanded = this.state.feedbackExpand.has(feedbackId);
@@ -420,6 +437,58 @@ class PageProfile extends React.Component {
               </div>
             );
           }
+          if (reply && replyFeedbackID && username && questId && tpId) {
+            return (
+              <div className="profile-box" key={feedbackId}>
+                <div className="profile-header">
+                  <div>
+                    Reply to to @{username} about a TP to Question #{questId}
+                  </div>
+                  <div className="profile-header-button">
+                    {reply.length > length
+                      && this.generateFeedbackMessage(
+                          isFeedbackExpanded,
+                          feedbackId
+                        )}
+                  </div>
+                </div>
+                <div className="profile-box-content">
+                  <div className="profile-box-score"/>
+                  <div
+                    className={
+                      "profile-box-interior" +
+                      (isFeedbackExpanded ? " format-text" : "")
+                    }
+                  >
+                    <Latex>
+                      {isFeedbackExpanded
+                        ? displayContent(reply)
+                        : displayContent(
+                            reply.slice(0, length + 1) + 
+                            (reply.length > length ? '...' : '')
+                      )}
+                    </Latex>
+                  </div>
+                </div>
+                <div className="profile-box-bottom">
+                  <div
+                    className="profile-delete"
+                    onClick={() => this.replyDelete(feedbackId, replyFeedbackID, tpId)}
+                  >
+                    Delete
+                  </div>
+                  <Link
+                    className="profile-link"
+                    smooth to={`/tp/${questId}/${tpId}#${feedbackId}`}
+                  >
+                    <div className="profile-onclick">
+                      Go to Reply
+                    </div>
+                  </Link>
+                </div>
+              </div>
+            );
+          }
           return null;
         })
       ) : (
@@ -464,7 +533,7 @@ class PageProfile extends React.Component {
               disabled={historyParam === "feedback"}
               onClick={() => this.handleTps("feedback")}
             >
-              Feedback Given
+              Feedback + Replies Given
             </button>
           </div>
           {display}
