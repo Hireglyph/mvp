@@ -337,7 +337,14 @@ class PageTp extends React.Component {
   };
 
   createReply = () => {
-    const { firebase, tpId, uid, username } = this.props;
+    const {
+      firebase,
+      questId,
+      tp,
+      tpId,
+      uid,
+      username
+    } = this.props;
     const {
       replyKeys,
       reply,
@@ -345,7 +352,11 @@ class PageTp extends React.Component {
       replyFeedbackID,
       replyToID
     } = this.state;
+    const replyToCreator = replyFeedbackID === replyToID ?
+      this.state.feedbacks[replyFeedbackID].creator :
+      this.state.replies[replyFeedbackID][replyToID].creator;
     const replyId = firebase.push(`/replies/${tpId}/${replyFeedbackID}`).key;
+    const notifId = firebase.push(`/notifications/${replyToCreator}`).key;
     const updates = {};
     updates[`/replies/${tpId}/${replyFeedbackID}/${replyId}`] = {
       creator: uid,
@@ -353,6 +364,18 @@ class PageTp extends React.Component {
       replyToID,
       toUsername,
       username
+    };
+    if (uid !== replyToCreator) {
+      updates[`/notifications/${replyToCreator}/${notifId}`] = {
+        questId,
+        tpId,
+        replyId,
+        username,
+        author: tp.username,
+        viewed: false,
+        type: 'reply',
+      };
+      updates[`/hasNotifs/${replyToCreator}`] = true;
     };
     firebase.update('/', updates);
     var replyKeysCopy = replyKeys;
@@ -416,7 +439,7 @@ class PageTp extends React.Component {
             </div>
           );
           const repliesTo = replies && replies[feedbackId];
-          const repliesDisplay = this.state.replyKeys[feedbackId] &&
+          const repliesDisplay = this.state.replyKeys[feedbackId] && replies[feedbackId] &&
             this.state.replyKeys[feedbackId].map((replyId) => {
               const { reply, replyToID, toUsername } = repliesTo[replyId];
               const replyCreator = repliesTo[replyId].creator;
