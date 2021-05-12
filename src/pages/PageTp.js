@@ -138,6 +138,18 @@ const TpSx = {
     whiteSpace: 'pre-wrap',
   },
 
+  '.feedback-top': {
+    display: 'flex',
+  },
+
+  '.reply-click': {
+    cursor: 'pointer',
+  },
+
+  '.cancel-reply': {
+    color: 'red',
+  },
+
   '.fa-layers': {
     height: '18px',
     width: '60px',
@@ -170,6 +182,10 @@ class PageTp extends React.Component {
       loading: true,
       keys: [],
       feedbacks: {},
+      reply: '',
+      toUsername: null,
+      replyFeedbackID: null,
+      replyToID: null,
       replyLoading: true,
       replyKeys: {},
       replies: {},
@@ -307,6 +323,51 @@ class PageTp extends React.Component {
     firebase.update('/', updates);
   };
 
+  setReply = (replyFeedbackID, replyToID, toUsername) => {
+    this.setState({ replyFeedbackID, replyToID, toUsername });
+  };
+
+  cancelReply = () => {
+    this.setState({
+      reply: '',
+      replyFeedbackID: null, 
+      replyToID: null, 
+      toUsername: null 
+    });
+  };
+
+  createReply = () => {
+    const { firebase, tpId, uid, username } = this.props;
+    const {
+      replyKeys,
+      reply,
+      toUsername,
+      replyFeedbackID,
+      replyToID
+    } = this.state;
+    const replyId = firebase.push(`/replies/${tpId}/${replyFeedbackID}`).key;
+    const updates = {};
+    updates[`/replies/${tpId}/${replyFeedbackID}/${replyId}`] = {
+      creator: uid,
+      reply,
+      replyToID,
+      toUsername,
+      username
+    };
+    firebase.update('/', updates);
+    var replyKeysCopy = replyKeys;
+    replyKeysCopy[replyFeedbackID] = replyKeys[replyFeedbackID] ?
+      replyKeys[replyFeedbackID] : [];
+    replyKeysCopy[replyFeedbackID].push(replyId);
+    this.setState({
+      replyKeys: replyKeysCopy,
+      reply: '',
+      replyFeedbackID: null, 
+      replyToID: null, 
+      toUsername: null 
+    });
+  };
+
   render() {
     const { feedbacks, replies }  = this.state;
     
@@ -355,15 +416,32 @@ class PageTp extends React.Component {
             </div>
           );
           const repliesTo = replies && replies[feedbackId];
-          const repliesDisplay = repliesTo &&
+          const repliesDisplay = this.state.replyKeys[feedbackId] &&
             this.state.replyKeys[feedbackId].map((replyId) => {
               const { reply, replyToID, toUsername } = repliesTo[replyId];
               const replyCreator = repliesTo[replyId].creator;
               const replyUsername = repliesTo[replyId].username;
-              const deleted = !replyCreator;
+              const replyDeleted = !replyCreator;
               return (
-                <div key={`${replyToID}`} id={`${replyId}`}>
-                  <div>@{replyUsername}</div>
+                <div key={replyId} id={`${replyId}`}>
+                  <div className="feedback-top">
+                    <div>@{replyUsername}</div>
+                    {!replyDeleted && (this.state.replyToID === replyId ?
+                      <div
+                        className="reply-click cancel-reply"
+                        onClick={() => this.cancelReply()}
+                      >
+                        Reply
+                      </div>
+                    :
+                      <div
+                        className="reply-click"
+                        onClick={() => this.setReply(feedbackId, replyId, replyUsername)}
+                      >
+                        Reply
+                      </div>
+                    )}
+                  </div>
                   <div>
                     <a href={`#${replyToID}`}>
                       {toUsername}
@@ -373,18 +451,58 @@ class PageTp extends React.Component {
                 </div>
               );
             })
+          const replyTextArea = this.state.replyFeedbackID === feedbackId && (
+            <div>
+              <div>Reply To: {this.state.toUsername}</div>
+              <TextareaAutosize
+                minRows={2}
+                name="reply"
+                placeholder="Enter reply here"
+                onChange={this.handleChange}
+                value={this.state.reply}
+              />
+              <button
+                onClick={this.cancelReply}
+              >
+                Delete
+              </button>
+              <button
+                onClick={this.createReply}
+              >
+                Reply
+              </button>
+            </div>
+          );
           return (
             <div className="feedback-block" key={feedbackId} id={`${feedbackId}`}>
               <div className="arrows-container">
                 {feedbackScoreArrows}
               </div>
               <div className="feedback-content">
-                <div>@{feedbackUsername}</div>
+                <div className="feedback-top">
+                  <div>@{feedbackUsername}</div>
+                  {!deleted && (this.state.replyToID === feedbackId ?
+                    <div
+                      className="reply-click cancel-reply"
+                      onClick={() => this.cancelReply()}
+                    >
+                      Reply
+                    </div>
+                  :
+                    <div
+                      className="reply-click"
+                      onClick={() => this.setReply(feedbackId, feedbackId, feedbackUsername)}
+                    >
+                      Reply
+                    </div>
+                  )}
+                </div>
                 <div>
                   <Latex>{displayContent(feedback)}</Latex>
                 </div>
                 <div>
                   {repliesDisplay}
+                  {replyTextArea}
                 </div>
               </div>
               <br />
