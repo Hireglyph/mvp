@@ -14,6 +14,7 @@ import TpPreview from 'components/TpPreview';
 import Loading from 'components/Loading';
 import { length } from 'constants/PrevLength';
 import { displayContent } from 'utils/display';
+import { tpDelete, feedbackDelete, replyDelete } from 'utils/delete';
 
 const ProfileSx = {
   display: 'flex',
@@ -221,45 +222,6 @@ class PageProfile extends React.Component {
     this.setState({ [expandName]: cloneSet });
   };
 
-  tpDelete = (tpId, questId) => {
-    const updates = {};
-
-    updates[`/tps/${questId}/${tpId}/initial`] = "[deleted]";
-    updates[`/tps/${questId}/${tpId}/approach`] = "[deleted]";
-    updates[`/tps/${questId}/${tpId}/solution`] = "[deleted]";
-
-    updates[`/tps/${questId}/${tpId}/username`] = "[deleted]";
-    updates[`/tps/${questId}/${tpId}/creator`] = null;
-
-    updates[`tpHistory/${this.props.uid}/${tpId}`] = null;
-
-    this.props.firebase.update("/", updates);
-  }
-
-  feedbackDelete = (feedbackId, tpId) => {
-    const updates = {};
-
-    updates[`/feedbacks/${tpId}/${feedbackId}/feedback`] = "[deleted]";
-    updates[`/feedbacks/${tpId}/${feedbackId}/username`] = "[deleted]";
-    updates[`/feedbacks/${tpId}/${feedbackId}/creator`] = null;
-
-    updates[`feedbackHistory/${this.props.uid}/${feedbackId}`] = null;
-
-    this.props.firebase.update("/", updates);
-  }
-
-  replyDelete = (replyId, replyFeedbackID, tpId) => {
-    const updates = {};
-
-    updates[`/replies/${tpId}/${replyFeedbackID}/${replyId}/reply`] = "[deleted]";
-    updates[`/replies/${tpId}/${replyFeedbackID}/${replyId}/username`] = "[deleted]";
-    updates[`/replies/${tpId}/${replyFeedbackID}/${replyId}/creator`] = null;
-
-    updates[`replyHistory/${this.props.uid}/${replyId}`] = null;
-
-    this.props.firebase.update("/", updates);
-  }
-
   handleTps = (historyParam) => {
     this.props.history.push(`/profile/${historyParam}`);
   };
@@ -324,7 +286,12 @@ class PageProfile extends React.Component {
                 <div className="profile-box-bottom">
                   <div
                     className="profile-delete"
-                    onClick={() => this.tpDelete(tpId, tp.questId)}
+                    onClick={() => tpDelete({
+                      firebase: this.props.firebase,
+                      questId: tp.questId,
+                      tpId,
+                      uid: this.props.uid,
+                    })}
                   >
                     Delete
                   </div>
@@ -410,7 +377,12 @@ class PageProfile extends React.Component {
                 <div className="profile-box-bottom">
                   <div
                     className="profile-delete"
-                    onClick={() => this.feedbackDelete(feedbackId, tpId)}
+                    onClick={() => feedbackDelete({
+                      firebase: this.props.firebase,
+                      tpId,
+                      feedbackId,
+                      uid: this.props.uid,
+                    })}
                   >
                     Delete
                   </div>
@@ -489,7 +461,13 @@ class PageProfile extends React.Component {
                 <div className="profile-box-bottom">
                   <div
                     className="profile-delete"
-                    onClick={() => this.replyDelete(replyId, replyFeedbackID, tpId)}
+                    onClick={() => replyDelete({
+                      firebase: this.props.firebase,
+                      tpId,
+                      replyFeedbackID,
+                      replyId,
+                      uid: this.props.uid,
+                    })}
                   >
                     Delete
                   </div>
