@@ -365,7 +365,7 @@ class PageTp extends React.Component {
       toUsername,
       username
     };
-    updates[`/feedbackHistory/${uid}/${replyId}`] = {
+    updates[`/replyHistory/${uid}/${replyId}`] = {
       tpId,
       reply,
       questId,
