@@ -19,6 +19,7 @@ import { currentVotes, getVoteValues, upvoteTp, downvoteTp } from 'utils/vote';
 import { displayContent } from 'utils/display';
 import PageNotFound from 'pages/PageNotFound';
 import Loading from 'components/Loading';
+import { tpDelete, feedbackDelete, replyDelete } from 'utils/delete';
 
 const TpSx = {
   display: 'flex',
@@ -478,6 +479,19 @@ class PageTp extends React.Component {
                     </a>
                     <Latex>{displayContent(reply)}</Latex>
                   </div>
+                  {uid === replyCreator &&
+                    <button
+                      onClick={() => replyDelete({
+                        firebase: this.props.firebase,
+                        tpId: this.props.tpId,
+                        replyFeedbackID: feedbackId,
+                        replyId,
+                        uid: replyCreator,
+                      })}
+                    >
+                      Delete Reply
+                    </button>
+                  }
                 </div>
               );
             })
@@ -530,6 +544,18 @@ class PageTp extends React.Component {
                 <div>
                   <Latex>{displayContent(feedback)}</Latex>
                 </div>
+                {uid === creator &&
+                  <button
+                    onClick={() => feedbackDelete({
+                      firebase: this.props.firebase,
+                      tpId: this.props.tpId,
+                      feedbackId,
+                      uid: creator,
+                    })}
+                  >
+                    Delete Feedback
+                  </button>
+                }
                 <div>
                   {repliesDisplay}
                   {replyTextArea}
@@ -630,6 +656,18 @@ class PageTp extends React.Component {
               <div>
                 <Latex>{tp.solution && displayContent(tp.solution)}</Latex>
               </div>
+              {uid === tp.creator &&
+                <button
+                  onClick={() => tpDelete({
+                    firebase: this.props.firebase,
+                    questId,
+                    tpId: this.props.tpId,
+                    uid: tp.creator,
+                  })}
+                >
+                  Delete TP
+                </button>
+              }
             </div>
           </div>
           <br />
