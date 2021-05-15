@@ -364,7 +364,8 @@ class PageTp extends React.Component {
       reply,
       replyToID,
       toUsername,
-      username
+      username,
+      score: 0,
     };
     updates[`/replyHistory/${uid}/${replyId}`] = {
       tpId,
@@ -397,6 +398,33 @@ class PageTp extends React.Component {
       replyToID: null, 
       toUsername: null 
     });
+  };
+
+  upvoteReply = (replyId, feedbackId) => {
+    const { firebase, questId, tpId, tp, uid, username } = this.props;
+    const replies = this.state.replies;
+    const reply = replies[feedbackId][replyId];
+    const updates = {};
+    const isUpvoted = reply.users && reply.users[uid];
+    const diff = isUpvoted ? -1 : 1;
+
+    if (!isUpvoted && uid !== reply.creator) {
+      const notificationId = firebase.push(`/notifications/${reply.creator}`).key;
+      updates[`/notifications/${reply.creator}/${notificationId}`] = {
+        questId,
+        tpId,
+        replyId,
+        username,
+        author: tp.username,
+        viewed: false,
+        type: 'replyUpvote',
+      };
+      updates[`/hasNotifs/${reply.creator}`] = true;
+    }
+
+    updates[`/replies/${tpId}/${feedbackId}/${replyId}/users/${uid}`] = isUpvoted ? false : true;
+    updates[`/replies/${tpId}/${feedbackId}/${replyId}/score`] = reply.score + diff;
+    firebase.update('/', updates);
   };
 
   render() {
@@ -453,6 +481,7 @@ class PageTp extends React.Component {
               const replyCreator = repliesTo[replyId].creator;
               const replyUsername = repliesTo[replyId].username;
               const replyDeleted = !replyCreator;
+              const isReplyUpvoted = repliesTo[replyId].users && repliesTo[replyId].users[uid];
               return (
                 <div key={replyId} id={`${replyId}`}>
                   <div className="feedback-top">
@@ -474,6 +503,15 @@ class PageTp extends React.Component {
                     )}
                   </div>
                   <div>
+                    {!replyDeleted && <div className="feedback-top">
+                      <div
+                        className={(isReplyUpvoted ? "upvoted-arrow" : "blank-arrow") + " fa-layers"}
+                        onClick={() => this.upvoteReply(replyId, feedbackId)}
+                      >
+                        <FontAwesomeIcon icon={faCaretUp} size="2x" />
+                      </div>
+                      <div>{repliesTo[replyId].score > 0 && repliesTo[replyId].score}</div>
+                    </div>}
                     <a href={`#${replyToID}`}>
                       {toUsername}
                     </a>
