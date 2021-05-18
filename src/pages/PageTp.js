@@ -207,7 +207,7 @@ class PageTp extends React.Component {
         }
         this.setState({ loading: false });
       });
-    
+
     this.props.firebase.database()
       .ref(`/replies/${this.props.tpId}`)
       .on('value', data => {
@@ -331,9 +331,9 @@ class PageTp extends React.Component {
   cancelReply = () => {
     this.setState({
       reply: '',
-      replyFeedbackID: null, 
-      replyToID: null, 
-      toUsername: null 
+      replyFeedbackID: null,
+      replyToID: null,
+      toUsername: null
     });
   };
 
@@ -346,6 +346,7 @@ class PageTp extends React.Component {
       uid,
       username
     } = this.props;
+
     const {
       replyKeys,
       reply,
@@ -353,11 +354,13 @@ class PageTp extends React.Component {
       replyFeedbackID,
       replyToID
     } = this.state;
+
     const replyToCreator = replyFeedbackID === replyToID ?
       this.state.feedbacks[replyFeedbackID].creator :
       this.state.replies[replyFeedbackID][replyToID].creator;
     const replyId = firebase.push(`/replies/${tpId}/${replyFeedbackID}`).key;
     const notifId = firebase.push(`/notifications/${replyToCreator}`).key;
+
     const updates = {};
     updates[`/replies/${tpId}/${replyFeedbackID}/${replyId}`] = {
       creator: uid,
@@ -387,16 +390,19 @@ class PageTp extends React.Component {
       updates[`/hasNotifs/${replyToCreator}`] = true;
     };
     firebase.update('/', updates);
-    var replyKeysCopy = replyKeys;
+
+    var replyKeysCopy = { ...replyKeys };
+
     replyKeysCopy[replyFeedbackID] = replyKeys[replyFeedbackID] ?
-      replyKeys[replyFeedbackID] : [];
+      replyKeys[replyFeedbackID].slice() : [];
     replyKeysCopy[replyFeedbackID].push(replyId);
+
     this.setState({
       replyKeys: replyKeysCopy,
       reply: '',
-      replyFeedbackID: null, 
-      replyToID: null, 
-      toUsername: null 
+      replyFeedbackID: null,
+      replyToID: null,
+      toUsername: null
     });
   };
 
@@ -429,7 +435,7 @@ class PageTp extends React.Component {
 
   render() {
     const { feedbacks, replies }  = this.state;
-    
+
     const {
       tp,
       isDownvoted,
@@ -474,16 +480,17 @@ class PageTp extends React.Component {
               </div>
             </div>
           );
+
           const repliesTo = replies && replies[feedbackId];
           const repliesDisplay = this.state.replyKeys[feedbackId] && replies[feedbackId] &&
-            this.state.replyKeys[feedbackId].map((replyId) => {
-              const { reply, replyToID, toUsername } = repliesTo[replyId];
+            this.state.replyKeys[feedbackId].map(replyId => {
+              const { reply, toUsername } = repliesTo[replyId];
               const replyCreator = repliesTo[replyId].creator;
               const replyUsername = repliesTo[replyId].username;
               const replyDeleted = !replyCreator;
               const isReplyUpvoted = repliesTo[replyId].users && repliesTo[replyId].users[uid];
               return (
-                <div key={replyId} id={`${replyId}`}>
+                <div key={replyId} id={replyId}>
                   <div className="feedback-top">
                     <div>@{replyUsername}</div>
                     {!replyDeleted && (this.state.replyToID === replyId ?
@@ -512,9 +519,9 @@ class PageTp extends React.Component {
                       </div>
                       <div>{repliesTo[replyId].score > 0 && repliesTo[replyId].score}</div>
                     </div>}
-                    <a href={`#${replyToID}`}>
-                      {toUsername}
-                    </a>
+                    <div>
+                      @{toUsername}{' '}
+                    </div>
                     <Latex>{displayContent(reply)}</Latex>
                   </div>
                   {uid === replyCreator &&
