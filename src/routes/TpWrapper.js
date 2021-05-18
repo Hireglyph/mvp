@@ -27,7 +27,7 @@ class TpWrapper extends React.Component {
       this.setState(initialState);
     }
     if (this.props.isPageQuestion && isLoaded(this.props.tps)
-        && (!prevState.sorted || this.state.createdTP)) {
+        && (!this.state.sorted || this.state.createdTP)) {
       let keys = this.props.tps ? Object.keys(this.props.tps) : [];
       keys.sort((a, b) => this.props.tps[b].total - this.props.tps[a].total);
       this.setState({

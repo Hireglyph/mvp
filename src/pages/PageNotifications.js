@@ -119,7 +119,7 @@ class PageNotifications extends React.Component {
                 <div key={notifId}>
                   <Link
                     className="notif-link"
-                    to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
+                    smooth to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
                     onClick={() => this.viewed(notifId)}
                   >
                     <div className={notification.viewed ? 'box-viewed' : 'box-unviewed'}>
@@ -135,12 +135,44 @@ class PageNotifications extends React.Component {
                 <div key={notifId}>
                   <Link
                     className="notif-link"
-                    to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
+                    smooth to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
                     onClick={() => this.viewed(notifId)}
                   >
                     <div className={notification.viewed ? "box-viewed" : "box-unviewed"}>
                       @{notification.username} gave feedback to your TP to Question
                       #{notification.questId}
+                    </div>
+                  </Link>
+                </div>
+              );
+            }
+            if (notification && notification.type === "reply") {
+              return (
+                <div key={notifId}>
+                  <Link
+                    className="notif-link"
+                    smooth to={`/tp/${notification.questId}/${notification.tpId}#${notification.replyId}`}
+                    onClick={() => this.viewed(notifId)}
+                  >
+                    <div className={notification.viewed ? 'box-viewed' : 'box-unviewed'}>
+                      @{notification.username} replied to you about
+                      @{notification.author}'s TP to Question #{notification.questId}
+                    </div>
+                  </Link>
+                </div>
+              );
+            }
+            if (notification && notification.type === "replyUpvote") {
+              return (
+                <div key={notifId}>
+                  <Link
+                    className="notif-link"
+                    smooth to={`/tp/${notification.questId}/${notification.tpId}#${notification.replyId}`}
+                    onClick={() => this.viewed(notifId)}
+                  >
+                    <div className={notification.viewed ? 'box-viewed' : 'box-unviewed'}>
+                      @{notification.username} upvoted your reply about
+                      @{notification.author}'s TP to Question #{notification.questId}
                     </div>
                   </Link>
                 </div>

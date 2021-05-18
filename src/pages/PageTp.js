@@ -19,6 +19,7 @@ import { currentVotes, getVoteValues, upvoteTp, downvoteTp } from 'utils/vote';
 import { displayContent } from 'utils/display';
 import PageNotFound from 'pages/PageNotFound';
 import Loading from 'components/Loading';
+import { tpDelete, feedbackDelete, replyDelete } from 'utils/delete';
 
 const TpSx = {
   display: 'flex',
@@ -138,6 +139,18 @@ const TpSx = {
     whiteSpace: 'pre-wrap',
   },
 
+  '.feedback-top': {
+    display: 'flex',
+  },
+
+  '.reply-click': {
+    cursor: 'pointer',
+  },
+
+  '.cancel-reply': {
+    color: 'red',
+  },
+
   '.fa-layers': {
     height: '18px',
     width: '60px',
@@ -170,6 +183,13 @@ class PageTp extends React.Component {
       loading: true,
       keys: [],
       feedbacks: {},
+      reply: '',
+      toUsername: null,
+      replyFeedbackID: null,
+      replyToID: null,
+      replyLoading: true,
+      replyKeys: {},
+      replies: {},
     };
   }
 
@@ -183,14 +203,31 @@ class PageTp extends React.Component {
             keys.sort((a, b) => data.val()[b].score - data.val()[a].score);
             this.setState({ keys });
           }
-          this.setState({ feedbacks: data.val() })
+          this.setState({ feedbacks: data.val() });
         }
-        this.setState({ loading: false })
+        this.setState({ loading: false });
+      });
+
+    this.props.firebase.database()
+      .ref(`/replies/${this.props.tpId}`)
+      .on('value', data => {
+        if (data.val()) {
+          if (this.state.replyLoading) {
+            var replyKeysCopy = this.state.replyKeys;
+            Object.keys(data.val()).forEach(feedbackId => {
+              replyKeysCopy[feedbackId] = Object.keys(data.val()[feedbackId]);
+            });
+            this.setState({ replyKeys: replyKeysCopy });
+          }
+          this.setState({ replies: data.val() });
+        }
+        this.setState({ replyLoading: false });
       });
   }
 
   componentWillUnmount() {
     this.props.firebase.database().ref(`/feedbacks/${this.props.tpId}`).off();
+    this.props.firebase.database().ref(`/replies/${this.props.tpId}`).off();
   }
 
   handleChange = event => {
@@ -287,8 +324,118 @@ class PageTp extends React.Component {
     firebase.update('/', updates);
   };
 
+  setReply = (replyFeedbackID, replyToID, toUsername) => {
+    this.setState({ replyFeedbackID, replyToID, toUsername });
+  };
+
+  cancelReply = () => {
+    this.setState({
+      reply: '',
+      replyFeedbackID: null,
+      replyToID: null,
+      toUsername: null
+    });
+  };
+
+  createReply = () => {
+    const {
+      firebase,
+      questId,
+      tp,
+      tpId,
+      uid,
+      username
+    } = this.props;
+
+    const {
+      replyKeys,
+      reply,
+      toUsername,
+      replyFeedbackID,
+      replyToID
+    } = this.state;
+
+    const replyToCreator = replyFeedbackID === replyToID ?
+      this.state.feedbacks[replyFeedbackID].creator :
+      this.state.replies[replyFeedbackID][replyToID].creator;
+    const replyId = firebase.push(`/replies/${tpId}/${replyFeedbackID}`).key;
+    const notifId = firebase.push(`/notifications/${replyToCreator}`).key;
+
+    const updates = {};
+    updates[`/replies/${tpId}/${replyFeedbackID}/${replyId}`] = {
+      creator: uid,
+      reply,
+      replyToID,
+      toUsername,
+      username,
+      score: 0,
+    };
+    updates[`/replyHistory/${uid}/${replyId}`] = {
+      tpId,
+      reply,
+      questId,
+      replyFeedbackID,
+      username,
+    };
+    if (uid !== replyToCreator) {
+      updates[`/notifications/${replyToCreator}/${notifId}`] = {
+        questId,
+        tpId,
+        replyId,
+        username,
+        author: tp.username,
+        viewed: false,
+        type: 'reply',
+      };
+      updates[`/hasNotifs/${replyToCreator}`] = true;
+    };
+    firebase.update('/', updates);
+
+    var replyKeysCopy = { ...replyKeys };
+
+    replyKeysCopy[replyFeedbackID] = replyKeys[replyFeedbackID] ?
+      replyKeys[replyFeedbackID].slice() : [];
+    replyKeysCopy[replyFeedbackID].push(replyId);
+
+    this.setState({
+      replyKeys: replyKeysCopy,
+      reply: '',
+      replyFeedbackID: null,
+      replyToID: null,
+      toUsername: null
+    });
+  };
+
+  upvoteReply = (replyId, feedbackId) => {
+    const { firebase, questId, tpId, tp, uid, username } = this.props;
+    const replies = this.state.replies;
+    const reply = replies[feedbackId][replyId];
+    const updates = {};
+    const isUpvoted = reply.users && reply.users[uid];
+    const diff = isUpvoted ? -1 : 1;
+
+    if (!isUpvoted && uid !== reply.creator) {
+      const notificationId = firebase.push(`/notifications/${reply.creator}`).key;
+      updates[`/notifications/${reply.creator}/${notificationId}`] = {
+        questId,
+        tpId,
+        replyId,
+        username,
+        author: tp.username,
+        viewed: false,
+        type: 'replyUpvote',
+      };
+      updates[`/hasNotifs/${reply.creator}`] = true;
+    }
+
+    updates[`/replies/${tpId}/${feedbackId}/${replyId}/users/${uid}`] = isUpvoted ? false : true;
+    updates[`/replies/${tpId}/${feedbackId}/${replyId}/score`] = reply.score + diff;
+    firebase.update('/', updates);
+  };
+
   render() {
-    const feedbacks = this.state.feedbacks;
+    const { feedbacks, replies }  = this.state;
+
     const {
       tp,
       isDownvoted,
@@ -334,15 +481,129 @@ class PageTp extends React.Component {
             </div>
           );
 
+          const repliesTo = replies && replies[feedbackId];
+          const repliesDisplay = this.state.replyKeys[feedbackId] && replies[feedbackId] &&
+            this.state.replyKeys[feedbackId].map(replyId => {
+              const { reply, toUsername } = repliesTo[replyId];
+              const replyCreator = repliesTo[replyId].creator;
+              const replyUsername = repliesTo[replyId].username;
+              const replyDeleted = !replyCreator;
+              const isReplyUpvoted = repliesTo[replyId].users && repliesTo[replyId].users[uid];
+              return (
+                <div key={replyId} id={replyId}>
+                  <div className="feedback-top">
+                    <div>@{replyUsername}</div>
+                    {!replyDeleted && (this.state.replyToID === replyId ?
+                      <div
+                        className="reply-click cancel-reply"
+                        onClick={() => this.cancelReply()}
+                      >
+                        Reply
+                      </div>
+                    :
+                      <div
+                        className="reply-click"
+                        onClick={() => this.setReply(feedbackId, replyId, replyUsername)}
+                      >
+                        Reply
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    {!replyDeleted && <div className="feedback-top">
+                      <div
+                        className={(isReplyUpvoted ? "upvoted-arrow" : "blank-arrow") + " fa-layers"}
+                        onClick={() => this.upvoteReply(replyId, feedbackId)}
+                      >
+                        <FontAwesomeIcon icon={faCaretUp} size="2x" />
+                      </div>
+                      <div>{repliesTo[replyId].score > 0 && repliesTo[replyId].score}</div>
+                    </div>}
+                    <div>
+                      @{toUsername}{' '}
+                    </div>
+                    <Latex>{displayContent(reply)}</Latex>
+                  </div>
+                  {uid === replyCreator &&
+                    <button
+                      onClick={() => replyDelete({
+                        firebase: this.props.firebase,
+                        tpId: this.props.tpId,
+                        replyFeedbackID: feedbackId,
+                        replyId,
+                        uid: replyCreator,
+                      })}
+                    >
+                      Delete Reply
+                    </button>
+                  }
+                </div>
+              );
+            })
+          const replyTextArea = this.state.replyFeedbackID === feedbackId && (
+            <div>
+              <div>Reply To: {this.state.toUsername}</div>
+              <TextareaAutosize
+                minRows={2}
+                name="reply"
+                placeholder="Enter reply here"
+                onChange={this.handleChange}
+                value={this.state.reply}
+              />
+              <button
+                onClick={this.cancelReply}
+              >
+                Delete
+              </button>
+              <button
+                onClick={this.createReply}
+              >
+                Reply
+              </button>
+            </div>
+          );
           return (
             <div className="feedback-block" key={feedbackId} id={`${feedbackId}`}>
               <div className="arrows-container">
                 {feedbackScoreArrows}
               </div>
               <div className="feedback-content">
-                <div>@{feedbackUsername}</div>
+                <div className="feedback-top">
+                  <div>@{feedbackUsername}</div>
+                  {!deleted && (this.state.replyToID === feedbackId ?
+                    <div
+                      className="reply-click cancel-reply"
+                      onClick={() => this.cancelReply()}
+                    >
+                      Reply
+                    </div>
+                  :
+                    <div
+                      className="reply-click"
+                      onClick={() => this.setReply(feedbackId, feedbackId, feedbackUsername)}
+                    >
+                      Reply
+                    </div>
+                  )}
+                </div>
                 <div>
                   <Latex>{displayContent(feedback)}</Latex>
+                </div>
+                {uid === creator &&
+                  <button
+                    onClick={() => feedbackDelete({
+                      firebase: this.props.firebase,
+                      tpId: this.props.tpId,
+                      feedbackId,
+                      uid: creator,
+                    })}
+                  >
+                    Delete Feedback
+                  </button>
+                }
+                <div>
+                  {repliesDisplay}
+                  {replyTextArea}
                 </div>
               </div>
               <br />
@@ -440,10 +701,22 @@ class PageTp extends React.Component {
               <div>
                 <Latex>{tp.solution && displayContent(tp.solution)}</Latex>
               </div>
+              {uid === tp.creator &&
+                <button
+                  onClick={() => tpDelete({
+                    firebase: this.props.firebase,
+                    questId,
+                    tpId: this.props.tpId,
+                    uid: tp.creator,
+                  })}
+                >
+                  Delete TP
+                </button>
+              }
             </div>
           </div>
           <br />
-          {this.state.loading
+          {this.state.loading || this.state.replyLoading
             ? <Loading/>
             : (
             <div>
