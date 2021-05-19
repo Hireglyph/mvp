@@ -84,6 +84,8 @@ class QuestionPreview extends React.Component {
       });
 
     return (
+      /* display question: title, difficulty, tags
+      also checkmark if user has solved the question */
       <div sx={PreviewSx}>
         <Link
           className="preview-link"
@@ -116,6 +118,7 @@ class QuestionPreview extends React.Component {
 }
 
 const mapStateToProps = (state, props) => {
+  // get question data, and user's question history from Redux store
   const { questions, questionHistory } = state.firebase.data;
   const question = questions && questions[props.questId];
   const solved = questionHistory && questionHistory[props.questId];

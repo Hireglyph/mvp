@@ -226,7 +226,9 @@ class PageProblems extends React.Component {
       && Object.keys(hotQuestions).map(questId => this.displayQuestion(questId));
 
     const quests = Object.keys(questions)
+      // filter by difficulty
       .filter(questId => !isDiff || questions[questId].difficulty === diff)
+      // filter by tag
       .filter(questId => !tag || (questions[questId].tags && questions[questId].tags[tag]))
       .filter(questId => !company || questions[questId].company === company)
       .map(questId => this.displayQuestion(questId));
@@ -238,6 +240,7 @@ class PageProblems extends React.Component {
     );
 
     const noQuests = (
+      // message if no questions match the diff/tag filters
       <div className="no-quest">
         There are no questions that match your search. Please try changing
         the difficulty or tag to find questions.
@@ -269,7 +272,6 @@ class PageProblems extends React.Component {
         {company}
       </div>
     );
-
     return (
       <div className="PageProblems" sx={PageProblemsSx}>
         {tag
@@ -283,6 +285,7 @@ class PageProblems extends React.Component {
         }
         <div className="sortby-container">
           <h2 className="white">Difficulty</h2>
+          {/* buttons to sort by difficulty of question */}
           <div
             className={
               (this.props.diff === 'easy' && " tag-selected") +
@@ -312,6 +315,7 @@ class PageProblems extends React.Component {
           </div>
           <h2 className="white">Tags</h2>
           <div className="tag-button-container">
+            {/* tag buttons to sort by tag */}
             {tagButtons}
           </div>
           <h2 className="white">Companies</h2>
@@ -323,6 +327,7 @@ class PageProblems extends React.Component {
           <div className="flex">
             <h1 className="white">Questions</h1>
             {tag &&
+              // click to view all questions (vanilla /questions URL)
               <div
                 className="original-list pointer white"
                 onClick={() => this.props.history.push('/questions')}
@@ -336,6 +341,7 @@ class PageProblems extends React.Component {
           </div>
           <div>----</div>
           <div className="quest-container">
+            {/* actually show questions */}
             {quests.length ? quests : noQuests}
           </div>
         </div>

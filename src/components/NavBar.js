@@ -65,9 +65,11 @@ class NavBar extends React.Component {
     const { firebase, hasNotifs, uid } = this.props;
 
     if (!this.props.isLoaded || (uid && !isLoaded(hasNotifs))) {
+      // return nothing if uid/hasNotifs not loaded (only base navbar)
       return;
     }
     if (!uid) {
+      // if no uid: display login and register links
       return (
         <React.Fragment>
           <Nav.Link as={Link} className="link" to='/register'>
@@ -84,6 +86,8 @@ class NavBar extends React.Component {
       );
     }
     return (
+      /* if uid: display notifications link and profile circle
+      profile circle: either go to profile page, or log out */
       <React.Fragment>
         <Nav.Link as={Link} to='/notifications'>
           {hasNotifs && <div className="red-dot"></div>}
@@ -107,6 +111,7 @@ class NavBar extends React.Component {
             Profile
           </NavDropdown.Item>
           <NavDropdown.Divider />
+          {/* go to '/' aka landing page when user logs out*/}
           <NavDropdown.Item
             onClick={() => {
               this.props.history.push('/');
@@ -124,6 +129,7 @@ class NavBar extends React.Component {
     const navbarContent = this.navbarContent();
 
     return (
+      // base navbar: Hireglyph logo (home) and link to questions
       <Navbar collapseOnSelect expand="lg" sx={NavBarSx}>
         <Navbar.Brand>
           <Link to='/'>
@@ -157,6 +163,7 @@ const mapStateToProps = state => {
 };
 
 export default compose(
+  //pull user's hasNotifs (red button on notifs link if hasNotifs===true)
   withRouter,
   firebaseConnect(props =>
     props.uid

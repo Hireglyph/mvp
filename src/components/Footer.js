@@ -22,6 +22,7 @@ const FooterSx = {
   }
 };
 
+// footer with links to privacy policy, content policy, and contact us page
 const Footer = function () {
   return (
     <div sx={FooterSx}>

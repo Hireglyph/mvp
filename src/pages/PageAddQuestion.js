@@ -44,6 +44,7 @@ class PageAddQuestion extends React.Component {
   };
 
   addRelated = (event) => {
+    // add or remove newly-clicked question to relatedQuestions
     const target = event.target;
     let newRelated;
     if (target.checked) {
@@ -57,6 +58,7 @@ class PageAddQuestion extends React.Component {
 
   createQuestion = () => {
     const updates = {};
+    // only create an "answer" child object if answer in state
     const question =
       this.state.answer.trim() === ''
         ? {
@@ -74,11 +76,14 @@ class PageAddQuestion extends React.Component {
             difficulty: this.state.difficulty,
             company: this.state.company
           };
+    // create new question
     updates[`/questions/${this.props.questionCount}`] = question;
+    // set new question's relatedQuestions
     updates[
       `/relatedQuestions/${this.props.questionCount}`
     ] = this.state.relatedQs;
 
+    // reset state
     this.setState({
       title: '',
       description: '',
@@ -105,6 +110,7 @@ class PageAddQuestion extends React.Component {
     }
 
     if (!this.props.uid) {
+      // redirect user if not logged in
       return <Redirect to="/" />;
     }
 
@@ -113,10 +119,12 @@ class PageAddQuestion extends React.Component {
     }
 
     if (!this.props.admin) {
+      // redirect user if not admin
       return <Redirect to="/" />;
     }
 
     const checkboxes = tags.map((tag) => {
+      // display checkboxes used to set the question's tags
       return (
         <div key={tag}>
           <input
@@ -150,6 +158,7 @@ class PageAddQuestion extends React.Component {
     const related =
       this.props.questions &&
       Object.keys(this.props.questions).map((questId) => {
+        // display checkboxes used to set the question's related questions
         return (
           <div key={questId}>
             <input
@@ -252,6 +261,7 @@ class PageAddQuestion extends React.Component {
 const mapStateToProps = (state, props) => {
   const questions = props.questions;
   const hotQuestions = state.firebase.data.hotQuestions;
+  // get the count of the new question
   const questionCount =
     questions &&
     parseInt(Object.keys(questions)[Object.keys(questions).length - 1]) + 1;

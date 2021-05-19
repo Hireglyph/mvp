@@ -24,6 +24,7 @@ export default class TpPreview extends Component {
   render() {
     const { initial, approach, solution, expanded } = this.props;
     return (
+      // if expanded: display full initial/approach/solution
       expanded
       ?
       <div sx={TpPreviewSx}>
@@ -59,6 +60,7 @@ export default class TpPreview extends Component {
         )}
       </div>
       :
+      // if !expanded: only display initial/approach/solution up to "length"
       <div sx={TpPreviewSx}>
         {initial && (
           <div className="tp-preview-block">

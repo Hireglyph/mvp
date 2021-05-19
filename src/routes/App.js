@@ -113,6 +113,7 @@ const mapStateToProps = state => {
 export default compose(
   withRouter,
   firebaseConnect(props => [
+    // pull all questions and also user's questionHistory
     { path: '/questions' },
     { path: '/questionHistory/' + props.uid, storeAs: 'questionHistory' },
   ]),

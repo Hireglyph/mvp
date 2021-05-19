@@ -12,15 +12,18 @@ class Auth extends React.Component {
 
     if (uid) {
       if (!onboarded) {
+        // if not onboarded (no username) display PageOnboard
         return <PageOnboard />;
       }
       if (!emailVerified) {
+        // if email not verified display PageConfirmEmail
         return <PageConfirmEmail />;
       }
       return <Redirect to="/questions" />;
     }
 
     return (
+      // if no uid, go to register or login
       <div className="Auth">
         <Switch>
           <Route exact path="/register" component={PageRegister} />

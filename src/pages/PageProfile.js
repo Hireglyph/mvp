@@ -225,6 +225,7 @@ class PageProfile extends React.Component {
   }; 
 
   generateMessage = (isExpanded, id, type) => {
+    // generate expand or collapse message based on state expand set
     if (!isExpanded) {
       return (
         <div
@@ -246,6 +247,7 @@ class PageProfile extends React.Component {
   };
 
   changeExpand = (value, id, type) => {
+    // add the tpId/feedbackId/replyId to the relevant expand set in state
     let expandName, cloneSet;
     if (type === 'tp') {
       expandName = 'tpExpand';
@@ -264,6 +266,7 @@ class PageProfile extends React.Component {
   };
 
   handleTps = (historyParam) => {
+    // go to different URL parameters in profile page (tp/feedback/reply)
     this.props.history.push(`/profile/${historyParam}`);
   };
 
@@ -285,6 +288,8 @@ class PageProfile extends React.Component {
     }
 
     const tps = tpHistory ? (
+      /* display tpHistory: traverse thru all the tpId in tpHistory,
+      display header (tp info) + tp preview that user can expand/collapse */
       Object.keys(tpHistory)
         .slice(0)
         .reverse()
@@ -317,6 +322,7 @@ class PageProfile extends React.Component {
                     {tp.total}
                   </div>
                   <div className="profile-box-interior">
+                    {/* TpPreview: pass in initial/approach/solution */}
                     <TpPreview
                       initial={tp.initial}
                       approach={tp.approach}
@@ -326,6 +332,7 @@ class PageProfile extends React.Component {
                   </div>
                 </div>
                 <div className="profile-box-bottom">
+                  {/* use tpDelete abstraction */}
                   <div
                     className="profile-delete"
                     onClick={() => tpDelete({
@@ -350,6 +357,7 @@ class PageProfile extends React.Component {
           return null;
         })
     ) : (
+      // display message if no TPs in tpHistory
       <div className="message-section">
         You have not written any TPs yet. Go to our{' '}
         <Link className="message-link" to={`/questions`}>
@@ -360,6 +368,9 @@ class PageProfile extends React.Component {
     );
 
     const feedbacks = feedbackHistory ? (
+      /* display feedbackHistory: traverse thru all the feedbackId in
+      feedbackHistory, display header (feedback info) + feedback preview that 
+      user can expand/collapse */
       Object.keys(feedbackHistory)
         .slice(0)
         .reverse()
@@ -419,6 +430,7 @@ class PageProfile extends React.Component {
                   </div>
                 </div>
                 <div className="profile-box-bottom">
+                  {/* use feedbackDelete abstraction */}
                   <div
                     className="profile-delete"
                     onClick={() => feedbackDelete({
@@ -445,6 +457,7 @@ class PageProfile extends React.Component {
           return null;
         })
       ) : (
+        // display message if no feedback in feedbackHistory
         <div className="message-section">
           You have not written any feedback yet. Go to our{' '}
           <Link className="message-link" to={`/questions`}>
@@ -455,6 +468,9 @@ class PageProfile extends React.Component {
       );
 
     const replies = replyHistory ? (
+      /* display replyHistory: traverse thru all the replyId in
+      replyId, display header (reply info) + reply preview that 
+      user can expand/collapse */
       Object.keys(replyHistory)
         .slice(0)
         .reverse()
@@ -506,6 +522,7 @@ class PageProfile extends React.Component {
                   </div>
                 </div>
                 <div className="profile-box-bottom">
+                  {/* use replyDelete abstraction */}
                   <div
                     className="profile-delete"
                     onClick={() => replyDelete({
@@ -533,6 +550,7 @@ class PageProfile extends React.Component {
           return null;
         })
       ) : (
+        // display message if no reply in replyHistory
         <div className="message-section">
           You have not written any replies yet. Go to our{' '}
           <Link className="message-link" to={`/questions`}>
@@ -543,6 +561,7 @@ class PageProfile extends React.Component {
       );
 
     const display =
+      // set display based on URL param
       historyParam === "tp"
         ? tps
         : historyParam === "feedback"
@@ -567,6 +586,7 @@ class PageProfile extends React.Component {
             Your profile, @{username}
           </div>
           <div className="profile-page-header">
+            {/* top buttons where users can change URL param */}
             <button
               className="profile-page-buttons"
               disabled={historyParam === 'tp'}
@@ -589,6 +609,7 @@ class PageProfile extends React.Component {
               Replies Given
             </button>
           </div>
+          {/* main display */}
           {display}
         </div>
       </div>
@@ -612,6 +633,7 @@ const mapStateToProps = (state, props) => {
 };
 
 export default compose(
+  // pull user's tpHistory, feedbackHistory, and replyHistory
   withRouter,
   firebaseConnect((props) => [
     {

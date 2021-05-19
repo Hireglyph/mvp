@@ -27,6 +27,7 @@ class PageRegister extends React.Component {
 
   register = async () => {
     if (this.state.password === this.state.confirmPassword) {
+      // if passwords match, create user
       const credentials = {
         email: this.state.email,
         password: this.state.password,
@@ -47,11 +48,13 @@ class PageRegister extends React.Component {
       }
     }
     else {
+      // if passwords do not match, display message
       this.setState({ error: "Passwords do not match" });
     }
   };
 
   loginWithProvider = (provider) => {
+    // function to log in with Google
     this.setState({ loading: true });
 
     this.props.loginUser({ provider }).catch((error) => {
@@ -65,6 +68,7 @@ class PageRegister extends React.Component {
         <ReactTitle title="Register | Hireglyph"/>
         <div className="page-container">
           <div className="auth-title">Register</div>
+          {/* inputs: email, password, password confirmation, username */}
           <input
             className="auth-input"
             name="email"
@@ -106,6 +110,7 @@ class PageRegister extends React.Component {
           <div className="auth-line">
             ──────&nbsp;&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;&nbsp;──────
           </div>
+          {/* button to log in with Google */}
           <GoogleButton
             onClick={() => this.loginWithProvider('google')}
             text={"Sign up with Google"}

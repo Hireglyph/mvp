@@ -10,6 +10,7 @@ const LoadingSx = {
   paddingTop: '100px'
 }
 
+// loading animation
 const Loading = function () {
   return (
     <div sx={LoadingSx}>

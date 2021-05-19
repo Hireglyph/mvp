@@ -77,7 +77,7 @@ class PageConfirmEmail extends React.Component {
   resendConfirmationEmail = async () => {
     const { auth } = this.props;
     this.setState({ loading: true });
-
+    // resend verification email
     try {
       await auth().currentUser.sendEmailVerification();
       this.setState({
@@ -98,10 +98,12 @@ class PageConfirmEmail extends React.Component {
       return <Loading />;
     }
 
+    // display message if email resent
     if (resent) {
       return <div className="confirm-email-resent">Email sent!</div>;
     }
 
+    // display button to resend confirmation email, IF not already resent
     if (!resent) {
       return (
         <button
@@ -115,6 +117,7 @@ class PageConfirmEmail extends React.Component {
   };
 
   render() {
+    // display message and resend button
     return (
       <div sx={ConfirmEmailSx}>
         <div className="page-container">

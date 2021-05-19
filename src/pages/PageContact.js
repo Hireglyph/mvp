@@ -109,6 +109,7 @@ class PageContact extends React.Component {
   }
 
   sendEmail = (event) => {
+    // send email using EmailJS
     event.preventDefault();
     emailjs
       .sendForm(
@@ -167,6 +168,7 @@ class PageContact extends React.Component {
               placeholder="Message"
               required
             />
+            {/* submit button --> sendEmail */}
             <input
               className="contact-submit"
               type="submit"
