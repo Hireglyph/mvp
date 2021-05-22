@@ -19,7 +19,7 @@ export const theme = {
   },
   colors: {
     text: '#000000',
-    background: '#556B7B',
+    background: '#EFEFEF',
     darkBackground: '#2F4858',
     orange: '#EA9A28',
     darkOrange: '#CA8522',
