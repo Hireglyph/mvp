@@ -16,7 +16,7 @@ const ContactSx = {
     marginTop: '50px',
     marginBottom: '50px',
     width: '425px',
-    maxWidth: '80%',
+    maxWidth: 'calc(100% - 80px)',
     height: 'auto',
     fontFamily: 'Open-Sans',
     backgroundColor: 'white',
@@ -26,8 +26,8 @@ const ContactSx = {
 
   '.contact-title': {
     fontFamily: 'Open-Sans',
-    marginRight: '60px',
-    marginLeft: '60px',
+    marginRight: '50px',
+    marginLeft: '50px',
     marginTop: '30px',
     marginBottom: '20px',
     textAlign: 'center',
@@ -35,8 +35,8 @@ const ContactSx = {
   },
 
   '.intro-message': {
-    marginRight: '60px',
-    marginLeft: '60px',
+    marginRight: '50px',
+    marginLeft: '50px',
     fontFamily: 'Open-Sans',
     fontSize: '12px',
     lineHeight: '16px',
@@ -45,11 +45,11 @@ const ContactSx = {
   },
 
   '.contact-input': {
-    marginRight: '60px',
-    marginLeft: '60px',
+    marginRight: '50px',
+    marginLeft: '50px',
     paddingLeft: '10px',
     fontFamily: 'Open-Sans',
-    width: 'calc(100% - 120px)',
+    width: 'calc(100% - 100px)',
     height: '35px',
     lineHeight: '35px',
     fontSize: '16px',
@@ -59,8 +59,8 @@ const ContactSx = {
   },
 
   '.contact-textarea': {
-    width: 'calc(100% - 120px)',
-    marginLeft: '60px',
+    width: 'calc(100% - 100px)',
+    marginLeft: '50px',
     paddingRight: '10px',
     paddingLeft: '10px',
     resize: 'vertical',
@@ -79,9 +79,9 @@ const ContactSx = {
     fontFamily: 'Open-Sans',
     height: '35px',
     backgroundColor: '#5A3FFF',
-    width: 'calc(100% - 120px)',
+    width: 'calc(100% - 100px)',
     color: 'white',
-    marginLeft: '60px',
+    marginLeft: '50px',
     paddingRight: '10px',
     border: '0',
     cursor: 'pointer',
@@ -92,12 +92,13 @@ const ContactSx = {
 
   '.contact-message': {
     color: 'red',
-    marginLeft: '60px',
-    marginRight: '60px',
+    marginLeft: '50px',
+    marginRight: '50px',
     textAlign: 'center',
     fontSize: '12px',
     lineHeight: '16px',
-    marginBottom: '50px',
+    height: '20px',
+    marginBottom: '30px',
   },
 };
 

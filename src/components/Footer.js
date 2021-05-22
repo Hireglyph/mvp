@@ -1,35 +1,30 @@
 /** @jsx jsx */
 
-import { Link } from 'react-router-dom';
 import { jsx } from 'theme-ui';
 
 const FooterSx = {
-  backgroundColor: 'orange',
-  width: '100%',
-  height: '25px',
-  fontSize: '15px',
+  width: 'calc(100% - 80px)',
+  marginRight: '40px',
+  marginLeft: '40px',
+  fontSize: '14px',
+  marginBottom: '10px',
 
-  '.footer-elements': {
-    paddingTop: '4px',
-    paddingLeft: '10px',
+  '.hr': {
+    backgroundColor: '#C7C7C7',
+    marginBottom: '10px',
   },
 
-  '.footer-link': {
-    color: 'black',
+  '.footer-text': {
+    color: '#464646',
     paddingLeft: '5px',
-    paddingRight: '5px',
   }
 };
 
 const Footer = function () {
   return (
     <div sx={FooterSx}>
-      <div className="footer-elements">
-        <Link to='/' className="footer-link">© Hireglyph LLC 2021</Link>|
-        <Link to='/privacy' className="footer-link">Privacy Policy</Link>|
-        <Link to='/content' className="footer-link">Content Policy</Link>|
-        <Link to='/contact' className="footer-link">Contact Us</Link>
-      </div>
+      <hr className="hr"/>
+      <div className="footer-text">© 2021 Hireglyph LLC</div>
     </div>
   );
 };

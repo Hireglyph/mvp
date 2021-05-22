@@ -21,7 +21,7 @@ import Loading from 'components/Loading';
 
 const RootSx = {
   '.root-body': {
-    minHeight: 'calc(100vh - 62px - 25px)'
+    minHeight: 'calc(100vh - 60px - 55px)'
   },
 }
 
