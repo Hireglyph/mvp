@@ -2,6 +2,7 @@
 
 import { jsx } from 'theme-ui'
 import { ReactTitle } from 'react-meta-tags';
+import MailchimpSubscribe from "react-mailchimp-subscribe";
 
 import landingMain from 'assets/images/landing-main.png';
 import harvardIlab from 'assets/images/harvard-ilab.png';
@@ -204,6 +205,9 @@ const PageLanding = function () {
                   launch this summer
                 </li>
               </ul>
+              <MailchimpSubscribe
+                url={"https://hireglyph.us1.list-manage.com/subscribe/post?u=04e7de515f8682261e4fd1984&amp;id=d1db2890af"}
+              />
             </div>
           </div>
         </div>
