@@ -25,7 +25,7 @@ const PageLandingSx = {
     fontSize: '25px',
     alignItems: 'center',
     textAlign: 'center',
-    '@media(max-width: 400px)': {
+    '@media(max-width: 450px)': {
       fontSize: '16px',
     },
   },
@@ -42,7 +42,7 @@ const PageLandingSx = {
 
   '.main-image': {
     height: '300px',
-    '@media(max-width: 400px)': {
+    '@media(max-width: 450px)': {
       height: '150px',
     },
   },
@@ -52,7 +52,7 @@ const PageLandingSx = {
     '@media(max-width: 1075px)': {
       width: '300px',
     },
-    '@media(min-width: 60px) and (max-width: 900px)': {
+    '@media(min-width: 600px) and (max-width: 900px)': {
       width: '500px',
     },
     '@media(max-width: 600px)': {
@@ -63,7 +63,7 @@ const PageLandingSx = {
   '.sub-title': {
     fontFamily: 'Gotham-Book',
     fontSize: '15px',
-    '@media(max-width: 400px)': {
+    '@media(max-width: 450px)': {
       fontSize: '10px',
     },
   },
@@ -76,7 +76,7 @@ const PageLandingSx = {
     marginTop: '20px',
     fontFamily: 'Open-Bold',
     fontSize: '25px',
-    '@media(max-width: 400px)': {
+    '@media(max-width: 450px)': {
       fontSize: '16px',
     },
   },
@@ -85,12 +85,13 @@ const PageLandingSx = {
     marginTop: '10px',
     fontFamily: 'Gotham-Book',
     fontSize: '15px',
-    '@media(max-width: 400px)': {
+    '@media(max-width: 450px)': {
       fontSize: '10px',
     },
   },
 
   '.logo-box': {
+    marginTop: '20px',
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -101,6 +102,7 @@ const PageLandingSx = {
 
   '.logo-banner': {
     marginTop: '40px',
+    paddingTop: '20px',
     backgroundColor: '#EBE9F3',
   },
 
@@ -110,14 +112,66 @@ const PageLandingSx = {
   },
 
   '.logo': {
-    height: '60px',
+    marginBottom: '20px',
+    marginLeft: '20px',
+    marginRight: '20px',
+    height: '65px',
     '@media(max-width: 900px)': {
       height: '50px',
     },
-    '@media(max-width: 400px)': {
-      height: '40px',
+    '@media(max-width: 450px)': {
+      height: '35px',
     },
   },
+
+  '.explain-banner': {
+    paddingTop: '20px',
+    backgroundColor: '#2F2E2E',
+  },
+
+  '.explain-text': {
+    alignItems: 'center',
+    textAlign: 'center',
+    fontFamily: 'Open-Bold',
+    color: 'white',
+  },
+
+  '.image-box': {
+    marginTop: '20px',
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginLeft: '50px',
+    marginRight: '50px',
+    justifyContent: 'center',
+    '@media(max-width: 660px)': {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+  },
+
+  '.image': {
+    marginBottom: '20px',
+    marginLeft: '50px',
+    marginRight: '50px',
+    height: '200px',
+    alignSelf: 'center',
+    '@media(max-width: 1075px)': {
+      height: '175px',
+    },
+    '@media(min-width: 600px) and (max-width: 900px)': {
+      height: '150px',
+      marginLeft: '25px',
+      marginRight: '25px',
+    },
+    '@media(max-width: 660px)': {
+      height: '200px',
+    },
+    '@media(max-width: 450px)': {
+      height: '150px',
+    },
+  },
+
 }
 
 const PageLanding = function () {
@@ -158,6 +212,14 @@ const PageLanding = function () {
           <div className="logo-box">
             <img src={harvardIlab} alt="harvardIlab" className="logo" />
             <img src={berkeleySkydeck} alt="berkeleySkydeck" className="logo" />
+          </div>
+        </div>
+        <div className="explain-banner">
+          <div className="explain-text">What we offer</div>
+          <div className="image-box">
+            <img src={accessQuestions} alt="accessQuestions" className="image" />
+            <img src={joinCommunity} alt="joinCommunity" className="image" />
+            <img src={receiveFeedback} alt="receiveFeedback" className="image" />
           </div>
         </div>
       </div>
