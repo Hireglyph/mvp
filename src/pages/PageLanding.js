@@ -1,111 +1,122 @@
 /** @jsx jsx */
 
-import { Link } from 'react-router-dom';
 import { jsx } from 'theme-ui'
 import { ReactTitle } from 'react-meta-tags';
 
-import meeting from 'assets/images/meeting.svg';
-import accessQuestions from 'assets/images/accessQuestions.png';
-import submitTPs from 'assets/images/submitTPs.png';
-import postFeedback from 'assets/images/postFeedback.png';
-import communicate from 'assets/images/communicate.svg';
-import lightbulb from 'assets/images/lightbulb.svg';
-import network from 'assets/images/network.svg';
+import landingMain from 'assets/images/landing-main.png';
+import harvardIlab from 'assets/images/harvard-ilab.png';
+import berkeleySkydeck from 'assets/images/berkeley-skydeck.png';
+import accessQuestions from 'assets/images/access-questions.png';
+import joinCommunity from 'assets/images/join-community.png';
+import receiveFeedback from 'assets/images/receive-feedback.png';
 
 const PageLandingSx = {
   display: 'flex',
   flexDirection: 'column',
-  backgroundColor: 'darkBackground',
+  backgroundColor: 'white',
   fontFamily: 'Open-Sans',
-  color: 'white',
-  paddingTop: '60px',
-  paddingBottom: '20px',
+  
+  '.title': {
+    marginTop: '40px',
+    marginLeft: '50px',
+    marginRight: '50px',
+    fontFamily: 'Open-Bold',
+    color: 'black',
+    fontSize: '25px',
+    alignItems: 'center',
+    textAlign: 'center',
+    '@media(max-width: 400px)': {
+      fontSize: '16px',
+    },
+  },
 
-  '.flex-elements': {
+  '.main-box': {
     display: 'flex',
-    marginTop: '80px',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginLeft: '50px',
+    marginRight: '50px',
+    marginTop: '40px',
+    justifyContent: 'center',
+  },
+
+  '.main-image': {
+    height: '300px',
+    '@media(max-width: 400px)': {
+      height: '150px',
+    },
   },
 
   '.main-text': {
-    padding: '30px',
-  },
-
-  '.heading': {
-    fontWeight: '600',
-    fontSize: '45px',
-    letterSpacing: '1.5px'
-  },
-
-  '.description': {
     width: '500px',
+    '@media(max-width: 1075px)': {
+      width: '300px',
+    },
+    '@media(min-width: 60px) and (max-width: 900px)': {
+      width: '500px',
+    },
+    '@media(max-width: 600px)': {
+      width: '300px',
+    },
   },
 
-  '.centered': {
+  '.sub-title': {
+    fontFamily: 'Gotham-Book',
+    fontSize: '15px',
+    '@media(max-width: 400px)': {
+      fontSize: '10px',
+    },
+  },
+
+  '.bold': {
+    fontFamily: 'Gotham-Semi',
+  },
+
+  '.join-mailing': {
+    marginTop: '20px',
+    fontFamily: 'Open-Bold',
+    fontSize: '25px',
+    '@media(max-width: 400px)': {
+      fontSize: '16px',
+    },
+  },
+
+  '.mailing-li': {
+    marginTop: '10px',
+    fontFamily: 'Gotham-Book',
+    fontSize: '15px',
+    '@media(max-width: 400px)': {
+      fontSize: '10px',
+    },
+  },
+
+  '.logo-box': {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginLeft: '50px',
+    marginRight: '50px',
+    justifyContent: 'center',
+  },
+
+  '.logo-banner': {
+    marginTop: '40px',
+    backgroundColor: '#EBE9F3',
+  },
+
+  '.logo-text': {
+    alignItems: 'center',
     textAlign: 'center',
-    margin: 'auto',
   },
 
-  '.button-container': {
-    paddingTop: '20px',
-  },
-
-  '.start-button': {
-    backgroundColor: 'orange',
-    color: 'black',
-    paddingTop: '4px',
-    paddingBottom: '4px',
-    paddingLeft: '10px',
-    paddingRight: '10px',
-    textDecoration: 'none',
-    fontWeight: '600',
-
-    '&:hover': {
-      backgroundColor: 'darkOrange',
-    }
-  },
-
-  '.body-text': {
-    width: '300px',
-  },
-
-  '.white-text': {
-    color: 'white',
-  },
-
-  '.icon-caption': {
-    marginTop: '8px',
-    width: '200px',
-  },
-
-  '.icon-container': {
-    textAlign: 'center',
-    marginRight: '110px',
-    marginLeft: '110px',
-    marginTop: '100px',
-    marginBottom: '30px',
-  },
-
-  '.vertical-bar': {
-    height: '130px',
-    width: '0px',
-    border: '5px solid #EA9A28',
-    margin: 'auto',
-  },
-
-  '.text-body': {
-    textAlign: 'center',
-    marginTop: 'auto',
-    marginBottom: 'auto',
-  },
-
-  '.left-text': {
-    marginRight: '80px',
-    marginLeft: 'auto',
-  },
-
-  '.right-text': {
-    marginLeft: '80px',
-    marginRight: 'auto',
+  '.logo': {
+    height: '60px',
+    '@media(max-width: 900px)': {
+      height: '50px',
+    },
+    '@media(max-width: 400px)': {
+      height: '40px',
+    },
   },
 }
 
@@ -116,88 +127,37 @@ const PageLanding = function () {
         title="Hireglyph - The Future of Collaborative Interview Preparation"
       />
       <div className="flex-elements centered">
-        <div className="main-text">
-          <h2 className="heading">Ace your next finance interview</h2>
-          <div className="description centered">
-            Solve quant and traditional finance questions. Learn from 
-            others. Receive feedback. Land your dream job.
-          </div>
-          <div className="button-container centered">
-            <Link to='/questions' className="start-button">
-              Get started
-            </Link>
-          </div>
+        <div className="title">
+          Ace your next finance interview through the power of community.
         </div>
-        <div>
-          <img src={meeting} alt="meeting" style={{ height: '200px' }} />
-        </div>
-      </div>
-      <br />
-      <br />
-      <div className="flex-elements">
-        <div className="text-body left-text">
-          <h3 className="white-text">Access Questions</h3>
-          <div className="body-text white-text">
-            Get access to a variety of finance interview questions,
-            and sort by difficulty or topic to find the right problems
-            to solve.
-          </div>
-        </div>
-        <div sx={{marginLeft: '0', marginRight: 'auto'}}>
-          <img src={accessQuestions} alt="Access Questions" style={{ height: '300px' }} />
-        </div>
-      </div>
-      <div className="flex-elements">
-        <div sx={{marginRight: '0', marginLeft: 'auto'}}>
-          <img src={submitTPs} alt="Submit TPs" style={{ height: '300px' }} />
-        </div>
-        <div className="text-body right-text">
-          <h3 className="white-text">Submit TPs</h3>
-          <div className="body-text white-text">
-            Develop communication skills by submitting {" "}
-            <em>thought processes</em> (TPs) to practice 
-            problems, which may include your initial thoughts, 
-            different approaches, and final solution.
+        <div className="main-box">
+          <img src={landingMain} alt="landingMain" className="main-image" />
+          <div className="main-text">
+            <div className="sub-title">
+              Hireglyph — the premier collaborative interview preparation platform for {' '} 
+              <span className="bold">quant</span>
+              {' '} and {' '}
+              <span className="bold">traditional finance</span>
+              .
+            </div>
+            <div>
+              <div className="join-mailing">Join our mailing list to...</div>
+              <ul className="mailing-li">
+                <li>Get the latest finance internships right to your inbox</li>
+                <li>Learn tips and tricks about preparing for your interviews</li>
+                <li>
+                  Be the first to find out about the Hireglyph platform when we 
+                  launch this summer
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="flex-elements">
-        <div className="text-body left-text">
-          <h3 className="white-text">Post Feedback</h3>
-          <div className="body-text white-text">
-            Post and receive feedback to TPs, fostering community discussion and 
-            enabling all users to have their work evaluated.
-          </div>
-        </div>
-        <div sx={{marginLeft: '0', marginRight: 'auto'}}>
-          <img src={postFeedback} alt="Post Feedback" style={{ height: '300px' }} />
-        </div>
-      </div>
-      <div className="flex-elements centered">
-        <div className="icon-container">
-          <div>
-            <img src={communicate} alt="Communicate" style={{ height: '140px' }} />
-          </div>
-          <div className="icon-caption">
-            Communicate your thought processes to solve complex questions
-          </div>
-        </div>
-        <div className="vertical-bar"></div>
-        <div className="icon-container">
-          <div>
-            <img src={lightbulb} alt="Learn" style={{ height: '140px' }} />
-          </div>
-          <div className="icon-caption">
-            Learn a variety of problem solving approaches and have your work evaluated
-          </div>
-        </div>
-        <div className="vertical-bar"></div>
-        <div className="icon-container">
-          <div>
-            <img src={network} alt="Community" style={{ height: '140px' }} />
-          </div>
-          <div className="icon-caption">
-            Join a collaborative community of aspiring financial professionals
+        <div className="logo-banner">
+          <div className="logo-text">Hireglyph is backed by</div>
+          <div className="logo-box">
+            <img src={harvardIlab} alt="harvardIlab" className="logo" />
+            <img src={berkeleySkydeck} alt="berkeleySkydeck" className="logo" />
           </div>
         </div>
       </div>

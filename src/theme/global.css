@@ -7,6 +7,20 @@
 }
 
 @font-face {
+  font-family: 'Open-Bold';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../assets/fonts/OpenSans-Bold.ttf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Open-Semi';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../assets/fonts/OpenSans-SemiBold.ttf) format('opentype');
+}
+
+@font-face {
   font-family: 'Gotham-Book';
   font-style: normal;
   font-weight: 400;
@@ -18,6 +32,13 @@
   font-style: normal;
   font-weight: 400;
   src: url(../assets/fonts/Montserrat-Bold.ttf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Gotham-Semi';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../assets/fonts/Montserrat-SemiBold.ttf) format('opentype');
 }
 
 Link {
