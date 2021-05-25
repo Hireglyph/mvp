@@ -32,7 +32,7 @@ class Mailchimp extends React.Component {
         this.setState({ status: 'success' });
       };
       if (this.state.status == "success") {
-        this.openInNewTab(howDidYouHearAboutUs)
+        setTimeout(() => this.openInNewTab(howDidYouHearAboutUs), 100)
       }
     });
   }
