@@ -285,6 +285,9 @@ class PageLanding extends React.Component {
                     buttonClassName="subscribe-button"
                     disabledClassName="disabled"
                   />
+                  <div style={{ fontFamily: 'Gotham-LightItalic', marginTop: '5px' }}>
+                    Don’t worry, we won’t spam your inbox!
+                  </div>
                 </div>
               </div>
             </div>

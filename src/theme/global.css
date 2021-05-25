@@ -55,6 +55,14 @@
   src: url(../assets/fonts/Montserrat-SemiBold.ttf) format('opentype');
 }
 
+@font-face {
+  font-family: 'Gotham-LightItalic';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../assets/fonts/Montserrat-LightItalic.ttf) format('opentype');
+}
+
+
 Link {
   font-size: 90px;
 }
