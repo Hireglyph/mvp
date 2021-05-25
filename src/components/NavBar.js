@@ -8,10 +8,10 @@ import logo from 'assets/images/logo.svg';
 
 const NavBarSx = {
   backgroundColor: 'white',
-  height: '60px',
-  paddingTop: '0.8em',
-  paddingLeft: '40px',
-  paddingRight: '40px',
+  height: '40px',
+  paddingTop: '0.7em',
+  paddingLeft: '80px',
+  paddingRight: '80px',
   fontFamily: 'Open-Sans',
   position: 'sticky',
   top: 0,
@@ -26,8 +26,8 @@ const NavBarSx = {
   },
 
   '.nav-text': {
-    color: 'black',
-    fontSize: '18px',
+    color: 'mediumGrey',
+    fontSize: '14px',
   },
 
 };

@@ -34,7 +34,7 @@ class Root extends React.Component {
             <div className="root-body">
               <Loading />
             </div>
-          <Footer />
+          {/*<Footer />*/}
         </div>
       );
     }
@@ -79,7 +79,7 @@ class Root extends React.Component {
             <Route component={PageNotFound} />
           </Switch>
         </div>
-        <Footer />
+        {/*<Footer />*/}
       </div>
     );
   }
