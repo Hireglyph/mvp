@@ -39,6 +39,7 @@ const PageLandingSx = {
     flexWrap: 'wrap',
     marginTop: '60px',
     justifyContent: 'center',
+    background: theme => `linear-gradient(to bottom left, white 0%, white 50%, ${theme.colors.lightPurpleGrey} 50%, ${theme.colors.lightPurpleGrey} 100%)`,
   },
 
   '.main-image': {
@@ -103,7 +104,7 @@ const PageLandingSx = {
   },
 
   '.logo-banner': {
-    marginTop: '40px',
+    paddingTop: '40px',
     backgroundColor: 'lightPurpleGrey',
   },
 
@@ -211,6 +212,10 @@ const PageLandingSx = {
 
   '.disabled': {
     backgroundColor: 'gray',
+  },
+
+  '.highlight': {
+    background: theme => `linear-gradient(0deg, ${theme.colors.lightPurple} 50%, white 50%)`
   }
 }
 
@@ -238,7 +243,9 @@ class PageLanding extends React.Component {
                 .
               </div>
               <div>
-                <div className="join-mailing">Join our mailing list to...</div>
+                <div className="join-mailing">
+                  Join our <span className="highlight">{' '}mailing list{' '}</span> to...
+                </div>
                 <ul className="mailing-li">
                   <li>Get the latest finance internships right to your inbox</li>
                   <li>Learn tips and tricks about preparing for your interviews</li>
