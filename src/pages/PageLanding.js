@@ -39,7 +39,7 @@ const PageLandingSx = {
     flexWrap: 'wrap',
     marginTop: '60px',
     justifyContent: 'center',
-    background: theme => `linear-gradient(to bottom left, white 0%, white 50%, ${theme.colors.lightPurpleGrey} 50%, ${theme.colors.lightPurpleGrey} 100%)`,
+    background: theme => `linear-gradient(to bottom left, transparent 0%, transparent 50%, ${theme.colors.lightPurpleGrey} 50%, ${theme.colors.lightPurpleGrey} 100%)`,
   },
 
   '.main-image': {
@@ -215,7 +215,7 @@ const PageLandingSx = {
   },
 
   '.highlight': {
-    background: theme => `linear-gradient(0deg, ${theme.colors.lightPurple} 50%, white 50%)`
+    background: theme => `linear-gradient(0deg, ${theme.colors.lightPurple} 50%, transparent 50%)`
   }
 }
 
