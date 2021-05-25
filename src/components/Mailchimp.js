@@ -2,6 +2,8 @@ import React from "react"
 import jsonp from "jsonp"
 import PropTypes from 'prop-types';
 
+const howDidYouHearAboutUs = 'https://us1.list-manage.com/survey?u=04e7de515f8682261e4fd1984&id=edcf6cf17e';
+
 class Mailchimp extends React.Component {
   state = {};
 
@@ -29,7 +31,15 @@ class Mailchimp extends React.Component {
       } else {
         this.setState({ status: 'success' });
       };
+      if (this.state.status == "success") {
+        this.openInNewTab(howDidYouHearAboutUs)
+      }
     });
+  }
+
+  openInNewTab = (url) => {
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+    if (newWindow) newWindow.opener = null
   }
 
   render() {
