@@ -1,8 +1,9 @@
 /** @jsx jsx */
 
+import React from 'react';
 import { jsx } from 'theme-ui'
 import { ReactTitle } from 'react-meta-tags';
-import MailchimpSubscribe from "react-mailchimp-subscribe";
+import Mailchimp from 'components/Mailchimp';
 
 import landingMain from 'assets/images/landing-main.png';
 import harvardIlab from 'assets/images/harvard-ilab.png';
@@ -185,88 +186,146 @@ const PageLandingSx = {
   },
 
   '.launch-banner': {
-    fontFamily: 'Open-Sans-SemiBold-Italic',
+    fontFamily: 'Open-Sans-Italic',
     fontSize: '28px',
     textAlign: 'center',
     backgroundColor: 'lightPurpleGrey',
     padding: '12px',
   },
+
+  '.center': {
+    textAlign: 'center'
+  },
+
+  '.subscribe-button': {
+    backgroundColor: 'purple',
+    color: 'white',
+    border: 'none',
+    fontWeight: 'bold',
+    fontSize: '18px',
+    height: '40px',
+    borderRadius: '5px',
+    marginLeft: '5px',
+    filter: 'drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25))',
+  },
+
+  '.disabled': {
+    backgroundColor: 'gray',
+  }
 }
 
-const PageLanding = function () {
-  return (
-    <div sx={PageLandingSx}>
-      <ReactTitle
-        title="Hireglyph - The Future of Collaborative Interview Preparation"
-      />
-      <div className="flex-elements centered">
-        <div className="title">
-          Ace your next finance interview through the power of community.
-        </div>
-        <div className="main-box">
-          <div>
-            <img src={landingMain} alt="landingMain" className="main-image" />
+class PageLanding extends React.Component {
+  render() {
+    return (
+      <div sx={PageLandingSx}>
+        <ReactTitle
+          title="Hireglyph - The Future of Collaborative Interview Preparation"
+        />
+        <div className="flex-elements centered">
+          <div className="title">
+            Ace your next finance interview through the power of community.
           </div>
-          <div className="main-text">
-            <div className="sub-title">
-              Hireglyph — the premier collaborative interview preparation platform for {' '}
-              <span className="bold">quant</span>
-              {' '} and {' '}
-              <span className="bold">traditional finance</span>
-              .
-            </div>
+          <div className="main-box">
             <div>
-              <div className="join-mailing">Join our mailing list to...</div>
-              <ul className="mailing-li">
-                <li>Get the latest finance internships right to your inbox</li>
-                <li>Learn tips and tricks about preparing for your interviews</li>
-                <li>
-                  Be the first to find out about the Hireglyph platform when we
-                  launch this summer
-                </li>
-              </ul>
-              <MailchimpSubscribe
-                url={"https://hireglyph.us1.list-manage.com/subscribe/post?u=04e7de515f8682261e4fd1984&amp;id=d1db2890af"}
-              />
+              <img src={landingMain} alt="landingMain" className="main-image" />
             </div>
-          </div>
-        </div>
-        <div className="logo-banner">
-          <div className="logo-text">Hireglyph is backed by</div>
-          <div className="logo-box">
-            <img src={harvardIlab} alt="harvardIlab" className="logo" />
-            <img src={berkeleySkydeck} alt="berkeleySkydeck" className="logo" />
-          </div>
-        </div>
-        <div className="explain-banner">
-          <div className="explain-text">What we offer</div>
-          <div className="image-box">
-            <div>
-              <img src={accessQuestions} alt="accessQuestions" className="icon" />
-              <div className="icon-text" style={{ color: '#A4FFBE' }}>
-                Access Hundreds of Questions
+            <div className="main-text">
+              <div className="sub-title">
+                Hireglyph — the premier collaborative interview preparation platform for {' '}
+                <span className="bold">quant</span>
+                {' '} and {' '}
+                <span className="bold">traditional finance</span>
+                .
+              </div>
+              <div>
+                <div className="join-mailing">Join our mailing list to...</div>
+                <ul className="mailing-li">
+                  <li>Get the latest finance internships right to your inbox</li>
+                  <li>Learn tips and tricks about preparing for your interviews</li>
+                  <li>
+                    Be the first to find out about the Hireglyph platform when we
+                    launch this summer
+                  </li>
+                </ul>
+                <div className="center">
+                  <Mailchimp
+                    action='https://hireglyph.us1.list-manage.com/subscribe/post?u=04e7de515f8682261e4fd1984&amp;id=d1db2890af'
+                    fields={[
+                      {
+                        name: 'EMAIL',
+                        placeholder: 'Enter your email',
+                        type: 'email',
+                        required: true
+                      }
+                    ]}
+                    styles={{
+                      input: {
+                        width: '300px',
+                        height: '40px',
+                        border: '1px solid rgba(0, 0, 0, 0.5)',
+                        borderRadius: '5px',
+                        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+                        paddingLeft: '8px',
+                        fontSize: '18px',
+                      },
+                      sendingMsg: {
+                        color: "#0652DD"
+                      },
+                      successMsg: {
+                        color: "#009432"
+                      },
+                      duplicateMsg: {
+                        color: "#EE5A24"
+                      },
+                      errorMsg: {
+                        color: "#ED4C67"
+                      }
+                    }}
+                    className="mailchimp"
+                    buttonClassName="subscribe-button"
+                    disabledClassName="disabled"
+                  />
+                </div>
               </div>
             </div>
-            <div>
-              <img src={joinCommunity} alt="joinCommunity" className="icon" />
-              <div className="icon-text" style={{ color: '#B8B8FF' }}>
-                Join a Community of Problem-Solvers
-              </div>
+          </div>
+          <div className="logo-banner">
+            <div className="logo-text">Hireglyph is backed by</div>
+            <div className="logo-box">
+              <img src={harvardIlab} alt="harvardIlab" className="logo" />
+              <img src={berkeleySkydeck} alt="berkeleySkydeck" className="logo" />
             </div>
-            <div>
-              <img src={receiveFeedback} alt="receiveFeedback" className="icon" />
-              <div className="icon-text" style={{ color: '#85D3FF' }}>
-                Receive Feedback on Your Solutions
+          </div>
+          <div className="explain-banner">
+            <div className="explain-text">What we offer</div>
+            <div className="image-box">
+              <div>
+                <img src={accessQuestions} alt="accessQuestions" className="icon" />
+                <div className="icon-text" style={{ color: '#A4FFBE' }}>
+                  Access Hundreds of Questions
+                </div>
+              </div>
+              <div>
+                <img src={joinCommunity} alt="joinCommunity" className="icon" />
+                <div className="icon-text" style={{ color: '#B8B8FF' }}>
+                  Join a Community of Problem-Solvers
+                </div>
+              </div>
+              <div>
+                <img src={receiveFeedback} alt="receiveFeedback" className="icon" />
+                <div className="icon-text" style={{ color: '#85D3FF' }}>
+                  Receive Feedback on Your Solutions
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="launch-banner">
-          Launching Summer 2021!
+          <div className="launch-banner">
+            <b>Launching Summer 2021!</b>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default PageLanding;

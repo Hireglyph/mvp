@@ -7,6 +7,13 @@
 }
 
 @font-face {
+  font-family: 'Open-Sans-Italic';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../assets/fonts/OpenSans-Italic.ttf) format('opentype');
+}
+
+@font-face {
   font-family: 'Open-Sans-Bold';
   font-style: normal;
   font-weight: 400;

@@ -22,6 +22,7 @@ export const theme = {
     background: '#EFEFEF',
     darkBackground: '#2F4858',
     lightPurpleGrey: '#EBE9F3',
+    purple: '#5A3FFF',
     orange: '#EA9A28',
     darkOrange: '#CA8522',
     lightGrey: '#E3E3E3',
