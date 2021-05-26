@@ -31,7 +31,7 @@ class Mailchimp extends React.Component {
       } else {
         this.setState({ status: 'success' });
       };
-      if (this.state.status == "success") {
+      if (this.state.status === "success") {
         setTimeout(() => this.openInNewTab(howDidYouHearAboutUs), 100)
       }
     });
@@ -43,7 +43,7 @@ class Mailchimp extends React.Component {
   }
 
   render() {
-    const { fields, styles, className, buttonClassName, disabledClassName } = this.props;
+    const { fields, styles, className, buttonClassName, disabledClassName, inputClassName } = this.props;
     const messages = {
       ...Mailchimp.defaultProps.messages,
       ...this.props.messages
@@ -59,6 +59,7 @@ class Mailchimp extends React.Component {
             onChange={({ target }) => this.setState({ [input.name]: target.value })}
             defaultValue={this.state[input.name]}
             style={styles.input}
+            className={inputClassName}
           />
         )}
         <button
@@ -112,6 +113,7 @@ Mailchimp.propTypes = {
   fields: PropTypes.array,
   styles: PropTypes.object,
   className: PropTypes.string,
+  inputClassName: PropTypes.string,
   buttonClassName: PropTypes.string,
   disabledClassName: PropTypes.string,
 };

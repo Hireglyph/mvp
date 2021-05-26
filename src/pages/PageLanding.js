@@ -21,15 +21,17 @@ const PageLandingSx = {
 
   '.title': {
     marginTop: '60px',
-    marginLeft: '50px',
-    marginRight: '50px',
+    marginLeft: '60px',
+    marginRight: '60px',
     fontFamily: 'Open-Sans-Bold',
     color: 'black',
     fontSize: '30px',
     alignItems: 'center',
     textAlign: 'center',
-    '@media(max-width: 450px)': {
+    '@media(max-width: 475px)': {
+      marginTop: '40px',
       fontSize: '16px',
+      lineHeight: '20px',
     },
   },
 
@@ -39,34 +41,65 @@ const PageLandingSx = {
     flexWrap: 'wrap',
     marginTop: '60px',
     justifyContent: 'center',
-    background: theme => `linear-gradient(to bottom left, transparent 0%, transparent 50%, ${theme.colors.lightPurpleGrey} 50%, ${theme.colors.lightPurpleGrey} 100%)`,
+    '@media(min-width: 1051px)': {
+      background: theme => `linear-gradient(to bottom left, transparent 0%, transparent 50%, ${theme.colors.lightPurpleGrey} 50%, ${theme.colors.lightPurpleGrey} 100%)`,
+    },
+  },
+
+  '.aesthetic': {
+    '@media(max-width: 1050px)': {
+      height: '150px',
+      background: theme => `linear-gradient(to bottom left, transparent 0%, transparent 50%, ${theme.colors.lightPurpleGrey} 50%, ${theme.colors.lightPurpleGrey} 100%)`,
+    },
+    '@media(max-width: 720px)': {
+      height: '100px',
+    },
   },
 
   '.main-image': {
+    marginLeft: '60px',
     height: '350px',
-    '@media(max-width: 450px)': {
+    '@media(max-width: 1300px)': {
+      height: '250px',
+    },
+    '@media(max-width: 1050px)': {
+      marginRight: '60px',
+    },
+    '@media(max-width: 475px)': {
       height: '150px',
     },
   },
 
   '.main-text': {
     width: '600px',
-    marginLeft: '60px',
-    '@media(max-width: 1075px)': {
-      width: '300px',
+    marginLeft: '20px',
+    marginRight: '60px',
+    '@media(max-width: 1200px)': {
+      width: '400px',
     },
-    '@media(min-width: 600px) and (max-width: 900px)': {
-      width: '500px',
+    '@media(max-width: 1050px)': {
+      marginTop: '20px',
+      marginLeft: '60px',
     },
-    '@media(max-width: 600px)': {
-      width: '300px',
+    '@media(min-width: 721px) and (max-width: 1050px)': {
+      width: '600px',
+    },
+    '@media(max-width: 720px)': {
+      width: '380px',
     },
   },
 
   '.sub-title': {
     fontFamily: 'Gotham-Book',
     fontSize: '18px',
-    '@media(max-width: 450px)': {
+    '@media(max-width: 1200px)': {
+      fontSize: '14px',
+      lineHeight: '20px',
+    },
+    '@media(max-width: 1050px)': {
+      fontSize: '18px',
+    },
+    '@media(max-width: 475px)': {
       fontSize: '10px',
     },
   },
@@ -76,10 +109,18 @@ const PageLandingSx = {
   },
 
   '.join-mailing': {
-    marginTop: '40px',
+    marginTop: '20px',
     fontFamily: 'Open-Sans-Bold',
     fontSize: '25px',
-    '@media(max-width: 450px)': {
+    '@media(max-width: 1200px)': {
+      marginTop: '10px',
+      fontSize: '20px',
+    },
+    '@media(max-width: 1050px)': {
+      marginTop: '20px',
+      fontSize: '25px',
+    },
+    '@media(max-width: 475px)': {
       fontSize: '16px',
     },
   },
@@ -88,7 +129,18 @@ const PageLandingSx = {
     marginTop: '15px',
     fontFamily: 'Gotham-Book',
     fontSize: '18px',
-    '@media(max-width: 450px)': {
+    '@media(max-width: 1200px)': {
+      marginTop: '10px',
+      fontSize: '14px',
+      lineHeight: '20px',
+    },
+    '@media(max-width: 1050px)': {
+      lineHeight: '30px',
+      marginTop: '15px',
+      fontSize: '18px',
+    },
+    '@media(max-width: 475px)': {
+      lineHeight: '20px',
       fontSize: '10px',
     },
   },
@@ -104,8 +156,10 @@ const PageLandingSx = {
   },
 
   '.logo-banner': {
-    paddingTop: '40px',
     backgroundColor: 'lightPurpleGrey',
+    '@media(min-width: 1051px)': {
+      paddingTop: '40px',
+    },
   },
 
   '.logo-text': {
@@ -120,10 +174,10 @@ const PageLandingSx = {
     marginLeft: '20px',
     marginRight: '20px',
     height: '90px',
-    '@media(max-width: 900px)': {
-      height: '50px',
+    '@media(max-width: 1200px)': {
+      height: '60px',
     },
-    '@media(max-width: 450px)': {
+    '@media(max-width: 475px)': {
       height: '35px',
     },
   },
@@ -149,10 +203,6 @@ const PageLandingSx = {
     marginLeft: '50px',
     marginRight: '50px',
     justifyContent: 'center',
-    '@media(max-width: 660px)': {
-      display: 'flex',
-      flexDirection: 'column',
-    },
   },
 
   '.icon': {
@@ -161,19 +211,11 @@ const PageLandingSx = {
     marginRight: '100px',
     height: '150px',
     alignSelf: 'center',
-    '@media(max-width: 1075px)': {
-      height: '175px',
+    '@media(max-width: 1200px)': {
+      height: '100px',
     },
-    '@media(min-width: 600px) and (max-width: 900px)': {
-      height: '150px',
-      marginLeft: '25px',
-      marginRight: '25px',
-    },
-    '@media(max-width: 660px)': {
-      height: '200px',
-    },
-    '@media(max-width: 450px)': {
-      height: '150px',
+    '@media(max-width: 475px)': {
+      height: '75px',
     },
   },
 
@@ -192,10 +234,33 @@ const PageLandingSx = {
     textAlign: 'center',
     backgroundColor: 'lightPurpleGrey',
     padding: '12px',
+    '@media(max-width: 475px)': {
+      fontSize: '20px',
+    },
   },
 
   '.center': {
     textAlign: 'center'
+  },
+
+  '.email-input': {
+    width: '300px',
+    height: '40px',
+    border: '1px solid rgba(0, 0, 0, 0.5)',
+    borderRadius: '5px',
+    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+    paddingLeft: '8px',
+    fontSize: '18px',
+    '@media(max-width: 1200px)': {
+      width: '200px',
+    },
+    '@media(min-width: 721px) and (max-width: 1050px)': {
+      width: '300px',
+    },
+    '@media(max-width: 475px)': {
+      width: '150px',
+      fontSize: '14px',
+    },
   },
 
   '.subscribe-button': {
@@ -214,9 +279,18 @@ const PageLandingSx = {
     backgroundColor: 'gray',
   },
 
+  '.worry-message': {
+    fontFamily: 'Gotham-LightItalic',
+    marginTop: '5px',
+    '@media(max-width: 475px)': {
+      fontSize: '12px',
+    },
+  },
+
   '.highlight': {
     background: theme => `linear-gradient(0deg, ${theme.colors.lightPurple} 50%, transparent 50%)`
-  }
+  },
+
 }
 
 class PageLanding extends React.Component {
@@ -266,15 +340,6 @@ class PageLanding extends React.Component {
                       }
                     ]}
                     styles={{
-                      input: {
-                        width: '300px',
-                        height: '40px',
-                        border: '1px solid rgba(0, 0, 0, 0.5)',
-                        borderRadius: '5px',
-                        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
-                        paddingLeft: '8px',
-                        fontSize: '18px',
-                      },
                       sendingMsg: {
                         color: "#0652DD"
                       },
@@ -287,18 +352,21 @@ class PageLanding extends React.Component {
                       errorMsg: {
                         color: "#ED4C67"
                       }
-                    }}
+                    }
+                  }
                     className="mailchimp"
+                    inputClassName="email-input"
                     buttonClassName="subscribe-button"
                     disabledClassName="disabled"
                   />
-                  <div style={{ fontFamily: 'Gotham-LightItalic', marginTop: '5px' }}>
+                  <div className="worry-message">
                     Don’t worry, we won’t spam your inbox!
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <div className="aesthetic"/>
           <div className="logo-banner">
             <div className="logo-text">Hireglyph is backed by</div>
             <div className="logo-box">

@@ -8,10 +8,10 @@ import logo from 'assets/images/logo.svg';
 
 const NavBarSx = {
   backgroundColor: 'white',
-  height: '40px',
+  height: '60px',
   paddingTop: '0.7em',
-  paddingLeft: '80px',
-  paddingRight: '80px',
+  paddingLeft: '60px',
+  paddingRight: '60px',
   fontFamily: 'Open-Sans',
   position: 'sticky',
   top: 0,
@@ -30,6 +30,14 @@ const NavBarSx = {
     fontSize: '14px',
   },
 
+  '.nav-logo': {
+    height: '18px',
+    marginBottom: '7px',
+    '@media(max-width: 475px)': {
+      height: '16px',
+    },
+  },
+
 };
 
 const NavBar = function () {
@@ -40,7 +48,7 @@ const NavBar = function () {
           <img
             alt="Hireglyph"
             src={logo}
-            style={{ height: '18px', marginBottom: '7px' }}
+            className="nav-logo"
           />
         </Link>
       </Navbar.Brand>
