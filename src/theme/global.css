@@ -7,6 +7,34 @@
 }
 
 @font-face {
+  font-family: 'Open-Sans-Italic';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../assets/fonts/OpenSans-Italic.ttf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Open-Sans-Bold';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../assets/fonts/OpenSans-Bold.ttf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Open-Sans-SemiBold';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../assets/fonts/OpenSans-SemiBold.ttf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Open-Sans-SemiBold-Italic';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../assets/fonts/OpenSans-SemiBoldItalic.ttf) format('opentype');
+}
+
+@font-face {
   font-family: 'Gotham-Book';
   font-style: normal;
   font-weight: 400;
@@ -19,6 +47,21 @@
   font-weight: 400;
   src: url(../assets/fonts/Montserrat-Bold.ttf) format('opentype');
 }
+
+@font-face {
+  font-family: 'Gotham-SemiBold';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../assets/fonts/Montserrat-SemiBold.ttf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Gotham-LightItalic';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../assets/fonts/Montserrat-LightItalic.ttf) format('opentype');
+}
+
 
 Link {
   font-size: 90px;

@@ -1,208 +1,409 @@
 /** @jsx jsx */
 
-import { Link } from 'react-router-dom';
+import React from 'react';
 import { jsx } from 'theme-ui'
 import { ReactTitle } from 'react-meta-tags';
+import Mailchimp from 'components/Mailchimp';
 
-import meeting from 'assets/images/meeting.svg';
-import accessQuestions from 'assets/images/accessQuestions.png';
-import submitTPs from 'assets/images/submitTPs.png';
-import postFeedback from 'assets/images/postFeedback.png';
-import communicate from 'assets/images/communicate.svg';
-import lightbulb from 'assets/images/lightbulb.svg';
-import network from 'assets/images/network.svg';
+import landingMain from 'assets/images/landing-main.png';
+import harvardIlab from 'assets/images/harvard-ilab.png';
+import berkeleySkydeck from 'assets/images/berkeley-skydeck.png';
+import accessQuestions from 'assets/images/access-questions.svg';
+import joinCommunity from 'assets/images/join-community.svg';
+import receiveFeedback from 'assets/images/receive-feedback.svg';
 
 const PageLandingSx = {
   display: 'flex',
   flexDirection: 'column',
-  backgroundColor: 'darkBackground',
+  backgroundColor: 'white',
   fontFamily: 'Open-Sans',
-  color: 'white',
-  paddingTop: '60px',
-  paddingBottom: '20px',
+  lineHeight: '30px',
 
-  '.flex-elements': {
+  '.title': {
+    marginTop: '60px',
+    marginLeft: '60px',
+    marginRight: '60px',
+    fontFamily: 'Open-Sans-Bold',
+    color: 'black',
+    fontSize: '30px',
+    alignItems: 'center',
+    textAlign: 'center',
+    '@media(max-width: 475px)': {
+      marginTop: '40px',
+      fontSize: '16px',
+      lineHeight: '20px',
+    },
+  },
+
+  '.main-box': {
     display: 'flex',
-    marginTop: '80px',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: '60px',
+    justifyContent: 'center',
+    '@media(min-width: 1051px)': {
+      background: theme => `linear-gradient(to bottom left, transparent 0%, transparent 50%, ${theme.colors.lightPurpleGrey} 50%, ${theme.colors.lightPurpleGrey} 100%)`,
+    },
+  },
+
+  '.aesthetic': {
+    '@media(max-width: 1050px)': {
+      height: '150px',
+      background: theme => `linear-gradient(to bottom left, transparent 0%, transparent 50%, ${theme.colors.lightPurpleGrey} 50%, ${theme.colors.lightPurpleGrey} 100%)`,
+    },
+    '@media(max-width: 720px)': {
+      height: '100px',
+    },
+  },
+
+  '.main-image': {
+    marginLeft: '60px',
+    height: '350px',
+    '@media(max-width: 1300px)': {
+      height: '250px',
+    },
+    '@media(max-width: 1050px)': {
+      marginRight: '60px',
+    },
+    '@media(max-width: 475px)': {
+      height: '150px',
+    },
   },
 
   '.main-text': {
+    width: '600px',
+    marginLeft: '20px',
+    marginRight: '60px',
+    '@media(max-width: 1200px)': {
+      width: '400px',
+    },
+    '@media(max-width: 1050px)': {
+      marginTop: '20px',
+      marginLeft: '60px',
+    },
+    '@media(min-width: 721px) and (max-width: 1050px)': {
+      width: '600px',
+    },
+    '@media(max-width: 720px)': {
+      width: '380px',
+    },
+  },
+
+  '.sub-title': {
+    fontFamily: 'Gotham-Book',
+    fontSize: '18px',
+    '@media(max-width: 1200px)': {
+      fontSize: '14px',
+      lineHeight: '20px',
+    },
+    '@media(max-width: 1050px)': {
+      fontSize: '18px',
+    },
+    '@media(max-width: 475px)': {
+      fontSize: '10px',
+    },
+  },
+
+  '.bold': {
+    fontFamily: 'Gotham-SemiBold',
+  },
+
+  '.join-mailing': {
+    marginTop: '20px',
+    fontFamily: 'Open-Sans-Bold',
+    fontSize: '25px',
+    '@media(max-width: 1200px)': {
+      marginTop: '10px',
+      fontSize: '20px',
+    },
+    '@media(max-width: 1050px)': {
+      marginTop: '20px',
+      fontSize: '25px',
+    },
+    '@media(max-width: 475px)': {
+      fontSize: '16px',
+    },
+  },
+
+  '.mailing-li': {
+    marginTop: '15px',
+    fontFamily: 'Gotham-Book',
+    fontSize: '18px',
+    '@media(max-width: 1200px)': {
+      marginTop: '10px',
+      fontSize: '14px',
+      lineHeight: '20px',
+    },
+    '@media(max-width: 1050px)': {
+      lineHeight: '30px',
+      marginTop: '15px',
+      fontSize: '18px',
+    },
+    '@media(max-width: 475px)': {
+      lineHeight: '20px',
+      fontSize: '10px',
+    },
+  },
+
+  '.logo-box': {
+    marginTop: '20px',
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginLeft: '50px',
+    marginRight: '50px',
+    justifyContent: 'center',
+  },
+
+  '.logo-banner': {
+    backgroundColor: 'lightPurpleGrey',
+    '@media(min-width: 1051px)': {
+      paddingTop: '40px',
+    },
+  },
+
+  '.logo-text': {
+    padding: '20px',
+    alignItems: 'center',
+    textAlign: 'center',
+    fontSize: '22px',
+  },
+
+  '.logo': {
+    marginBottom: '40px',
+    marginLeft: '20px',
+    marginRight: '20px',
+    height: '90px',
+    '@media(max-width: 1200px)': {
+      height: '60px',
+    },
+    '@media(max-width: 475px)': {
+      height: '35px',
+    },
+  },
+
+  '.explain-banner': {
+    backgroundColor: '#2F2E2E',
+  },
+
+  '.explain-text': {
+    alignItems: 'center',
+    textAlign: 'center',
+    fontFamily: 'Open-Sans-SemiBold',
+    fontSize: '28px',
+    color: 'white',
     padding: '30px',
   },
 
-  '.heading': {
-    fontWeight: '600',
-    fontSize: '45px',
-    letterSpacing: '1.5px'
+  '.image-box': {
+    marginTop: '20px',
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginLeft: '50px',
+    marginRight: '50px',
+    justifyContent: 'center',
   },
 
-  '.description': {
-    width: '500px',
+  '.icon': {
+    marginBottom: '20px',
+    marginLeft: '100px',
+    marginRight: '100px',
+    height: '150px',
+    alignSelf: 'center',
+    '@media(max-width: 1200px)': {
+      height: '100px',
+    },
+    '@media(max-width: 475px)': {
+      height: '75px',
+    },
   },
 
-  '.centered': {
-    textAlign: 'center',
+  '.icon-text': {
+    width: '250px',
     margin: 'auto',
-  },
-
-  '.button-container': {
-    paddingTop: '20px',
-  },
-
-  '.start-button': {
-    backgroundColor: 'orange',
-    color: 'black',
-    paddingTop: '4px',
-    paddingBottom: '4px',
-    paddingLeft: '10px',
-    paddingRight: '10px',
-    textDecoration: 'none',
-    fontWeight: '600',
-
-    '&:hover': {
-      backgroundColor: 'darkOrange',
-    }
-  },
-
-  '.body-text': {
-    width: '300px',
-  },
-
-  '.white-text': {
-    color: 'white',
-  },
-
-  '.icon-caption': {
-    marginTop: '8px',
-    width: '200px',
-  },
-
-  '.icon-container': {
     textAlign: 'center',
-    marginRight: '110px',
-    marginLeft: '110px',
-    marginTop: '100px',
+    fontFamily: 'Open-Sans-SemiBold',
+    fontSize: '20px',
     marginBottom: '30px',
   },
 
-  '.vertical-bar': {
-    height: '130px',
-    width: '0px',
-    border: '5px solid #EA9A28',
-    margin: 'auto',
-  },
-
-  '.text-body': {
+  '.launch-banner': {
+    fontFamily: 'Open-Sans-Italic',
+    fontSize: '28px',
     textAlign: 'center',
-    marginTop: 'auto',
-    marginBottom: 'auto',
+    backgroundColor: 'lightPurpleGrey',
+    padding: '12px',
+    '@media(max-width: 475px)': {
+      fontSize: '20px',
+    },
   },
 
-  '.left-text': {
-    marginRight: '80px',
-    marginLeft: 'auto',
+  '.center': {
+    textAlign: 'center'
   },
 
-  '.right-text': {
-    marginLeft: '80px',
-    marginRight: 'auto',
+  '.email-input': {
+    width: '300px',
+    height: '40px',
+    border: '1px solid rgba(0, 0, 0, 0.5)',
+    borderRadius: '5px',
+    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+    paddingLeft: '8px',
+    fontSize: '18px',
+    '@media(max-width: 1200px)': {
+      width: '200px',
+    },
+    '@media(min-width: 721px) and (max-width: 1050px)': {
+      width: '300px',
+    },
+    '@media(max-width: 475px)': {
+      width: '150px',
+      fontSize: '14px',
+    },
   },
+
+  '.subscribe-button': {
+    backgroundColor: 'purple',
+    color: 'white',
+    border: 'none',
+    fontWeight: 'bold',
+    fontSize: '18px',
+    height: '40px',
+    borderRadius: '5px',
+    marginLeft: '5px',
+    filter: 'drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25))',
+  },
+
+  '.disabled': {
+    backgroundColor: 'gray',
+  },
+
+  '.worry-message': {
+    fontFamily: 'Gotham-LightItalic',
+    marginTop: '5px',
+    '@media(max-width: 475px)': {
+      fontSize: '12px',
+    },
+  },
+
+  '.highlight': {
+    background: theme => `linear-gradient(0deg, ${theme.colors.lightPurple} 50%, transparent 50%)`
+  },
+
 }
 
-const PageLanding = function () {
-  return (
-    <div sx={PageLandingSx}>
-      <ReactTitle
-        title="Hireglyph - The Future of Collaborative Interview Preparation"
-      />
-      <div className="flex-elements centered">
-        <div className="main-text">
-          <h2 className="heading">Ace your next finance interview</h2>
-          <div className="description centered">
-            Solve quant and traditional finance questions. Learn from 
-            others. Receive feedback. Land your dream job.
+class PageLanding extends React.Component {
+  render() {
+    return (
+      <div sx={PageLandingSx}>
+        <ReactTitle
+          title="Hireglyph - The Future of Collaborative Interview Preparation"
+        />
+        <div className="flex-elements centered">
+          <div className="title">
+            Ace your next finance interview through the power of community.
           </div>
-          <div className="button-container centered">
-            <Link to='/questions' className="start-button">
-              Get started
-            </Link>
+          <div className="main-box">
+            <div>
+              <img src={landingMain} alt="landingMain" className="main-image" />
+            </div>
+            <div className="main-text">
+              <div className="sub-title">
+                Hireglyph — the premier collaborative interview preparation platform for {' '}
+                <span className="bold">quant</span>
+                {' '} and {' '}
+                <span className="bold">traditional finance</span>
+                .
+              </div>
+              <div>
+                <div className="join-mailing">
+                  Join our <span className="highlight">{' '}mailing list{' '}</span> to...
+                </div>
+                <ul className="mailing-li">
+                  <li>Get the latest finance internships right to your inbox</li>
+                  <li>Learn tips and tricks about preparing for your interviews</li>
+                  <li>
+                    Be the first to find out about the Hireglyph platform when we
+                    launch this summer
+                  </li>
+                </ul>
+                <div className="center">
+                  <Mailchimp
+                    action='https://hireglyph.us1.list-manage.com/subscribe/post?u=04e7de515f8682261e4fd1984&amp;id=d1db2890af'
+                    fields={[
+                      {
+                        name: 'EMAIL',
+                        placeholder: 'Enter your email',
+                        type: 'email',
+                        required: true
+                      }
+                    ]}
+                    styles={{
+                      sendingMsg: {
+                        color: "#0652DD"
+                      },
+                      successMsg: {
+                        color: "#009432"
+                      },
+                      duplicateMsg: {
+                        color: "#EE5A24"
+                      },
+                      errorMsg: {
+                        color: "#ED4C67"
+                      }
+                    }
+                  }
+                    className="mailchimp"
+                    inputClassName="email-input"
+                    buttonClassName="subscribe-button"
+                    disabledClassName="disabled"
+                  />
+                  <div className="worry-message">
+                    Don’t worry, we won’t spam your inbox!
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div>
-          <img src={meeting} alt="meeting" style={{ height: '200px' }} />
+          <div className="aesthetic"/>
+          <div className="logo-banner">
+            <div className="logo-text">Hireglyph is backed by</div>
+            <div className="logo-box">
+              <img src={harvardIlab} alt="harvardIlab" className="logo" />
+              <img src={berkeleySkydeck} alt="berkeleySkydeck" className="logo" />
+            </div>
+          </div>
+          <div className="explain-banner">
+            <div className="explain-text">What we offer</div>
+            <div className="image-box">
+              <div>
+                <img src={accessQuestions} alt="accessQuestions" className="icon" />
+                <div className="icon-text" style={{ color: '#A4FFBE' }}>
+                  Access Hundreds of Questions
+                </div>
+              </div>
+              <div>
+                <img src={joinCommunity} alt="joinCommunity" className="icon" />
+                <div className="icon-text" style={{ color: '#B8B8FF' }}>
+                  Join a Community of Problem-Solvers
+                </div>
+              </div>
+              <div>
+                <img src={receiveFeedback} alt="receiveFeedback" className="icon" />
+                <div className="icon-text" style={{ color: '#85D3FF' }}>
+                  Receive Feedback on Your Solutions
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="launch-banner">
+            <b>Launching Summer 2021!</b>
+          </div>
         </div>
       </div>
-      <br />
-      <br />
-      <div className="flex-elements">
-        <div className="text-body left-text">
-          <h3 className="white-text">Access Questions</h3>
-          <div className="body-text white-text">
-            Get access to a variety of finance interview questions,
-            and sort by difficulty or topic to find the right problems
-            to solve.
-          </div>
-        </div>
-        <div sx={{marginLeft: '0', marginRight: 'auto'}}>
-          <img src={accessQuestions} alt="Access Questions" style={{ height: '300px' }} />
-        </div>
-      </div>
-      <div className="flex-elements">
-        <div sx={{marginRight: '0', marginLeft: 'auto'}}>
-          <img src={submitTPs} alt="Submit TPs" style={{ height: '300px' }} />
-        </div>
-        <div className="text-body right-text">
-          <h3 className="white-text">Submit TPs</h3>
-          <div className="body-text white-text">
-            Develop communication skills by submitting {" "}
-            <em>thought processes</em> (TPs) to practice 
-            problems, which may include your initial thoughts, 
-            different approaches, and final solution.
-          </div>
-        </div>
-      </div>
-      <div className="flex-elements">
-        <div className="text-body left-text">
-          <h3 className="white-text">Post Feedback</h3>
-          <div className="body-text white-text">
-            Post and receive feedback to TPs, fostering community discussion and 
-            enabling all users to have their work evaluated.
-          </div>
-        </div>
-        <div sx={{marginLeft: '0', marginRight: 'auto'}}>
-          <img src={postFeedback} alt="Post Feedback" style={{ height: '300px' }} />
-        </div>
-      </div>
-      <div className="flex-elements centered">
-        <div className="icon-container">
-          <div>
-            <img src={communicate} alt="Communicate" style={{ height: '140px' }} />
-          </div>
-          <div className="icon-caption">
-            Communicate your thought processes to solve complex questions
-          </div>
-        </div>
-        <div className="vertical-bar"></div>
-        <div className="icon-container">
-          <div>
-            <img src={lightbulb} alt="Learn" style={{ height: '140px' }} />
-          </div>
-          <div className="icon-caption">
-            Learn a variety of problem solving approaches and have your work evaluated
-          </div>
-        </div>
-        <div className="vertical-bar"></div>
-        <div className="icon-container">
-          <div>
-            <img src={network} alt="Community" style={{ height: '140px' }} />
-          </div>
-          <div className="icon-caption">
-            Join a collaborative community of aspiring financial professionals
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default PageLanding;

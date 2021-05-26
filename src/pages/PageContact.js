@@ -15,70 +15,90 @@ const ContactSx = {
     marginRight: 'auto',
     marginTop: '50px',
     marginBottom: '50px',
-    paddingBottom: '10px',
-    width: '500px',
+    width: '425px',
+    maxWidth: 'calc(100% - 80px)',
     height: 'auto',
     fontFamily: 'Open-Sans',
-    backgroundColor: 'lightGrey',
-    border: '2px solid black',
+    backgroundColor: 'white',
+    boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.1)',
+    borderRadius: '20px',
   },
 
   '.contact-title': {
-    marginTop: '20px',
+    fontFamily: 'Open-Sans',
+    marginRight: '50px',
+    marginLeft: '50px',
+    marginTop: '30px',
+    marginBottom: '20px',
     textAlign: 'center',
     fontSize: '25px',
   },
 
-  '.contact-label': {
-    marginTop: '10px',
-    marginLeft: '60px',
+  '.intro-message': {
+    marginRight: '50px',
+    marginLeft: '50px',
+    fontFamily: 'Open-Sans',
+    fontSize: '12px',
+    lineHeight: '16px',
+    color: '#464646',
+    marginBottom: '10px',
   },
 
   '.contact-input': {
-    marginRight: '60px',
-    marginLeft: '60px',
+    marginRight: '50px',
+    marginLeft: '50px',
     paddingLeft: '10px',
     fontFamily: 'Open-Sans',
-    width: 'calc(100% - 120px)',
+    width: 'calc(100% - 100px)',
     height: '35px',
     lineHeight: '35px',
+    fontSize: '16px',
     border: '1px solid #000000',
+    boxSizing: 'border-box',
+    marginBottom: '10px',
   },
 
   '.contact-textarea': {
-    width: 'calc(100% - 120px)',
-    marginLeft: '60px',
+    width: 'calc(100% - 100px)',
+    marginLeft: '50px',
     paddingRight: '10px',
     paddingLeft: '10px',
     resize: 'vertical',
-    lineHeight: '25px',
+    paddingTop: '5px',
+    paddingBottom: '5px',
+    lineHeight: '20px',
+    fontSize: '16px',
     fontFamily: 'Open-Sans',
     border: '1px solid #000000',
+    boxSizing: 'border-box',
+    marginBottom: '10px',
   },
 
   '.contact-submit': {
-    marginTop: '10px',
     marginBottom: '10px',
     fontFamily: 'Open-Sans',
-    width: '150px',
-    marginRight: 'calc(50% - 75px)',
-    marginLeft: 'calc(50% - 75px)',
     height: '35px',
-    border: '1px solid #000000',
-    backgroundColor: 'orange',
+    backgroundColor: '#5A3FFF',
+    width: 'calc(100% - 100px)',
+    color: 'white',
+    marginLeft: '50px',
+    paddingRight: '10px',
+    border: '0',
     cursor: 'pointer',
     '&:hover': {
-      backgroundColor: 'darkOrange',
+      backgroundColor: '#8D73FF',
     },
   },
 
   '.contact-message': {
     color: 'red',
-    marginLeft: '60px',
-    marginRight: '60px',
+    marginLeft: '50px',
+    marginRight: '50px',
     textAlign: 'center',
     fontSize: '12px',
-    marginBottom: '10px',
+    lineHeight: '16px',
+    height: '20px',
+    marginBottom: '30px',
   },
 };
 
@@ -114,33 +134,37 @@ class PageContact extends React.Component {
         <ReactTitle title="Contact Us | Hireglyph"/>
         <div className="page-container">
           <div className="contact-title">Contact Us</div>
+          <div className="intro-message">
+            Fill out this form or email us at admin@hireglyph.com
+            directly to reach us!
+          </div>
           <form onSubmit={this.sendEmail}>
-            <div className="contact-label">Name</div>
             <input
               type="text"
               name="name"
               className="contact-input"
+              placeholder="Name"
               required
             />
-            <div className="contact-label">Email Address</div>
             <input
               type="email"
               name="email"
               className="contact-input"
+              placeholder="Email Address"
               required
             />
-            <div className="contact-label">Subject</div>
             <input
               type="text"
               name="subject"
               className="contact-input"
+              placeholder="Subject Line"
               required
             />
-            <div className="contact-label">Message</div>
             <TextareaAutosize
               minRows={4}
               name="message"
               className="contact-textarea"
+              placeholder="Message"
               required
             />
             <input
