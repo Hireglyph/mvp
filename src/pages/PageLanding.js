@@ -30,7 +30,7 @@ const PageLandingSx = {
     textAlign: 'center',
     '@media(max-width: 475px)': {
       marginTop: '40px',
-      fontSize: '16px',
+      fontSize: '20px',
       lineHeight: '20px',
     },
   },
@@ -100,7 +100,7 @@ const PageLandingSx = {
       fontSize: '18px',
     },
     '@media(max-width: 475px)': {
-      fontSize: '10px',
+      fontSize: '14px',
     },
   },
 
@@ -121,7 +121,7 @@ const PageLandingSx = {
       fontSize: '25px',
     },
     '@media(max-width: 475px)': {
-      fontSize: '16px',
+      fontSize: '20px',
     },
   },
 
@@ -141,7 +141,7 @@ const PageLandingSx = {
     },
     '@media(max-width: 475px)': {
       lineHeight: '20px',
-      fontSize: '10px',
+      fontSize: '14px',
     },
   },
 
