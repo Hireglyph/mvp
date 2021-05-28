@@ -1,6 +1,7 @@
 /** @jsx jsx */
 
 import { jsx } from 'theme-ui';
+import { Link } from 'react-router-dom';
 
 const FooterSx = {
   width: 'calc(100% - 80px)',
@@ -15,8 +16,9 @@ const FooterSx = {
   },
 
   '.footer-text': {
-    color: '#464646',
+    color: 'mediumGrey',
     paddingLeft: '5px',
+    display: 'inline-block',
   }
 };
 
@@ -24,7 +26,10 @@ const Footer = function () {
   return (
     <div sx={FooterSx}>
       <hr className="hr"/>
-      <div className="footer-text">© 2021 Hireglyph LLC</div>
+      <Link to='/' className="footer-text">© 2021 Hireglyph LLC | </Link>
+      <Link to='/privacy' className="footer-text">Privacy Policy | </Link>
+      <Link to='/content' className="footer-text">Content Policy | </Link>
+      <Link to='/contact' className="footer-text">Contact Us</Link>
     </div>
   );
 };
