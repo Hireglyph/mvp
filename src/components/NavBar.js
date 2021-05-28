@@ -64,12 +64,13 @@ class NavBar extends React.Component {
   navbarContent = () => {
     const { firebase, hasNotifs, uid } = this.props;
 
+    // return nothing if uid/hasNotifs not loaded (only base navbar)
     if (!this.props.isLoaded || (uid && !isLoaded(hasNotifs))) {
-      // return nothing if uid/hasNotifs not loaded (only base navbar)
       return;
     }
+
+    // if not logged in: display login and register links
     if (!uid) {
-      // if no uid: display login and register links
       return (
         <React.Fragment>
           <Nav.Link as={Link} className="link" to='/register'>
@@ -85,11 +86,11 @@ class NavBar extends React.Component {
         </React.Fragment>
       );
     }
+
     return (
-      /* if uid: display notifications link and profile circle
-      profile circle: either go to profile page, or log out */
       <React.Fragment>
         <Nav.Link as={Link} to='/notifications'>
+          {/* display red dot on bell if user has notifs */}
           {hasNotifs && <div className="red-dot"></div>}
           <FontAwesomeIcon icon={faBell} size="2x" className="icon" />
         </Nav.Link>
@@ -111,7 +112,7 @@ class NavBar extends React.Component {
             Profile
           </NavDropdown.Item>
           <NavDropdown.Divider />
-          {/* go to '/' aka landing page when user logs out*/}
+          {/* redirect to landing page when user logs out*/}
           <NavDropdown.Item
             onClick={() => {
               this.props.history.push('/');
@@ -126,10 +127,11 @@ class NavBar extends React.Component {
   };
 
   render() {
+    // retrieve what should be displayed in the navbar
     const navbarContent = this.navbarContent();
 
+    // base navbar: Hireglyph logo (home) and link to questions
     return (
-      // base navbar: Hireglyph logo (home) and link to questions
       <Navbar collapseOnSelect expand="lg" sx={NavBarSx}>
         <Navbar.Brand>
           <Link to='/'>
@@ -163,7 +165,8 @@ const mapStateToProps = state => {
 };
 
 export default compose(
-  //pull user's hasNotifs (red button on notifs link if hasNotifs===true)
+  // pull whether user has notifs if uid exists
+  // withRouter used for this.props.history.push
   withRouter,
   firebaseConnect(props =>
     props.uid
