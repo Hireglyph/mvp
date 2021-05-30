@@ -83,6 +83,21 @@ class PageAddQuestion extends React.Component {
     this.props.firebase.update('/', updates);
   };
 
+  changeHot = (event) => {
+    const target = event.target;
+    if (target.checked) {
+      const updates = {};
+      updates[`/hotQuestions/${target.name}`] = true;
+      this.props.firebase.update('/', updates);
+    }
+    else {
+      const updates = {};
+      updates[`/hotQuestions/${target.name}`] = null;
+      this.props.firebase.update('/', updates);
+    }
+    
+  };
+
   render() {
     if (!isLoaded(this.props.questionCount)) {
       return <Loading />;
@@ -129,57 +144,82 @@ class PageAddQuestion extends React.Component {
           </div>
         );
       });
+    
+    const hotCheckboxes =
+      this.props.questions &&
+      isLoaded(this.props.hotQuestions) &&
+      Object.keys(this.props.questions).map((questId) => {
+        return (
+          <div key={questId}>
+            <input
+              type="checkbox"
+              onChange={this.changeHot}
+              name={questId}
+              checked=
+                {(this.props.hotQuestions && this.props.hotQuestions[questId]) || false}
+            />
+            {questId}
+          </div>
+        );
+      });
 
     return (
-      <div>
-        <textarea
-          name="title"
-          placeholder="Question title..."
-          onChange={this.handleChange}
-          value={this.state.title}
-        />
-        <br />
-        <textarea
-          name="description"
-          placeholder="Question description..."
-          onChange={this.handleChange}
-          value={this.state.description}
-        />
-        <br />
-        <textarea
-          name="answer"
-          placeholder="Question answer (if applicable)..."
-          onChange={this.handleChange}
-          value={this.state.answer}
-        />
-        <br />
-        Difficulty:
-        <select
-          name="difficulty"
-          value={this.state.difficulty}
-          onChange={this.handleChange}
-        >
-          <option value="easy">Easy</option>
-          <option value="medium">Medium</option>
-          <option value="hard">Hard</option>
-        </select>
-        <br />
-        Tags:
-        <br />
-        {checkboxes}
-        <br />
-        Related Questions:
-        <br />
-        {related}
-        <button
-          disabled={
-            this.state.description.trim() === "" ||
-            this.state.title.trim() === ""
-          }
-          onClick={this.createQuestion}
-        >
-          Submit
-        </button>
+      <div style={{ display: 'flex' }}>
+        <div>
+          <h2>Add a question</h2>
+          <textarea
+            name="title"
+            placeholder="Question title..."
+            onChange={this.handleChange}
+            value={this.state.title}
+          />
+          <br />
+          <textarea
+            name="description"
+            placeholder="Question description..."
+            onChange={this.handleChange}
+            value={this.state.description}
+          />
+          <br />
+          <textarea
+            name="answer"
+            placeholder="Question answer (if applicable)..."
+            onChange={this.handleChange}
+            value={this.state.answer}
+          />
+          <br />
+          Difficulty:
+          <select
+            name="difficulty"
+            value={this.state.difficulty}
+            onChange={this.handleChange}
+          >
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+          <br />
+          Tags:
+          <br />
+          {checkboxes}
+          <br />
+          Related Questions:
+          <br />
+          {related}
+          <button
+            disabled={
+              this.state.description.trim() === "" ||
+              this.state.title.trim() === ""
+            }
+            onClick={this.createQuestion}
+          >
+            Submit
+          </button>
+        </div>
+        <div>
+          <h2>Hot Questions</h2>
+          {hotCheckboxes}
+        </div>
       </div>
     );
   }
@@ -187,16 +227,18 @@ class PageAddQuestion extends React.Component {
 
 const mapStateToProps = (state, props) => {
   const questions = props.questions;
+  const hotQuestions = state.firebase.data.hotQuestions;
   const questionCount =
     questions &&
     parseInt(Object.keys(questions)[Object.keys(questions).length - 1]) + 1;
   return {
     admin: state.firebase.profile.admin,
     questionCount,
+    hotQuestions
   };
 };
 
 export default compose(
-  firebaseConnect(),
+  firebaseConnect({ path: `/hotQuestions` }),
   connect(mapStateToProps)
 )(PageAddQuestion);
