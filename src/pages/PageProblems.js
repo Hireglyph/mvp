@@ -1,8 +1,9 @@
 /** @jsx jsx */
 
 import React from 'react';
-import { withRouter, Link } from 'react-router-dom';
-import { isLoaded } from 'react-redux-firebase';
+import { Link, withRouter } from 'react-router-dom';
+import { firebaseConnect, isLoaded } from 'react-redux-firebase';
+import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { jsx } from 'theme-ui';
 import { ReactTitle } from 'react-meta-tags';
@@ -153,12 +154,44 @@ class PageProblems extends React.Component {
         '/questions/?' + base :
         `/questions/?diff=${diff}&` + base
     );
-  }
+  };
+
+  displayQuestion = (questId) => {
+    const quest = this.props.questions[questId];
+    const answered = this.props.questionHistory
+      && this.props.questionHistory[questId];
+    const topics = quest.tags && Object.keys(quest.tags).map(tag =>
+      <div className="tag" key={tag}>{tag}</div>
+    );
+
+    return (
+      <Link className="question-box link" to={`/q/${questId}/my`} key={questId}>
+        <div className="flex">
+          <div className="question-title">
+            #{questId}: {quest.title}
+            {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
+          </div>
+          <div className={quest.difficulty + ' difficulty'}>
+            {quest.difficulty.toUpperCase()}
+          </div>
+        </div>
+        <div className="tag-container">
+          {topics}
+        </div>
+      </Link>
+    );
+  };
 
   render() {
-    const { tag, diff, questions, questionHistory } = this.props;
+    const {
+      tag,
+      diff,
+      questions,
+      questionHistory,
+      hotQuestions
+    } = this.props;
 
-    if (!isLoaded(questions) || !isLoaded(questionHistory)) {
+    if (!isLoaded(questions) || !isLoaded(questionHistory) || !isLoaded(hotQuestions)) {
       return <Loading />;
     }
 
@@ -168,34 +201,19 @@ class PageProblems extends React.Component {
       return <PageNotFound />;
     }
 
+    const hot = hotQuestions
+      && Object.keys(hotQuestions).map(questId => this.displayQuestion(questId));
+
     const quests = Object.keys(questions)
       .filter(questId => !isDiff || questions[questId].difficulty === diff)
       .filter(questId => !tag || (questions[questId].tags && questions[questId].tags[tag]))
-      .map(questId => {
-        const quest = questions[questId];
-        const answered = questionHistory && questionHistory[questId];
+      .map(questId => this.displayQuestion(questId));
 
-        const topics = quest.tags && Object.keys(quest.tags).map(tag =>
-          <div className="tag" key={tag}>{tag}</div>
-        );
-
-        return (
-          <Link className="question-box link" to={`/q/${questId}/my`} key={questId}>
-            <div className="flex">
-              <div className="question-title">
-                #{questId}: {quest.title}
-                {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
-              </div>
-              <div className={quest.difficulty + ' difficulty'}>
-                {quest.difficulty.toUpperCase()}
-              </div>
-            </div>
-            <div className="tag-container">
-              {topics}
-            </div>
-          </Link>
-        );
-      });
+    const noHot = (
+      <div className="no-quest">
+        No hot questions right now. Please come back soon!
+      </div>
+    );
 
     const noQuests = (
       <div className="no-quest">
@@ -204,20 +222,18 @@ class PageProblems extends React.Component {
       </div>
     );
 
-    const tagButtons = tags.map(tag => {
-      return (
-        <div
-          className={
-            (this.props.tag === tag && " tag-selected") +
-            " tag tag-button pointer"
-          }
-          onClick={() => this.handleTagFilter(tag)}
-          key={tag}
-        >
-          {tag}
-        </div>
-      );
-    });
+    const tagButtons = tags.map(tag =>
+      <div
+        className={
+          (this.props.tag === tag && " tag-selected") +
+          " tag tag-button pointer"
+        }
+        onClick={() => this.handleTagFilter(tag)}
+        key={tag}
+      >
+        {tag}
+      </div>
+    );
 
     return (
       <div className="PageProblems" sx={PageProblemsSx}>
@@ -275,6 +291,11 @@ class PageProblems extends React.Component {
                   View full list
               </div>}
           </div>
+          <div>HOT</div>
+          <div className="quest-container">
+            {hotQuestions ? hot : noHot}
+          </div>
+          <div>----</div>
           <div className="quest-container">
             {quests.length ? quests : noQuests}
           </div>
@@ -284,6 +305,12 @@ class PageProblems extends React.Component {
   }
 }
 
+const mapStateToProps = state => {
+  return { hotQuestions: state.firebase.data.hotQuestions };
+};
+
 export default compose(
   withRouter,
+  firebaseConnect({ path: `/hotQuestions` }),
+  connect(mapStateToProps)
 )(PageProblems);
