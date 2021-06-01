@@ -298,7 +298,7 @@ class PageLanding extends React.Component {
     return (
       <div sx={PageLandingSx}>
         <ReactTitle
-          title="Hireglyph - The Future of Collaborative Interview Preparation"
+          title="Hireglyph - The Future of Finance Interview Preparation"
         />
         <div className="flex-elements centered">
           <div className="title">
