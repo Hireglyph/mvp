@@ -157,8 +157,7 @@ class PageProblems extends React.Component {
   };
 
   displayQuestion = (questId) => {
-    const questions = this.props.questions;
-    const quest = questions[questId];
+    const quest = this.props.questions[questId];
     const answered = this.props.questionHistory
       && this.props.questionHistory[questId];
     const topics = quest.tags && Object.keys(quest.tags).map(tag =>
@@ -180,7 +179,8 @@ class PageProblems extends React.Component {
           {topics}
         </div>
       </Link>
-    )};
+    );
+  };
 
   render() {
     const {
@@ -201,17 +201,13 @@ class PageProblems extends React.Component {
       return <PageNotFound />;
     }
 
-    const hot = hotQuestions && Object.keys(hotQuestions)
-      .map(questId => {
-        return this.displayQuestion(questId);
-      });
+    const hot = hotQuestions
+      && Object.keys(hotQuestions).map(questId => this.displayQuestion(questId));
 
     const quests = Object.keys(questions)
       .filter(questId => !isDiff || questions[questId].difficulty === diff)
       .filter(questId => !tag || (questions[questId].tags && questions[questId].tags[tag]))
-      .map(questId => {
-        return this.displayQuestion(questId);
-      });
+      .map(questId => this.displayQuestion(questId));
 
     const noHot = (
       <div className="no-quest">
@@ -226,20 +222,18 @@ class PageProblems extends React.Component {
       </div>
     );
 
-    const tagButtons = tags.map(tag => {
-      return (
-        <div
-          className={
-            (this.props.tag === tag && " tag-selected") +
-            " tag tag-button pointer"
-          }
-          onClick={() => this.handleTagFilter(tag)}
-          key={tag}
-        >
-          {tag}
-        </div>
-      );
-    });
+    const tagButtons = tags.map(tag =>
+      <div
+        className={
+          (this.props.tag === tag && " tag-selected") +
+          " tag tag-button pointer"
+        }
+        onClick={() => this.handleTagFilter(tag)}
+        key={tag}
+      >
+        {tag}
+      </div>
+    );
 
     return (
       <div className="PageProblems" sx={PageProblemsSx}>
@@ -311,9 +305,8 @@ class PageProblems extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const hotQuestions = state.firebase.data.hotQuestions;
-  return { hotQuestions };
+const mapStateToProps = state => {
+  return { hotQuestions: state.firebase.data.hotQuestions };
 };
 
 export default compose(

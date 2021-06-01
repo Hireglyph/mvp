@@ -85,17 +85,9 @@ class PageAddQuestion extends React.Component {
 
   changeHot = (event) => {
     const target = event.target;
-    if (target.checked) {
-      const updates = {};
-      updates[`/hotQuestions/${target.name}`] = true;
-      this.props.firebase.update('/', updates);
-    }
-    else {
-      const updates = {};
-      updates[`/hotQuestions/${target.name}`] = null;
-      this.props.firebase.update('/', updates);
-    }
-    
+    const updates = {};
+    updates[`/hotQuestions/${target.name}`] = target.checked ? true : null;
+    this.props.firebase.update('/', updates);
   };
 
   render() {
@@ -239,6 +231,6 @@ const mapStateToProps = (state, props) => {
 };
 
 export default compose(
-  firebaseConnect({ path: `/hotQuestions` }),
+  firebaseConnect({ path: '/hotQuestions' }),
   connect(mapStateToProps)
 )(PageAddQuestion);
