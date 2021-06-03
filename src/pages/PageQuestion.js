@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import TextareaAutosize from 'react-textarea-autosize';
 import { ReactTitle } from 'react-meta-tags';
+import Moment from 'react-moment';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck,
@@ -366,7 +367,8 @@ class PageQuestion extends React.Component {
         </div>
         <div className="tp-interior">
           <div className="tp-header">
-            <div>@{username}</div>
+            <div>@{username}{' '}</div>
+            <Moment fromNow ago>{tp.date}</Moment>
             <div className="expand-collapse">
               {(tp.initial && tp.initial.length > length) ||
               (tp.approach && tp.approach.length > length) ||
@@ -428,15 +430,15 @@ class PageQuestion extends React.Component {
     const updates = {};
     const tp =
       difficulty === "easy"
-        ? { creator: uid, solution, total: 0, username }
-        : { approach, creator: uid, initial, solution, total: 0, username };
-    const tp2 =
+        ? { creator: uid, solution, total: 0, username, date: Date() }
+        : { approach, creator: uid, initial, solution, total: 0, username, date: Date() };
+    const profileTp =
       difficulty === "easy"
-        ? { questId, solution, total: 0 }
-        : { approach, initial, questId, solution, total: 0 };
+        ? { questId, solution, total: 0, date: Date() }
+        : { approach, initial, questId, solution, total: 0, date: Date() };
 
     updates[`/tps/${questId}/${tpId}`] = tp;
-    updates[`/tpHistory/${uid}/${tpId}`] = tp2;
+    updates[`/tpHistory/${uid}/${tpId}`] = profileTp;
     updates[`/questionHistory/${uid}/${questId}`] = true;
 
     const onComplete = () => {
@@ -681,7 +683,7 @@ class PageQuestion extends React.Component {
         <div className="page-container">
           <div className="question-block">
             <div className="question-title">
-              #{this.props.questId}: {title}{" "}
+              #{this.props.questId}: {title}{' '}
               {this.props.solved && <FontAwesomeIcon icon={faCheck} className="check" />}
             </div>
             <div className={difficulty + ' difficulty'}>{difficulty.toUpperCase()}</div>

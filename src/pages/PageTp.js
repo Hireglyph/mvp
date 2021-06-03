@@ -14,6 +14,7 @@ import { ReactTitle } from 'react-meta-tags';
 import { faArrowCircleLeft,
          faCaretUp,
          faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import Moment from 'react-moment';
 
 import { currentVotes, getVoteValues, upvoteTp, downvoteTp } from 'utils/vote';
 import { displayContent } from 'utils/display';
@@ -253,6 +254,7 @@ class PageTp extends React.Component {
       creator: uid,
       score: 0,
       username,
+      date: Date()
     };
     updates[`/feedbackHistory/${uid}/${feedbackId}`] = {
       tpId,
@@ -260,6 +262,7 @@ class PageTp extends React.Component {
       questId,
       username: tp.username,
       score: 0,
+      date: Date()
     };
     if (uid !== tp.creator) {
       updates[`/notifications/${tp.creator}/${notificationId}`] = {
@@ -369,6 +372,7 @@ class PageTp extends React.Component {
       toUsername,
       username,
       score: 0,
+      date: Date()
     };
     updates[`/replyHistory/${uid}/${replyId}`] = {
       tpId,
@@ -376,6 +380,7 @@ class PageTp extends React.Component {
       questId,
       replyFeedbackID,
       username,
+      date: Date()
     };
     if (uid !== replyToCreator) {
       updates[`/notifications/${replyToCreator}/${notifId}`] = {
@@ -456,7 +461,7 @@ class PageTp extends React.Component {
       feedbacks &&
       this.state.keys.map((feedbackId) => {
         if (feedbacks[feedbackId]) {
-          const { creator, feedback, score, username, users } = feedbacks[
+          const { creator, feedback, score, username, users, date } = feedbacks[
             feedbackId
           ];
           const deleted = !feedbacks[feedbackId].creator;
@@ -487,12 +492,14 @@ class PageTp extends React.Component {
               const { reply, toUsername } = repliesTo[replyId];
               const replyCreator = repliesTo[replyId].creator;
               const replyUsername = repliesTo[replyId].username;
+              const replyDate = repliesTo[replyId].date;
               const replyDeleted = !replyCreator;
               const isReplyUpvoted = repliesTo[replyId].users && repliesTo[replyId].users[uid];
               return (
                 <div key={replyId} id={replyId}>
                   <div className="feedback-top">
-                    <div>@{replyUsername}</div>
+                  <div>@{replyUsername}{' '}</div>
+                    <Moment fromNow ago>{replyDate}</Moment>
                     {!replyDeleted && (this.state.replyToID === replyId ?
                       <div
                         className="reply-click cancel-reply"
@@ -569,7 +576,8 @@ class PageTp extends React.Component {
               </div>
               <div className="feedback-content">
                 <div className="feedback-top">
-                  <div>@{feedbackUsername}</div>
+                  <div>@{feedbackUsername}{' '}</div>
+                  <Moment fromNow ago>{date}</Moment>
                   {!deleted && (this.state.replyToID === feedbackId ?
                     <div
                       className="reply-click cancel-reply"
@@ -668,13 +676,14 @@ class PageTp extends React.Component {
               <FontAwesomeIcon icon={faArrowCircleLeft} />
             </div>
             <div>
-              TP by @{tp.username} to {" "}
+              TP by @{tp.username} to {' '}
               <Link
                 className="question-link"
                 to={`/q/${questId}`}
               >
                 Question #{questId}
-              </Link>
+              </Link> {' '}
+              <Moment fromNow ago>{tp.date}</Moment>
             </div>
             <br />
           </div>

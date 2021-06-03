@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Latex from 'react-latex';
 import { ReactTitle } from 'react-meta-tags';
+import Moment from 'react-moment';
 
 import TpPreview from 'components/TpPreview';
 import Loading from 'components/Loading';
@@ -254,7 +255,8 @@ class PageProfile extends React.Component {
             return (
               <div className="profile-box" key={tpId}>
                 <div className="profile-header">
-                  <div>Response to Question #{tp.questId}</div>
+                  <div>Response to Question #{tp.questId}{' '}</div>
+                  <Moment fromNow ago>{tp.date}</Moment>
                   <div className="profile-header-button">
                     {((tp.initial && tp.initial.length > length) ||
                       (tp.approach && tp.approach.length > length) ||
@@ -327,6 +329,7 @@ class PageProfile extends React.Component {
             questId,
             tpId,
             username,
+            date
           } = feedbackHistory[feedbackId];
 
           const score = feedbackHistory[feedbackId].score;
@@ -337,8 +340,9 @@ class PageProfile extends React.Component {
               <div className="profile-box" key={feedbackId}>
                 <div className="profile-header">
                   <div>
-                    Feedback to @{username}'s TP to Question #{questId}
+                    Feedback to @{username}'s TP to Question #{questId}{' '}
                   </div>
+                  <Moment fromNow ago>{date}</Moment>
                   <div className="profile-header-button">
                     {feedback.length > length
                       && this.generateMessage(
@@ -421,6 +425,7 @@ class PageProfile extends React.Component {
             replyFeedbackID,
             tpId,
             username,
+            date
           } = replyHistory[replyId];
 
           const isReplyExpanded = this.state.replyExpand.has(replyId);
@@ -430,8 +435,9 @@ class PageProfile extends React.Component {
               <div className="profile-box" key={replyId}>
                 <div className="profile-header">
                   <div>
-                    Reply to to @{username} about a TP to Question #{questId}
+                    Reply to to @{username} about a TP to Question #{questId}{' '}
                   </div>
+                  <Moment fromNow ago>{date}</Moment>
                   <div className="profile-header-button">
                     {reply.length > length
                       && this.generateMessage(
