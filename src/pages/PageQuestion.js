@@ -367,7 +367,7 @@ class PageQuestion extends React.Component {
         </div>
         <div className="tp-interior">
           <div className="tp-header">
-            <div>@{username}{" "}</div>
+            <div>@{username}{' '}</div>
             <Moment fromNow ago>{tp.date}</Moment>
             <div className="expand-collapse">
               {(tp.initial && tp.initial.length > length) ||
@@ -683,7 +683,7 @@ class PageQuestion extends React.Component {
         <div className="page-container">
           <div className="question-block">
             <div className="question-title">
-              #{this.props.questId}: {title}{" "}
+              #{this.props.questId}: {title}{' '}
               {this.props.solved && <FontAwesomeIcon icon={faCheck} className="check" />}
             </div>
             <div className={difficulty + ' difficulty'}>{difficulty.toUpperCase()}</div>

@@ -498,7 +498,7 @@ class PageTp extends React.Component {
               return (
                 <div key={replyId} id={replyId}>
                   <div className="feedback-top">
-                  <div>@{replyUsername}{" "}</div>
+                  <div>@{replyUsername}{' '}</div>
                     <Moment fromNow ago>{replyDate}</Moment>
                     {!replyDeleted && (this.state.replyToID === replyId ?
                       <div
@@ -527,7 +527,7 @@ class PageTp extends React.Component {
                       <div>{repliesTo[replyId].score > 0 && repliesTo[replyId].score}</div>
                     </div>}
                     <div>
-                      @{toUsername}{" "}
+                      @{toUsername}{' '}
                     </div>
                     <Latex>{displayContent(reply)}</Latex>
                   </div>
@@ -576,7 +576,7 @@ class PageTp extends React.Component {
               </div>
               <div className="feedback-content">
                 <div className="feedback-top">
-                  <div>@{feedbackUsername}{" "}</div>
+                  <div>@{feedbackUsername}{' '}</div>
                   <Moment fromNow ago>{date}</Moment>
                   {!deleted && (this.state.replyToID === feedbackId ?
                     <div
@@ -676,13 +676,13 @@ class PageTp extends React.Component {
               <FontAwesomeIcon icon={faArrowCircleLeft} />
             </div>
             <div>
-              TP by @{tp.username} to {" "}
+              TP by @{tp.username} to {' '}
               <Link
                 className="question-link"
                 to={`/q/${questId}`}
               >
                 Question #{questId}
-              </Link> {" "}
+              </Link> {' '}
               <Moment fromNow ago>{tp.date}</Moment>
             </div>
             <br />
