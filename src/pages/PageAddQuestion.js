@@ -39,6 +39,10 @@ class PageAddQuestion extends React.Component {
     }
   };
 
+  noCompany = () => {
+    this.setState({ company: null });
+  };
+
   addRelated = (event) => {
     const target = event.target;
     let newRelated;
@@ -223,11 +227,13 @@ class PageAddQuestion extends React.Component {
           Company:
           <br />
           {companyBoxes}
+          <button onClick={this.noCompany}>
+            No company
+          </button>
           <button
             disabled={
               this.state.description.trim() === "" ||
-              this.state.title.trim() === "" ||
-              !this.state.company
+              this.state.title.trim() === ""
             }
             onClick={this.createQuestion}
           >
