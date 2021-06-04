@@ -12,3 +12,11 @@ export const tags = [
   'technology',
   'personal',
 ];
+
+export const companies = [
+  'Jane Street',
+  'Two Sigma',
+  'Citadel',
+  'SIG',
+  'IMC',
+];

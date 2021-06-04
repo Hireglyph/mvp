@@ -11,7 +11,7 @@ import { ReactTitle } from 'react-meta-tags';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
-import { tags } from 'constants/Tags';
+import { tags, companies } from 'constants/Lists';
 import Loading from 'components/Loading.js';
 import PageNotFound from 'pages/PageNotFound';
 
@@ -139,7 +139,9 @@ class PageProblems extends React.Component {
   }
 
   handleTagFilter = (tag) => {
-    const base = this.props.diff ? `diff=${this.props.diff}` : '';
+    const diffBase = this.props.diff ? `diff=${this.props.diff}` : '';
+    const companyBase = this.props.company ? `company=${this.props.company}` : '';
+    const base = diffBase + '&' + companyBase;
     this.props.history.push(
       this.props.tag === tag ?
         '/questions/?' + base :
@@ -148,11 +150,24 @@ class PageProblems extends React.Component {
   };
 
   handleDiffFilter = (diff) => {
-    const base = this.props.tag ? `tag=${this.props.tag}` : '';
+    const tagBase = this.props.tag ? `tag=${this.props.tag}` : '';
+    const companyBase = this.props.company ? `company=${this.props.company}` : '';
+    const base = tagBase + '&' + companyBase;
     this.props.history.push(
       this.props.diff === diff ?
         '/questions/?' + base :
         `/questions/?diff=${diff}&` + base
+    );
+  };
+
+  handleCompanyFilter = (company) => {
+    const tagBase = this.props.tag ? `tag=${this.props.tag}` : '';
+    const diffBase = this.props.diff ? `diff=${this.props.diff}` : '';
+    const base = tagBase + '&' + diffBase;
+    this.props.history.push(
+      this.props.company === company ?
+        '/questions/?' + base :
+        `/questions/?company=${company}&` + base
     );
   };
 
@@ -174,6 +189,9 @@ class PageProblems extends React.Component {
           <div className={quest.difficulty + ' difficulty'}>
             {quest.difficulty.toUpperCase()}
           </div>
+          <div>
+            {quest.company}
+          </div>
         </div>
         <div className="tag-container">
           {topics}
@@ -186,6 +204,7 @@ class PageProblems extends React.Component {
     const {
       tag,
       diff,
+      company,
       questions,
       questionHistory,
       hotQuestions
@@ -197,7 +216,9 @@ class PageProblems extends React.Component {
 
     const isDiff = diff === 'easy' || diff === 'medium' || diff === 'hard';
 
-    if ((diff && !isDiff) || (tag && !tags.includes(tag))) {
+    if ((diff && !isDiff)
+      || (tag && !tags.includes(tag))
+      || (company && !companies.includes(company))) {
       return <PageNotFound />;
     }
 
@@ -207,6 +228,7 @@ class PageProblems extends React.Component {
     const quests = Object.keys(questions)
       .filter(questId => !isDiff || questions[questId].difficulty === diff)
       .filter(questId => !tag || (questions[questId].tags && questions[questId].tags[tag]))
+      .filter(questId => !company || questions[questId].company === company)
       .map(questId => this.displayQuestion(questId));
 
     const noHot = (
@@ -232,6 +254,19 @@ class PageProblems extends React.Component {
         key={tag}
       >
         {tag}
+      </div>
+    );
+
+    const companyButtons = companies.map(company =>
+      <div
+        className={
+          (this.props.company === company && " tag-selected") +
+          " tag tag-button pointer"
+        }
+        onClick={() => this.handleCompanyFilter(company)}
+        key={company}
+      >
+        {company}
       </div>
     );
 
@@ -278,6 +313,10 @@ class PageProblems extends React.Component {
           <h2 className="white">Tags</h2>
           <div className="tag-button-container">
             {tagButtons}
+          </div>
+          <h2 className="white">Companies</h2>
+          <div className="tag-button-container">
+            {companyButtons}
           </div>
         </div>
         <div className="questions-container">

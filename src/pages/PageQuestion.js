@@ -467,6 +467,7 @@ class PageQuestion extends React.Component {
       answer,
       description,
       difficulty,
+      company,
       tags,
       title
     } = question || {};
@@ -687,6 +688,7 @@ class PageQuestion extends React.Component {
               {this.props.solved && <FontAwesomeIcon icon={faCheck} className="check" />}
             </div>
             <div className={difficulty + ' difficulty'}>{difficulty.toUpperCase()}</div>
+            <div>{company}</div>
             <div className="question-description">
               {description}
             </div>
