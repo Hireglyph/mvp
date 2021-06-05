@@ -78,6 +78,7 @@ class App extends React.Component {
                 questionHistory={questionHistory}
                 tag={queryString.parse(this.props.location.search).tag}
                 diff={queryString.parse(this.props.location.search).diff}
+                company={queryString.parse(this.props.location.search).company}
                 uid={uid}
               />
             }

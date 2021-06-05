@@ -4,7 +4,7 @@ import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import { tags } from 'constants/Tags';
+import { tags, companies } from 'constants/Lists';
 import Loading from 'components/Loading';
 
 class PageAddQuestion extends React.Component {
@@ -17,6 +17,7 @@ class PageAddQuestion extends React.Component {
       tags: {},
       relatedQs: {},
       difficulty: 'easy',
+      company: null,
     };
   }
 
@@ -32,9 +33,14 @@ class PageAddQuestion extends React.Component {
         delete newTags[target.name];
       }
       this.setState({ tags: newTags });
-    } else {
+    }
+    else {
       this.setState({ [target.name]: target.value });
     }
+  };
+
+  noCompany = () => {
+    this.setState({ company: null });
   };
 
   addRelated = (event) => {
@@ -58,6 +64,7 @@ class PageAddQuestion extends React.Component {
             description: this.state.description,
             tags: this.state.tags,
             difficulty: this.state.difficulty,
+            company: this.state.company
           }
         : {
             title: this.state.title,
@@ -65,6 +72,7 @@ class PageAddQuestion extends React.Component {
             answer: this.state.answer,
             tags: this.state.tags,
             difficulty: this.state.difficulty,
+            company: this.state.company
           };
     updates[`/questions/${this.props.questionCount}`] = question;
     updates[
@@ -78,6 +86,7 @@ class PageAddQuestion extends React.Component {
       tags: {},
       difficulty: 'easy',
       relatedQs: {},
+      company: null,
     });
 
     this.props.firebase.update('/', updates);
@@ -117,6 +126,23 @@ class PageAddQuestion extends React.Component {
             checked={this.state.tags[tag] || false}
           />
           {tag}
+        </div>
+      );
+    });
+
+    const companyBoxes = companies.map((company) => {
+      return (
+        <div key={company}>
+          <label>
+            <input
+              type="radio"
+              name="company"
+              value={company}
+              checked={this.state.company === company}
+              onChange={this.handleChange}
+            />
+            {company}
+          </label>
         </div>
       );
     });
@@ -198,6 +224,12 @@ class PageAddQuestion extends React.Component {
           Related Questions:
           <br />
           {related}
+          Company:
+          <br />
+          {companyBoxes}
+          <button onClick={this.noCompany}>
+            No company
+          </button>
           <button
             disabled={
               this.state.description.trim() === "" ||
