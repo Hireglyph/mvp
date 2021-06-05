@@ -11,6 +11,7 @@ import Latex from 'react-latex';
 import { ReactTitle } from 'react-meta-tags';
 import Moment from 'react-moment';
 
+import { tags } from 'constants/Lists';
 import TpPreview from 'components/TpPreview';
 import Loading from 'components/Loading';
 import { length } from 'constants/PrevLength';
@@ -181,8 +182,55 @@ class PageProfile extends React.Component {
       feedbackExpand: new Set(),
       tpExpand: new Set(),
       replyExpand: new Set(),
+      calculated: false,
+      tpCount: null,
+      netUpvotes: null,
+      difficultyStats: {},
+      tagStats: {},
     };
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if(!this.state.calculated &&
+      isLoaded(this.props.tpHistory) &&
+      isLoaded(this.props.feedbackHistory) &&
+      isLoaded(this.props.questionHistory) &&
+      isLoaded(this.props.questions))
+    {
+      const tpHistory = this.props.tpHistory;
+      const feedbackHistory = this.props.feedbackHistory;
+      const questionHistory = this.props.questionHistory;
+      const questions = this.props.questions;
+      let difficultyStats = { easy: 0, medium: 0, hard: 0 };
+      let tagStats = {};
+      tags.forEach(tag => {
+        tagStats[tag] = 0;
+      });
+      const tpCount = Object.keys(tpHistory).length;
+      let netUpvotes = 0;
+      Object.keys(tpHistory).forEach(tpId => {
+        netUpvotes += tpHistory[tpId].total;
+      });
+      Object.keys(feedbackHistory).forEach(feedbackId => {
+        netUpvotes += feedbackHistory[feedbackId].score;
+      });
+      Object.keys(questionHistory).forEach(questId => {
+        difficultyStats[questions[questId].difficulty] += 1;
+      });
+      Object.keys(questionHistory).forEach(questId => {
+        Object.keys(questions[questId].tags).forEach(tag => {
+          tags.indexOf(tag.toString()) >= 0 && (tagStats[tag] += 1);
+        })
+      });
+      this.setState({
+        tpCount,
+        netUpvotes,
+        difficultyStats,
+        tagStats,
+        calculated: true
+      });
+    }
+  }; 
 
   generateMessage = (isExpanded, id, type) => {
     if (!isExpanded) {

@@ -38,7 +38,14 @@ class App extends React.Component {
         <Switch>
           {/* routes that completely require login */}
           <Route exact path="/profile/:historyParam?">
-            {AuthComponent || <PageProfile uid={uid} />}
+            {
+              AuthComponent ||
+              <PageProfile
+                uid={uid}
+                questions={questions}
+                questionHistory={questionHistory}
+              />
+            }
           </Route>
 
           <Route exact path="/notifications">
