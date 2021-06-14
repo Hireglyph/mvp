@@ -56,7 +56,6 @@ const NotFoundSx = {
 
 };
 
-// page not found
 const PageNotFound = function () {
   return (
     <div sx={NotFoundSx}>
@@ -67,7 +66,6 @@ const PageNotFound = function () {
           The page you are looking for cannot be found.
         </div>
         <div className="link-centered">
-          {/* link to landing page */}
           <Link
             className="not-found-button"
             to='/'

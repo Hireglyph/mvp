@@ -4,7 +4,6 @@ import { jsx } from 'theme-ui';
 import { ContentPrivacySx } from 'theme/ContentPrivacyStyle';
 import { ReactTitle } from 'react-meta-tags';
 
-// content policy
 const PageContentPolicy = function () {
   return (
     <div sx={ContentPrivacySx}>

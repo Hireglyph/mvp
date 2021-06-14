@@ -43,8 +43,8 @@ class PageAddQuestion extends React.Component {
     this.setState({ company: null });
   };
 
+  // add or remove newly-clicked question to relatedQuestions
   addRelated = (event) => {
-    // add or remove newly-clicked question to relatedQuestions
     const target = event.target;
     let newRelated;
     if (target.checked) {
@@ -76,14 +76,12 @@ class PageAddQuestion extends React.Component {
             difficulty: this.state.difficulty,
             company: this.state.company
           };
-    // create new question
+
     updates[`/questions/${this.props.questionCount}`] = question;
-    // set new question's relatedQuestions
     updates[
       `/relatedQuestions/${this.props.questionCount}`
     ] = this.state.relatedQs;
 
-    // reset state
     this.setState({
       title: '',
       description: '',
@@ -109,8 +107,8 @@ class PageAddQuestion extends React.Component {
       return <Loading />;
     }
 
+    // redirect user if not logged in
     if (!this.props.uid) {
-      // redirect user if not logged in
       return <Redirect to="/" />;
     }
 
@@ -118,13 +116,13 @@ class PageAddQuestion extends React.Component {
       return <Loading />;
     }
 
+    // redirect user if not admin
     if (!this.props.admin) {
-      // redirect user if not admin
       return <Redirect to="/" />;
     }
 
+    // display checkboxes used to set the question's tags
     const checkboxes = tags.map((tag) => {
-      // display checkboxes used to set the question's tags
       return (
         <div key={tag}>
           <input
@@ -155,10 +153,10 @@ class PageAddQuestion extends React.Component {
       );
     });
 
+    // display checkboxes used to set the question's related questions
     const related =
       this.props.questions &&
       Object.keys(this.props.questions).map((questId) => {
-        // display checkboxes used to set the question's related questions
         return (
           <div key={questId}>
             <input

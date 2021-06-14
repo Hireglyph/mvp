@@ -165,9 +165,7 @@ const mapStateToProps = state => {
 };
 
 export default compose(
-  // pull whether user has notifs if uid exists
-  // withRouter used for this.props.history.push
-  withRouter,
+  withRouter, // for this.props.history.push
   firebaseConnect(props =>
     props.uid
       ? [{ path: '/hasNotifs/' + props.uid, storeAs: 'hasNotifs' }]

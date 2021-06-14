@@ -25,8 +25,8 @@ class PageLogin extends React.Component {
   handleChange = (event) =>
     this.setState({ [event.target.name]: event.target.value, error: '' });
 
+  // login w/ email + password
   login = async () => {
-    // login normal way (email + password)
     const credentials = {
       email: this.state.email,
       password: this.state.password,
@@ -41,8 +41,8 @@ class PageLogin extends React.Component {
     }
   };
 
+  // login with Google
   loginWithProvider = (provider) => {
-    // login with Google
     this.setState({ loading: true });
 
     this.props.loginUser({ provider }).catch((error) => {
@@ -78,8 +78,8 @@ class PageLogin extends React.Component {
             />
           </div>
           {!this.state.loading ? (
-            // button to log in the normal way
             <div>
+              {/* button to log in w/ email + pass */}
               <button className="auth-button" onClick={this.login}>
                 Log in
               </button>

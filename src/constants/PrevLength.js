@@ -1,2 +1,2 @@
-// length parameter used in TP/feedback/replies previews
+// length (# of chars) of previews for TP/feedback/replies
 export const length = 44;

@@ -224,8 +224,8 @@ class PageProfile extends React.Component {
     }
   }; 
 
+  // generate expand or collapse message based on state expand set
   generateMessage = (isExpanded, id, type) => {
-    // generate expand or collapse message based on state expand set
     if (!isExpanded) {
       return (
         <div
@@ -246,8 +246,8 @@ class PageProfile extends React.Component {
     );
   };
 
+  // add the tpId/feedbackId/replyId to the relevant expand set in state
   changeExpand = (value, id, type) => {
-    // add the tpId/feedbackId/replyId to the relevant expand set in state
     let expandName, cloneSet;
     if (type === 'tp') {
       expandName = 'tpExpand';
@@ -265,8 +265,8 @@ class PageProfile extends React.Component {
     this.setState({ [expandName]: cloneSet });
   };
 
+  // go to different URL parameters in profile page (tp/feedback/reply)
   handleTps = (historyParam) => {
-    // go to different URL parameters in profile page (tp/feedback/reply)
     this.props.history.push(`/profile/${historyParam}`);
   };
 
@@ -287,9 +287,9 @@ class PageProfile extends React.Component {
       return <Redirect to={`/profile/tp`} />;
     }
 
-    const tps = tpHistory ? (
-      /* display tpHistory: traverse thru all the tpId in tpHistory,
+    /* display tpHistory: traverse thru all the tpIds in tpHistory,
       display header (tp info) + tp preview that user can expand/collapse */
+    const tps = tpHistory ? (
       Object.keys(tpHistory)
         .slice(0)
         .reverse()
@@ -322,7 +322,6 @@ class PageProfile extends React.Component {
                     {tp.total}
                   </div>
                   <div className="profile-box-interior">
-                    {/* TpPreview: pass in initial/approach/solution */}
                     <TpPreview
                       initial={tp.initial}
                       approach={tp.approach}
@@ -332,7 +331,6 @@ class PageProfile extends React.Component {
                   </div>
                 </div>
                 <div className="profile-box-bottom">
-                  {/* use tpDelete abstraction */}
                   <div
                     className="profile-delete"
                     onClick={() => tpDelete({
@@ -367,10 +365,10 @@ class PageProfile extends React.Component {
       </div>
     );
 
-    const feedbacks = feedbackHistory ? (
-      /* display feedbackHistory: traverse thru all the feedbackId in
-      feedbackHistory, display header (feedback info) + feedback preview that 
+    /* display feedbackHistory: traverse thru all the feedbackIds in
+      feedbackHistory, display header (feedback info) + feedback preview that
       user can expand/collapse */
+    const feedbacks = feedbackHistory ? (
       Object.keys(feedbackHistory)
         .slice(0)
         .reverse()
@@ -430,7 +428,6 @@ class PageProfile extends React.Component {
                   </div>
                 </div>
                 <div className="profile-box-bottom">
-                  {/* use feedbackDelete abstraction */}
                   <div
                     className="profile-delete"
                     onClick={() => feedbackDelete({
@@ -467,10 +464,10 @@ class PageProfile extends React.Component {
         </div>
       );
 
-    const replies = replyHistory ? (
-      /* display replyHistory: traverse thru all the replyId in
-      replyId, display header (reply info) + reply preview that 
+    /* display replyHistory: traverse thru all the replyIds in
+      replyHistory, display header (reply info) + reply preview that
       user can expand/collapse */
+    const replies = replyHistory ? (
       Object.keys(replyHistory)
         .slice(0)
         .reverse()
@@ -522,7 +519,6 @@ class PageProfile extends React.Component {
                   </div>
                 </div>
                 <div className="profile-box-bottom">
-                  {/* use replyDelete abstraction */}
                   <div
                     className="profile-delete"
                     onClick={() => replyDelete({
@@ -560,8 +556,8 @@ class PageProfile extends React.Component {
         </div>
       );
 
+    // set display based on URL param
     const display =
-      // set display based on URL param
       historyParam === "tp"
         ? tps
         : historyParam === "feedback"
@@ -633,7 +629,6 @@ const mapStateToProps = (state, props) => {
 };
 
 export default compose(
-  // pull user's tpHistory, feedbackHistory, and replyHistory
   withRouter,
   firebaseConnect((props) => [
     {

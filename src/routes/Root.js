@@ -27,8 +27,8 @@ const RootSx = {
 
 class Root extends React.Component {
   render() {
+    // display loading animation if auth/profile are loading
     if (!this.props.isLoaded) {
-      // display loading animation if auth/profile are loading
       return (
         <div className="Root" sx={RootSx}>
           <NavBar />

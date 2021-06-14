@@ -326,14 +326,14 @@ class PageQuestion extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    // reset state if questId changes (navigation through relatedQuestions)
     if (prevProps.questId !== this.props.questId) {
-      // reset state if questId changes (navigation through relatedQuestions)
       this.setState(initialState);
     }
   }
 
+  // generate expand/collapse message
   generateMessage = (isExpanded, tpId) => {
-    // generate expand/collapse message
     if (!isExpanded) {
       return <div onClick={() => this.changeExpand(true, tpId)}>Expand TP</div>;
     }
@@ -353,7 +353,7 @@ class PageQuestion extends React.Component {
     return tp && tp.creator && (
       <div className="tp-block" key={tpId}>
         <div className="tp-arrows">
-          {/* upvote+downvote arrow and TP score */}
+          {/* upvote + downvote arrow and TP score */}
           <div
             className={(isUpvoted ? "upvoted-arrow" : "blank-arrow") + " fa-layers"}
             onClick={() => upvoteTp(tpInfo)}
@@ -381,7 +381,6 @@ class PageQuestion extends React.Component {
             </div>
           </div>
           <div className="tp-preview">
-            {/* TpPreview (initial/approach/solution) */}
             <TpPreview
               initial={tp.initial}
               approach={tp.approach}
@@ -402,21 +401,21 @@ class PageQuestion extends React.Component {
     );
   };
 
-  changeOrder = (sortBy) => {
-    /* changing the URL between "top" TPs and "new" TPs
+  /* changing the URL between "top" TPs and "new" TPs
     also reset the expand variable in state */
+  changeOrder = (sortBy) => {
     const questId = this.props.questId;
     this.setState({ expand: new Set() });
     this.props.history.push(`/q/${questId}/community/${sortBy}`);
   };
 
+  // change whether or not the answer is displayed
   changeShowAnswer = () => {
-    // change whether or not the answer is displayed
     this.setState({ showAnswer: !this.state.showAnswer });
   };
 
+  // change whether or not a specific TP is expanded
   changeExpand = (value, tpId) => {
-    // change whether or not a specific TP is expanded
     const cloneSet = new Set(this.state.expand);
     value ? cloneSet.add(tpId) : cloneSet.delete(tpId);
     this.setState({ expand: cloneSet });
@@ -450,9 +449,9 @@ class PageQuestion extends React.Component {
     updates[`/tpHistory/${uid}/${tpId}`] = profileTp;
     updates[`/questionHistory/${uid}/${questId}`] = true;
 
-    const onComplete = () => {
-      /* signal in TpWrapper to re-sort/freeze array of TpId's for the questId
+    /* signal in TpWrapper to re-sort/freeze array of TpId's for the questId
       so that the TP is at the top of "new" community TPs (in state) */
+    const onComplete = () => {
       this.props.tpCreated();
       this.setState(initialState);
       this.props.history.push(`/q/${questId}/community/new`);
@@ -526,14 +525,13 @@ class PageQuestion extends React.Component {
 
     const relatedQs =
       relatedQuestions &&
-      // display QuestionPreview for all related questions
       Object.keys(relatedQuestions).map((questId) => {
         return <QuestionPreview questId={questId} uid={uid} key={questId} />;
       });
 
+    // if question has an answer, display "See answer"
+    // and the answer itself, depending on state
     const answerDisplay = answer && (
-      /* if question has an answer, display "See answer"
-      --and the answer itself, depending on state */
       <div>
         <span
           className="answer-display"
@@ -546,20 +544,18 @@ class PageQuestion extends React.Component {
       </div>
     );
 
+    // message if no TPs for the question (or all TPs are deleted)
     const noTps =
-      /* display message if there are no TPs for the question
-      (or all "TPs" in database are deleted) */
       <div className="message-section">
         There are no TPs yet for this question. Be the first to write one!
       </div>;
 
     let tpsByVote = tps && keys.map((tpId) => this.displayTp(tpId));
-
     let tpsByTime = tps && time.map((tpId) => this.displayTp(tpId));
 
+    // set display variables to noTps if there are no TPs for the question
+    // or all "TPs" in database are "deleted"
     if (!tpsByVote || !tpsByVote.some(tp => tp)) {
-      /* set display variables to noTps if there are no TPs for the question
-      (or all "TPs" in database are "deleted") */
       tpsByVote  = noTps;
       tpsByTime = noTps;
     }
@@ -590,7 +586,7 @@ class PageQuestion extends React.Component {
 
     const myTp =
       difficulty === "easy" ? (
-        // textareas for only solution if "easy" question
+        // only solution if "easy" question
         <div className="myTp-background">
           <TextareaAutosize
             className="my-tp"
@@ -609,7 +605,7 @@ class PageQuestion extends React.Component {
           </button>
         </div>
       ) : (
-        // otherwise textareas for initial/approach/solution
+        // otherwise, have initial/approach/solution
         <div className="myTp-background">
           <TextareaAutosize
             className="my-tp"
@@ -649,8 +645,8 @@ class PageQuestion extends React.Component {
         </div>
       );
 
-    let section;
     // set display based on URL parameter
+    let section;
     if (questParam === "my") {
       section = myTp;
     } else if (questParam === "related") {
@@ -659,9 +655,10 @@ class PageQuestion extends React.Component {
       section = communityTps;
     }
 
+    // do not display TP workspace or community TPs if
+    // not logged in, not onboarded, or not verified
     if (!uid) {
       section = (
-        // do not display TP workspace or community TPs if not logged in
         <div className="message-section">
           You need to log in or register before writing
           your own TP or accessing community TPs.
@@ -669,7 +666,6 @@ class PageQuestion extends React.Component {
       );
     } else if (!onboarded) {
       section = (
-        // make sure user is onbaorded
         <div className="message-section">
           You need to set your username on the {' '}
           <Link
@@ -684,7 +680,6 @@ class PageQuestion extends React.Component {
       );
     } else if (!this.props.emailVerified) {
       section = (
-        // make sure user has done email verification
         <div className="message-section">
           You need to verify your email on the {' '}
           <Link
@@ -709,8 +704,8 @@ class PageQuestion extends React.Component {
           title={`#${this.props.questId}: ${title} | Hireglyph`}
         />
         <div className="page-container">
+          {/* question block: title, tags, description, difficulty, solved checkmark? */}
           <div className="question-block">
-            {/* question block: title, tags, description, difficulty, solved checkmark? */}
             <div className="question-title">
               #{this.props.questId}: {title}{' '}
               {this.props.solved && <FontAwesomeIcon icon={faCheck} className="check" />}
@@ -723,10 +718,9 @@ class PageQuestion extends React.Component {
             <div className="tag-container">{topics}</div>
             <div>{answerDisplay}</div>
           </div>
+          {/* display block: buttons on top, and section (TP workspace, community TPs,
+            or related questions) on the bottom */}
           <div className="display-block">
-            {/* display block: buttons on top, and section
-            (TP workspace, community TPs, or related questions)
-            on the bottom */}
             <div>
               <button
                 className="question-button"
@@ -771,7 +765,6 @@ const mapStateToProps = (state, props) => {
 };
 
 export default compose(
-  // pull relatedQuestions from firebase
   withRouter,
   firebaseConnect(props => {
     return [

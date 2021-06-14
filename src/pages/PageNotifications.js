@@ -71,8 +71,8 @@ const NotifSx = {
 };
 
 class PageNotifications extends React.Component {
+  // if notification clicked on, set its "viewed" child object to true
   viewed = (notifId) => {
-    // if notification clicked on, set it's "viewed" child object to true
     const updates = {};
     updates[`/notifications/${this.props.uid}/${notifId}/viewed`] = true;
     this.props.firebase.update("/", updates);
@@ -80,7 +80,6 @@ class PageNotifications extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.notifications) {
-      // if(prevProps.notifications && Object.keys(prevProps.notifications).length != Object.keys(this.props.notifications).length){
       const updates = {};
       updates[`/hasNotifs/${this.props.uid}`] = false;
       this.props.firebase.update("/", updates);
@@ -99,9 +98,9 @@ class PageNotifications extends React.Component {
           .reverse()
           .map((notifId) => {
             const notification = this.props.notifications[notifId];
+            // user's tp got upvoted notification
             if (notification && notification.type === "tpUpvote") {
               return (
-                // user's tp got upvoted notification
                 <div key={notifId}>
                   <Link
                     className="notif-link"
@@ -116,9 +115,9 @@ class PageNotifications extends React.Component {
                 </div>
               );
             }
+            // user's feedback got upvoted notification
             if (notification && notification.type === "tpFeedbackUpvote") {
               return (
-                // user's feedback got upvoted notification
                 <div key={notifId}>
                   <Link
                     className="notif-link"
@@ -133,9 +132,9 @@ class PageNotifications extends React.Component {
                 </div>
               );
             }
+            // user's tp got a feedback notification
             if (notification && notification.type === "tpFeedback") {
               return (
-                // user's tp got a feedback notification
                 <div key={notifId}>
                   <Link
                     className="notif-link"
@@ -150,9 +149,9 @@ class PageNotifications extends React.Component {
                 </div>
               );
             }
+            // user's feedback/reply got a reply notification
             if (notification && notification.type === "reply") {
               return (
-                // user's feedback/reply got a reply notification
                 <div key={notifId}>
                   <Link
                     className="notif-link"
@@ -167,9 +166,9 @@ class PageNotifications extends React.Component {
                 </div>
               );
             }
+            // user's reply was upvoted notification
             if (notification && notification.type === "replyUpvote") {
               return (
-                // user's reply was upvoted notification
                 <div key={notifId}>
                   <Link
                     className="notif-link"
@@ -210,7 +209,6 @@ const mapStateToProps = state => {
 };
 
 export default compose(
-  // pull user's notifications from firebase
   withRouter,
   firebaseConnect((props) => [
     {

@@ -1,10 +1,11 @@
 export const tpDelete = ({ firebase, questId, tpId, uid }) => {
   const updates = {};
-  // make initial/approach/solution and username '[deleted]'
+  // set content to '[deleted]'
   updates[`/tps/${questId}/${tpId}/initial`] = '[deleted]';
   updates[`/tps/${questId}/${tpId}/approach`] = '[deleted]';
   updates[`/tps/${questId}/${tpId}/solution`] = '[deleted]';
   updates[`/tps/${questId}/${tpId}/username`] = '[deleted]';
+
   // make creator (aka uid of the TP) null
   updates[`/tps/${questId}/${tpId}/creator`] = null;
   
@@ -17,9 +18,10 @@ export const tpDelete = ({ firebase, questId, tpId, uid }) => {
 export const feedbackDelete = ({ firebase, tpId, feedbackId, uid }) => {
   const updates = {};
 
-  // make feedback and username '[deleted]'
+  // make content '[deleted]'
   updates[`/feedbacks/${tpId}/${feedbackId}/feedback`] = '[deleted]';
   updates[`/feedbacks/${tpId}/${feedbackId}/username`] = '[deleted]';
+
   // make creator (aka uid of the feedback) null
   updates[`/feedbacks/${tpId}/${feedbackId}/creator`] = null;
 
@@ -38,10 +40,11 @@ export const replyDelete = ({
 }) => {
   const updates = {};
 
-  // make reply and username '[deleted]'
+  // make content '[deleted]'
   updates[`/replies/${tpId}/${replyFeedbackID}/${replyId}/reply`] = '[deleted]';
   updates[`/replies/${tpId}/${replyFeedbackID}/${replyId}/username`] =
     '[deleted]';
+
   // make creator (aka uid of the reply) null
   updates[`/replies/${tpId}/${replyFeedbackID}/${replyId}/creator`] = null;
 

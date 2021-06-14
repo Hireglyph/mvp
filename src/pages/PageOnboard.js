@@ -21,8 +21,8 @@ class PageOnboard extends React.Component {
   handleChange = (event) =>
     this.setState({ [event.target.name]: event.target.value });
 
+  // update profile with username
   register = () => {
-    // update profile with username
     const profile = {
       email: this.props.email,
       username: this.state.username,
@@ -38,7 +38,6 @@ class PageOnboard extends React.Component {
       <div sx={LoginRegisterSx}>
         <div className="page-container">
           <div className="auth-title">Onboard</div>
-          {/* enter username through input */}
           <input
             className="auth-input"
             name="username"

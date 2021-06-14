@@ -1,8 +1,7 @@
+// diff: what TP/feedback total score is added/subtracted by, either -1, 1, or 2
+// vote: the user's personal score for the TP/feedbac, either 0/1
+// these values must allbe negated if user is downvoting
 export const getVoteValues = (isSameVoted, isOppositeVoted) => {
-  /* diff: what TP/feedback total score is added/subtracted by
-  vote: the user's personal score for the TP/feedback
-  right now diff is either (-1)/2 and vote is either 0/1
-  but these values are all negated if user is downvoting */
   let diff = -1,
     vote = 0;
   if (!isSameVoted) {
@@ -25,8 +24,8 @@ export const upvoteTp = ({
   const updates = {};
   const { diff, vote } = getVoteValues(isUpvoted, isDownvoted);
 
+  // give the TP creator a notification
   if (!isUpvoted && uid !== tp.creator) {
-    // give the TP creator a notification
     const notificationId = firebase.push(`/notifications/${tp.creator}`).key;
     updates[`/notifications/${tp.creator}/${notificationId}`] = {
       questId,
@@ -37,7 +36,7 @@ export const upvoteTp = ({
     };
     updates[`/hasNotifs/${tp.creator}`] = true;
   }
-  // upvote TP
+
   updates[`/tps/${questId}/${tpId}/total`] = tp.total + diff;
   updates[`/tpHistory/${tp.creator}/${tpId}/total`] = tp.total + diff;
   updates[`/tps/${questId}/${tpId}/users/${uid}`] = vote;
@@ -55,7 +54,6 @@ export const downvoteTp  = ({
 }) => {
   const { diff, vote } = getVoteValues(isDownvoted, isUpvoted);
 
-  // downvote TP
   const updates = {};
   updates[`/tps/${questId}/${tpId}/total`] = tp.total - diff;
   updates[`/tpHistory/${tp.creator}/${tpId}/total`] = tp.total - diff;
@@ -63,8 +61,8 @@ export const downvoteTp  = ({
   firebase.update("/", updates);
 };
 
+// gets user's current vote value for a TP/feedback
 export const currentVotes = (item, uid) => {
-  // gets user's current vote value for a TP/feedback
   const isUpvoted = item && item.users && item.users[uid] === 1;
   const isDownvoted = item && item.users && item.users[uid] === -1;
 
