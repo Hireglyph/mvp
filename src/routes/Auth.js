@@ -11,15 +11,18 @@ class Auth extends React.Component {
     const { emailVerified, onboarded, uid } = this.props;
 
     if (uid) {
+      // not onboarded (i.e. no username)
       if (!onboarded) {
         return <PageOnboard />;
       }
+      // email not verified yet
       if (!emailVerified) {
         return <PageConfirmEmail />;
       }
       return <Redirect to="/questions" />;
     }
 
+    // if no uid, go to register or login
     return (
       <div className="Auth">
         <Switch>

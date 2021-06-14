@@ -26,6 +26,7 @@ class PageRegister extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
 
   register = async () => {
+    // if passwords match, create user
     if (this.state.password === this.state.confirmPassword) {
       const credentials = {
         email: this.state.email,
@@ -46,11 +47,13 @@ class PageRegister extends React.Component {
         this.setState({ error: error.message });
       }
     }
+    // if passwords do not match, display message
     else {
       this.setState({ error: "Passwords do not match" });
     }
   };
 
+  // log in with Google
   loginWithProvider = (provider) => {
     this.setState({ loading: true });
 

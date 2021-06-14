@@ -21,6 +21,7 @@ class PageOnboard extends React.Component {
   handleChange = (event) =>
     this.setState({ [event.target.name]: event.target.value });
 
+  // update profile with username
   register = () => {
     const profile = {
       email: this.props.email,

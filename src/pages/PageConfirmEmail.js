@@ -98,10 +98,12 @@ class PageConfirmEmail extends React.Component {
       return <Loading />;
     }
 
+    // display message if email resent
     if (resent) {
       return <div className="confirm-email-resent">Email sent!</div>;
     }
 
+    // display button to resend confirmation email, IF not already resent
     if (!resent) {
       return (
         <button

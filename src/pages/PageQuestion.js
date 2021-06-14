@@ -326,11 +326,13 @@ class PageQuestion extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    // reset state if questId changes (navigation through relatedQuestions)
     if (prevProps.questId !== this.props.questId) {
       this.setState(initialState);
     }
   }
 
+  // generate expand/collapse message
   generateMessage = (isExpanded, tpId) => {
     if (!isExpanded) {
       return <div onClick={() => this.changeExpand(true, tpId)}>Expand TP</div>;
@@ -351,6 +353,7 @@ class PageQuestion extends React.Component {
     return tp && tp.creator && (
       <div className="tp-block" key={tpId}>
         <div className="tp-arrows">
+          {/* upvote + downvote arrow and TP score */}
           <div
             className={(isUpvoted ? "upvoted-arrow" : "blank-arrow") + " fa-layers"}
             onClick={() => upvoteTp(tpInfo)}
@@ -398,16 +401,20 @@ class PageQuestion extends React.Component {
     );
   };
 
+  /* changing the URL between "top" TPs and "new" TPs
+    also reset the expand variable in state */
   changeOrder = (sortBy) => {
     const questId = this.props.questId;
     this.setState({ expand: new Set() });
     this.props.history.push(`/q/${questId}/community/${sortBy}`);
   };
 
+  // change whether or not the answer is displayed
   changeShowAnswer = () => {
     this.setState({ showAnswer: !this.state.showAnswer });
   };
 
+  // change whether or not a specific TP is expanded
   changeExpand = (value, tpId) => {
     const cloneSet = new Set(this.state.expand);
     value ? cloneSet.add(tpId) : cloneSet.delete(tpId);
@@ -428,6 +435,7 @@ class PageQuestion extends React.Component {
 
     const tpId = this.props.firebase.push(`/tps/${questId}`).key;
     const updates = {};
+    // only solution if "easy" question, otherwise initial/approach/solution
     const tp =
       difficulty === "easy"
         ? { creator: uid, solution, total: 0, username, date: Date() }
@@ -441,6 +449,8 @@ class PageQuestion extends React.Component {
     updates[`/tpHistory/${uid}/${tpId}`] = profileTp;
     updates[`/questionHistory/${uid}/${questId}`] = true;
 
+    /* signal in TpWrapper to re-sort/freeze array of TpId's for the questId
+      so that the TP is at the top of "new" community TPs (in state) */
     const onComplete = () => {
       this.props.tpCreated();
       this.setState(initialState);
@@ -506,6 +516,7 @@ class PageQuestion extends React.Component {
       tags &&
       Object.keys(tags).map((tag) => {
         return (
+          // link to go to questions page, sorted by the tag clicked on
           <Link to={`/questions?tag=${tag}`} className="tag" key={tag}>
             {tag}
           </Link>
@@ -518,6 +529,8 @@ class PageQuestion extends React.Component {
         return <QuestionPreview questId={questId} uid={uid} key={questId} />;
       });
 
+    // if question has an answer, display "See answer"
+    // and the answer itself, depending on state
     const answerDisplay = answer && (
       <div>
         <span
@@ -531,15 +544,17 @@ class PageQuestion extends React.Component {
       </div>
     );
 
+    // message if no TPs for the question (or all TPs are deleted)
     const noTps =
       <div className="message-section">
         There are no TPs yet for this question. Be the first to write one!
       </div>;
 
     let tpsByVote = tps && keys.map((tpId) => this.displayTp(tpId));
-
     let tpsByTime = tps && time.map((tpId) => this.displayTp(tpId));
 
+    // set display variables to noTps if there are no TPs for the question
+    // or all "TPs" in database are "deleted"
     if (!tpsByVote || !tpsByVote.some(tp => tp)) {
       tpsByVote  = noTps;
       tpsByTime = noTps;
@@ -548,6 +563,7 @@ class PageQuestion extends React.Component {
     const communityTps = (
       <div className="communityTps-background">
         <div className="sort-button-block">
+          {/* buttons to sort by "new" and "top" TPs */}
           <button
             className="sort-button"
             disabled={sortBy === "top"}
@@ -563,12 +579,14 @@ class PageQuestion extends React.Component {
             New
           </button>
         </div>
+        {/* display tpsByVote or tpsByTime */}
         {sortBy === "top" ? tpsByVote : tpsByTime}
       </div>
     );
 
     const myTp =
       difficulty === "easy" ? (
+        // only solution if "easy" question
         <div className="myTp-background">
           <TextareaAutosize
             className="my-tp"
@@ -587,6 +605,7 @@ class PageQuestion extends React.Component {
           </button>
         </div>
       ) : (
+        // otherwise, have initial/approach/solution
         <div className="myTp-background">
           <TextareaAutosize
             className="my-tp"
@@ -626,6 +645,7 @@ class PageQuestion extends React.Component {
         </div>
       );
 
+    // set display based on URL parameter
     let section;
     if (questParam === "my") {
       section = myTp;
@@ -635,6 +655,8 @@ class PageQuestion extends React.Component {
       section = communityTps;
     }
 
+    // do not display TP workspace or community TPs if
+    // not logged in, not onboarded, or not verified
     if (!uid) {
       section = (
         <div className="message-section">
@@ -682,6 +704,7 @@ class PageQuestion extends React.Component {
           title={`#${this.props.questId}: ${title} | Hireglyph`}
         />
         <div className="page-container">
+          {/* question block: title, tags, description, difficulty, solved checkmark? */}
           <div className="question-block">
             <div className="question-title">
               #{this.props.questId}: {title}{' '}
@@ -695,6 +718,8 @@ class PageQuestion extends React.Component {
             <div className="tag-container">{topics}</div>
             <div>{answerDisplay}</div>
           </div>
+          {/* display block: buttons on top, and section (TP workspace, community TPs,
+            or related questions) on the bottom */}
           <div className="display-block">
             <div>
               <button

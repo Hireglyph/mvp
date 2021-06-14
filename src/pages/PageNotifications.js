@@ -71,6 +71,7 @@ const NotifSx = {
 };
 
 class PageNotifications extends React.Component {
+  // if notification clicked on, set its "viewed" child object to true
   viewed = (notifId) => {
     const updates = {};
     updates[`/notifications/${this.props.uid}/${notifId}/viewed`] = true;
@@ -79,7 +80,6 @@ class PageNotifications extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.notifications) {
-      //if(prevProps.notifications && Object.keys(prevProps.notifications).length != Object.keys(this.props.notifications).length){
       const updates = {};
       updates[`/hasNotifs/${this.props.uid}`] = false;
       this.props.firebase.update("/", updates);
@@ -98,6 +98,7 @@ class PageNotifications extends React.Component {
           .reverse()
           .map((notifId) => {
             const notification = this.props.notifications[notifId];
+            // user's tp got upvoted notification
             if (notification && notification.type === "tpUpvote") {
               return (
                 <div key={notifId}>
@@ -114,6 +115,7 @@ class PageNotifications extends React.Component {
                 </div>
               );
             }
+            // user's feedback got upvoted notification
             if (notification && notification.type === "tpFeedbackUpvote") {
               return (
                 <div key={notifId}>
@@ -130,6 +132,7 @@ class PageNotifications extends React.Component {
                 </div>
               );
             }
+            // user's tp got a feedback notification
             if (notification && notification.type === "tpFeedback") {
               return (
                 <div key={notifId}>
@@ -146,6 +149,7 @@ class PageNotifications extends React.Component {
                 </div>
               );
             }
+            // user's feedback/reply got a reply notification
             if (notification && notification.type === "reply") {
               return (
                 <div key={notifId}>
@@ -162,6 +166,7 @@ class PageNotifications extends React.Component {
                 </div>
               );
             }
+            // user's reply was upvoted notification
             if (notification && notification.type === "replyUpvote") {
               return (
                 <div key={notifId}>
@@ -181,6 +186,7 @@ class PageNotifications extends React.Component {
             return null;
           })
       ) : (
+        // message if user has no notifications
         <div className="message-section">
           You have no notifications. You will receive a notification when one
           of your TPs gets upvoted or receives feedback!

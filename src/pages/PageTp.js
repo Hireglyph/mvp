@@ -195,11 +195,13 @@ class PageTp extends React.Component {
   }
 
   componentDidMount() {
+    // direct query for feedbacks
     this.props.firebase.database()
       .ref(`/feedbacks/${this.props.tpId}`)
       .on('value', data => {
         if (data.val()) {
           if (this.state.loading) {
+            // sort the feedbacks once
             let keys = Object.keys(data.val());
             keys.sort((a, b) => data.val()[b].score - data.val()[a].score);
             this.setState({ keys });
@@ -209,11 +211,13 @@ class PageTp extends React.Component {
         this.setState({ loading: false });
       });
 
+    // direct query for feedback replies
     this.props.firebase.database()
       .ref(`/replies/${this.props.tpId}`)
       .on('value', data => {
         if (data.val()) {
           if (this.state.replyLoading) {
+            // freeze the array of replies for each feedbackId once
             var replyKeysCopy = this.state.replyKeys;
             Object.keys(data.val()).forEach(feedbackId => {
               replyKeysCopy[feedbackId] = Object.keys(data.val()[feedbackId]);
@@ -249,6 +253,7 @@ class PageTp extends React.Component {
     const feedbackId = firebase.push(`/feedbacks/${tpId}`).key;
     const notificationId = firebase.push(`/notifications/${tp.creator}`).key;
     const updates = {};
+
     updates[`/feedbacks/${tpId}/${feedbackId}`] = {
       feedback,
       creator: uid,
@@ -264,6 +269,7 @@ class PageTp extends React.Component {
       score: 0,
       date: Date()
     };
+    // notify TP's creator if current user isn't the creator
     if (uid !== tp.creator) {
       updates[`/notifications/${tp.creator}/${notificationId}`] = {
         questId,
@@ -277,6 +283,7 @@ class PageTp extends React.Component {
     }
     this.setState({ feedback: '' });
 
+    // add feedback to top of frozen array of sorted feedbacks in state
     const onComplete = () => {
       keys.unshift(feedbackId);
       this.setState({ keys });
@@ -293,6 +300,7 @@ class PageTp extends React.Component {
     const { isUpvoted, isDownvoted } = currentVotes(feedback, uid);
     const { diff, vote } = getVoteValues(isUpvoted, isDownvoted);
 
+    // notify feedback's creator
     if (!isUpvoted && uid !== feedback.creator) {
       const notificationId = firebase.push(`/notifications/${feedback.creator}`).key;
       updates[`/notifications/${feedback.creator}/${notificationId}`] = {
@@ -382,6 +390,7 @@ class PageTp extends React.Component {
       username,
       date: Date()
     };
+    // notify the creator of the reply/feedback the user is replying to
     if (uid !== replyToCreator) {
       updates[`/notifications/${replyToCreator}/${notifId}`] = {
         questId,
@@ -398,6 +407,7 @@ class PageTp extends React.Component {
 
     var replyKeysCopy = { ...replyKeys };
 
+    // add replyId to relevant (by feedbackId) frozen array of replyId in state
     replyKeysCopy[replyFeedbackID] = replyKeys[replyFeedbackID] ?
       replyKeys[replyFeedbackID].slice() : [];
     replyKeysCopy[replyFeedbackID].push(replyId);
@@ -419,6 +429,7 @@ class PageTp extends React.Component {
     const isUpvoted = reply.users && reply.users[uid];
     const diff = isUpvoted ? -1 : 1;
 
+    // notify the reply's creator
     if (!isUpvoted && uid !== reply.creator) {
       const notificationId = firebase.push(`/notifications/${reply.creator}`).key;
       updates[`/notifications/${reply.creator}/${notificationId}`] = {
@@ -468,6 +479,8 @@ class PageTp extends React.Component {
           const feedbackUpvoted = users && uid in users && users[uid] === 1;
           const feedbackDownvoted = users && uid in users && users[uid] === -1;
           const feedbackUsername = username ? username : creator;
+
+          // upvote/downvote arrows + score
           const feedbackScoreArrows = !deleted && (
             <div className="centered">
               <div
@@ -518,6 +531,7 @@ class PageTp extends React.Component {
                   </div>
                   <div>
                     {!replyDeleted && <div className="feedback-top">
+                      {/* upvote arrow + score for reply (only display score if >0) */}
                       <div
                         className={(isReplyUpvoted ? "upvoted-arrow" : "blank-arrow") + " fa-layers"}
                         onClick={() => this.upvoteReply(replyId, feedbackId)}
@@ -531,6 +545,7 @@ class PageTp extends React.Component {
                     </div>
                     <Latex>{displayContent(reply)}</Latex>
                   </div>
+                  {/* show delete button if current user wrote the reply */}
                   {uid === replyCreator &&
                     <button
                       onClick={() => replyDelete({
@@ -547,6 +562,7 @@ class PageTp extends React.Component {
                 </div>
               );
             })
+          // reply textArea if replying to feedback or a reply corresponding to the feedbackId
           const replyTextArea = this.state.replyFeedbackID === feedbackId && (
             <div>
               <div>Reply To: {this.state.toUsername}</div>
@@ -597,6 +613,7 @@ class PageTp extends React.Component {
                 <div>
                   <Latex>{displayContent(feedback)}</Latex>
                 </div>
+                {/* show delete button if current user wrote the feedback */}
                 {uid === creator &&
                   <button
                     onClick={() => feedbackDelete({
@@ -621,6 +638,7 @@ class PageTp extends React.Component {
         return null;
       });
 
+    // textArea to write feedback directly to the TP (not a reply)
     const myFeedback = this.props.tp.creator && (
       <div>
         <TextareaAutosize
@@ -643,6 +661,7 @@ class PageTp extends React.Component {
       </div>
     );
 
+    // upvote/downvote arrows and score for the TP
     const scoreArrows = this.props.tp.creator && (
       <div className="centered">
         <div
@@ -710,6 +729,7 @@ class PageTp extends React.Component {
               <div>
                 <Latex>{tp.solution && displayContent(tp.solution)}</Latex>
               </div>
+              {/* show delete button if current user wrote the tp */}
               {uid === tp.creator &&
                 <button
                   onClick={() => tpDelete({
@@ -729,6 +749,7 @@ class PageTp extends React.Component {
             ? <Loading/>
             : (
             <div>
+              {/* feedback textArea and feedbacks + replies display */}
               {myFeedback}
               {feedbacksDisplay}
             </div>

@@ -43,6 +43,7 @@ class PageAddQuestion extends React.Component {
     this.setState({ company: null });
   };
 
+  // add or remove newly-clicked question to relatedQuestions
   addRelated = (event) => {
     const target = event.target;
     let newRelated;
@@ -57,6 +58,7 @@ class PageAddQuestion extends React.Component {
 
   createQuestion = () => {
     const updates = {};
+    // only create an "answer" child object if answer in state
     const question =
       this.state.answer.trim() === ''
         ? {
@@ -74,6 +76,7 @@ class PageAddQuestion extends React.Component {
             difficulty: this.state.difficulty,
             company: this.state.company
           };
+
     updates[`/questions/${this.props.questionCount}`] = question;
     updates[
       `/relatedQuestions/${this.props.questionCount}`
@@ -104,6 +107,7 @@ class PageAddQuestion extends React.Component {
       return <Loading />;
     }
 
+    // redirect user if not logged in
     if (!this.props.uid) {
       return <Redirect to="/" />;
     }
@@ -112,10 +116,12 @@ class PageAddQuestion extends React.Component {
       return <Loading />;
     }
 
+    // redirect user if not admin
     if (!this.props.admin) {
       return <Redirect to="/" />;
     }
 
+    // display checkboxes used to set the question's tags
     const checkboxes = tags.map((tag) => {
       return (
         <div key={tag}>
@@ -147,6 +153,7 @@ class PageAddQuestion extends React.Component {
       );
     });
 
+    // display checkboxes used to set the question's related questions
     const related =
       this.props.questions &&
       Object.keys(this.props.questions).map((questId) => {
@@ -252,6 +259,7 @@ class PageAddQuestion extends React.Component {
 const mapStateToProps = (state, props) => {
   const questions = props.questions;
   const hotQuestions = state.firebase.data.hotQuestions;
+  // get the count of the new question
   const questionCount =
     questions &&
     parseInt(Object.keys(questions)[Object.keys(questions).length - 1]) + 1;

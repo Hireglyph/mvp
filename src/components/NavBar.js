@@ -64,9 +64,12 @@ class NavBar extends React.Component {
   navbarContent = () => {
     const { firebase, hasNotifs, uid } = this.props;
 
+    // return nothing if uid/hasNotifs not loaded (only base navbar)
     if (!this.props.isLoaded || (uid && !isLoaded(hasNotifs))) {
       return;
     }
+
+    // if not logged in: display login and register links
     if (!uid) {
       return (
         <React.Fragment>
@@ -83,9 +86,11 @@ class NavBar extends React.Component {
         </React.Fragment>
       );
     }
+
     return (
       <React.Fragment>
         <Nav.Link as={Link} to='/notifications'>
+          {/* display red dot on bell if user has notifs */}
           {hasNotifs && <div className="red-dot"></div>}
           <FontAwesomeIcon icon={faBell} size="2x" className="icon" />
         </Nav.Link>
@@ -107,6 +112,7 @@ class NavBar extends React.Component {
             Profile
           </NavDropdown.Item>
           <NavDropdown.Divider />
+          {/* redirect to landing page when user logs out*/}
           <NavDropdown.Item
             onClick={() => {
               this.props.history.push('/');
@@ -121,8 +127,10 @@ class NavBar extends React.Component {
   };
 
   render() {
+    // retrieve what should be displayed in the navbar
     const navbarContent = this.navbarContent();
 
+    // base navbar: Hireglyph logo (home) and link to questions
     return (
       <Navbar collapseOnSelect expand="lg" sx={NavBarSx}>
         <Navbar.Brand>
@@ -157,7 +165,7 @@ const mapStateToProps = state => {
 };
 
 export default compose(
-  withRouter,
+  withRouter, // for this.props.history.push
   firebaseConnect(props =>
     props.uid
       ? [{ path: '/hasNotifs/' + props.uid, storeAs: 'hasNotifs' }]

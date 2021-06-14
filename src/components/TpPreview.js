@@ -24,88 +24,90 @@ export default class TpPreview extends Component {
   render() {
     const { initial, approach, solution, expanded } = this.props;
     return (
-      expanded
-      ?
-      <div sx={TpPreviewSx}>
-        {initial && (
-          <div className="tp-preview-block format-text">
-            <div className="tp-preview-label">
-              Initial:
+      expanded ? (
+        // if expanded: display full initial/approach/solution
+        <div sx={TpPreviewSx}>
+          {initial && (
+            <div className="tp-preview-block format-text">
+              <div className="tp-preview-label">
+                Initial:
+              </div>
+              <div>
+                <Latex>{displayContent(initial)}</Latex>
+              </div>
             </div>
-            <div>
-              <Latex>{displayContent(initial)}</Latex>
+          )}
+          {approach && (
+            <div className="tp-preview-block format-text">
+              <div className="tp-preview-label">
+                Approaches:
+              </div>
+              <div>
+                <Latex>{displayContent(approach)}</Latex>
+              </div>
             </div>
-          </div>
-        )}
-        {approach && (
-          <div className="tp-preview-block format-text">
-            <div className="tp-preview-label">
-              Approaches:
+          )}
+          {solution && (
+            <div className="tp-preview-block format-text">
+              <div className="tp-preview-label">
+                Solution:
+              </div>
+              <div>
+                <Latex>{displayContent(solution)}</Latex>
+              </div>
             </div>
-            <div>
-              <Latex>{displayContent(approach)}</Latex>
+          )}
+        </div>
+      ) : (
+        // if not expanded: only display initial/approach/solution up to "length"
+        <div sx={TpPreviewSx}>
+          {initial && (
+            <div className="tp-preview-block">
+              <span className="tp-preview-label">
+                Initial:&nbsp;
+              </span>
+              <span>
+                <Latex>
+                  {displayContent(
+                    initial.slice(0, length + 1) +
+                    (initial.length > length ? '...' : '')
+                  )}
+                </Latex>
+              </span>
             </div>
-          </div>
-        )}
-        {solution && (
-          <div className="tp-preview-block format-text">
-            <div className="tp-preview-label">
-              Solution:
+          )}
+          {approach && (
+            <div className="tp-preview-block">
+              <span className="tp-preview-label">
+                Approaches:&nbsp;
+              </span>
+              <span>
+                <Latex>
+                  {displayContent(
+                    approach.slice(0, length + 1) +
+                    (approach.length > length ? '...' : '')
+                  )}
+                </Latex>
+              </span>
             </div>
-            <div>
-              <Latex>{displayContent(solution)}</Latex>
+          )}
+          {solution && (
+            <div className="tp-preview-block">
+              <span className="tp-preview-label">
+                Solution:&nbsp;
+              </span>
+              <span>
+                <Latex>
+                  {displayContent(
+                    solution.slice(0, length + 1) +
+                    (solution.length > length ? '...' : '')
+                  )}
+                </Latex>
+              </span>
             </div>
-          </div>
-        )}
-      </div>
-      :
-      <div sx={TpPreviewSx}>
-        {initial && (
-          <div className="tp-preview-block">
-            <span className="tp-preview-label">
-              Initial:&nbsp;
-            </span>
-            <span>
-              <Latex>
-                {displayContent(
-                  initial.slice(0, length + 1) + 
-                  (initial.length > length ? '...' : '')
-                )}
-              </Latex>
-            </span>
-          </div>
-        )}
-        {approach && (
-          <div className="tp-preview-block">
-            <span className="tp-preview-label">
-              Approaches:&nbsp;
-            </span>
-            <span>
-              <Latex>
-                {displayContent(
-                  approach.slice(0, length + 1) + 
-                  (approach.length > length ? '...' : '')
-                )}
-              </Latex>
-            </span>
-          </div>
-        )}
-        {solution && (
-          <div className="tp-preview-block">
-            <span className="tp-preview-label">
-              Solution:&nbsp;
-            </span>
-            <span>
-              <Latex>
-                {displayContent(
-                  solution.slice(0, length + 1) + 
-                  (solution.length > length ? '...' : '')
-                )}
-              </Latex>
-            </span>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )
     );
   }
 }

@@ -35,6 +35,7 @@ const GoogleButtonSx = {
   },
 };
 
+// click on button --> log in with google (function passed from parent)
 export default class GoogleButton extends Component {
   render() {
     return (

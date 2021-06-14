@@ -25,6 +25,7 @@ class PageLogin extends React.Component {
   handleChange = (event) =>
     this.setState({ [event.target.name]: event.target.value, error: '' });
 
+  // login w/ email + password
   login = async () => {
     const credentials = {
       email: this.state.email,
@@ -40,6 +41,7 @@ class PageLogin extends React.Component {
     }
   };
 
+  // login with Google
   loginWithProvider = (provider) => {
     this.setState({ loading: true });
 
@@ -56,6 +58,7 @@ class PageLogin extends React.Component {
           <div>
             <div className="auth-title">Log In</div>
           </div>
+          {/* inputs for email + password */}
           <div>
             <input
               name="email"
@@ -76,6 +79,7 @@ class PageLogin extends React.Component {
           </div>
           {!this.state.loading ? (
             <div>
+              {/* button to log in w/ email + pass */}
               <button className="auth-button" onClick={this.login}>
                 Log in
               </button>
@@ -83,9 +87,10 @@ class PageLogin extends React.Component {
               <div className="auth-line">
                 ──────&nbsp;&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;&nbsp;──────
               </div>
-
+              {/* button to log in with Google */}
               <GoogleButton onClick={() => this.loginWithProvider('google')} />
 
+              {/* link to register page */}
               <div className="auth-closing">
                 New to Hireglyph?&nbsp;
                 <Link to="register" className="auth-closing-link">

@@ -23,9 +23,14 @@ class TpWrapper extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    // reset state if questId changes (aka navigation via related question)
     if (prevProps.questId !== this.props.questId) {
       this.setState(initialState);
     }
+
+    /* sort all the TPs once, the first time the user is in PageQuestion when they
+      are in the TpWrapper route for the questId; OR sort the TPs again once a user submits
+      their own TP so it is at the top of the New TPs section on PageQuestion */
     if (this.props.isPageQuestion && isLoaded(this.props.tps)
         && (!this.state.sorted || this.state.createdTP)) {
       let keys = this.props.tps ? Object.keys(this.props.tps) : [];
@@ -125,6 +130,8 @@ const mapStateToProps = (state, props) => {
 }
 
 export default compose(
+  /* pull all /tps/props.questId if on PageQuestion (not pageTp)
+  and do not pull TPs if user is not logged in */
   firebaseConnect(props =>
     props.uid && props.isPageQuestion
       ? [{ path: '/tps/' + props.questId }]

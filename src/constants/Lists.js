@@ -1,3 +1,4 @@
+// static list of tags users can sort questions by
 export const tags = [
   'geometry',
   'algebra',

@@ -83,6 +83,8 @@ class QuestionPreview extends React.Component {
         );
       });
 
+    // display question: title, difficulty, tags
+    // + checkmark if user has solved the question
     return (
       <div sx={PreviewSx}>
         <Link
