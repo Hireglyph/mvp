@@ -1,5 +1,5 @@
 export const theme = {
-  breakpoints: ['640px', '1024px'],
+  breakpoints: ['350px', '640px', '1024px'],
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
   fonts: {
     default: 'Times New Roman',
@@ -22,6 +22,7 @@ export const theme = {
     darkBackground: '#2F4858',
     purple: '#5A3FFF',
     purple2: '#705bff',
+    purple3: '#472bff',
     lightPurple: '#E0DBFE',
     lightPurpleGrey: '#EBE9F3',
     orange: '#EA9A28',
@@ -51,6 +52,8 @@ export const theme = {
       fontWeight: 'body',
       overflowWrap: 'break-word',
       fontSize: 3,
+      boxSizing: 'border-box',
+      scrollBehavior: 'smooth',
     },
     h1: {
       variant: 'text.heading',
@@ -68,6 +71,25 @@ export const theme = {
       variant: 'text.medium',
       fontSize: 4,
     },
+    /**button: {
+      backgroundColor: 'purple',
+      color: 'white',
+      padding: '8px 12px',
+      fontFamily: 'heading',
+      fontSize: 3,
+      fontWeight: 'normal',
+      border: 'none',
+      borderRadius: '5px',
+      transition: '.5s ease',
+      cursor: 'pointer',
+      '&:hover': {
+        backgroundColor: 'purple2',
+      },
+      '&:disabled': {
+        backgroundColor: 'lightPurple',
+        cursor: 'auto',
+      },
+    },**/
   },
 };
 

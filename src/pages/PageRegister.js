@@ -98,21 +98,23 @@ class PageRegister extends React.Component {
             placeholder="Username"
             value={this.state.username}
           />
-          <button
-            className="auth-button"
-            disabled={!this.state.username.trim()}
-            onClick={this.register}
-          >
-            Register
-          </button>
-          <div className="auth-error">{this.state.error}</div>
-          <div className="auth-line">
-            ──────&nbsp;&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;&nbsp;──────
+          <div className="btn-container">
+            <button
+              className="auth-btn"
+              disabled={!this.state.username.trim()}
+              onClick={this.register}
+            >
+              Register
+            </button>
+            <div className="auth-error">{this.state.error}</div>
+            <div className="auth-line">
+              ──────&nbsp;&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;&nbsp;──────
+            </div>
+            <GoogleButton
+              onClick={() => this.loginWithProvider('google')}
+              text={"Sign up with Google"}
+            />
           </div>
-          <GoogleButton
-            onClick={() => this.loginWithProvider('google')}
-            text={"Sign up with Google"}
-          />
         </div>
       </div>
     );

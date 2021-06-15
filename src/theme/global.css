@@ -62,11 +62,13 @@
   src: url(../assets/fonts/Montserrat-LightItalic.ttf) format('opentype');
 }
 
+/* makes getting derivations of colors easier*/
 :root {
   --background: #EFEFEF;
   --darkBackground: #2F4858;
   --purple: #5A3FFF;
   --purple2: #705bff;
+  --purple3: #472bff;
   --lightPurple: #E0DBFE;
   --lightPurpleGrey: #EBE9F3;
   --orange: #EA9A28;
@@ -78,30 +80,21 @@
   --hardRed: #DA1C1C;
 }
 
-html{
-  font-family: 'Open-Sans';
-}
-
 body {
+  font-size: 16px;
   margin: 0;
   padding: 0;
-  font-size: 16px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  scroll-behavior: smooth;
-}
-
-* {
-  box-sizing: border-box;
 }
 
 button {
   background-color: var(--purple);
   color: white;
   padding: 8px 12px;
+  font-family: 'Open-Sans';
   font-size: 16px;
   font-weight: bold;
   border: none;
+  border-radius: 5px;
   transition: .5s ease;
 }
 button:hover {
@@ -114,10 +107,8 @@ button:disabled {
 }
 
 input {
+  outline: none;
   padding: 8px 12px;
   border: 1px solid black;
-}
-
-Link {
-  font-size: 90px;
+  border-radius: 5px;
 }

@@ -2,12 +2,12 @@
 
 export const LoginRegisterSx = {
   '.page-container': {
+    position: 'relative',
     margin: '50px auto',
     padding: '40px 50px',
-    width: ['80%','35%'],
-    maxWidth: ['450px'],
-    minWidth: ['300px', '400px'],
-    height: 'auto',
+    width: ['100%', '80%','35%'],
+    maxWidth: '430px',
+    minWidth: ['none', '300px', '400px'],
     background: 'white',
     fontFamily: 'Open-Sans',
     boxShadow: '0px 0px 4px 0px rgba(128, 128, 128, 0.322)',
@@ -21,7 +21,7 @@ export const LoginRegisterSx = {
   '.auth-title': {
     fontSize: '25px',
     textAlign: 'center',
-    marginBottom: '30px',
+    marginBottom: '20px',
     fontWeight: '100',
   },
 
@@ -32,25 +32,26 @@ export const LoginRegisterSx = {
   '.auth-input': {
     marginBottom: '10px',
     width: '100%',
+    borderRadius: '0',
   },
 
-  '.auth-button': {
+  '.auth-btn': {
     width: '100%',
-    fontFamily: 'Open-Sans',
     fontSize: '18px',
+    borderRadius: '0',
   },
 
   '.auth-error': {
-    marginTop: '10px',
+    marginBottom: '10px',
     textAlign: 'center',
+    fontSize: '14px',
     color: 'red',
   },
 
   '.auth-line': {
     textAlign: 'center',
     fontSize: '15px',
-    marginTop: '20px',
-    marginBottom: '20px',
+    margin: '20px 0',
   },
 
   '.auth-closing': {
@@ -60,9 +61,7 @@ export const LoginRegisterSx = {
 
   '.auth-closing-link': {
     textDecoration: 'none',
-    color: 'orange',
-    '&:hover': {
-      color: 'darkOrange',
-    },
+    transition: '.5s ease',
+    color: 'purple',
   },
 };

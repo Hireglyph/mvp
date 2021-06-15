@@ -58,6 +58,7 @@ class PageLogin extends React.Component {
           <div>
             <div className="auth-title">Login</div>
           </div>
+          <div className="auth-error">{this.state.error}</div>
           {/* inputs for email + password */}
           <div className="input-container">
             <input
@@ -80,10 +81,9 @@ class PageLogin extends React.Component {
           {!this.state.loading ? (
             <div className="btn-container">
               {/* button to log in w/ email + pass */}
-              <button className="auth-button" onClick={this.login}>
+              <button className="auth-btn" onClick={this.login}>
                 Log in
               </button>
-              <div className="auth-error">{this.state.error}</div>
               <div className="auth-line">
                 ──────&nbsp;&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;&nbsp;──────
               </div>
