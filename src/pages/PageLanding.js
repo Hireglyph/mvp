@@ -298,11 +298,11 @@ class PageLanding extends React.Component {
     return (
       <div sx={PageLandingSx}>
         <ReactTitle
-          title="Hireglyph - The Future of Finance Interview Preparation"
+          title="Hireglyph - Quant Finance + Management Consulting Interview Preparation"
         />
         <div className="flex-elements centered">
           <div className="title">
-            Ace your next finance interview through the power of community.
+            Ace your next quant or consulting interview through the power of community.
           </div>
           <div className="main-box">
             <div>
@@ -311,9 +311,9 @@ class PageLanding extends React.Component {
             <div className="main-text">
               <div className="sub-title">
                 Hireglyph — the premier collaborative interview preparation platform for {' '}
-                <span className="bold">quant</span>
+                <span className="bold">quant finance</span>
                 {' '} and {' '}
-                <span className="bold">traditional finance</span>
+                <span className="bold">management consulting</span>
                 .
               </div>
               <div>
@@ -321,7 +321,7 @@ class PageLanding extends React.Component {
                   Join our <span className="highlight">{' '}mailing list{' '}</span> to...
                 </div>
                 <ul className="mailing-li">
-                  <li>Get the latest finance internships right to your inbox</li>
+                  <li>Get the latest quant and consulting internships right to your inbox</li>
                   <li>Learn tips and tricks about preparing for your interviews</li>
                   <li>
                     Be the first to find out about the Hireglyph platform when we
