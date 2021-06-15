@@ -302,7 +302,7 @@ class PageLanding extends React.Component {
         />
         <div className="flex-elements centered">
           <div className="title">
-            Ace your next quant or consulting interview through the power of community.
+            Ace your next quant or consulting interview.
           </div>
           <div className="main-box">
             <div>
