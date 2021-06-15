@@ -18,10 +18,10 @@ export const theme = {
     heading: 1.125,
   },
   colors: {
-    text: '#000000',
     background: '#EFEFEF',
     darkBackground: '#2F4858',
     purple: '#5A3FFF',
+    purple2: '#705bff',
     lightPurple: '#E0DBFE',
     lightPurpleGrey: '#EBE9F3',
     orange: '#EA9A28',

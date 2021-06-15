@@ -56,10 +56,10 @@ class PageLogin extends React.Component {
         <ReactTitle title="Login | Hireglyph"/>
         <div className="page-container">
           <div>
-            <div className="auth-title">Log In</div>
+            <div className="auth-title">Login</div>
           </div>
           {/* inputs for email + password */}
-          <div>
+          <div className="input-container">
             <input
               name="email"
               className="auth-input"
@@ -78,7 +78,7 @@ class PageLogin extends React.Component {
             />
           </div>
           {!this.state.loading ? (
-            <div>
+            <div className="btn-container">
               {/* button to log in w/ email + pass */}
               <button className="auth-button" onClick={this.login}>
                 Log in

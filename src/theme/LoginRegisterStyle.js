@@ -1,61 +1,43 @@
 // used in PageLogin, PageRegister, and PageOnboard
 
 export const LoginRegisterSx = {
-  display: 'flex',
-
   '.page-container': {
-    position: 'relative',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: '50px',
-    marginBottom: '50px',
-    paddingTop: '30px',
-    paddingBottom: '50px',
-    width: '500px',
+    margin: '50px auto',
+    padding: '40px 50px',
+    width: ['80%','35%'],
+    maxWidth: ['450px'],
+    minWidth: ['300px', '400px'],
     height: 'auto',
-    background: 'lightGrey',
+    background: 'white',
     fontFamily: 'Open-Sans',
-    border: '2px solid #000000',
+    boxShadow: '0px 0px 4px 0px rgba(128, 128, 128, 0.322)',
+    borderRadius: '20px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   '.auth-title': {
-    fontSize: '30px',
+    fontSize: '25px',
     textAlign: 'center',
     marginBottom: '30px',
     fontWeight: '100',
   },
 
+  '.input-container, .btn-container': {
+    width: '100%',
+  },
+
   '.auth-input': {
-    marginRight: '60px',
-    marginLeft: '60px',
     marginBottom: '10px',
-    paddingLeft: '10px',
-    fontFamily: 'Open-Sans',
-    width: 'calc(100% - 120px)',
-    height: '35px',
-    lineHeight: '35px',
-    border: '1px solid #000000',
+    width: '100%',
   },
 
   '.auth-button': {
-    marginRight: '60px',
-    marginLeft: '60px',
-    width: 'calc(100% - 120px)',
-    height: '35px',
-    border: '1px solid #000000',
-    backgroundColor: 'orange',
-    color: 'black',
-    cursor: 'pointer',
+    width: '100%',
     fontFamily: 'Open-Sans',
-    fontWeight: '100',
-    fontSize: '20px',
-    '&:hover': {
-      backgroundColor: 'darkOrange',
-    },
-    '&:disabled': {
-      backgroundColor: 'orange',
-      cursor: 'default',
-    }
+    fontSize: '18px',
   },
 
   '.auth-error': {
