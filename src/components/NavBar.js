@@ -39,14 +39,14 @@ const NavBarSx = {
   },
   
   '.nav-link': {
-    width: '80px',
+    width: '75px',
     height: '60px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: '15px',
     borderBottom: '5px solid white',
-    fontSize: '16px',
+    fontSize: '15px',
     transition: '.5s ease',
     textDecoration: 'none',
   },
