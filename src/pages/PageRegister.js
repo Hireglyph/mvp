@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { firebaseConnect } from 'react-redux-firebase';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { jsx } from 'theme-ui';
@@ -114,6 +115,13 @@ class PageRegister extends React.Component {
               onClick={() => this.loginWithProvider('google')}
               text={"Sign up with Google"}
             />
+            {/* link to login page */}
+            <div className="auth-closing">
+                Have an account?&nbsp;
+                <Link to="login" className="auth-closing-link">
+                  Sign in here!
+                </Link>
+              </div>
           </div>
         </div>
       </div>

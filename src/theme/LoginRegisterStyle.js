@@ -64,4 +64,8 @@ export const LoginRegisterSx = {
     transition: '.5s ease',
     color: 'purple',
   },
+
+  '.not-found-text': {
+    lineHeight: 'body',
+  }
 };

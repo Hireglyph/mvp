@@ -94,10 +94,9 @@ class PageLogin extends React.Component {
               <div className="auth-closing">
                 New to Hireglyph?&nbsp;
                 <Link to="register" className="auth-closing-link">
-                  Register Here!
+                  Register here!
                 </Link>
               </div>
-
             </div>
           ) : (
             <Loading />
