@@ -8,7 +8,7 @@ import { compose } from 'redux';
 import { jsx } from 'theme-ui';
 import { ReactTitle } from 'react-meta-tags';
 
-import { LoginRegisterSx } from 'theme/LoginRegisterStyle';
+import { FormSx } from 'theme/FormStyle';
 import Loading from 'components/Loading';
 import GoogleButton from 'components/GoogleButton';
 
@@ -52,15 +52,15 @@ class PageLogin extends React.Component {
 
   render() {
     return (
-      <div sx={LoginRegisterSx}>
+      <div sx={FormSx}>
         <ReactTitle title="Login | Hireglyph"/>
         <div className="page-container">
           <div>
             <div className="form-title">Login</div>
           </div>
-          <div className="small-text auth-error">{this.state.error}</div>
+          <div className="form-small-text auth-error">{this.state.error}</div>
           {/* inputs for email + password */}
-          <div className="input-container">
+          <div className="auth-input-container">
             <input
               name="email"
               className="form-input"
@@ -79,9 +79,9 @@ class PageLogin extends React.Component {
             />
           </div>
           {!this.state.loading ? (
-            <div className="btn-container">
+            <div className="auth-btn-container">
               {/* button to log in w/ email + pass */}
-              <button className="auth-btn" onClick={this.login}>
+              <button className="form-btn" onClick={this.login}>
                 Log in
               </button>
               <div className="auth-line">
@@ -93,7 +93,7 @@ class PageLogin extends React.Component {
               {/* link to register page */}
               <div className="auth-closing">
                 New to Hireglyph?&nbsp;
-                <Link to="register" className="auth-closing-link">
+                <Link to="register" className="form-link">
                   Register here!
                 </Link>
               </div>

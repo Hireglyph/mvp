@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 import Loading from 'components/Loading';
-import { LoginRegisterSx } from '../theme/LoginRegisterStyle';
+import { FormSx } from '../theme/FormStyle';
 
 class PageConfirmEmail extends React.Component {
   constructor(props) {
@@ -74,7 +74,7 @@ class PageConfirmEmail extends React.Component {
       return <Loading />;
     }
     return (
-      <div sx={LoginRegisterSx}>
+      <div sx={FormSx}>
         <div className="page-container" id="confirm-email-container">
           <div className="confirm-email-title">An email has been sent!</div>
           <div className="notif-text" id="confirm-text"></div>

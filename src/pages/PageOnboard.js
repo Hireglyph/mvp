@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { jsx } from 'theme-ui';
 
-import { LoginRegisterSx } from 'theme/LoginRegisterStyle';
+import { FormSx } from 'theme/FormStyle';
 
 class PageOnboard extends React.Component {
   constructor(props) {
@@ -35,7 +35,7 @@ class PageOnboard extends React.Component {
 
   render() {
     return (
-      <div sx={LoginRegisterSx}>
+      <div sx={FormSx}>
         <div className="page-container">
           <div className="form-title">Set your username!</div>
           <input
@@ -46,7 +46,7 @@ class PageOnboard extends React.Component {
             value={this.state.username}
           />
           <button
-            className="auth-btn"
+            className="form-btn"
             id="onboard-btn"
             disabled={!this.state.username.trim()}
             onClick={this.register}

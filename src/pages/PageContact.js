@@ -6,7 +6,7 @@ import emailjs from 'emailjs-com';
 import TextareaAutosize from 'react-textarea-autosize';
 import { ReactTitle } from 'react-meta-tags';
 
-import { LoginRegisterSx } from 'theme/LoginRegisterStyle';
+import { FormSx } from 'theme/FormStyle';
 
 class PageContact extends React.Component {
   constructor(props) {
@@ -36,11 +36,11 @@ class PageContact extends React.Component {
 
   render() {
     return (
-      <div sx={LoginRegisterSx}>
+      <div sx={FormSx}>
         <ReactTitle title="Contact Us | Hireglyph"/>
         <div className="page-container">
           <div className="form-title">Contact Us</div>
-          <div className="small-text">
+          <div className="form-small-text">
             Fill out this form or email us at admin@hireglyph.com
             directly to reach us!
           </div>
@@ -48,21 +48,21 @@ class PageContact extends React.Component {
             <input
               type="text"
               name="name"
-              className="auth-input"
+              className="form-input"
               placeholder="Name"
               required
             />
             <input
               type="email"
               name="email"
-              className="auth-input"
+              className="form-input"
               placeholder="Email Address"
               required
             />
             <input
               type="text"
               name="subject"
-              className="auth-input"
+              className="form-input"
               placeholder="Subject Line"
               required
             />
@@ -74,7 +74,7 @@ class PageContact extends React.Component {
               required
             />
             <input
-              className="auth-btn"
+              className="form-btn"
               type="submit"
               value="Send Message"
             />

@@ -8,7 +8,7 @@ import { compose } from 'redux';
 import { jsx } from 'theme-ui';
 import { ReactTitle } from 'react-meta-tags';
 
-import { LoginRegisterSx } from 'theme/LoginRegisterStyle';
+import { FormSx } from 'theme/FormStyle';
 import GoogleButton from 'components/GoogleButton';
 
 class PageRegister extends React.Component {
@@ -65,7 +65,7 @@ class PageRegister extends React.Component {
 
   render() {
     return (
-      <div sx={LoginRegisterSx}>
+      <div sx={FormSx}>
         <ReactTitle title="Register | Hireglyph"/>
         <div className="page-container">
           <div className="form-title">Register</div>
@@ -99,15 +99,15 @@ class PageRegister extends React.Component {
             placeholder="Username"
             value={this.state.username}
           />
-          <div className="btn-container">
+          <div className="auth-btn-container">
             <button
-              className="auth-btn"
+              className="form-btn"
               disabled={!this.state.username.trim()}
               onClick={this.register}
             >
               Register
             </button>
-            <div className="small-text auth-error">{this.state.error}</div>
+            <div className="form-small-text auth-error">{this.state.error}</div>
             <div className="auth-line">
               ──────&nbsp;&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;&nbsp;──────
             </div>
@@ -118,7 +118,7 @@ class PageRegister extends React.Component {
             {/* link to login page */}
             <div className="auth-closing">
                 Have an account?&nbsp;
-                <Link to="login" className="auth-closing-link">
+                <Link to="login" className="form-link">
                   Sign in here!
                 </Link>
               </div>

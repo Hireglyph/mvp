@@ -1,6 +1,6 @@
 // used in PageLogin, PageRegister, and PageOnboard
 
-export const LoginRegisterSx = {
+export const FormSx = {
   '.page-container': {
     position: 'relative',
     margin: '50px auto',
@@ -25,10 +25,6 @@ export const LoginRegisterSx = {
     fontWeight: '100',
   },
 
-  '.input-container, .btn-container': {
-    width: '100%',
-  },
-
   '.form-input': {
     marginBottom: '10px',
     width: '100%',
@@ -36,7 +32,12 @@ export const LoginRegisterSx = {
     padding: '8px 12px',
   },
 
-  '.auth-btn': {
+  '.form-link': {
+    textDecoration: 'none',
+    color: 'purple',
+  },
+
+  '.form-btn': {
     width: '100%',
     fontSize: '18px',
     fontWeight: 'normal',
@@ -49,9 +50,13 @@ export const LoginRegisterSx = {
     },
   },
 
-  '.small-text': {
+  '.form-small-text': {
     marginBottom: '10px',
     fontSize: '13px',
+  },
+
+  '.auth-input-container, .auth-btn-container': {
+    width: '100%',
   },
 
   '.auth-error': {
@@ -68,12 +73,6 @@ export const LoginRegisterSx = {
   '.auth-closing': {
     marginTop: '20px',
     textAlign: 'center',
-  },
-
-  '.auth-closing-link': {
-    textDecoration: 'none',
-    transition: '.5s ease',
-    color: 'purple',
   },
 
   '#confirm-email-container': {
