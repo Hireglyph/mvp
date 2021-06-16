@@ -315,7 +315,7 @@ class PageLanding extends React.Component {
     return (
       <div sx={PageLandingSx}>
         <ReactTitle
-          title="Hireglyph - Quant Finance + Management Consulting Interview Preparation"
+          title="Hireglyph - Quant Finance + Consulting Interview Preparation"
         />
         <div className="flex-elements centered">
           <div className="title">
@@ -333,7 +333,7 @@ class PageLanding extends React.Component {
                 Hireglyph — the premier collaborative interview preparation platform for {' '}
                 <span className="bold">quant finance</span>
                 {' '} and {' '}
-                <span className="bold">management consulting</span>
+                <span className="bold">consulting</span>
                 .
               </div>
               <div>
