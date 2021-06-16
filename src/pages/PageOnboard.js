@@ -37,7 +37,7 @@ class PageOnboard extends React.Component {
     return (
       <div sx={LoginRegisterSx}>
         <div className="page-container">
-          <div className="auth-title">Onboard</div>
+          <div className="auth-title">Set your username!</div>
           <input
             className="auth-input"
             name="username"
@@ -46,7 +46,8 @@ class PageOnboard extends React.Component {
             value={this.state.username}
           />
           <button
-            className="auth-button"
+            className="auth-btn"
+            id="un-btn"
             disabled={!this.state.username.trim()}
             onClick={this.register}
           >

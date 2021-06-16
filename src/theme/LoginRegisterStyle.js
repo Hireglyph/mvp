@@ -38,6 +38,7 @@ export const LoginRegisterSx = {
   '.auth-btn': {
     width: '100%',
     fontSize: '18px',
+    fontWeight: 'normal',
     borderRadius: '0',
   },
 
@@ -86,6 +87,10 @@ export const LoginRegisterSx = {
     '&:hover': {
       backgroundColor: 'white',
     },
+  },
+
+  '#un-btn': {
+    margin: '5px 0 20px 0',
   },
 
   '.notif-text': {
