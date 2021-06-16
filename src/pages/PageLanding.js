@@ -35,6 +35,23 @@ const PageLandingSx = {
     },
   },
 
+  '.subline': {
+    marginTop: '20px',
+    marginLeft: '60px',
+    marginRight: '60px',
+    fontFamily: 'Open-Sans-Italic',
+    color: 'black',
+    fontSize: '15px',
+    lineHeight: '20px',
+    alignItems: 'center',
+    textAlign: 'center',
+    '@media(max-width: 475px)': {
+      marginTop: '10px',
+      fontSize: '10px',
+      lineHeight: '10px',
+    },
+  },
+
   '.main-box': {
     display: 'flex',
     flexDirection: 'row',
@@ -303,6 +320,9 @@ class PageLanding extends React.Component {
         <div className="flex-elements centered">
           <div className="title">
             Ace your next quant or consulting interview.
+          </div>
+          <div className="subline">
+            Join 400+ aspiring professionals at Harvard, Columbia, Berkeley, Michigan, Waterloo, and more.
           </div>
           <div className="main-box">
             <div>
