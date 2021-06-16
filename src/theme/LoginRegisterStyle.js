@@ -4,7 +4,7 @@ export const LoginRegisterSx = {
   '.page-container': {
     position: 'relative',
     margin: '50px auto',
-    padding: '40px 50px',
+    padding: '30px 50px',
     width: ['100%', '80%','35%'],
     maxWidth: '430px',
     minWidth: ['none', '300px', '400px'],
@@ -65,7 +65,30 @@ export const LoginRegisterSx = {
     color: 'purple',
   },
 
-  '.not-found-text': {
+  '#confirm-email-container': {
+    maxWidth: '450px',
+    paddingBottom: '25px',
+  },
+
+  '.confirm-email-title': {
+    color: 'purple',
+    fontSize: '25px',
+    textAlign: 'center',
+    marginBottom: '20px',
+  },
+
+  '.confirm-email-btn': {
+    marginTop: '15px',
+    backgroundColor: 'white',
+    color: 'mediumGrey',
+    fontSize: '14px',
+    fontWeight: '100',
+    '&:hover': {
+      backgroundColor: 'white',
+    },
+  },
+
+  '.notif-text': {
     lineHeight: 'body',
-  }
+  },
 };

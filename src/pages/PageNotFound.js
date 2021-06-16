@@ -12,7 +12,7 @@ const PageNotFound = function () {
       <ReactTitle title="Page Not Found | Hireglyph"/>
       <div className="page-container">
         <div className="auth-title">Page Not Found</div>
-        <div className="not-found-text">
+        <div className="notif-text">
           The page you are looking for cannot be found.
           Try going back one page, or go back to the 
           <Link className="auth-closing-link" to='/'> Problems</Link> page.
