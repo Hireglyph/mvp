@@ -1,37 +1,45 @@
 /** @jsx jsx */
-
+ 
 import { jsx } from 'theme-ui';
 import { Link } from 'react-router-dom';
-
+ 
 const FooterSx = {
-  width: 'calc(100% - 80px)',
-  marginRight: '40px',
-  marginLeft: '40px',
-  fontSize: '14px',
-  marginBottom: '10px',
-
-  '.hr': {
-    backgroundColor: '#C7C7C7',
-    marginBottom: '10px',
-  },
-
-  '.footer-text': {
-    color: 'mediumGrey',
-    paddingLeft: '5px',
-    display: 'inline-block',
-  }
+ width: 'calc(100% - 80px)',
+ fontSize: '14px',
+ fontFamily: 'heading',
+ margin: 'auto',
+ marginBottom: '15px',
+ 
+ '.hr': {
+   backgroundColor: '#C7C7C7',
+   marginBottom: '12px',
+ },
+ 
+ '.footer-link': {
+   color: 'mediumGray',
+   padding: '2px 15px',
+   borderRight: '1px solid #C7C7C7',
+ },
+ 
+ '#first-footer-link': {
+   paddingLeft: '0',
+ },
+ 
+ '#last-footer-link': {
+   borderRight: 'none',
+ },
 };
-
+ 
 const Footer = function () {
-  return (
-    <div sx={FooterSx}>
-      <hr className="hr"/>
-      <Link to='/' className="footer-text">© 2021 Hireglyph LLC | </Link>
-      <Link to='/privacy' className="footer-text">Privacy Policy | </Link>
-      <Link to='/content' className="footer-text">Content Policy | </Link>
-      <Link to='/contact' className="footer-text">Contact Us</Link>
-    </div>
-  );
+ return (
+   <div sx={FooterSx}>
+     <hr className="hr"/>
+     <Link to='/' className="footer-link" id="first-footer-link">© 2021 Hireglyph LLC</Link>
+     <Link to='/contact' className="footer-link">Contact Us</Link>
+     <Link to='/privacy' className="footer-link">Privacy Policy</Link>
+     <Link to='/content' className="footer-link" id="last-footer-link">Content Policy</Link>
+   </div>
+ );
 };
-
+ 
 export default Footer;
