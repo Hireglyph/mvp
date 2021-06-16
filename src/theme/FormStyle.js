@@ -1,6 +1,7 @@
 // used in PageLogin, PageRegister, PageOnboard, PageContact, PageConfirmEmail, and PageNotFound
  
 export const FormSx = {
+  //shared styles
   '.page-container': {
     position: 'relative',
     margin: '50px auto',
