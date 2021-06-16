@@ -11,7 +11,7 @@ const PageNotFound = function () {
     <div sx={LoginRegisterSx}>
       <ReactTitle title="Page Not Found | Hireglyph"/>
       <div className="page-container">
-        <div className="auth-title">Page Not Found</div>
+        <div className="form-title">Page Not Found</div>
         <div className="notif-text">
           The page you are looking for cannot be found.
           Try going back one page, or go back to the 

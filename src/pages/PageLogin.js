@@ -56,14 +56,14 @@ class PageLogin extends React.Component {
         <ReactTitle title="Login | Hireglyph"/>
         <div className="page-container">
           <div>
-            <div className="auth-title">Login</div>
+            <div className="form-title">Login</div>
           </div>
-          <div className="auth-error">{this.state.error}</div>
+          <div className="small-text auth-error">{this.state.error}</div>
           {/* inputs for email + password */}
           <div className="input-container">
             <input
               name="email"
-              className="auth-input"
+              className="form-input"
               onChange={this.handleChange}
               placeholder="Email"
               value={this.state.email}
@@ -71,7 +71,7 @@ class PageLogin extends React.Component {
             <br />
             <input
               name="password"
-              className="auth-input"
+              className="form-input"
               onChange={this.handleChange}
               placeholder="Password"
               type="password"

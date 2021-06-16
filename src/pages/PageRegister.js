@@ -68,16 +68,16 @@ class PageRegister extends React.Component {
       <div sx={LoginRegisterSx}>
         <ReactTitle title="Register | Hireglyph"/>
         <div className="page-container">
-          <div className="auth-title">Register</div>
+          <div className="form-title">Register</div>
           <input
-            className="auth-input"
+            className="form-input"
             name="email"
             onChange={this.handleChange}
             placeholder="Email"
             value={this.state.email}
           />
           <input
-            className="auth-input"
+            className="form-input"
             name="password"
             onChange={this.handleChange}
             placeholder="Password"
@@ -85,7 +85,7 @@ class PageRegister extends React.Component {
             value={this.state.password}
           />
           <input
-            className="auth-input"
+            className="form-input"
             name="confirmPassword"
             onChange={this.handleChange}
             placeholder="Confirm password"
@@ -93,7 +93,7 @@ class PageRegister extends React.Component {
             value={this.state.confirmPassword}
           />
           <input
-            className="auth-input"
+            className="form-input"
             name="username"
             onChange={this.handleChange}
             placeholder="Username"
@@ -107,7 +107,7 @@ class PageRegister extends React.Component {
             >
               Register
             </button>
-            <div className="auth-error">{this.state.error}</div>
+            <div className="small-text auth-error">{this.state.error}</div>
             <div className="auth-line">
               ──────&nbsp;&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;&nbsp;──────
             </div>

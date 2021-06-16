@@ -18,7 +18,7 @@ export const LoginRegisterSx = {
     justifyContent: 'center',
   },
 
-  '.auth-title': {
+  '.form-title': {
     fontSize: '25px',
     textAlign: 'center',
     marginBottom: '20px',
@@ -29,23 +29,33 @@ export const LoginRegisterSx = {
     width: '100%',
   },
 
-  '.auth-input': {
+  '.form-input': {
     marginBottom: '10px',
     width: '100%',
-    borderRadius: '0',
+    borderRadius: '0px',
+    padding: '8px 12px',
   },
 
   '.auth-btn': {
     width: '100%',
     fontSize: '18px',
     fontWeight: 'normal',
-    borderRadius: '0',
+    borderRadius: '0px',
+    backgroundColor: 'purple',
+    color: 'white',
+    transition: '.5s ease',
+    '&:hover': {
+      backgroundColor: 'purple2',
+    },
+  },
+
+  '.small-text': {
+    marginBottom: '10px',
+    fontSize: '13px',
   },
 
   '.auth-error': {
-    marginBottom: '10px',
     textAlign: 'center',
-    fontSize: '14px',
     color: 'red',
   },
 
@@ -89,8 +99,28 @@ export const LoginRegisterSx = {
     },
   },
 
-  '#un-btn': {
+  '#onboard-btn': {
     margin: '5px 0 20px 0',
+  },
+
+  '#contact-submit-btn': {
+    width: '100%',
+    fontSize: '18px',
+    fontWeight: 'normal',
+    borderRadius: '0',
+  },
+
+  '.contact-textarea': {
+    width: '100%',
+    resize: 'vertical',
+    lineHeight: '20px',
+    borderRadius: '0',
+    marginBottom: '10px',
+  },
+
+  '.contact-message': {
+    marginTop: '20px',
+    fontSize: '13px',
   },
 
   '.notif-text': {

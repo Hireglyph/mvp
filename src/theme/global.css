@@ -106,9 +106,12 @@ button:disabled {
   cursor: auto;
 }
 
-input {
+input, textarea {
   outline: none;
   padding: 8px 12px;
-  border: 1px solid black;
+  border: 1px solid gray;
   border-radius: 5px;
+  font-family: 'Open-Sans';
+  font-size: 16px;
+  font-weight: normal;
 }

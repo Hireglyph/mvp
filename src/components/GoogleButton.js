@@ -11,13 +11,12 @@ const GoogleButtonSx = {
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
-    height: '38px',
     fontFamily: 'Open-Sans',
     fontWeight: '400',
     borderRadius: '0',
     color: 'black',
     backgroundColor: 'white',
-    border: '1px solid black',
+    border: '1px solid gray',
 
     '&:hover': {
       backgroundColor: 'lightGrey',
