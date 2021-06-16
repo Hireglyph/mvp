@@ -24,11 +24,11 @@ export const theme = {
     purple2: '#705bff',
     purple3: '#472bff',
     lightPurple: '#E0DBFE',
-    lightPurpleGrey: '#EBE9F3',
+    lightPurpleGray: '#EBE9F3',
     orange: '#EA9A28',
     darkOrange: '#CA8522',
-    lightGrey: '#E3E3E3',
-    mediumGrey: '#464646',
+    lightGray: '#E3E3E3',
+    mediumGray: '#464646',
     easyGreen: '#27B12A',
     medOrange: '#DE710C',
     hardRed: '#DA1C1C',
@@ -91,6 +91,6 @@ export const theme = {
       },
     },**/
   },
-};
-
-export default theme;
+ };
+  
+ export default theme;

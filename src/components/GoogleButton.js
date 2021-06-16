@@ -13,7 +13,6 @@ const GoogleButtonSx = {
     width: '100%',
     fontFamily: 'Open-Sans',
     fontWeight: '400',
-    borderRadius: '0',
     color: 'black',
     backgroundColor: 'white',
     border: '1px solid gray',
