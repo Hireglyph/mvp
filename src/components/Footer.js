@@ -11,14 +11,14 @@ const FooterSx = {
   marginBottom: '15px',
   
   '.hr': {
-    backgroundColor: '#C7C7C7',
+    backgroundColor: 'lightGray',
     marginBottom: '12px',
   },
   
   '.footer-link': {
     color: 'mediumGray',
     padding: '2px 15px',
-    borderRight: '1px solid #C7C7C7',
+    borderRight: '1px solid lightGray',
   },
   
   '#first-footer-link': {

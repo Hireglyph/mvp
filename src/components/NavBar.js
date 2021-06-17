@@ -99,37 +99,6 @@ const NavBarSx = {
 };
   
   class NavBar extends React.Component {
-  componentDidMount() {
-    this.updateLinkStyle();
-  };
-  
-  componentDidUpdate() {
-    this.updateLinkStyle();
-  };
- 
-  //changes link styling based on path
-  updateLinkStyle = () => {
-    const path = this.props.location.pathname;
-    let p = path.substring(1);
-    if (p.includes('/')) p = p.substring(0, p.indexOf('/'));
-  
-    let link = document.querySelector(`#${p}-nav-link`);
-    let links = ['questions', 'howto', 'register', 'login'];
-    if (link) {
-      link.classList.add('nav-link-clicked');
-      for (let i = 0; i < links.length; i++) {
-        if (p !== links[i]) {
-          let link2 = document.querySelector(`#${links[i]}-nav-link`);
-          if (link2) link2.classList.remove('nav-link-clicked');
-        }
-      }
-    } else {
-      for (let i = 0; i < links.length; i++) {
-        let link2 = document.querySelector(`#${links[i]}-nav-link`);
-        if (link2) link2.classList.remove('nav-link-clicked');
-      }
-    }
-  };
   
   navbarContent = () => {
     const { firebase, hasNotifs, uid } = this.props;
@@ -144,12 +113,12 @@ const NavBarSx = {
       return (
         <React.Fragment>
           <div className="nav-link-container">
-            <Nav.Link as={Link} className="nav-link" id="register-nav-link" to='/register'>
+            <Nav.Link as={Link} className={"nav-link " + ((this.props.location.pathname === '/register') && "nav-link-clicked")} to='/register'>
               <div>
                 Register
               </div>
             </Nav.Link>
-            <Nav.Link as={Link} className="nav-link" id="login-nav-link" to='/login'>
+            <Nav.Link as={Link} className={"nav-link " + ((this.props.location.pathname === '/login') && "nav-link-clicked")} to='/login'>
               <div>
                 Login
               </div>
@@ -223,12 +192,12 @@ const NavBarSx = {
           <Nav className="ml-auto">
             {navbarContent &&
               <div className="nav-link-container">
-                <Nav.Link as={Link} className="nav-link" id="questions-nav-link" to='/questions'>
+                <Nav.Link as={Link} className={"nav-link " + ((this.props.location.pathname.includes('/questions')) && "nav-link-clicked")} to='/questions'>
                   <div>
                     Problems
                   </div>
                 </Nav.Link>
-                <Nav.Link as={Link} className="nav-link" id="howto-nav-link" to='/howto'>
+                <Nav.Link as={Link} className={"nav-link " + ((this.props.location.pathname === '/howto') && "nav-link-clicked")} to='/howto'>
                   <div>
                     How to
                   </div>

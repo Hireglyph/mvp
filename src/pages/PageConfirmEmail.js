@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 import Loading from 'components/Loading';
-import { FormSx } from '../theme/FormStyle';
+import { FormSx } from 'theme/FormStyle';
 
 class PageConfirmEmail extends React.Component {
   constructor(props) {
@@ -16,19 +16,9 @@ class PageConfirmEmail extends React.Component {
     this.state = {
       loading: false,
       resent: false,
-      error: `A verification email has been sent to the address you registered with. Please check your inbox and follow the instructions to verify your email address.
-        <br/><br/> If you have not received the verification email, please check your "Spam" and "Promotions" folder. You can also click the resend button below to have another email sent to you.`,
+      error: 'A verification email has been sent to the address you registered with. Please check your inbox and follow the instructions to verify your email address.',
+      error2: 'If you have not received the verification email, please check your "Spam" and "Promotions" folder. You can also click the resend button below to have another email sent to you.',
     };
-  }
-
-  componentDidMount() {
-    let text = document.querySelector('#confirm-text')
-    if (text) text.innerHTML = this.state.error
-  }
-
-  componentDidUpdate() {
-    let text = document.querySelector('#confirm-text')
-    if (text) text.innerHTML = this.state.error
   }
 
   resendConfirmationEmail = async () => {
@@ -38,8 +28,8 @@ class PageConfirmEmail extends React.Component {
     try {
       await auth().currentUser.sendEmailVerification();
       this.setState({
-        error:
-          'Verification email resent. Please check your inbox and spam folder and follow the instructions to verify your email address.',
+        error: 'Verification email resent. Please check your inbox and spam folder and follow the instructions to verify your email address.',
+        error2: '',
         loading: false,
         resent: true,
       });
@@ -77,7 +67,7 @@ class PageConfirmEmail extends React.Component {
       <div sx={FormSx}>
         <div className="page-container" id="confirm-email-container">
           <div className="confirm-email-title">An email has been sent!</div>
-          <div className="notif-text" id="confirm-text"></div>
+          <div className="notif-text" id="confirm-text">{this.state.error}<br/><br/>{this.state.error2}</div>
           <br/>
           {this.renderButton()}
         </div>

@@ -1,7 +1,7 @@
 // used in PageLogin, PageRegister, PageOnboard, PageContact, PageConfirmEmail, and PageNotFound
  
 export const FormSx = {
-  //shared styles
+  // shared styles
   '.page-container': {
     position: 'relative',
     margin: '50px auto',
@@ -51,14 +51,12 @@ export const FormSx = {
     lineHeight: 'body',
   },
   
-  //auth page specific styles
-  
+  // auth page specific styles
   '.auth-input-container, .auth-btn-container': {
     width: '100%',
   },
   
   '.auth-error': {
-    textAlign: 'center',
     color: 'red',
   },
   
@@ -73,8 +71,7 @@ export const FormSx = {
     textAlign: 'center',
   },
   
-  //confirm email page specific styles
-  
+  // confirm email page specific styles
   '#confirm-email-container': {
     maxWidth: '450px',
     paddingBottom: '25px',
@@ -97,14 +94,12 @@ export const FormSx = {
     },
   },
   
-  //onboard page specific styles
-  
+  // onboard page specific styles
   '#onboard-btn': {
     margin: '5px 0 20px 0',
   },
   
-  //contact page specific styles
-  
+  // contact page specific styles
   '.contact-submit-btn': {
     width: '100%',
     fontSize: '18px',

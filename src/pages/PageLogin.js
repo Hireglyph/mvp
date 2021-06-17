@@ -32,21 +32,17 @@ class PageLogin extends React.Component {
       password: this.state.password,
     };
 
-    this.setState({ loading: true });
-
     try {
       await this.props.firebase.login(credentials);
     } catch (error) {
-      this.setState({ error: error.message, loading: false });
+      this.setState({ error: error.message });
     }
   };
 
   // login with Google
   loginWithProvider = (provider) => {
-    this.setState({ loading: true });
-
     this.props.loginUser({ provider }).catch((error) => {
-      this.setState({ message: error.message, loading: false });
+      this.setState({ message: error.message });
     });
   };
 
