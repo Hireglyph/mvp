@@ -85,23 +85,24 @@ const NavBarSx = {
   
   '.red-dot': {
     position: 'absolute',
-    height: '15px',
-    width: '15px',
+    height: '12px',
+    width: '12px',
     borderRadius: '50%',
     borderStyle: 'solid',
     borderWidth: '2px',
     textAlign: 'center',
-    color: 'orange',
+    color: 'red',
     backgroundColor: 'red',
-    marginLeft: '23px',
-    bottom: '10px',
+    margin: '12px 0 0 18px',
   },
 };
   
-  class NavBar extends React.Component {
+class NavBar extends React.Component {
   
   navbarContent = () => {
     const { firebase, hasNotifs, uid } = this.props;
+
+    const path = this.props.location.pathname.split('/')[1];
   
     // return nothing if uid/hasNotifs not loaded (only base navbar)
     if (!this.props.isLoaded || (uid && !isLoaded(hasNotifs))) {
@@ -113,12 +114,12 @@ const NavBarSx = {
       return (
         <React.Fragment>
           <div className="nav-link-container">
-            <Nav.Link as={Link} className={"nav-link " + ((this.props.location.pathname === '/register') && "nav-link-clicked")} to='/register'>
+            <Nav.Link as={Link} className={"nav-link " + ((path === 'register') && "nav-link-clicked")} to='/register'>
               <div>
                 Register
               </div>
             </Nav.Link>
-            <Nav.Link as={Link} className={"nav-link " + ((this.props.location.pathname === '/login') && "nav-link-clicked")} to='/login'>
+            <Nav.Link as={Link} className={"nav-link " + ((path === 'login') && "nav-link-clicked")} to='/login'>
               <div>
                 Login
               </div>
@@ -133,7 +134,7 @@ const NavBarSx = {
         <div className="nav-link-container" id="nav-icon-container">
           <Nav.Link as={Link} to='/notifications'>
             {/* display red dot on bell if user has notifs */}
-            {hasNotifs && <div className="red-dot"></div>}
+            {!hasNotifs && <div className="red-dot"></div>}
             <FontAwesomeIcon icon={faBell} className="icon" />
           </Nav.Link>
           <NavDropdown
@@ -173,6 +174,8 @@ const NavBarSx = {
   render() {
     // retrieve what should be displayed in the navbar
     const navbarContent = this.navbarContent();
+
+    const path = this.props.location.pathname.split('/')[1];
   
     // base navbar: Hireglyph logo (home) and link to questions
     return (
@@ -192,12 +195,12 @@ const NavBarSx = {
           <Nav className="ml-auto">
             {navbarContent &&
               <div className="nav-link-container">
-                <Nav.Link as={Link} className={"nav-link " + ((this.props.location.pathname.includes('/questions')) && "nav-link-clicked")} to='/questions'>
+                <Nav.Link as={Link} className={"nav-link " + ((path === 'questions') && "nav-link-clicked")} to='/questions'>
                   <div>
                     Problems
                   </div>
                 </Nav.Link>
-                <Nav.Link as={Link} className={"nav-link " + ((this.props.location.pathname === '/howto') && "nav-link-clicked")} to='/howto'>
+                <Nav.Link as={Link} className={"nav-link " + ((path === 'howto') && "nav-link-clicked")} to='/howto'>
                   <div>
                     How to
                   </div>
