@@ -88,7 +88,6 @@ export const FormSx = {
   },
   
   '.confirm-email-btn': {
-    marginTop: '15px',
     backgroundColor: 'white',
     color: 'mediumGray',
     fontSize: '14px',

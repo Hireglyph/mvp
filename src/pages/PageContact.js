@@ -74,7 +74,7 @@ class PageContact extends React.Component {
               required
             />
             <input
-              className="form-btn"
+              className="contact-submit-btn"
               type="submit"
               value="Send Message"
             />

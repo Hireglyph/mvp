@@ -13,7 +13,7 @@ const PageNotFound = function () {
       <div className="page-container">
         <div className="form-title">Page Not Found</div>
         <div className="notif-text">
-          The page you are looking for cannot be found.
+          The page you're looking for cannot be found.
           Try going back one page, or go back to the 
           <Link className="form-link" to='/'> Problems</Link> page.
         </div>
