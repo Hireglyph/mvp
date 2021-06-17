@@ -5,7 +5,7 @@ export const FormSx = {
   '.page-container': {
     position: 'relative',
     margin: '50px auto',
-    padding: '30px 50px',
+    padding: ['30px 40px', '30px 30px', '30px 50px'],
     width: ['100%', '80%','35%'],
     maxWidth: '430px',
     minWidth: ['none', '300px', '400px'],
@@ -69,6 +69,9 @@ export const FormSx = {
   '.auth-closing': {
     marginTop: '20px',
     textAlign: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
   },
   
   // confirm email page specific styles

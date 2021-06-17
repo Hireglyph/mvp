@@ -81,7 +81,7 @@ class PageLogin extends React.Component {
                 Log in
               </button>
               <div className="auth-line">
-                ──────&nbsp;&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;&nbsp;──────
+                ─────&nbsp;&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;&nbsp;─────
               </div>
               {/* button to log in with Google */}
               <GoogleButton onClick={() => this.loginWithProvider('google')} />
@@ -90,7 +90,7 @@ class PageLogin extends React.Component {
               <div className="auth-closing">
                 New to Hireglyph?&nbsp;
                 <Link to="register" className="form-link">
-                  Register here!
+                  <div>Register here!</div>
                 </Link>
               </div>
             </div>
