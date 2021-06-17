@@ -29,6 +29,14 @@ const NavBarSx = {
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+
+  '.nav-logo': {
+    height: '18px',
+    marginBottom: '2px',
+    '@media(max-width: 475px)': {
+      height: '16px',
+    },
+  },
   
   '.nav-link-container': {
     width: 'fit-content',
@@ -50,18 +58,29 @@ const NavBarSx = {
     transition: '.5s ease',
     textDecoration: 'none',
   },
+
+  '.nav-link-drop': {
+    fontSize: '15px',
+    transition: '.5s ease',
+    textDecoration: 'none',
+    padding: '5px 15px',
+    margin: '0px',
+  },
   
   '.nav-link-clicked': {
     color: '#5A3FFF !important',
     borderBottom: '5px solid #5A3FFF',
   },
-  
-  '.nav-logo': {
-    height: '18px',
-    marginBottom: '2px',
-    '@media(max-width: 475px)': {
-      height: '16px',
-    },
+
+  '#nav-icon-container': {
+    width: '50px',
+    justifyContent: 'center',
+    marginRight: '20px',
+  },
+
+  '.icon': {
+    fontSize: '25px',
+    color: 'mediumGray',
   },
   
   '.red-dot': {
@@ -142,39 +161,42 @@ const NavBarSx = {
   
     return (
       <React.Fragment>
-        <Nav.Link as={Link} to='/notifications'>
-          {/* display red dot on bell if user has notifs */}
-          {hasNotifs && <div className="red-dot"></div>}
-          <FontAwesomeIcon icon={faBell} size="2x" className="icon" />
-        </Nav.Link>
-        <NavDropdown
-            title={
-              <div>
-                <div className="user-icon-bg"></div>
-                <FontAwesomeIcon icon={faUserCircle} size="2x" className="icon" />
-              </div>
-            }
-            alignRight
-          >
-          <NavDropdown.Item
-            as={Link}
-            to="/profile/tp"
-            className="nav-link"
-            style={{color: 'black'}}
-          >
-            Profile
-          </NavDropdown.Item>
-          <NavDropdown.Divider />
-          {/* redirect to landing page when user logs out*/}
-          <NavDropdown.Item
-            onClick={() => {
-              this.props.history.push('/');
-              firebase.logout();
-            }}
-          >
-            Logout
-          </NavDropdown.Item>
-        </NavDropdown>
+        <div className="nav-link-container" id="nav-icon-container">
+          <Nav.Link as={Link} to='/notifications'>
+            {/* display red dot on bell if user has notifs */}
+            {hasNotifs && <div className="red-dot"></div>}
+            <FontAwesomeIcon icon={faBell} className="icon" />
+          </Nav.Link>
+          <NavDropdown
+              title={
+                <div>
+                  <div className="user-icon-bg"></div>
+                  <FontAwesomeIcon icon={faUserCircle} className="icon" />
+                </div>
+              }
+              alignRight
+            >
+            <NavDropdown.Item
+              as={Link}
+              to="/profile/tp"
+              className="nav-link-drop"
+              style={{color: 'black'}}
+            >
+              Profile
+            </NavDropdown.Item>
+            <NavDropdown.Divider />
+            {/* redirect to landing page when user logs out*/}
+            <NavDropdown.Item
+              className="nav-link-drop"
+              onClick={() => {
+                this.props.history.push('/');
+                firebase.logout();
+              }}
+            >
+              Logout
+            </NavDropdown.Item>
+          </NavDropdown>
+        </div>
       </React.Fragment>
     );
   };
