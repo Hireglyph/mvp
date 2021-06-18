@@ -98,10 +98,8 @@ const NavBarSx = {
 };
   
 class NavBar extends React.Component {
-  
   navbarContent = () => {
     const { firebase, hasNotifs, uid } = this.props;
-
     const path = this.props.location.pathname.split('/')[1];
   
     // return nothing if uid/hasNotifs not loaded (only base navbar)
@@ -114,12 +112,20 @@ class NavBar extends React.Component {
       return (
         <React.Fragment>
           <div className="nav-link-container">
-            <Nav.Link as={Link} className={"nav-link " + ((path === 'register') && "nav-link-clicked")} to='/register'>
+            <Nav.Link
+              as={Link}
+              className={"nav-link " + ((path === 'register') && "nav-link-clicked")}
+              to='/register'
+            >
               <div>
                 Register
               </div>
             </Nav.Link>
-            <Nav.Link as={Link} className={"nav-link " + ((path === 'login') && "nav-link-clicked")} to='/login'>
+            <Nav.Link
+              as={Link}
+              className={"nav-link " + ((path === 'login') && "nav-link-clicked")}
+              to='/login'
+            >
               <div>
                 Login
               </div>
@@ -134,7 +140,7 @@ class NavBar extends React.Component {
         <div className="nav-link-container" id="nav-icon-container">
           <Nav.Link as={Link} to='/notifications'>
             {/* display red dot on bell if user has notifs */}
-            {!hasNotifs && <div className="red-dot"></div>}
+            {hasNotifs && <div className="red-dot"></div>}
             <FontAwesomeIcon icon={faBell} className="icon" />
           </Nav.Link>
           <NavDropdown
@@ -195,12 +201,20 @@ class NavBar extends React.Component {
           <Nav className="ml-auto">
             {navbarContent &&
               <div className="nav-link-container">
-                <Nav.Link as={Link} className={"nav-link " + ((path === 'questions') && "nav-link-clicked")} to='/questions'>
+                <Nav.Link
+                  as={Link}
+                  className={"nav-link " + ((path === 'questions') && "nav-link-clicked")}
+                  to='/questions'
+                >
                   <div>
                     Problems
                   </div>
                 </Nav.Link>
-                <Nav.Link as={Link} className={"nav-link " + ((path === 'howto') && "nav-link-clicked")} to='/howto'>
+                <Nav.Link
+                  as={Link}
+                  className={"nav-link " + ((path === 'howto') && "nav-link-clicked")}
+                  to='/howto'
+                >
                   <div>
                     How to
                   </div>
