@@ -8,7 +8,7 @@ import { compose } from 'redux';
 import { jsx } from 'theme-ui';
 import { ReactTitle } from 'react-meta-tags';
 
-import { LoginRegisterSx } from 'theme/LoginRegisterStyle';
+import { FormSx } from 'theme/FormStyle';
 import Loading from 'components/Loading';
 import GoogleButton from 'components/GoogleButton';
 
@@ -32,37 +32,34 @@ class PageLogin extends React.Component {
       password: this.state.password,
     };
 
-    this.setState({ loading: true });
-
     try {
       await this.props.firebase.login(credentials);
     } catch (error) {
-      this.setState({ error: error.message, loading: false });
+      this.setState({ error: error.message });
     }
   };
 
   // login with Google
   loginWithProvider = (provider) => {
-    this.setState({ loading: true });
-
     this.props.loginUser({ provider }).catch((error) => {
-      this.setState({ message: error.message, loading: false });
+      this.setState({ message: error.message });
     });
   };
 
   render() {
     return (
-      <div sx={LoginRegisterSx}>
+      <div sx={FormSx}>
         <ReactTitle title="Login | Hireglyph"/>
         <div className="page-container">
           <div>
-            <div className="auth-title">Log In</div>
+            <div className="form-title">Login</div>
           </div>
+          <div className="form-small-text auth-error">{this.state.error}</div>
           {/* inputs for email + password */}
-          <div>
+          <div className="auth-input-container">
             <input
               name="email"
-              className="auth-input"
+              className="form-input"
               onChange={this.handleChange}
               placeholder="Email"
               value={this.state.email}
@@ -70,7 +67,7 @@ class PageLogin extends React.Component {
             <br />
             <input
               name="password"
-              className="auth-input"
+              className="form-input"
               onChange={this.handleChange}
               placeholder="Password"
               type="password"
@@ -78,14 +75,13 @@ class PageLogin extends React.Component {
             />
           </div>
           {!this.state.loading ? (
-            <div>
+            <div className="auth-btn-container">
               {/* button to log in w/ email + pass */}
-              <button className="auth-button" onClick={this.login}>
+              <button className="form-btn" onClick={this.login}>
                 Log in
               </button>
-              <div className="auth-error">{this.state.error}</div>
               <div className="auth-line">
-                ──────&nbsp;&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;&nbsp;──────
+                ─────&nbsp;&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;&nbsp;─────
               </div>
               {/* button to log in with Google */}
               <GoogleButton onClick={() => this.loginWithProvider('google')} />
@@ -93,11 +89,10 @@ class PageLogin extends React.Component {
               {/* link to register page */}
               <div className="auth-closing">
                 New to Hireglyph?&nbsp;
-                <Link to="register" className="auth-closing-link">
-                  Register Here!
+                <Link to="register" className="form-link">
+                  <div>Register here!</div>
                 </Link>
               </div>
-
             </div>
           ) : (
             <Loading />

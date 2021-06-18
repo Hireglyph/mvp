@@ -2,12 +2,13 @@
 
 import React from 'react';
 import { firebaseConnect } from 'react-redux-firebase';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { jsx } from 'theme-ui';
 import { ReactTitle } from 'react-meta-tags';
 
-import { LoginRegisterSx } from 'theme/LoginRegisterStyle';
+import { FormSx } from 'theme/FormStyle';
 import GoogleButton from 'components/GoogleButton';
 
 class PageRegister extends React.Component {
@@ -64,19 +65,19 @@ class PageRegister extends React.Component {
 
   render() {
     return (
-      <div sx={LoginRegisterSx}>
+      <div sx={FormSx}>
         <ReactTitle title="Register | Hireglyph"/>
         <div className="page-container">
-          <div className="auth-title">Register</div>
+          <div className="form-title">Register</div>
           <input
-            className="auth-input"
+            className="form-input"
             name="email"
             onChange={this.handleChange}
             placeholder="Email"
             value={this.state.email}
           />
           <input
-            className="auth-input"
+            className="form-input"
             name="password"
             onChange={this.handleChange}
             placeholder="Password"
@@ -84,7 +85,7 @@ class PageRegister extends React.Component {
             value={this.state.password}
           />
           <input
-            className="auth-input"
+            className="form-input"
             name="confirmPassword"
             onChange={this.handleChange}
             placeholder="Confirm password"
@@ -92,27 +93,36 @@ class PageRegister extends React.Component {
             value={this.state.confirmPassword}
           />
           <input
-            className="auth-input"
+            className="form-input"
             name="username"
             onChange={this.handleChange}
             placeholder="Username"
             value={this.state.username}
           />
-          <button
-            className="auth-button"
-            disabled={!this.state.username.trim()}
-            onClick={this.register}
-          >
-            Register
-          </button>
-          <div className="auth-error">{this.state.error}</div>
-          <div className="auth-line">
-            ──────&nbsp;&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;&nbsp;──────
+          <div className="auth-btn-container">
+            <button
+              className="form-btn"
+              disabled={!this.state.username.trim()}
+              onClick={this.register}
+            >
+              Register
+            </button>
+            <div className="form-small-text auth-error">{this.state.error}</div>
+            <div className="auth-line">
+              ──────&nbsp;&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;&nbsp;──────
+            </div>
+            <GoogleButton
+              onClick={() => this.loginWithProvider('google')}
+              text={"Sign up with Google"}
+            />
+            {/* link to login page */}
+            <div className="auth-closing">
+                Have an account?&nbsp;
+                <Link to="login" className="form-link">
+                  Sign in here!
+                </Link>
+              </div>
           </div>
-          <GoogleButton
-            onClick={() => this.loginWithProvider('google')}
-            text={"Sign up with Google"}
-          />
         </div>
       </div>
     );
