@@ -30,7 +30,7 @@ export const theme = {
     lightGray: '#C7C7C7',
     mediumGray: '#464646',
     easyGreen: '#27B12A',
-    medOrange: '#DE710C',
+    medOrange: '#EA9A28',
     hardRed: '#DA1C1C',
   },
   text: {

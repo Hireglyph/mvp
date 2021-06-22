@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { faFireAlt } from '@fortawesome/free-solid-svg-icons';
 import { faLightbulb } from '@fortawesome/free-solid-svg-icons';
+import { faCircle } from '@fortawesome/free-solid-svg-icons';
 
 import { tags, companies } from 'constants/Lists';
 import Loading from 'components/Loading.js';
@@ -58,7 +59,7 @@ class PageProblems extends React.Component {
     );
   };
 
-  displayQuestion = (questId) => {
+  displayQuestion = (questId, hot) => {
     const quest = this.props.questions[questId];
     const answered = this.props.questionHistory
       && this.props.questionHistory[questId];
@@ -67,17 +68,17 @@ class PageProblems extends React.Component {
     );
 
     return (
-      <Link className="question-box link" to={`/q/${questId}/my`} key={questId}>
+      <Link className={"link " + (hot && " hot-quest-box")} to={`/q/${questId}/my`} key={questId}>
         <div className="flex">
           <div className="question-title">
             #{questId}: {quest.title}
             {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
           </div>
-          <div className={quest.difficulty + ' difficulty'}>
-            {quest.difficulty.toUpperCase()}
+          <div className={(hot && "hot-quest-diff  ") + quest.difficulty}>
+            {!hot && quest.difficulty.toUpperCase()}
           </div>
           <div>
-            {quest.company}
+            {!hot && quest.company}
           </div>
         </div>
         <div className="tag-container">
@@ -110,14 +111,14 @@ class PageProblems extends React.Component {
     }
 
     const hot = hotQuestions
-      && Object.keys(hotQuestions).map(questId => this.displayQuestion(questId));
+      && Object.keys(hotQuestions).map(questId => this.displayQuestion(questId, true));
 
     // filter by difficulty, tag, & company
     const quests = Object.keys(questions)
       .filter(questId => !isDiff || questions[questId].difficulty === diff)
       .filter(questId => !tag || (questions[questId].tags && questions[questId].tags[tag]))
       .filter(questId => !company || questions[questId].company === company)
-      .map(questId => this.displayQuestion(questId));
+      .map(questId => this.displayQuestion(questId, false));
 
     const noHot = (
       <div className="no-quest">
@@ -185,10 +186,10 @@ class PageProblems extends React.Component {
                 >
                     View full list
                 </div>}
-            </div>
-            <div className="quest-container">
-              {/* actually show questions */}
-              {quests.length ? quests : noQuests}
+              <div className="quest-container">
+                {/* actually show questions */}
+                {quests.length ? quests : noQuests}
+              </div>
             </div>
           </div>
           <div className="sortby-container">
@@ -197,7 +198,7 @@ class PageProblems extends React.Component {
             <div
               className={
                 (this.props.diff === 'easy' && " tag-selected") +
-                " diff-button pointer easy"
+                " diff-button easy"
               }
               onClick={() => this.handleDiffFilter('easy')}
             >
@@ -206,7 +207,7 @@ class PageProblems extends React.Component {
             <div
               className={
                 (this.props.diff === 'medium' && " tag-selected") +
-                " diff-button pointer medium"
+                " diff-button medium"
               }
               onClick={() => this.handleDiffFilter('medium')}
             >
@@ -215,7 +216,7 @@ class PageProblems extends React.Component {
             <div
               className={
                 (this.props.diff === 'hard' && " tag-selected") +
-                " diff-button pointer hard"
+                " diff-button hard"
               }
               onClick={() => this.handleDiffFilter('hard')}
             >

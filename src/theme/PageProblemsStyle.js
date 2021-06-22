@@ -8,9 +8,6 @@ export const PageProblemsSx = {
       textDecoration: 'none',
       color: 'black',
     },
-    '.pointer': {
-      cursor: 'pointer',
-    },
     '.flex': {
       display: 'flex',
     },
@@ -36,27 +33,59 @@ export const PageProblemsSx = {
     '.questions-container': {
         margin: '30px 50px 0 0',
     },
+
+    '.question-title': {
+        fontSize: '16px',
+    },
+    '.easy': {
+        backgroundColor: 'easyGreen',
+    },
+    '.medium': {
+        backgroundColor: 'medOrange',
+    },
+    '.hard': {
+        backgroundColor: 'hardRed',
+    },
+
+    // hot question styling
     '.hot-quest-container': {
         display: 'flex',
         flexWrap: 'wrap',
     },
-    '.question-box': {
+    '.hot-quest-box': {
         backgroundColor: 'white',
         width: '25%',
+        minWidth: '250px',
         height: '145px',
         padding: '20px',
         margin: '15px 15px 0 0',
         borderRadius: '20px',
         boxShadow: '2px 2px 4px 0px rgba(128, 128, 128, 0.1)',
     },
-    '.question-box:hover': {
+    '.hot-quest-box:hover': {
         backgroundColor: 'mediumGrey',
     },
+    '.hot-quest-diff': {
+        width: '13px',
+        height: '13px',
+        padding: '0',
+        borderRadius: '50px',
+    },
+
+
+    // regular questions styling
     '.problems-container': {
         backgroundColor: 'white',
         boxShadow: '2px 2px 4px 0px rgba(128, 128, 128, 0.1)',
-        
+
     },
+    '.problems-diff': {
+        color: 'white',
+        padding: '8px 13px',
+        fontSize: '14px',
+    },
+
+    // sortby styling
     '.sortby-container': {
         backgroundColor: 'white',
         marginTop: '130px',
@@ -104,22 +133,6 @@ export const PageProblemsSx = {
         backgroundColor: 'mediumGrey',
         width: '400px',
         padding: '25px',
-    },
-    '.question-title': {
-        fontSize: '18px',
-    },
-    '.easy': {
-        color: 'easyGreen',
-    },
-    '.medium': {
-        color: 'medOrange',
-    },
-    '.hard': {
-        color: 'hardRed',
-    },
-    '.difficulty': {
-        fontSize: '16px',
-        marginLeft: 'auto',
     },
     '.check': {
         color: 'easyGreen',
