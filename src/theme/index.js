@@ -6,11 +6,11 @@ export const theme = {
     body: 'Gotham-Book, sans-serif',
     heading: 'Open-Sans, sans-serif',
   },
-  fontSizes: [10, 12, 14, 16, 20, 24, 32, 48],
+  fontSizes: [10, 12, 14, 16, 20, 25, 32, 48],
   fontWeights: {
     body: 400,
     medium: 500,
-    heading: 700,
+    heading: 600,
     bold: 700,
   },
   lineHeights: {
@@ -66,30 +66,12 @@ export const theme = {
     h3: {
       variant: 'text.heading',
       fontSize: 5,
+      fontWeit: 'bold',
     },
     h4: {
       variant: 'text.medium',
       fontSize: 4,
     },
-    /**button: {
-      backgroundColor: 'purple',
-      color: 'white',
-      padding: '8px 12px',
-      fontFamily: 'heading',
-      fontSize: 3,
-      fontWeight: 'normal',
-      border: 'none',
-      borderRadius: '5px',
-      transition: '.5s ease',
-      cursor: 'pointer',
-      '&:hover': {
-        backgroundColor: 'purple2',
-      },
-      '&:disabled': {
-        backgroundColor: 'lightPurple',
-        cursor: 'auto',
-      },
-    },**/
   },
  };
   

@@ -10,6 +10,8 @@ import { ReactTitle } from 'react-meta-tags';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faFireAlt } from '@fortawesome/free-solid-svg-icons';
+import { faLightbulb } from '@fortawesome/free-solid-svg-icons';
 
 import { tags, companies } from 'constants/Lists';
 import Loading from 'components/Loading.js';
@@ -169,29 +171,28 @@ class PageProblems extends React.Component {
         }
         <div className="page-problems">
           <div className="questions-container">
-            <div>HOT</div>
-            <div className="quest-container">
+            <h3><FontAwesomeIcon icon={faFireAlt}  style={{color: '#DA1C1C'}}/> Hot</h3>
+            <div className="hot-quest-container">
               {hotQuestions ? hot : noHot}
             </div>
-            <div className="flex">
-              <h1 className="white">Questions</h1>
+            <div className="problems-container">
+              <h3><FontAwesomeIcon icon={faLightbulb}  style={{color: '#EBB700'}}/> Questions</h3>
               {tag &&
                 // click to view all questions (vanilla /questions URL)
                 <div
-                  className="original-list pointer white"
+                  className="original-list pointer"
                   onClick={() => this.props.history.push('/questions')}
                 >
                     View full list
                 </div>}
             </div>
-            <div>----</div>
             <div className="quest-container">
               {/* actually show questions */}
               {quests.length ? quests : noQuests}
             </div>
           </div>
           <div className="sortby-container">
-            <h2 className="white">Difficulty</h2>
+            <h2>Difficulty</h2>
             {/* sort by difficulty */}
             <div
               className={
@@ -221,11 +222,11 @@ class PageProblems extends React.Component {
               HARD
             </div>
             {/* sort by tag */}
-            <h2 className="white">Tags</h2>
+            <h2>Tags</h2>
             <div className="tag-button-container">
               {tagButtons}
             </div>
-            <h2 className="white">Companies</h2>
+            <h2>Companies</h2>
             <div className="tag-button-container">
               {companyButtons}
             </div>
