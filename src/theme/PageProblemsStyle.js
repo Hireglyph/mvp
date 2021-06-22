@@ -46,6 +46,21 @@ export const PageProblemsSx = {
     '.hard': {
         backgroundColor: 'hardRed',
     },
+    '.tag': {
+        fontSize: '13px',
+        fontWeight: '400',
+        color: 'purple',
+        backgroundColor: 'white',
+        border: '1px solid #5A3FFF',
+        borderRadius: '5px',
+        width: 'fit-content',
+        textAlign: 'center',
+        margin: '5px',
+        padding: '1px 5px',
+    },
+    '.tag-button:hover': {
+        cursor: 'pointer',
+    },
 
     // hot question styling
     '.hot-quest-container': {
@@ -75,10 +90,11 @@ export const PageProblemsSx = {
 
     // regular questions styling
     '.problems-container': {
+        borderRadius: '20px',
         backgroundColor: 'white',
         boxShadow: '2px 2px 4px 0px rgba(128, 128, 128, 0.1)',
-
-    },
+        padding: '20px 30px'
+,    },
     '.problems-diff': {
         color: 'white',
         padding: '8px 13px',
@@ -96,19 +112,6 @@ export const PageProblemsSx = {
         flexDirection: 'column',
         flexWrap: 'wrap',
         height: '70px',
-    },
-    '.tag': {
-        fontSize: '12px',
-        backgroundColor: 'orange',
-        borderRadius: '4px',
-        width: '107.61px',
-        height: '22px',
-        textAlign: 'center',
-        margin: '5px',
-        paddingTop: '2px',
-    },
-    '.tag-button:hover': {
-        backgroundColor: 'darkOrange',
     },
     '.diff-button': {
         display: 'inline-block',

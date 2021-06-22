@@ -176,8 +176,7 @@ class PageProblems extends React.Component {
             <div className="hot-quest-container">
               {hotQuestions ? hot : noHot}
             </div>
-            <div className="problems-container">
-              <h3><FontAwesomeIcon icon={faLightbulb}  style={{color: '#EBB700'}}/> Questions</h3>
+            <h3><FontAwesomeIcon icon={faLightbulb}  style={{color: '#EBB700'}}/> Problems</h3>
               {tag &&
                 // click to view all questions (vanilla /questions URL)
                 <div
@@ -186,6 +185,7 @@ class PageProblems extends React.Component {
                 >
                     View full list
                 </div>}
+            <div className="problems-container">
               <div className="quest-container">
                 {/* actually show questions */}
                 {quests.length ? quests : noQuests}
