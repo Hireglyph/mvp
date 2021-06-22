@@ -15,122 +15,7 @@ import { tags, companies } from 'constants/Lists';
 import Loading from 'components/Loading.js';
 import PageNotFound from 'pages/PageNotFound';
 
-const PageProblemsSx = {
-  display: 'flex',
-  fontFamily: 'Open-Sans',
-
-  '.link': {
-    textDecoration: 'none',
-    color: 'black',
-  },
-  '.white': {
-    color: 'white',
-  },
-  '.pointer': {
-    cursor: 'pointer',
-  },
-  '.flex': {
-    display: 'flex',
-  },
-  '.original-list': {
-    marginLeft: '20px',
-    marginRight: 'auto',
-    marginTop: '23px',
-  },
-  '.original-list:hover': {
-    color: 'mediumGrey',
-  },
-  '.sortby-container': {
-    marginTop: '130px',
-    marginRight: '50px',
-    marginLeft: '50px',
-    textAlign: 'center',
-  },
-  '.questions-container': {
-    marginTop: '30px',
-  },
-  '.quest-container': {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  '.question-box': {
-    backgroundColor: 'lightGrey',
-    width: '320px',
-    height: '145px',
-    marginRight: '20px',
-    marginTop: '10px',
-    marginBottom: '10px',
-    padding: '20px',
-  },
-  '.question-box:hover': {
-    backgroundColor: 'mediumGrey',
-  },
-  '.tag-container': {
-    display: 'flex',
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-    height: '70px',
-  },
-  '.tag': {
-    fontSize: '12px',
-    backgroundColor: 'orange',
-    borderRadius: '4px',
-    width: '107.61px',
-    height: '22px',
-    textAlign: 'center',
-    margin: '5px',
-    paddingTop: '2px',
-  },
-  '.tag-button:hover': {
-    backgroundColor: 'darkOrange',
-  },
-  '.diff-button': {
-    display: 'inline-block',
-    margin: '5px',
-    backgroundColor: 'lightGrey',
-    borderRadius: '4px',
-    width: '80px',
-  },
-  '.diff-button:hover': {
-    backgroundColor: 'mediumGrey',
-  },
-  '.tag-button-container': {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    width: '270px',
-  },
-  '.tag-selected': {
-    border: '3px #000000 solid'
-  },
-  '.no-quest': {
-    backgroundColor: 'mediumGrey',
-    width: '400px',
-    padding: '25px',
-  },
-  '.question-title': {
-    fontSize: '18px',
-  },
-  '.easy': {
-    color: 'easyGreen',
-  },
-  '.medium': {
-    color: 'medOrange',
-  },
-  '.hard': {
-    color: 'hardRed',
-  },
-  '.difficulty': {
-    fontSize: '16px',
-    marginLeft: 'auto',
-  },
-  '.check': {
-    color: 'easyGreen',
-    marginRight: '5px',
-    marginLeft: '5px',
-    marginTop: '3px',
-  },
-};
+import { PageProblemsSx } from 'theme/PageProblemsStyle';
 
 class PageProblems extends React.Component {
   constructor(props) {
@@ -282,66 +167,68 @@ class PageProblems extends React.Component {
               title={`Questions | Hireglyph`}
             />
         }
-        <div className="sortby-container">
-          <h2 className="white">Difficulty</h2>
-          {/* sort by difficulty */}
-          <div
-            className={
-              (this.props.diff === 'easy' && " tag-selected") +
-              " diff-button pointer easy"
-            }
-            onClick={() => this.handleDiffFilter('easy')}
-          >
-            EASY
+        <div className="page-problems">
+          <div className="questions-container">
+            <div>HOT</div>
+            <div className="quest-container">
+              {hotQuestions ? hot : noHot}
+            </div>
+            <div className="flex">
+              <h1 className="white">Questions</h1>
+              {tag &&
+                // click to view all questions (vanilla /questions URL)
+                <div
+                  className="original-list pointer white"
+                  onClick={() => this.props.history.push('/questions')}
+                >
+                    View full list
+                </div>}
+            </div>
+            <div>----</div>
+            <div className="quest-container">
+              {/* actually show questions */}
+              {quests.length ? quests : noQuests}
+            </div>
           </div>
-          <div
-            className={
-              (this.props.diff === 'medium' && " tag-selected") +
-              " diff-button pointer medium"
-            }
-            onClick={() => this.handleDiffFilter('medium')}
-          >
-            MEDIUM
-          </div>
-          <div
-            className={
-              (this.props.diff === 'hard' && " tag-selected") +
-              " diff-button pointer hard"
-            }
-            onClick={() => this.handleDiffFilter('hard')}
-          >
-            HARD
-          </div>
-          {/* sort by tag */}
-          <h2 className="white">Tags</h2>
-          <div className="tag-button-container">
-            {tagButtons}
-          </div>
-          <h2 className="white">Companies</h2>
-          <div className="tag-button-container">
-            {companyButtons}
-          </div>
-        </div>
-        <div className="questions-container">
-          <div className="flex">
-            <h1 className="white">Questions</h1>
-            {tag &&
-              // click to view all questions (vanilla /questions URL)
-              <div
-                className="original-list pointer white"
-                onClick={() => this.props.history.push('/questions')}
-              >
-                  View full list
-              </div>}
-          </div>
-          <div>HOT</div>
-          <div className="quest-container">
-            {hotQuestions ? hot : noHot}
-          </div>
-          <div>----</div>
-          <div className="quest-container">
-            {/* actually show questions */}
-            {quests.length ? quests : noQuests}
+          <div className="sortby-container">
+            <h2 className="white">Difficulty</h2>
+            {/* sort by difficulty */}
+            <div
+              className={
+                (this.props.diff === 'easy' && " tag-selected") +
+                " diff-button pointer easy"
+              }
+              onClick={() => this.handleDiffFilter('easy')}
+            >
+              EASY
+            </div>
+            <div
+              className={
+                (this.props.diff === 'medium' && " tag-selected") +
+                " diff-button pointer medium"
+              }
+              onClick={() => this.handleDiffFilter('medium')}
+            >
+              MEDIUM
+            </div>
+            <div
+              className={
+                (this.props.diff === 'hard' && " tag-selected") +
+                " diff-button pointer hard"
+              }
+              onClick={() => this.handleDiffFilter('hard')}
+            >
+              HARD
+            </div>
+            {/* sort by tag */}
+            <h2 className="white">Tags</h2>
+            <div className="tag-button-container">
+              {tagButtons}
+            </div>
+            <h2 className="white">Companies</h2>
+            <div className="tag-button-container">
+              {companyButtons}
+            </div>
           </div>
         </div>
       </div>
