@@ -19,6 +19,11 @@ export const PageProblemsSx = {
         color: 'mediumGrey',
         cursor: "pointer",
     },
+    '.pointer': {
+        '&:hover': {
+            cursor: 'pointer',
+        }
+    },
 
 
     '.page-problems': {
@@ -152,12 +157,17 @@ export const PageProblemsSx = {
     '.sortby-title': {
         fontSize: '20px',
         fontWeight: '600',
-        margingBottom: '50px !important',
     },
     '.sortby-box': {
         backgroundColor: 'white',
-        padding: '20px 20px',
+        padding: '20px 20px 10px 20px',
         borderTop: '4px solid #EFEFEF',
+    },
+    '.sortby-header': {
+        width: '100%',
+        display: 'flex',
+        alignItems: 'flex-start',
+        justifyContent: 'space-between',
     },
     '.filter-tag-title': {
         textAlign: 'left',
@@ -165,19 +175,18 @@ export const PageProblemsSx = {
         fontWeight: '600',
     },
     '.filter-tag-link': {
-        color: 'purple',
+        textTransform: 'capitalize',
+        color: 'black',
         backgroundColor: 'transparent',
-        margin: '5px 5px 5px 10px',
+        margin: '5px 5px 5px 20px',
         width: 'fit-content',
         textAlign: 'left',
         fontSize: '13px',
-        fontWeight: 'normal',
-    },
-    '.diff-button:hover': {
-        backgroundColor: 'mediumGrey',
+        fontWeight: '400',
     },
     '.tag-selected': {
-        border: '3px #000000 solid'
+        color: 'purple',
+        fontWeight: '600',
     },
     '.no-quest': {
         backgroundColor: 'mediumGrey',
