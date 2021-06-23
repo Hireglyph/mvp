@@ -27,8 +27,10 @@ export const PageProblemsSx = {
         justifyContent: 'space-evenly',
         padding: '0px 100px',
     },
-    'h3': {
-        marginTop: '50px',
+    '.section-title': {
+        margin: '50px 0 0 45px',
+        fontSize: '25px',
+        fontWeight: '600',
     }, 
     '.questions-container': {
         margin: '30px 50px 0 0',
@@ -53,14 +55,16 @@ export const PageProblemsSx = {
     '.tag': {
         fontSize: '13px',
         fontWeight: '400',
-        color: 'purple',
-        backgroundColor: 'white',
-        border: '1px solid #5A3FFF',
         borderRadius: '5px',
         width: 'fit-content',
         textAlign: 'center',
         marginRight: '5px',
         padding: '1px 5px',
+    },
+    '.topic-tag': {
+        color: 'purple',
+        backgroundColor: 'white',
+        border: '1px solid #5A3FFF',
     },
     '.tag-button:hover': {
         cursor: 'pointer',
@@ -115,10 +119,24 @@ export const PageProblemsSx = {
         boxShadow: '2px 2px 4px rgba(128, 128, 128, 0.1)',
         padding: '20px 30px'
 ,    },
+    '.problem-box': {
+        height: '50px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        padding: '10px 20px',
+        borderTop: '1px solid #DFDEDE'
+    },
     '.problems-diff': {
+        width: 'fit-content',
         color: 'white',
-        padding: '8px 13px',
+        padding: '1px 5px',
         fontSize: '14px',
+        border: 'none',
+    },
+    '.company-tag': {
+        color: 'white',
+        backgroundColor: 'mediumGray',
     },
 
     // sortby styling

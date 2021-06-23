@@ -64,7 +64,7 @@ class PageProblems extends React.Component {
     const answered = this.props.questionHistory
       && this.props.questionHistory[questId];
     const topics = quest.tags && Object.keys(quest.tags).map(tag =>
-      <div className="tag" key={tag}>{tag}</div>
+      <div className="tag topic-tag" key={tag}>{tag}</div>
     );
 
     return (
@@ -77,7 +77,7 @@ class PageProblems extends React.Component {
             {topics}
           </div>
           <div className="hot-quest-icon-box">
-            {!answered && <FontAwesomeIcon icon={faCheck} className="check" />}
+            {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
             <div className={"hot-quest-diff  " + quest.difficulty}></div>
           </div>
         </div>
@@ -90,11 +90,11 @@ class PageProblems extends React.Component {
     const answered = this.props.questionHistory
       && this.props.questionHistory[questId];
     const topics = quest.tags && Object.keys(quest.tags).map(tag =>
-      <div className="tag" key={tag}>{tag}</div>
+      <div className="tag topic-tag" key={tag}>{tag}</div>
     );
 
     return (
-      <Link className="link" to={`/q/${questId}/my`} key={questId}>
+      <Link className="link problem-box" to={`/q/${questId}/my`} key={questId}>
         <div className="question-title">
           #{questId}: {quest.title}
           {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
@@ -102,10 +102,10 @@ class PageProblems extends React.Component {
         <div className="tag-container">
           {topics}
         </div>
-        <div>
+        <div className="tag company-tag">
           {quest.company}
         </div>
-        <div className={quest.difficulty}>
+        <div className={quest.difficulty + " tag problems-diff"}>
           {quest.difficulty.toUpperCase()}
         </div>
       </Link>
@@ -161,8 +161,8 @@ class PageProblems extends React.Component {
     const tagButtons = tags.map(tag =>
       <div
         className={
-          (this.props.tag === tag && " tag-selected") +
-          " tag tag-button pointer"
+          ((this.props.tag === tag) && " tag-selected") +
+          " tag tag-button"
         }
         onClick={() => this.handleTagFilter(tag)}
         key={tag}
@@ -175,7 +175,7 @@ class PageProblems extends React.Component {
       <div
         className={
           (this.props.company === company && " tag-selected") +
-          " tag tag-button pointer"
+          " tag tag-button"
         }
         onClick={() => this.handleCompanyFilter(company)}
         key={company}
@@ -196,11 +196,11 @@ class PageProblems extends React.Component {
         }
         <div className="page-problems">
           <div className="questions-container">
-            <h3><FontAwesomeIcon icon={faFireAlt}  style={{color: '#DA1C1C'}}/> Hot</h3>
+            <h3 className="section-title"><FontAwesomeIcon icon={faFireAlt}  style={{color: '#DA1C1C'}}/> Hot</h3>
             <div className="hot-quest-container">
               {hotQuestions ? hot : noHot}
             </div>
-            <h3><FontAwesomeIcon icon={faLightbulb}  style={{color: '#EBB700'}}/> Problems</h3>
+            <h3 className="section-title"><FontAwesomeIcon icon={faLightbulb}  style={{color: '#EBB700'}}/> Problems</h3>
               {tag &&
                 // click to view all questions (vanilla /questions URL)
                 <div

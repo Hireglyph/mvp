@@ -66,7 +66,7 @@ export const theme = {
     h3: {
       variant: 'text.heading',
       fontSize: 5,
-      fontWeit: 'bold',
+      fontWeight: 'bold',
     },
     h4: {
       variant: 'text.medium',
