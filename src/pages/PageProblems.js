@@ -169,7 +169,7 @@ class PageProblems extends React.Component {
       </div>
     );
 
-    const tagButtons = tags.map(tag =>
+    const topicButtons = tags.map(tag =>
       <div
         className={
           ((this.props.tag === tag) && " tag-selected") +
@@ -242,6 +242,14 @@ class PageProblems extends React.Component {
                 }
               </div>
               {/* sort by difficulty */}
+              {(!this.state.diffExpanded && this.props.diff) &&
+                <div
+                  className="tag-selected filter-tag-link pointer"
+                  onClick={() => this.handleDiffFilter(this.props.diff)}
+                >
+                  {this.props.diff}
+                </div>
+              }
               {this.state.diffExpanded &&  
                 <div>
                   <div
@@ -275,7 +283,7 @@ class PageProblems extends React.Component {
               }
             </div>
             <div className="sortby-box">
-              {/* sort by tag */}
+              {/* sort by topic */}
               <div className="sortby-header">
                 <h5 className="filter-tag-title">Topics</h5>
                 {this.state.topicsExpanded ?
@@ -287,9 +295,18 @@ class PageProblems extends React.Component {
                   />
                 }
               </div>
+              {(!this.state.topicsExpanded && this.props.tag) &&
+                <div
+                  className="tag-selected filter-tag-link pointer"
+                  onClick={() => this.handleTagFilter(this.props.tag)}
+                  key={this.props.tag}
+                >
+                  {this.props.tag}
+                </div>
+              }
               {this.state.topicsExpanded &&
                 <div>
-                  {tagButtons}
+                  {topicButtons}
                 </div>
               }
             </div>

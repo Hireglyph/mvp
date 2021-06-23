@@ -151,6 +151,7 @@ export const PageProblemsSx = {
     // sortby styling
     '.sortby-container': {
         width: '20%',
+        minWidth: '200px',
         marginTop: '130px',
         textAlign: 'center',
     },
@@ -160,7 +161,7 @@ export const PageProblemsSx = {
     },
     '.sortby-box': {
         backgroundColor: 'white',
-        padding: '20px 20px 10px 20px',
+        padding: '15px 20px 10px 20px',
         borderTop: '4px solid #EFEFEF',
     },
     '.sortby-header': {
@@ -168,6 +169,7 @@ export const PageProblemsSx = {
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'space-between',
+        margin: '0',
     },
     '.filter-tag-title': {
         textAlign: 'left',
@@ -178,7 +180,7 @@ export const PageProblemsSx = {
         textTransform: 'capitalize',
         color: 'black',
         backgroundColor: 'transparent',
-        margin: '5px 5px 5px 20px',
+        margin: '0px 5px 5px 20px',
         width: 'fit-content',
         textAlign: 'left',
         fontSize: '13px',
