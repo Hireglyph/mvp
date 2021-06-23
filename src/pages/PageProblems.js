@@ -59,7 +59,7 @@ class PageProblems extends React.Component {
     );
   };
 
-  displayQuestion = (questId, hot) => {
+  displayHotQuestion = (questId) => {
     const quest = this.props.questions[questId];
     const answered = this.props.questionHistory
       && this.props.questionHistory[questId];
@@ -68,21 +68,45 @@ class PageProblems extends React.Component {
     );
 
     return (
-      <Link className={"link " + (hot && " hot-quest-box")} to={`/q/${questId}/my`} key={questId}>
-        <div className="flex">
-          <div className="question-title">
-            #{questId}: {quest.title}
-            {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
+      <Link className="link hot-quest-box" to={`/q/${questId}/my`} key={questId}>
+        <div className="question-title">
+          #{questId}: {quest.title}
+        </div>
+        <div className="hot-quest-tags">
+          <div className="tag-container">
+            {topics}
           </div>
-          <div className={(hot && "hot-quest-diff  ") + quest.difficulty}>
-            {!hot && quest.difficulty.toUpperCase()}
+          <div className="hot-quest-icon-box">
+            {!answered && <FontAwesomeIcon icon={faCheck} className="check" />}
+            <div className={"hot-quest-diff  " + quest.difficulty}></div>
           </div>
-          <div>
-            {!hot && quest.company}
-          </div>
+        </div>
+      </Link>
+    );
+  };
+
+  displayQuestion = (questId) => {
+    const quest = this.props.questions[questId];
+    const answered = this.props.questionHistory
+      && this.props.questionHistory[questId];
+    const topics = quest.tags && Object.keys(quest.tags).map(tag =>
+      <div className="tag" key={tag}>{tag}</div>
+    );
+
+    return (
+      <Link className="link" to={`/q/${questId}/my`} key={questId}>
+        <div className="question-title">
+          #{questId}: {quest.title}
+          {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
         </div>
         <div className="tag-container">
           {topics}
+        </div>
+        <div>
+          {quest.company}
+        </div>
+        <div className={quest.difficulty}>
+          {quest.difficulty.toUpperCase()}
         </div>
       </Link>
     );
@@ -111,14 +135,14 @@ class PageProblems extends React.Component {
     }
 
     const hot = hotQuestions
-      && Object.keys(hotQuestions).map(questId => this.displayQuestion(questId, true));
+      && Object.keys(hotQuestions).map(questId => this.displayHotQuestion(questId));
 
     // filter by difficulty, tag, & company
     const quests = Object.keys(questions)
       .filter(questId => !isDiff || questions[questId].difficulty === diff)
       .filter(questId => !tag || (questions[questId].tags && questions[questId].tags[tag]))
       .filter(questId => !company || questions[questId].company === company)
-      .map(questId => this.displayQuestion(questId, false));
+      .map(questId => this.displayQuestion(questId));
 
     const noHot = (
       <div className="no-quest">

@@ -46,6 +46,10 @@ export const PageProblemsSx = {
     '.hard': {
         backgroundColor: 'hardRed',
     },
+    '.tag-container': {
+        display: 'flex',
+        flexDirection: 'row',
+    },
     '.tag': {
         fontSize: '13px',
         fontWeight: '400',
@@ -55,7 +59,7 @@ export const PageProblemsSx = {
         borderRadius: '5px',
         width: 'fit-content',
         textAlign: 'center',
-        margin: '5px',
+        marginRight: '5px',
         padding: '1px 5px',
     },
     '.tag-button:hover': {
@@ -68,23 +72,39 @@ export const PageProblemsSx = {
         flexWrap: 'wrap',
     },
     '.hot-quest-box': {
-        backgroundColor: 'white',
         width: '25%',
         minWidth: '250px',
-        height: '145px',
-        padding: '20px',
+        height: '120px',
+        padding: '20px 20px 17px 20px',
         margin: '15px 15px 0 0',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        justifyContent: 'space-between',
         borderRadius: '20px',
-        boxShadow: '2px 2px 4px 0px rgba(128, 128, 128, 0.1)',
+        backgroundColor: 'white',
+        boxShadow: '2px 2px 4px rgba(128, 128, 128, 0.1)',
     },
     '.hot-quest-box:hover': {
         backgroundColor: 'mediumGrey',
+    },
+    '.hot-quest-tags': {
+        width: '100%',
+        height: '30px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    '.hot-quest-icon-box': {
+        display: 'flex',
+        
     },
     '.hot-quest-diff': {
         width: '13px',
         height: '13px',
         padding: '0',
         borderRadius: '50px',
+        margin: '1px 0 0 12px',
     },
 
 
@@ -92,7 +112,7 @@ export const PageProblemsSx = {
     '.problems-container': {
         borderRadius: '20px',
         backgroundColor: 'white',
-        boxShadow: '2px 2px 4px 0px rgba(128, 128, 128, 0.1)',
+        boxShadow: '2px 2px 4px rgba(128, 128, 128, 0.1)',
         padding: '20px 30px'
 ,    },
     '.problems-diff': {
@@ -106,12 +126,6 @@ export const PageProblemsSx = {
         backgroundColor: 'white',
         marginTop: '130px',
         textAlign: 'center',
-    },
-    '.tag-container': {
-        display: 'flex',
-        flexDirection: 'column',
-        flexWrap: 'wrap',
-        height: '70px',
     },
     '.diff-button': {
         display: 'inline-block',
@@ -139,8 +153,5 @@ export const PageProblemsSx = {
     },
     '.check': {
         color: 'easyGreen',
-        marginRight: '5px',
-        marginLeft: '5px',
-        marginTop: '3px',
     },
 };
