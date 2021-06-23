@@ -106,7 +106,7 @@ class PageProblems extends React.Component {
           {quest.company}
         </div>
         <div className={quest.difficulty + " tag problems-diff"}>
-          {quest.difficulty.toUpperCase()}
+          {quest.difficulty}
         </div>
       </Link>
     );
@@ -162,7 +162,7 @@ class PageProblems extends React.Component {
       <div
         className={
           ((this.props.tag === tag) && " tag-selected") +
-          " tag tag-button"
+          " tag filter-tag-link"
         }
         onClick={() => this.handleTagFilter(tag)}
         key={tag}
@@ -175,7 +175,7 @@ class PageProblems extends React.Component {
       <div
         className={
           (this.props.company === company && " tag-selected") +
-          " tag tag-button"
+          " tag filter-tag-link"
         }
         onClick={() => this.handleCompanyFilter(company)}
         key={company}
@@ -201,15 +201,15 @@ class PageProblems extends React.Component {
               {hotQuestions ? hot : noHot}
             </div>
             <h3 className="section-title"><FontAwesomeIcon icon={faLightbulb}  style={{color: '#EBB700'}}/> Problems</h3>
-              {tag &&
-                // click to view all questions (vanilla /questions URL)
-                <div
-                  className="original-list pointer"
-                  onClick={() => this.props.history.push('/questions')}
-                >
-                    View full list
-                </div>}
             <div className="problems-container">
+              {tag &&
+                  // click to view all questions (vanilla /questions URL)
+                  <div
+                    className="original-list-btn"
+                    onClick={() => this.props.history.push('/questions')}
+                  >
+                      View full list
+                  </div>}
               <div className="quest-container">
                 {/* actually show questions */}
                 {quests.length ? quests : noQuests}
@@ -217,43 +217,50 @@ class PageProblems extends React.Component {
             </div>
           </div>
           <div className="sortby-container">
-            <h2>Difficulty</h2>
-            {/* sort by difficulty */}
-            <div
-              className={
-                (this.props.diff === 'easy' && " tag-selected") +
-                " diff-button easy"
-              }
-              onClick={() => this.handleDiffFilter('easy')}
-            >
-              EASY
+            <h4 className="sortby-title">Filter by</h4>
+            <div className="sortby-box">
+              <h5 className="filter-tag-title">Difficulty</h5>
+              {/* sort by difficulty */}
+              <div
+                className={
+                  (this.props.diff === 'easy' && " tag-selected") +
+                  " filter-tag-link"
+                }
+                onClick={() => this.handleDiffFilter('easy')}
+              >
+                Easy
+              </div>
+              <div
+                className={
+                  (this.props.diff === 'medium' && " tag-selected") +
+                  " filter-tag-link"
+                }
+                onClick={() => this.handleDiffFilter('medium')}
+              >
+                Medium
+              </div>
+              <div
+                className={
+                  (this.props.diff === 'hard' && " tag-selected") +
+                  " filter-tag-link"
+                }
+                onClick={() => this.handleDiffFilter('hard')}
+              >
+                Hard
+              </div>
             </div>
-            <div
-              className={
-                (this.props.diff === 'medium' && " tag-selected") +
-                " diff-button medium"
-              }
-              onClick={() => this.handleDiffFilter('medium')}
-            >
-              MEDIUM
+            <div className="sortby-box">
+              {/* sort by tag */}
+              <h5 className="filter-tag-title">Topics</h5>
+              <div>
+                {tagButtons}
+              </div>
             </div>
-            <div
-              className={
-                (this.props.diff === 'hard' && " tag-selected") +
-                " diff-button hard"
-              }
-              onClick={() => this.handleDiffFilter('hard')}
-            >
-              HARD
-            </div>
-            {/* sort by tag */}
-            <h2>Tags</h2>
-            <div className="tag-button-container">
-              {tagButtons}
-            </div>
-            <h2>Companies</h2>
-            <div className="tag-button-container">
-              {companyButtons}
+            <div className="sortby-box">
+              <h5 className="filter-tag-title">Companies</h5>
+              <div>
+                {companyButtons}
+              </div>
             </div>
           </div>
         </div>

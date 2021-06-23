@@ -5,19 +5,19 @@ export const PageProblemsSx = {
     fontFamily: 'Open-Sans',
   
     '.link': {
-      textDecoration: 'none',
-      color: 'black',
+        textDecoration: 'none',
+        color: 'black',
     },
     '.flex': {
-      display: 'flex',
+        display: 'flex',
     },
-    '.original-list': {
-      marginLeft: '20px',
-      marginRight: 'auto',
-      marginTop: '23px',
+    '.original-list-btn': {
+        width: 'fit-content',
+        margin: '5px auto 10px 20px',
     },
-    '.original-list:hover': {
-      color: 'mediumGrey',
+    '.original-list-btn:hover': {
+        color: 'mediumGrey',
+        cursor: "pointer",
     },
 
 
@@ -25,7 +25,7 @@ export const PageProblemsSx = {
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'space-evenly',
-        padding: '0px 100px',
+        padding: '0px 70px',
     },
     '.section-title': {
         margin: '50px 0 0 45px',
@@ -53,6 +53,7 @@ export const PageProblemsSx = {
         flexDirection: 'row',
     },
     '.tag': {
+        fontFamily: 'body',
         fontSize: '13px',
         fontWeight: '400',
         borderRadius: '5px',
@@ -66,7 +67,7 @@ export const PageProblemsSx = {
         backgroundColor: 'white',
         border: '1px solid #5A3FFF',
     },
-    '.tag-button:hover': {
+    '.tag-btn:hover': {
         cursor: 'pointer',
     },
 
@@ -114,6 +115,7 @@ export const PageProblemsSx = {
 
     // regular questions styling
     '.problems-container': {
+        margin: '20px 0 40px 0',
         borderRadius: '20px',
         backgroundColor: 'white',
         boxShadow: '2px 2px 4px rgba(128, 128, 128, 0.1)',
@@ -128,38 +130,51 @@ export const PageProblemsSx = {
         borderTop: '1px solid #DFDEDE'
     },
     '.problems-diff': {
-        width: 'fit-content',
+        width: '75px',
         color: 'white',
         padding: '1px 5px',
         fontSize: '14px',
         border: 'none',
+        textTransform: 'capitalize',
     },
     '.company-tag': {
+        width: '85px',
         color: 'white',
         backgroundColor: 'mediumGray',
     },
 
     // sortby styling
     '.sortby-container': {
-        backgroundColor: 'white',
+        width: '20%',
         marginTop: '130px',
         textAlign: 'center',
     },
-    '.diff-button': {
-        display: 'inline-block',
-        margin: '5px',
-        backgroundColor: 'lightGrey',
-        borderRadius: '4px',
-        width: '80px',
+    '.sortby-title': {
+        fontSize: '20px',
+        fontWeight: '600',
+        margingBottom: '50px !important',
+    },
+    '.sortby-box': {
+        backgroundColor: 'white',
+        padding: '20px 20px',
+        borderTop: '4px solid #EFEFEF',
+    },
+    '.filter-tag-title': {
+        textAlign: 'left',
+        fontSize: '16px',
+        fontWeight: '600',
+    },
+    '.filter-tag-link': {
+        color: 'purple',
+        backgroundColor: 'transparent',
+        margin: '5px 5px 5px 10px',
+        width: 'fit-content',
+        textAlign: 'left',
+        fontSize: '13px',
+        fontWeight: 'normal',
     },
     '.diff-button:hover': {
         backgroundColor: 'mediumGrey',
-    },
-    '.tag-button-container': {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-        width: '270px',
     },
     '.tag-selected': {
         border: '3px #000000 solid'
