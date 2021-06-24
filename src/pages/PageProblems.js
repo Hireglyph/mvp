@@ -71,7 +71,6 @@ class PageProblems extends React.Component {
   };
 
   displayHotQuestion = (questId) => {
-    console.log(window.innerWidth)
     const quest = this.props.questions[questId];
     const answered = this.props.questionHistory
       && this.props.questionHistory[questId];
