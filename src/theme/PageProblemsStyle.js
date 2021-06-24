@@ -27,20 +27,25 @@ export const PageProblemsSx = {
 
 
     '.page-problems': {
+        width: '100%',
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'space-evenly',
-        padding: '0px 70px',
+        padding: ['0px 10px', '0 50px', '0 80px' ],
     },
     '.section-title': {
         margin: '50px 0 0 45px',
         fontSize: '25px',
         fontWeight: '600',
     }, 
-    '.questions-container': {
-        margin: '30px 50px 0 0',
-    },
 
+
+    '.questions-container': {
+        margin: '0',
+        marginTop: '30px',
+        marginRight: ['30px', '50px', '50px'],
+        flex: '2 1 auto',
+    },
     '.question-title': {
         fontSize: '16px',
     },
@@ -53,9 +58,11 @@ export const PageProblemsSx = {
     '.hard': {
         backgroundColor: 'hardRed',
     },
-    '.tag-container': {
+    '.topic-container': {
         display: 'flex',
         flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
     },
     '.tag': {
         fontFamily: 'body',
@@ -63,6 +70,7 @@ export const PageProblemsSx = {
         fontWeight: '400',
         borderRadius: '5px',
         width: 'fit-content',
+        minWidth: 'fit-content',
         textAlign: 'center',
         marginRight: '5px',
         padding: '1px 5px',
@@ -82,15 +90,17 @@ export const PageProblemsSx = {
         flexWrap: 'wrap',
     },
     '.hot-quest-box': {
-        width: '25%',
-        minWidth: '250px',
-        height: '120px',
+        width: '20%',
+        maxWidth: ['50%', '50%', '50%', '30%'],
+        minWidth: '200px',
+        height: '130px',
         padding: '20px 20px 17px 20px',
         margin: '15px 15px 0 0',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
         justifyContent: 'space-between',
+        flex: '2 1 20%',
         borderRadius: '20px',
         backgroundColor: 'white',
         boxShadow: '2px 2px 4px rgba(128, 128, 128, 0.1)',
@@ -124,15 +134,27 @@ export const PageProblemsSx = {
         borderRadius: '20px',
         backgroundColor: 'white',
         boxShadow: '2px 2px 4px rgba(128, 128, 128, 0.1)',
-        padding: '20px 30px'
+        padding: '20px 20px'
 ,    },
     '.problem-box': {
         height: '50px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-around',
-        padding: '10px 20px',
+        padding: '10px 20px 10px 10px',
         borderTop: '1px solid #DFDEDE'
+    },
+    '.check-container': {
+        width: '20px',
+        marginRight: '25px',
+    },
+    '.problem-title': {
+        width: '30%',
+        display: 'flex',
+        justifyContent: 'flex-start',
+    },
+    '.problems-topic-container': {
+        width: '30%',
     },
     '.problems-diff': {
         width: '75px',
@@ -148,9 +170,9 @@ export const PageProblemsSx = {
         backgroundColor: 'mediumGray',
     },
 
-    // sortby styling
+    // filter styling
     '.sortby-container': {
-        width: '20%',
+        flex: '1 0 auto',
         minWidth: '200px',
         marginTop: '130px',
         textAlign: 'center',

@@ -84,7 +84,7 @@ class PageProblems extends React.Component {
           #{questId}: {quest.title}
         </div>
         <div className="hot-quest-tags">
-          <div className="tag-container">
+          <div className="topic-container">
             {topics}
           </div>
           <div className="hot-quest-icon-box">
@@ -106,11 +106,13 @@ class PageProblems extends React.Component {
 
     return (
       <Link className="link problem-box" to={`/q/${questId}/my`} key={questId}>
-        <div className="question-title">
+        <div className="question-title problem-title">
+          <div className="check-container">
+            {!answered && <FontAwesomeIcon icon={faCheck} className="check" />}
+          </div>
           #{questId}: {quest.title}
-          {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
         </div>
-        <div className="tag-container">
+        <div className="topic-container problems-topic-container">
           {topics}
         </div>
         <div className="tag company-tag">
