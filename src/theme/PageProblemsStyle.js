@@ -31,7 +31,7 @@ export const PageProblemsSx = {
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'space-evenly',
-        padding: ['0px 10px', '0 50px', '0 80px' ],
+        padding: ['0px 10px', '0 50px', '0 50px 0 80px' ],
     },
     '.section-title': {
         margin: '50px 0 0 45px',
@@ -65,6 +65,7 @@ export const PageProblemsSx = {
         justifyContent: 'flex-start',
     },
     '.tag': {
+        textTransform: 'capitalize',
         fontFamily: 'body',
         fontSize: '13px',
         fontWeight: '400',
@@ -149,7 +150,7 @@ export const PageProblemsSx = {
         marginRight: '25px',
     },
     '.problem-title': {
-        width: '30%',
+        width: '40%',
         display: 'flex',
         justifyContent: 'flex-start',
     },
@@ -162,7 +163,6 @@ export const PageProblemsSx = {
         padding: '1px 5px',
         fontSize: '14px',
         border: 'none',
-        textTransform: 'capitalize',
     },
     '.company-tag': {
         width: '85px',
@@ -219,5 +219,8 @@ export const PageProblemsSx = {
     },
     '.check': {
         color: 'easyGreen',
+    },
+    '.drop-arrow': {
+        color: 'purple',
     },
 };

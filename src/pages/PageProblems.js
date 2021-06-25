@@ -9,11 +9,7 @@ import { jsx } from 'theme-ui';
 import { ReactTitle } from 'react-meta-tags';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import { faFireAlt } from '@fortawesome/free-solid-svg-icons';
-import { faLightbulb } from '@fortawesome/free-solid-svg-icons';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { faMinus } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faFireAlt, faLightbulb, faPlus, faMinus, faAngleRight, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 
 import { tags, companies } from 'constants/Lists';
 import Loading from 'components/Loading.js';
@@ -30,6 +26,9 @@ class PageProblems extends React.Component {
       diffExpanded: false,
       topicsExpanded: false,
       companiesExpanded: false,
+      tagsExpanded: {
+        0: '',
+      },
     };
   }
 
@@ -74,8 +73,13 @@ class PageProblems extends React.Component {
     const quest = this.props.questions[questId];
     const answered = this.props.questionHistory
       && this.props.questionHistory[questId];
-    const topics = quest.tags && Object.keys(quest.tags).map(tag =>
-      <div className="tag topic-tag" key={tag}>{tag}</div>
+    
+    const maxHotTags = 2;
+    const keyArr = quest.tags && Object.keys(quest.tags);
+    const topics = quest.tags && keyArr.map((tag, i) =>
+      <div key={tag}>
+        {(i < 1 || keyArr.length <= maxHotTags) && <div className="tag topic-tag">{tag}</div>}
+      </div>
     );
 
     return (
@@ -86,6 +90,7 @@ class PageProblems extends React.Component {
         <div className="hot-quest-tags">
           <div className="topic-container">
             {topics}
+            {(keyArr && keyArr.length > maxHotTags) && <FontAwesomeIcon icon={faAngleRight} className="drop-arrow" />}
           </div>
           <div className="hot-quest-icon-box">
             {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
@@ -96,12 +101,16 @@ class PageProblems extends React.Component {
     );
   };
 
-  displayQuestion = (questId) => {
+  displayQuestion = (questId, maxTags) => {
     const quest = this.props.questions[questId];
     const answered = this.props.questionHistory
       && this.props.questionHistory[questId];
-    const topics = quest.tags && Object.keys(quest.tags).map(tag =>
-      <div className="tag topic-tag" key={tag}>{tag}</div>
+
+    const keyArr = quest.tags && Object.keys(quest.tags);
+    const topics = quest.tags && keyArr.map((tag, i) =>
+      <div key={tag}>
+        {(i < 1 || keyArr.length <= maxTags) && <div className="tag topic-tag">{tag}</div>}
+      </div>
     );
 
     return (
@@ -114,6 +123,7 @@ class PageProblems extends React.Component {
         </div>
         <div className="topic-container problems-topic-container">
           {topics}
+          {(keyArr && keyArr.length > maxTags) && <FontAwesomeIcon icon={faAngleRight} className="drop-arrow" />}
         </div>
         <div className="tag company-tag">
           {quest.company}
@@ -147,6 +157,16 @@ class PageProblems extends React.Component {
       return <PageNotFound />;
     }
 
+    let maxTags;
+    if (window.innerWidth < 1200) {
+      maxTags = 3;
+    } else if (window.innerWidth < 1100) {
+      maxTags = 2;
+    } else if (window.innerWidth < 350) {
+      maxTags = 1;
+    } 
+    console.log(maxTags)
+
     const hot = hotQuestions
       && Object.keys(hotQuestions).map(questId => this.displayHotQuestion(questId));
 
@@ -155,7 +175,7 @@ class PageProblems extends React.Component {
       .filter(questId => !isDiff || questions[questId].difficulty === diff)
       .filter(questId => !tag || (questions[questId].tags && questions[questId].tags[tag]))
       .filter(questId => !company || questions[questId].company === company)
-      .map(questId => this.displayQuestion(questId));
+      .map(questId => this.displayQuestion(questId, maxTags));
 
     const noHot = (
       <div className="no-quest">
@@ -196,6 +216,7 @@ class PageProblems extends React.Component {
         {company}
       </div>
     );
+
     return (
       <div className="PageProblems" sx={PageProblemsSx}>
         {tag
