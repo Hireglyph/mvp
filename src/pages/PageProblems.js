@@ -88,24 +88,27 @@ class PageProblems extends React.Component {
     const answered = this.props.questionHistory
       && this.props.questionHistory[questId];
     
-    const maxHotTags = 1;
+    const maxHotTags = 2;
     const keyArr = quest.tags && Object.keys(quest.tags);
+
+    // topics that are displayed in the problem box
     const topics = quest.tags && keyArr.map((tag, i) =>
       <div key={tag}>
         {(i < 1 || keyArr.length <= maxHotTags) && <div className="tag topic-tag">{tag}</div>}
       </div>
     );
+    // topics that are displayed in dropdown
     const dropdownTopics = quest.tags && keyArr.map((tag, i) =>
-    <div key={tag}>
-      {(i != 0) && <div className="tag topic-tag dropdown-tag">{tag}</div>}
-    </div>
+      <div key={tag}>
+        {(i != 0) && <div className="tag topic-tag dropdown-tag">{tag}</div>}
+      </div>
     );
 
     const expanded = this.state.hotQuestsExpanded.includes(questId);
 
     return (
-      <div>
-        <Link className="link hot-quest-box" to={`/q/${questId}/my`} key={questId}>
+      <div className="hot-quest-box">
+        <Link className="link hot-quest-box-link" to={`/q/${questId}/my`} key={questId}>
           <div className="question-title">
             #{questId}: {quest.title}
           </div>
@@ -125,7 +128,7 @@ class PageProblems extends React.Component {
           </div>
         </Link>
         {(keyArr && keyArr.length > maxHotTags && expanded) 
-          && <div className="dropdown hot-quests-dropdown" onMouseLeave={() => this.expandQuest('hotQuestsExpanded', true, questId)}>{dropdownTopics}</div>}
+          && <div className="dropdown hot-quests-dropdown" >{dropdownTopics}</div>}
       </div>
     );
   };
@@ -136,11 +139,14 @@ class PageProblems extends React.Component {
       && this.props.questionHistory[questId];
 
     const keyArr = quest.tags && Object.keys(quest.tags);
+
+    // topics that are displayed in the problem box
     const topics = quest.tags && keyArr.map((tag, i) =>
       <div key={tag}>
-        {(i < /*1 || keyArr.length <=*/ maxTags) && <div className="tag topic-tag">{tag}</div>}
+        {(i < maxTags) && <div className="tag topic-tag">{tag}</div>}
       </div>
     );
+    // topics that are displayed in dropdown
     const dropdownTopics = quest.tags && keyArr.map((tag, i) =>
     <div key={tag}>
       {(i >= maxTags) && <div className="tag topic-tag dropdown-tag">{tag}</div>}
@@ -364,7 +370,6 @@ class PageProblems extends React.Component {
                 <div
                   className="tag-selected filter-tag-link pointer"
                   onClick={() => this.handleTagFilter(this.props.tag)}
-                  key={this.props.tag}
                 >
                   {this.props.tag}
                 </div>
@@ -387,7 +392,6 @@ class PageProblems extends React.Component {
                 <div
                   className="tag-selected filter-tag-link pointer"
                   onClick={() => this.handleCompanyFilter(this.props.company)}
-                  key={this.props.company}
                 >
                   {this.props.company}
                 </div>

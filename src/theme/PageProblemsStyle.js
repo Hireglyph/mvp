@@ -1,5 +1,3 @@
-// temporarily here so I don't have to scroll
-
 export const PageProblemsSx = {
     display: 'flex',
     fontFamily: 'Open-Sans',
@@ -88,7 +86,6 @@ export const PageProblemsSx = {
         position: 'absolute',
         borderRadius: '5px',
         backgroundColor: 'white',
-        padding: '0px 10px 2px 10px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
@@ -99,9 +96,11 @@ export const PageProblemsSx = {
     },
     '.hot-quests-dropdown': {
         margin: '-13px 0 0 10px',
+        padding: '0px 10px 2px 10px',
     },
     '.problems-dropdown': {
-        margin: '70px 0 0 260px',
+        margin: '75px 0 0 260px',
+        padding: '8px 10px 2px 10px',
     },
 
     // hot question styling
@@ -110,12 +109,16 @@ export const PageProblemsSx = {
         flexWrap: 'wrap',
     },
     '.hot-quest-box': {
-        width: '20%',
-        maxWidth: ['50%', '50%', '50%', '30%'],
+        width: ['50%', '50%', '45%', '23%', '300px'],
+        maxWidth: '300px',
         minWidth: '200px',
         height: '130px',
-        padding: '20px 20px 17px 20px',
         margin: '15px 15px 0 0',
+    },
+    '.hot-quest-box-link': {
+        width: '100%',
+        height: '100%',
+        padding: '20px 20px 17px 20px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
@@ -124,9 +127,6 @@ export const PageProblemsSx = {
         borderRadius: '20px',
         backgroundColor: 'white',
         boxShadow: '2px 2px 4px rgba(128, 128, 128, 0.1)',
-    },
-    '.hot-quest-box:hover': {
-        backgroundColor: 'mediumGrey',
     },
     '.hot-quest-tags': {
         width: '100%',
