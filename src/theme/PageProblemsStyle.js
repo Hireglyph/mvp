@@ -183,11 +183,13 @@ export const PageProblemsSx = {
     },
     '.sortby-box': {
         backgroundColor: 'white',
-        padding: '15px 20px 10px 20px',
+        padding: '0',
         borderTop: '4px solid #EFEFEF',
+        paddingBottom: '10px',
     },
     '.sortby-header': {
         width: '100%',
+        padding: '15px 20px 0 20px',
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'space-between',
@@ -202,7 +204,7 @@ export const PageProblemsSx = {
         textTransform: 'capitalize',
         color: 'black',
         backgroundColor: 'transparent',
-        margin: '0px 5px 5px 20px',
+        margin: '0px 5px 5px 35px',
         width: 'fit-content',
         textAlign: 'left',
         fontSize: '13px',
@@ -218,7 +220,7 @@ export const PageProblemsSx = {
     },
     '.no-quest': {
         backgroundColor: 'mediumGrey',
-        width: '400px',
+        width: '100%',
         padding: '25px',
     },
     '.check': {

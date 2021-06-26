@@ -270,15 +270,11 @@ class PageProblems extends React.Component {
           <div className="sortby-container">
             <h4 className="sortby-title">Filter by</h4>
             <div className="sortby-box">
-              <div className="sortby-header">
+              <div className="sortby-header pointer" onClick={() => this.expandFilter('diffExpanded', !this.state.diffExpanded)}>
                 <h5 className="filter-tag-title">Difficulty</h5>
                 {this.state.diffExpanded ?
-                  <FontAwesomeIcon icon={faMinus} className="pointer" 
-                    onClick={() => this.expandFilter('diffExpanded', false)}
-                  /> :
-                  <FontAwesomeIcon icon={faPlus} className="pointer" 
-                    onClick={() => this.expandFilter('diffExpanded', true)}
-                  />
+                  <FontAwesomeIcon icon={faMinus} className="pointer" /> :
+                  <FontAwesomeIcon icon={faPlus} className="pointer" />
                 }
               </div>
               {/* sort by difficulty */}
@@ -324,15 +320,11 @@ class PageProblems extends React.Component {
             </div>
             <div className="sortby-box">
               {/* sort by topic */}
-              <div className="sortby-header">
+              <div className="sortby-header pointer" onClick={() => this.expandFilter('topicsExpanded', !this.state.topicsExpanded)}>
                 <h5 className="filter-tag-title">Topics</h5>
                 {this.state.topicsExpanded ?
-                  <FontAwesomeIcon icon={faMinus} className="pointer" 
-                    onClick={() => this.expandFilter('topicsExpanded', false)}
-                  /> :
-                  <FontAwesomeIcon icon={faPlus} className="pointer" 
-                    onClick={() => this.expandFilter('topicsExpanded', true)}
-                  />
+                  <FontAwesomeIcon icon={faMinus} className="pointer" /> :
+                  <FontAwesomeIcon icon={faPlus} className="pointer" />
                 }
               </div>
               {(!this.state.topicsExpanded && this.props.tag) &&
@@ -351,17 +343,22 @@ class PageProblems extends React.Component {
               }
             </div>
             <div className="sortby-box">
-            <div className="sortby-header">
+              <div className="sortby-header pointer" onClick={() => this.expandFilter('companiesExpanded', !this.state.companiesExpanded)}>
                 <h5 className="filter-tag-title">Companies</h5>
                 {this.state.companiesExpanded ?
-                  <FontAwesomeIcon icon={faMinus} className="pointer" 
-                    onClick={() => this.expandFilter('companiesExpanded', false)}
-                  /> :
-                  <FontAwesomeIcon icon={faPlus} className="pointer" 
-                    onClick={() => this.expandFilter('companiesExpanded', true)}
-                  />
+                  <FontAwesomeIcon icon={faMinus} className="pointer" /> :
+                  <FontAwesomeIcon icon={faPlus} className="pointer" />
                 }
               </div>
+              {(!this.state.companiesExpanded && this.props.company) &&
+                <div
+                  className="tag-selected filter-tag-link pointer"
+                  onClick={() => this.handleCompanyFilter(this.props.company)}
+                  key={this.props.company}
+                >
+                  {this.props.company}
+                </div>
+              }
               {this.state.companiesExpanded &&
                 <div>
                   {companyButtons}
