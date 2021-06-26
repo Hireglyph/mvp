@@ -1,29 +1,7 @@
 export const PageProblemsSx = {
-    display: 'flex',
     fontFamily: 'Open-Sans',
-  
-    '.link': {
-        textDecoration: 'none',
-        color: 'black',
-    },
-    '.flex': {
-        display: 'flex',
-    },
-    '.original-list-btn': {
-        width: 'fit-content',
-        margin: '5px auto 10px 20px',
-    },
-    '.original-list-btn:hover': {
-        color: 'mediumGrey',
-        cursor: "pointer",
-    },
-    '.pointer': {
-        '&:hover': {
-            cursor: 'pointer',
-        }
-    },
 
-
+    // overall page styles
     '.page-problems': {
         width: '100%',
         display: 'flex',
@@ -36,13 +14,18 @@ export const PageProblemsSx = {
         fontSize: '25px',
         fontWeight: '600',
     }, 
-
-
     '.questions-container': {
         margin: '0',
         marginTop: '30px',
         marginRight: ['30px', '50px', '50px', '50px', '80px'],
         flex: '2 1 auto',
+    },
+
+    // shared styles
+    '.pointer': {
+        '&:hover': {
+            cursor: 'pointer',
+        }
     },
     '.question-title': {
         fontSize: '16px',
@@ -55,6 +38,17 @@ export const PageProblemsSx = {
     },
     '.hard': {
         backgroundColor: 'hardRed',
+    },
+    '.no-quest': {
+        backgroundColor: 'mediumGrey',
+        width: '100%',
+        padding: '25px',
+    },
+    '.check': {
+        color: 'easyGreen',
+    },
+    '.drop-arrow': {
+        color: 'purple',
     },
     '.topic-container': {
         display: 'flex',
@@ -94,16 +88,8 @@ export const PageProblemsSx = {
     '.dropdown-tag': {
         marginBottom: '8px',
     },
-    '.hot-quests-dropdown': {
-        margin: '-13px 0 0 10px',
-        padding: '0px 10px 2px 10px',
-    },
-    '.problems-dropdown': {
-        margin: '75px 0 0 260px',
-        padding: '8px 10px 2px 10px',
-    },
 
-    // hot question styling
+    // hot question specific styling
     '.hot-quest-container': {
         display: 'flex',
         flexWrap: 'wrap',
@@ -125,6 +111,8 @@ export const PageProblemsSx = {
         justifyContent: 'space-between',
         flex: '2 1 20%',
         borderRadius: '20px',
+        textDecoration: 'none',
+        color: 'black',
         backgroundColor: 'white',
         boxShadow: '2px 2px 4px rgba(128, 128, 128, 0.1)',
     },
@@ -134,6 +122,10 @@ export const PageProblemsSx = {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
+    },
+    '.hot-quests-dropdown': {
+        margin: '-13px 0 0 10px',
+        padding: '0px 10px 2px 10px',
     },
     '.hot-quest-icon-box': {
         display: 'flex',
@@ -147,7 +139,7 @@ export const PageProblemsSx = {
     },
 
 
-    // regular questions styling
+    // regular question specific styling
     '.problems-container': {
         margin: '20px 0 40px 0',
         borderRadius: '20px',
@@ -155,13 +147,23 @@ export const PageProblemsSx = {
         boxShadow: '2px 2px 4px rgba(128, 128, 128, 0.1)',
         padding: '20px 20px'
 ,    },
+    '.original-list-btn': {
+        width: 'fit-content',
+        margin: '5px auto 10px 20px',
+    },
+    '.original-list-btn:hover': {
+        color: 'mediumGrey',
+        cursor: "pointer",
+    },
     '.problem-box': {
         height: '50px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-around',
         padding: '10px 20px 10px 10px',
-        borderTop: '1px solid #DFDEDE'
+        borderTop: '1px solid #DFDEDE',
+        textDecoration: 'none',
+        color: 'black',
     },
     '.check-container': {
         width: '20px',
@@ -175,6 +177,10 @@ export const PageProblemsSx = {
     '.problems-topic-container': {
         width: '30%',
         marginLeft: '30px',
+    },
+    '.problems-dropdown': {
+        margin: '75px 0 0 260px',
+        padding: '8px 10px 2px 10px',
     },
     '.company-tag': {
         width: '85px',
@@ -244,16 +250,5 @@ export const PageProblemsSx = {
     '.tag-selected': {
         color: 'purple',
         fontWeight: '600',
-    },
-    '.no-quest': {
-        backgroundColor: 'mediumGrey',
-        width: '100%',
-        padding: '25px',
-    },
-    '.check': {
-        color: 'easyGreen',
-    },
-    '.drop-arrow': {
-        color: 'purple',
     },
 };

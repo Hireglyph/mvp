@@ -108,7 +108,7 @@ class PageProblems extends React.Component {
 
     return (
       <div className="hot-quest-box">
-        <Link className="link hot-quest-box-link" to={`/q/${questId}/my`} key={questId}>
+        <Link className="hot-quest-box-link" to={`/q/${questId}/my`} key={questId}>
           <div className="question-title">
             #{questId}: {quest.title}
           </div>
@@ -157,7 +157,7 @@ class PageProblems extends React.Component {
 
     return (
       <div>
-        <Link className="link problem-box" to={`/q/${questId}/my`} key={questId}>
+        <Link className="problem-box" to={`/q/${questId}/my`} key={questId}>
           <div className="question-title problem-title">
             <div className="check-container">
               {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
