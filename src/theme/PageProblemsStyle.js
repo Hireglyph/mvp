@@ -101,7 +101,7 @@ export const PageProblemsSx = {
         margin: '-13px 0 0 10px',
     },
     '.problems-dropdown': {
-        margin: '-5px 0 0 40%',
+        margin: '70px 0 0 300px',
     },
 
     // hot question styling
