@@ -84,6 +84,20 @@ export const PageProblemsSx = {
     '.tag-btn:hover': {
         cursor: 'pointer',
     },
+    '.dropdown': {
+        position: 'absolute',
+        margin: '-13px 0 0 10px',
+        borderRadius: '5px',
+        backgroundColor: 'white',
+        padding: '0px 10px 2px 10px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        justifyContent: 'space-between',
+    },
+    '.dropdown-tag': {
+        marginBottom: '8px',
+    },
 
     // hot question styling
     '.hot-quest-container': {

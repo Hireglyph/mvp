@@ -95,28 +95,37 @@ class PageProblems extends React.Component {
         {(i < 1 || keyArr.length <= maxHotTags) && <div className="tag topic-tag">{tag}</div>}
       </div>
     );
+    const dropdownTopics = quest.tags && keyArr.map((tag, i) =>
+    <div key={tag}>
+      {(i != 0) && <div className="tag topic-tag dropdown-tag">{tag}</div>}
+    </div>
+    );
 
     const expanded = this.state.hotQuestsExpanded.includes(questId);
 
     return (
-      <Link className="link hot-quest-box" to={`/q/${questId}/my`} key={questId}>
-        <div className="question-title">
-          #{questId}: {quest.title}
-        </div>
-        <div className="hot-quest-tags">
-          <div className="topic-container">
-            {topics}
-            {(keyArr && keyArr.length > maxHotTags && !expanded) 
-              && <FontAwesomeIcon icon={faAngleRight} className="drop-arrow" onClick={() => this.expandQuest('hotQuestsExpanded', expanded, questId)} />}
-            {(keyArr && keyArr.length > maxHotTags && expanded) 
-              && <FontAwesomeIcon icon={faAngleDown} className="drop-arrow" onClick={() => this.expandQuest('hotQuestsExpanded', expanded, questId)} />}
+      <div>
+        <Link className="link hot-quest-box" to={`/q/${questId}/my`} key={questId}>
+          <div className="question-title">
+            #{questId}: {quest.title}
           </div>
-          <div className="hot-quest-icon-box">
-            {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
-            <div className={"hot-quest-diff  " + quest.difficulty}></div>
+          <div className="hot-quest-tags">
+            <div className="topic-container">
+              {topics}
+              {(keyArr && keyArr.length > maxHotTags && !expanded) 
+                && <FontAwesomeIcon icon={faAngleRight} className="drop-arrow" onClick={() => this.expandQuest('hotQuestsExpanded', expanded, questId)} />}
+              {(keyArr && keyArr.length > maxHotTags && expanded) 
+                && <FontAwesomeIcon icon={faAngleDown} className="drop-arrow" onClick={() => this.expandQuest('hotQuestsExpanded', expanded, questId)} />}
+            </div>
+            <div className="hot-quest-icon-box">
+              {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
+              <div className={"hot-quest-diff  " + quest.difficulty}></div>
+            </div>
           </div>
-        </div>
-      </Link>
+        </Link>
+        {(keyArr && keyArr.length > maxHotTags && expanded) 
+          && <div className="dropdown">{dropdownTopics}</div>}
+      </div>
     );
   };
 
@@ -135,7 +144,7 @@ class PageProblems extends React.Component {
       <Link className="link problem-box" to={`/q/${questId}/my`} key={questId}>
         <div className="question-title problem-title">
           <div className="check-container">
-            {!answered && <FontAwesomeIcon icon={faCheck} className="check" />}
+            {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
           </div>
           #{questId}: {quest.title}
         </div>
