@@ -86,7 +86,6 @@ export const PageProblemsSx = {
     },
     '.dropdown': {
         position: 'absolute',
-        margin: '-13px 0 0 10px',
         borderRadius: '5px',
         backgroundColor: 'white',
         padding: '0px 10px 2px 10px',
@@ -97,6 +96,12 @@ export const PageProblemsSx = {
     },
     '.dropdown-tag': {
         marginBottom: '8px',
+    },
+    '.hot-quests-dropdown': {
+        margin: '-13px 0 0 10px',
+    },
+    '.problems-dropdown': {
+        margin: '-5px 0 0 40%',
     },
 
     // hot question styling

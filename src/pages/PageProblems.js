@@ -124,7 +124,7 @@ class PageProblems extends React.Component {
           </div>
         </Link>
         {(keyArr && keyArr.length > maxHotTags && expanded) 
-          && <div className="dropdown">{dropdownTopics}</div>}
+          && <div className="dropdown hot-quests-dropdown">{dropdownTopics}</div>}
       </div>
     );
   };
@@ -140,25 +140,40 @@ class PageProblems extends React.Component {
         {(i < /*1 || keyArr.length <=*/ maxTags) && <div className="tag topic-tag">{tag}</div>}
       </div>
     );
+    const dropdownTopics = quest.tags && keyArr.map((tag, i) =>
+    <div key={tag}>
+      {(i >= maxTags) && <div className="tag topic-tag dropdown-tag">{tag}</div>}
+    </div>
+    );
+
+    const expanded = this.state.questsExpanded.includes(questId);
+
     return (
-      <Link className="link problem-box" to={`/q/${questId}/my`} key={questId}>
-        <div className="question-title problem-title">
-          <div className="check-container">
-            {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
+      <div>
+        <Link className="link problem-box" to={`/q/${questId}/my`} key={questId}>
+          <div className="question-title problem-title">
+            <div className="check-container">
+              {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
+            </div>
+            #{questId}: {quest.title}
           </div>
-          #{questId}: {quest.title}
-        </div>
-        <div className="topic-container problems-topic-container">
-          {topics}
-          {(keyArr && keyArr.length > maxTags) && <FontAwesomeIcon icon={faAngleRight} className="drop-arrow" />}
-        </div>
-        <div className="tag company-tag">
-          {quest.company}
-        </div>
-        <div className={quest.difficulty + " tag problems-diff"}>
-          {quest.difficulty}
-        </div>
-      </Link>
+          <div className="topic-container problems-topic-container">
+            {topics}
+            {(keyArr && keyArr.length > maxTags && !expanded) 
+              && <FontAwesomeIcon icon={faAngleRight} className="drop-arrow" onClick={() => this.expandQuest('questsExpanded', expanded, questId)} />}
+            {(keyArr && keyArr.length > maxTags && expanded) 
+              && <FontAwesomeIcon icon={faAngleDown} className="drop-arrow" onClick={() => this.expandQuest('questsExpanded', expanded, questId)} />}
+          </div>
+          <div className="tag company-tag">
+            {quest.company}
+          </div>
+          <div className={quest.difficulty + " tag problems-diff"}>
+            {quest.difficulty}
+          </div>
+        </Link>
+        {(keyArr && keyArr.length > maxTags && expanded) 
+          && <div className="dropdown problems-dropdown">{dropdownTopics}</div>}
+      </div>
     );
   };
 
