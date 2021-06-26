@@ -301,7 +301,7 @@ class PageProfile extends React.Component {
               <div className="profile-box" key={tpId}>
                 <div className="profile-header">
                   <div>Response to Question #{tp.questId}{' '}</div>
-                  <Moment fromNow ago>{tp.date}</Moment>
+                  <Moment fromNow>{tp.date}</Moment>
                   <div className="profile-header-button">
                     {((tp.initial && tp.initial.length > length) ||
                       (tp.approach && tp.approach.length > length) ||
@@ -391,7 +391,7 @@ class PageProfile extends React.Component {
                   <div>
                     Feedback to @{username}'s TP to Question #{questId}{' '}
                   </div>
-                  <Moment fromNow ago>{date}</Moment>
+                  <Moment fromNow>{date}</Moment>
                   <div className="profile-header-button">
                     {feedback.length > length
                       && this.generateMessage(
@@ -490,7 +490,7 @@ class PageProfile extends React.Component {
                   <div>
                     Reply to to @{username} about a TP to Question #{questId}{' '}
                   </div>
-                  <Moment fromNow ago>{date}</Moment>
+                  <Moment fromNow>{date}</Moment>
                   <div className="profile-header-button">
                     {reply.length > length
                       && this.generateMessage(

@@ -371,7 +371,7 @@ class PageQuestion extends React.Component {
         <div className="tp-interior">
           <div className="tp-header">
             <div>@{username}{' '}</div>
-            <Moment fromNow ago>{tp.date}</Moment>
+            <Moment fromNow>{tp.date}</Moment>
             <div className="expand-collapse">
               {(tp.initial && tp.initial.length > length) ||
               (tp.approach && tp.approach.length > length) ||
