@@ -5,10 +5,10 @@ export const FormSx = {
   '.page-container': {
     position: 'relative',
     margin: '50px auto',
-    padding: ['30px 40px', '30px 30px', '30px 50px'],
-    width: ['100%', '80%','35%'],
+    padding: ['30px 40px', '30px 30px', '30px 50px', '30px 50px', '30px 50px'],
+    width: ['100%', '80%', '35%', '35%', '35%'],
     maxWidth: '430px',
-    minWidth: ['none', '300px', '400px'],
+    minWidth: ['none', '300px', '400px', '400px', '400px'],
     background: 'white',
     fontFamily: 'Open-Sans',
     boxShadow: '0px 0px 4px 0px rgba(128, 128, 128, 0.322)',

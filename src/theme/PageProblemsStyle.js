@@ -31,7 +31,7 @@ export const PageProblemsSx = {
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'space-evenly',
-        padding: ['0px 10px', '0 50px', '0 50px 0 80px' ],
+        padding: ['0px 10px', '0 50px', '0 50px 0 80px', '0 50px 0 80px', '0 140px'],
     },
     '.section-title': {
         margin: '50px 0 0 45px',
@@ -43,7 +43,7 @@ export const PageProblemsSx = {
     '.questions-container': {
         margin: '0',
         marginTop: '30px',
-        marginRight: ['30px', '50px', '50px'],
+        marginRight: ['30px', '50px', '50px', '50px', '80px'],
         flex: '2 1 auto',
     },
     '.question-title': {
@@ -101,7 +101,7 @@ export const PageProblemsSx = {
         margin: '-13px 0 0 10px',
     },
     '.problems-dropdown': {
-        margin: '70px 0 0 300px',
+        margin: '70px 0 0 260px',
     },
 
     // hot question styling
@@ -137,7 +137,6 @@ export const PageProblemsSx = {
     },
     '.hot-quest-icon-box': {
         display: 'flex',
-        
     },
     '.hot-quest-diff': {
         width: '13px',
@@ -175,6 +174,19 @@ export const PageProblemsSx = {
     },
     '.problems-topic-container': {
         width: '30%',
+        marginLeft: '30px',
+    },
+    '.company-tag': {
+        width: '85px',
+        color: 'white',
+        backgroundColor: 'mediumGray',
+        marginRight: ['0', '0', '0', '4%', '6%'],
+    },
+    '.no-company-tag': {
+        width: '85px',
+        color: 'white',
+        backgroundColor: 'white',
+        marginRight: ['0', '0', '0', '4%', '6%'],
     },
     '.problems-diff': {
         width: '75px',
@@ -183,16 +195,12 @@ export const PageProblemsSx = {
         fontSize: '14px',
         border: 'none',
     },
-    '.company-tag': {
-        width: '85px',
-        color: 'white',
-        backgroundColor: 'mediumGray',
-    },
 
     // filter styling
     '.sortby-container': {
         flex: '1 0 auto',
         minWidth: '200px',
+        maxWidth: '250px',
         marginTop: '130px',
         textAlign: 'center',
     },
