@@ -207,6 +207,10 @@ export const PageProblemsSx = {
         textAlign: 'left',
         fontSize: '13px',
         fontWeight: '400',
+        transition: '1s ease',
+        '&:hover': {
+            color: 'purple3',
+        },
     },
     '.tag-selected': {
         color: 'purple',

@@ -26,9 +26,8 @@ class PageProblems extends React.Component {
       diffExpanded: false,
       topicsExpanded: false,
       companiesExpanded: false,
-      tagsExpanded: {
-        0: '',
-      },
+      questsExpanded: [],
+      hotQuestsExpanded: [],
     };
   }
 
@@ -69,18 +68,35 @@ class PageProblems extends React.Component {
     this.setState({ [filter]: expand });
   };
 
+  expandQuest = (quests, expanded, questId) => {
+    const arr = this.state[quests].slice();
+    let half1;
+    let half2;
+    if (expanded) {
+      const i = arr.indexOf(questId);
+      half1 = arr.slice(0, i);
+      half2 = arr.slice(i + 1);
+    } else {
+      half1 = arr;
+      half2 = [questId];
+    }
+    this.setState({ [quests]: half1.concat(half2) });
+  };
+
   displayHotQuestion = (questId) => {
     const quest = this.props.questions[questId];
     const answered = this.props.questionHistory
       && this.props.questionHistory[questId];
     
-    const maxHotTags = 2;
+    const maxHotTags = 1;
     const keyArr = quest.tags && Object.keys(quest.tags);
     const topics = quest.tags && keyArr.map((tag, i) =>
       <div key={tag}>
         {(i < 1 || keyArr.length <= maxHotTags) && <div className="tag topic-tag">{tag}</div>}
       </div>
     );
+
+    const expanded = this.state.hotQuestsExpanded.includes(questId);
 
     return (
       <Link className="link hot-quest-box" to={`/q/${questId}/my`} key={questId}>
@@ -90,7 +106,10 @@ class PageProblems extends React.Component {
         <div className="hot-quest-tags">
           <div className="topic-container">
             {topics}
-            {(keyArr && keyArr.length > maxHotTags) && <FontAwesomeIcon icon={faAngleRight} className="drop-arrow" />}
+            {(keyArr && keyArr.length > maxHotTags && !expanded) 
+              && <FontAwesomeIcon icon={faAngleRight} className="drop-arrow" onClick={() => this.expandQuest('hotQuestsExpanded', expanded, questId)} />}
+            {(keyArr && keyArr.length > maxHotTags && expanded) 
+              && <FontAwesomeIcon icon={faAngleDown} className="drop-arrow" onClick={() => this.expandQuest('hotQuestsExpanded', expanded, questId)} />}
           </div>
           <div className="hot-quest-icon-box">
             {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
@@ -109,10 +128,9 @@ class PageProblems extends React.Component {
     const keyArr = quest.tags && Object.keys(quest.tags);
     const topics = quest.tags && keyArr.map((tag, i) =>
       <div key={tag}>
-        {(i < 1 || keyArr.length <= maxTags) && <div className="tag topic-tag">{tag}</div>}
+        {(i < /*1 || keyArr.length <=*/ maxTags) && <div className="tag topic-tag">{tag}</div>}
       </div>
     );
-
     return (
       <Link className="link problem-box" to={`/q/${questId}/my`} key={questId}>
         <div className="question-title problem-title">
@@ -157,7 +175,7 @@ class PageProblems extends React.Component {
       return <PageNotFound />;
     }
 
-    let maxTags;
+    let maxTags = 3;
     if (window.innerWidth < 1200) {
       maxTags = 3;
     } else if (window.innerWidth < 1100) {
@@ -165,7 +183,6 @@ class PageProblems extends React.Component {
     } else if (window.innerWidth < 350) {
       maxTags = 1;
     } 
-    console.log(maxTags)
 
     const hot = hotQuestions
       && Object.keys(hotQuestions).map(questId => this.displayHotQuestion(questId));
