@@ -107,8 +107,8 @@ class PageProblems extends React.Component {
     const expanded = this.state.hotQuestsExpanded.includes(questId);
 
     return (
-      <div className="hot-quest-box">
-        <Link className="hot-quest-box-link" to={`/q/${questId}/my`} key={questId}>
+      <div className="hot-quest-box" key={questId}>
+        <Link className="hot-quest-box-link" to={`/q/${questId}/my`}>
           <div className="question-title">
             #{questId}: {quest.title}
           </div>
@@ -156,8 +156,8 @@ class PageProblems extends React.Component {
     const expanded = this.state.questsExpanded.includes(questId);
 
     return (
-      <div>
-        <Link className="problem-box" to={`/q/${questId}/my`} key={questId}>
+      <div key={questId}>
+        <Link className="problem-box" to={`/q/${questId}/my`}>
           <div className="question-title problem-title">
             <div className="check-container">
               {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
@@ -216,7 +216,7 @@ class PageProblems extends React.Component {
     if (window.innerWidth < 1800) {
       maxTags = 3;
     } 
-    if (window.innerWidth < 15250) {
+    if (window.innerWidth < 1550) {
       maxTags = 2;
     } 
     if (window.innerWidth < 1100) {
