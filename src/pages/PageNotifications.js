@@ -8,6 +8,7 @@ import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { ReactTitle } from 'react-meta-tags';
+import Moment from 'react-moment';
 
 import Loading from 'components/Loading';
 
@@ -112,6 +113,7 @@ class PageNotifications extends React.Component {
                       #{notification.questId}
                     </div>
                   </Link>
+                  <Moment fromNow>{notification.date}</Moment>
                 </div>
               );
             }
@@ -129,6 +131,7 @@ class PageNotifications extends React.Component {
                       @{notification.author}'s TP to Question #{notification.questId}
                     </div>
                   </Link>
+                  <Moment fromNow>{notification.date}</Moment>
                 </div>
               );
             }
@@ -146,6 +149,7 @@ class PageNotifications extends React.Component {
                       #{notification.questId}
                     </div>
                   </Link>
+                  <Moment fromNow>{notification.date}</Moment>
                 </div>
               );
             }
@@ -163,6 +167,7 @@ class PageNotifications extends React.Component {
                       @{notification.author}'s TP to Question #{notification.questId}
                     </div>
                   </Link>
+                  <Moment fromNow>{notification.date}</Moment>
                 </div>
               );
             }
@@ -180,6 +185,7 @@ class PageNotifications extends React.Component {
                       @{notification.author}'s TP to Question #{notification.questId}
                     </div>
                   </Link>
+                  <Moment fromNow>{notification.date}</Moment>
                 </div>
               );
             }

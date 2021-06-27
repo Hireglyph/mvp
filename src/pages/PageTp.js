@@ -278,6 +278,7 @@ class PageTp extends React.Component {
         username,
         viewed: false,
         type: 'tpFeedback',
+        date: Date(),
       };
       updates[`/hasNotifs/${tp.creator}`] = true;
     }
@@ -311,6 +312,7 @@ class PageTp extends React.Component {
         type: 'tpFeedbackUpvote',
         feedbackId,
         author: tp.username,
+        date: Date(),
       };
       updates[`/hasNotifs/${feedback.creator}`] = true;
     }
@@ -400,6 +402,7 @@ class PageTp extends React.Component {
         author: tp.username,
         viewed: false,
         type: 'reply',
+        date: Date(),
       };
       updates[`/hasNotifs/${replyToCreator}`] = true;
     };
@@ -440,6 +443,7 @@ class PageTp extends React.Component {
         author: tp.username,
         viewed: false,
         type: 'replyUpvote',
+        date: Date(),
       };
       updates[`/hasNotifs/${reply.creator}`] = true;
     }
@@ -512,7 +516,7 @@ class PageTp extends React.Component {
                 <div key={replyId} id={replyId}>
                   <div className="feedback-top">
                   <div>@{replyUsername}{' '}</div>
-                    <Moment fromNow ago>{replyDate}</Moment>
+                    <Moment fromNow>{replyDate}</Moment>
                     {!replyDeleted && (this.state.replyToID === replyId ?
                       <div
                         className="reply-click cancel-reply"
@@ -593,7 +597,7 @@ class PageTp extends React.Component {
               <div className="feedback-content">
                 <div className="feedback-top">
                   <div>@{feedbackUsername}{' '}</div>
-                  <Moment fromNow ago>{date}</Moment>
+                  <Moment fromNow>{date}</Moment>
                   {!deleted && (this.state.replyToID === feedbackId ?
                     <div
                       className="reply-click cancel-reply"
@@ -702,7 +706,7 @@ class PageTp extends React.Component {
               >
                 Question #{questId}
               </Link> {' '}
-              <Moment fromNow ago>{tp.date}</Moment>
+              <Moment fromNow>{tp.date}</Moment>
             </div>
             <br />
           </div>

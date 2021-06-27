@@ -33,6 +33,7 @@ export const upvoteTp = ({
       username,
       viewed: false,
       type: 'tpUpvote',
+      date: Date(),
     };
     updates[`/hasNotifs/${tp.creator}`] = true;
   }
