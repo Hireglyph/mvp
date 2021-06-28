@@ -100,7 +100,7 @@ class PageProblems extends React.Component {
     // topics that are displayed in dropdown
     const dropdownTopics = quest.tags && keyArr.map((tag, i) =>
       <div key={tag}>
-        {(i != 0) && <div className="tag topic-tag dropdown-tag">{tag}</div>}
+        {(i !== 0) && <div className="tag topic-tag dropdown-tag">{tag}</div>}
       </div>
     );
 
