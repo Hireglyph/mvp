@@ -190,7 +190,6 @@ class PageQuestion extends React.Component {
       answer,
       description,
       difficulty,
-      company,
       tags,
       title
     } = question || {};
@@ -230,7 +229,7 @@ class PageQuestion extends React.Component {
       Object.keys(tags).map((tag) => {
         return (
           // link to go to questions page, sorted by the tag clicked on
-          <Link to={`/questions?tag=${tag}`} className="tag" key={tag}>
+          <Link to={`/questions?tag=${tag}`} className="tag topic" key={tag}>
             {tag}
           </Link>
         );
@@ -300,9 +299,9 @@ class PageQuestion extends React.Component {
     const myTp =
       difficulty === "easy" ? (
         // only solution if "easy" question
-        <div className="myTp-background">
+        <div className="myTp-container">
           <TextareaAutosize
-            className="my-tp"
+            className="my-tp-textarea"
             minRows={5}
             name="solution"
             placeholder="Final solution..."
@@ -319,9 +318,9 @@ class PageQuestion extends React.Component {
         </div>
       ) : (
         // otherwise, have initial/approach/solution
-        <div className="myTp-background">
+        <div className="myTp-container">
           <TextareaAutosize
-            className="my-tp"
+            className="my-tp-textarea"
             minRows={5}
             name="initial"
             placeholder="Initial thoughts..."
@@ -329,7 +328,7 @@ class PageQuestion extends React.Component {
             value={initial}
           />
           <TextareaAutosize
-            className="my-tp"
+            className="my-tp-textarea"
             minRows={5}
             name="approach"
             placeholder="Different approaches..."
@@ -337,7 +336,7 @@ class PageQuestion extends React.Component {
             value={approach}
           />
           <TextareaAutosize
-            className="my-tp"
+            className="my-tp-textarea"
             minRows={5}
             name="solution"
             placeholder="Final solution..."
@@ -423,41 +422,41 @@ class PageQuestion extends React.Component {
               #{this.props.questId}: {title}{' '}
               {this.props.solved && <FontAwesomeIcon icon={faCheck} className="check" />}
             </div>
-            <div className={difficulty + ' difficulty'}>{difficulty.toUpperCase()}</div>
-            <div>{company}</div>
+            <div className="tag-container">
+              <div className={difficulty + ' tag'}>{difficulty}</div>
+              {topics}
+            </div>
             <div className="question-description">
               {description}
             </div>
-            <div className="tag-container">{topics}</div>
             <div>{answerDisplay}</div>
           </div>
           {/* display block: buttons on top, and section (TP workspace, community TPs,
             or related questions) on the bottom */}
           <div className="display-block">
-            <div>
+            <div className="question-btn-container">
               <button
-                className="question-button"
+                className="question-btn"
                 disabled={questParam === "my"}
                 onClick={() => this.handleClick("my")}
               >
                 My TP
               </button>
               <button
-                className="question-button middle-button"
+                className="question-btn"
                 disabled={sortBy}
                 onClick={() => this.handleClick("community/top")}
               >
                 Community TPs
               </button>
               <button
-                className="question-button"
+                className="question-btn"
                 disabled={questParam === "related"}
                 onClick={() => this.handleClick("related")}
               >
                 Related Questions
               </button>
             </div>
-            <div className="orange-line"/>
             {section}
           </div>
         </div>

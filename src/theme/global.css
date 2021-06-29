@@ -114,6 +114,7 @@ input, textarea {
   font-family: 'Open-Sans';
   font-size: 16px;
   font-weight: normal;
+  resize: none;
 }
 
 @media (max-width: 350px) {

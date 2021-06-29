@@ -27,6 +27,7 @@ export const theme = {
     lightPurpleGray: '#EBE9F3',
     orange: '#EA9A28',
     darkOrange: '#CA8522',
+    lighterGray: '#DFDEDE',
     lightGray: '#C7C7C7',
     mediumGray: '#464646',
     easyGreen: '#27B12A',

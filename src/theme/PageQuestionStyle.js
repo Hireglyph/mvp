@@ -1,152 +1,141 @@
 export const QuestionSx = {
-  display: 'flex',
-
-  '.page-container': {
     display: 'flex',
-    alignItems: 'flex-start',
-    fontFamily: 'Open-Sans',
-    width: '950px',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: '50px',
-    marginBottom: '50px',
-  },
 
-  '.check': {
-    color: 'easyGreen',
-  },
-
-  '.question-block': {
-    position: 'sticky',
-    top: '112px',
-    height: '492px',
-    overflowY: 'auto',
-    width: '400px',
-    marginRight: '25px',
-    backgroundColor: 'white',
-    paddingRight: '40px',
-    paddingLeft: '40px',
-    paddingTop: '60px',
-    paddingBottom: '60px',
-  },
-
-  '.question-title': {
-    fontSize: '20px',
-    marginBottom: '15px',
-  },
-
-  '.easy': {
-    color: 'easyGreen',
-  },
-
-  '.medium': {
-    color: 'medOrange',
-  },
-
-  '.hard': {
-    color: 'hardRed',
-  },
-
-  '.difficulty': {
-    marginBottom: '15px',
-  },
-
-  '.question-description': {
-    fontFamily: 'Gotham-Book',
-    marginBottom: '15px',
-  },
-
-  '.display-block': {
-    width: '525px',
-  },
-
-  '.tag-container': {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginBottom: '15px',
-  },
-
-  '.tag': {
-    fontSize: '12px',
-    backgroundColor: 'orange',
-    borderRadius: '4px',
-    width: '107.61px',
-    height: '22px',
-    textAlign: 'center',
-    margin: '5px',
-    paddingTop: '2px',
-    cursor: 'pointer',
-    color: 'black',
-    textDecoration: 'none',
-    '&:hover': {
-      backgroundColor: 'darkOrange',
+    '.page-container': {
+        display: 'flex',
+        alignItems: 'flex-start',
+        fontFamily: 'Open-Sans',
+        width: '100%',
+        height: 'fit-content',
+        minHeight: 'calc(100vh - 60px)',
+        backgroundColor: 'white',
     },
-  },
 
-  '.answer-display': {
-    fontSize: '12px',
-    cursor: 'pointer',
-    '&:hover': {
-      color: 'red',
+    '.check': {
+        color: 'easyGreen',
     },
-  },
 
-  '.question-button': {
-    width: '33.3%',
-    height: '35px',
-    backgroundColor: 'lightGrey',
-    borderTop: 'none',
-    borderBottom: 'none',
-    borderLeft: 'none',
-    borderRight: 'none',
-    fontFamily: 'Open-Sans',
-    color: 'black',
-    cursor: 'pointer',
-    '&:hover': {
-      backgroundColor: 'darkGrey',
+    '.question-block': {
+        position: 'sticky',
+        top: '50px',
+        overflowY: 'auto',
+        flex: '1 0 200px',
+        padding: '70px',
+        minWidth: '400px',
     },
-    '&:disabled': {
-      backgroundColor: 'orange',
-      cursor: 'default',
+
+    '.question-title': {
+        fontSize: '18px',
+        marginBottom: '10px',
     },
-  },
 
-  '.middle-button': {
-    borderRight: '1px solid black',
-    borderLeft: '1px solid black',
-  },
+    '.tag-container': {
+        display: 'flex',
+        flexWrap: 'wrap',
+        paddingBottom: '20px',
+        borderBottom: '1px solid lightGray',
+    },
 
-  '.orange-line': {
-    width: '100%',
-    height: '10px',
-    backgroundColor: 'orange',
-  },
+    '.tag': {
+        fontFamily: 'Gotham-book',
+        fontSize: '16px',
+        fontWeight: '500',
+        textTransform: 'capitalize',
+        marginRight: '10px',
+        '&:hover': {
+            textDecoration: 'none',
+            cursor: 'pointer',
+        },
+    },
 
-  '.myTp-background': {
-    width: '100%',
-    height: 'auto',
-    backgroundColor: 'lightGrey',
-    display: 'flex',
-    flexDirection: 'column',
-    paddingTop: '30px',
-    paddingBottom: '30px',
-  },
+    '.easy': {
+        color: 'easyGreen',
+    },
 
-  '.my-tp': {
-    marginLeft: '50px',
-    marginRight: '50px',
-    marginBottom: '15px',
-    paddingRight: '10px',
-    paddingLeft: '10px',
-    resize: 'vertical',
-    lineHeight: '20px',
-    fontSize: '15px',
-    fontFamily: 'Open-Sans',
-    border: 'none',
-  },
+    '.medium': {
+        color: 'medOrange',
+    },
 
-  '.tp-submit-button': {
+    '.hard': {
+        color: 'hardRed',
+    },
+
+    '.topic': {
+        color: 'purple',
+    },
+
+    '.question-description': {
+        fontFamily: 'Gotham-Book',
+        fontSize: '14px',
+        fontWeight: '400',
+        marginTop: '30px',
+        lineHeight: '30px',
+    },
+
+    '.answer-display': {
+        fontSize: '12px',
+        cursor: 'pointer',
+        '&:hover': {
+            color: 'red',
+        },
+    },
+
+    // answer
+
+    '.display-block': {
+        flex: '2 0 400px',
+        height: 'fit-content',
+        minHeight: 'calc(100vh - 60px)',
+        borderLeft: '2px solid #DFDEDE',
+    },
+
+    '.question-btn-container': {
+        width: '100%',
+        backgroundColor: 'background',
+    },
+
+    '.question-btn': {
+        width: '200px',
+        height: '35px',
+        backgroundColor: 'background',
+        borderRadius: '0',
+        borderRight: '1px solid #DFDEDE',
+        borderBottom: '1px solid #DFDEDE',
+        fontSize: '14px',
+        fontWeight: '400px !important',
+        fontFamily: 'Open-Sans',
+        color: 'mediumGray',
+        cursor: 'pointer',
+        '&:hover': {
+            backgroundColor: 'lightGray',
+        },
+        '&:disabled': {
+            backgroundColor: 'white',
+            borderBottom: 'none',
+            cursor: 'default',
+        },
+    },
+
+    '.myTp-container': {
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        paddingTop: '30px',
+        paddingBottom: '30px',
+    },
+
+    '.my-tp-textarea': {
+        margin: '0 50px 15px 50px',
+        padding: '10px',
+        resize: 'vertical',
+        lineHeight: '20px',
+        fontSize: '15px',
+        fontFamily: 'Open-Sans',
+        border: '1px solid #DFDEDE',
+    },
+
+    '.tp-submit-button': {
     height: '30px',
     width: '100px',
     backgroundColor: 'orange',
@@ -157,15 +146,15 @@ export const QuestionSx = {
     marginRight: '50px',
     marginLeft: 'auto',
     '&:hover': {
-      backgroundColor: 'darkOrange',
+        backgroundColor: 'darkOrange',
     },
     '&:disabled': {
-      backgroundColor: 'darkGrey',
-      cursor: 'default',
+        backgroundColor: 'darkGrey',
+        cursor: 'default',
     },
-  },
+    },
 
-  '.communityTps-background': {
+    '.communityTps-background': {
     width: '100%',
     height: 'auto',
     backgroundColor: 'lightGrey',
@@ -173,16 +162,16 @@ export const QuestionSx = {
     flexDirection: 'column',
     paddingTop: '15px',
     paddingBottom: '15px',
-  },
+    },
 
-  '.sort-button-block': {
+    '.sort-button-block': {
     display: 'flex',
     marginRight: '50px',
     marginLeft: 'auto',
     marginBottom: '15px',
-  },
+    },
 
-  '.sort-button': {
+    '.sort-button': {
     border: '1px solid #8E8E8E',
     cursor: 'pointer',
     backgroundColor: 'white',
@@ -193,96 +182,96 @@ export const QuestionSx = {
     height: '25px',
     lineHeight: '15px',
     '&:hover': {
-      backgroundColor: 'darkGrey',
+        backgroundColor: 'darkGrey',
     },
     '&:disabled': {
-      backgroundColor: 'orange',
-      cursor: 'default',
+        backgroundColor: 'orange',
+        cursor: 'default',
     },
-  },
+    },
 
-  '.tp-header': {
+    '.tp-header': {
     display: 'flex',
-  },
+    },
 
-  '.expand-collapse': {
+    '.expand-collapse': {
     cursor: 'pointer',
     color: 'black',
     fontSize: '12px',
     marginRight: '0px',
     marginLeft: 'auto',
     '&:hover': {
-      textDecoration: 'underline',
+        textDecoration: 'underline',
     },
-  },
+    },
 
-  '.see-feedback': {
+    '.see-feedback': {
     color: 'black',
     backgroundColor: 'white',
     fontStyle: 'italic',
     width: '150px',
     paddingLeft: '5px',
-  },
+    },
 
-  '.see-feedback-link': {
+    '.see-feedback-link': {
     color: 'black',
-  },
+    },
 
-  '.tp-preview': {
+    '.tp-preview': {
     backgroundColor: 'white',
     padding: '5px',
     fontFamily: 'Gotham-Book',
-  },
+    },
 
-  '.tp-interior':{
+    '.tp-interior':{
     overflow: 'hidden',
     width: '100%',
-  },
+    },
 
-  '.tp-block': {
+    '.tp-block': {
     display: 'flex',
     minHeight: '60px',
     marginBottom: '30px',
     marginRight: '60px',
-  },
+    },
 
-  '.message-section': {
+    '.message-section': {
     width: '100%',
     height: 'auto',
     backgroundColor: 'lightGrey',
     padding: '30px',
     fontStyle: 'italic',
-  },
+    },
 
-  '.message-link': {
+    '.message-link': {
     color: 'darkOrange',
-  },
+    },
 
-  '.tp-arrows': {
+    '.tp-arrows': {
     textAlign: 'center',
     marginTop: '20px',
-  },
+    },
 
-  '.fa-layers': {
+    '.fa-layers': {
     height: '18px',
     width: '50px',
-  },
+    },
 
-  '.upvoted-arrow': {
+    '.upvoted-arrow': {
     color: '#00D305',
-  },
+    },
 
-  '.downvoted-arrow': {
+    '.downvoted-arrow': {
     color: '#E44C4C',
-  },
+    },
 
-  '.blank-arrow': {
+    '.blank-arrow': {
     color: 'white',
-  },
+    },
 
-  '.fa-caret-up, .fa-caret-down': {
+    '.fa-caret-up, .fa-caret-down': {
     stroke: 'black',
     strokeWidth: '7',
     transform: 'scaleY(0.8)',
-  },
+    },
 };
