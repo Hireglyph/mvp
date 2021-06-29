@@ -13,7 +13,7 @@ import Moment from 'react-moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faCaretUp, faCaretDown,
         faPencilAlt, faUserFriends, faBullseye,
-        faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+        faQuestionCircle, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 
 import { currentVotes, upvoteTp, downvoteTp } from 'utils/vote';
 import PageNotFound from 'pages/PageNotFound';
@@ -249,8 +249,7 @@ class PageQuestion extends React.Component {
           className="answer-display"
           onClick={() => this.changeShowAnswer()}
         >
-          {showAnswer ? '▼' : '►'}
-          &nbsp;See answer
+          <FontAwesomeIcon icon={faAngleDown} style={{marginRight: '5px'}} /> See answer
         </span>
         {showAnswer && <div sx={{ marginLeft: '15px' }}>{answer}</div>}
       </div>
@@ -446,16 +445,18 @@ class PageQuestion extends React.Component {
         <div className="page-container">
           {/* question block: title, tags, description, difficulty, solved checkmark? */}
           <div className="question-block">
-            <div className="question-title">
-              #{this.props.questId}: {title}
-              {this.props.solved && <FontAwesomeIcon icon={faCheck} className="check" />}
-            </div>
-            <div className="tag-container">
-              <div className={difficulty + ' tag'}>{difficulty}</div>
-              {topics}
-            </div>
-            <div className="question-description">
-              {description}
+            <div>
+              <div className="question-title">
+                #{this.props.questId}: {title}
+                {this.props.solved && <FontAwesomeIcon icon={faCheck} className="check" />}
+              </div>
+              <div className="tag-container">
+                <div className={difficulty + ' tag'}>{difficulty}</div>
+                {topics}
+              </div>
+              <div className="question-description">
+                {description}
+              </div>
             </div>
             <div>{answerDisplay}</div>
           </div>

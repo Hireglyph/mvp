@@ -17,12 +17,18 @@ export const QuestionSx = {
     },
 
     '.question-block': {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
         position: 'sticky',
         top: '50px',
         overflowY: 'auto',
         flex: '1 0 200px',
         padding: '70px',
+        paddingBottom: '40px',
         minWidth: '400px',
+        height: 'fit-content',
+        minHeight: 'calc(100vh - 60px)',
     },
 
     '.question-title': {
@@ -74,11 +80,9 @@ export const QuestionSx = {
     },
 
     '.answer-display': {
-        fontSize: '12px',
+        fontFamily: 'body',
+        fontSize: '14px',
         cursor: 'pointer',
-        '&:hover': {
-            color: 'red',
-        },
     },
 
     // answer
