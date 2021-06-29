@@ -317,6 +317,7 @@ export const QuestionSx = {
         margin: '7px 0',
     },
 
+
     '.tp-preview': {
     backgroundColor: 'white',
     padding: '5px',

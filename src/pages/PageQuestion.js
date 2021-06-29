@@ -577,20 +577,16 @@ class PageQuestion extends React.Component {
         <div className=" page-container" id={(this.state.showAnswerConfirmation || this.state.showPreview) && "no-scroll"}>
           {/* question block: title, tags, description, difficulty, solved checkmark? */}
           <div className="question-block">
-            <div>
-              <div className="question-title">
-                #{this.props.questId}: {title}
-                {this.props.solved && <FontAwesomeIcon icon={faCheck} className="check" />}
-              </div>
-              <div className="tag-container">
-                <Link to={`/questions?diff=${difficulty}`} className={difficulty + ' tag'}>
-                  {difficulty}
-                </Link>
-                {topics}
-              </div>
-              <div className="question-description">
-                {description}
-              </div>
+            <div className="question-title">
+              #{this.props.questId}: {title}{' '}
+              {this.props.solved && <FontAwesomeIcon icon={faCheck} className="check" />}
+            </div>
+            <div className="tag-container">
+              <div className={difficulty + ' tag'}>{difficulty}</div>
+              {topics}
+            </div>
+            <div className="question-description">
+              {description}
             </div>
             <div>{answerDisplay}</div>
           </div>
