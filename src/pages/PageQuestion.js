@@ -11,9 +11,9 @@ import { ReactTitle } from 'react-meta-tags';
 import Moment from 'react-moment';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck,
-         faCaretUp,
-         faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faCaretUp, faCaretDown,
+        faPencilAlt, faUserFriends, faBullseye,
+        faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 import { currentVotes, upvoteTp, downvoteTp } from 'utils/vote';
 import PageNotFound from 'pages/PageNotFound';
@@ -243,7 +243,7 @@ class PageQuestion extends React.Component {
 
     // if question has an answer, display "See answer"
     // and the answer itself, depending on state
-    const answerDisplay = answer && (
+    const answerDisplay = (
       <div>
         <span
           className="answer-display"
@@ -308,17 +308,23 @@ class PageQuestion extends React.Component {
             onChange={this.handleChange}
             value={solution}
           />
-          <button
-            className="tp-submit-button"
-            disabled={solution.trim() === ""}
-            onClick={this.createTp}
-          >
-            Submit
-          </button>
+          <div className="tp-btn-container">
+            <button
+              className="tp-btn"
+              disabled={solution.trim() === ""}
+              onClick={this.createTp}
+            >
+              Submit
+            </button>
+          </div>
         </div>
       ) : (
         // otherwise, have initial/approach/solution
         <div className="myTp-container">
+          <div className="myTp-header">
+            <div>Type out your <span style={{fontWeight: 'bolder', color: 'black'}} >Thought Process (TP)</span> for this question below. <FontAwesomeIcon icon={faQuestionCircle} className="topic" style={{marginLeft: '5px'}} /></div>
+            <div style={{color: 'gray', margin: '10px 0'}}>Use $$latex formula$$ for LaTeX.</div>
+          </div>
           <TextareaAutosize
             className="my-tp-textarea"
             minRows={5}
@@ -343,17 +349,39 @@ class PageQuestion extends React.Component {
             onChange={this.handleChange}
             value={solution}
           />
-          <button
-            className="tp-submit-button"
-            disabled={
-              initial.trim() === "" ||
-              approach.trim() === "" ||
-              solution.trim() === ""
-            }
-            onClick={this.createTp}
-          >
-            Submit
-          </button>
+          <div className="tp-btn-container">
+            <button
+              className="tp-btn"
+              disabled={
+                initial.trim() === "" ||
+                approach.trim() === "" ||
+                solution.trim() === ""
+              }
+            >
+              Save
+            </button>
+            <button
+              className="tp-btn"
+              disabled={
+                initial.trim() === "" ||
+                approach.trim() === "" ||
+                solution.trim() === ""
+              }
+            >
+              Preview
+            </button>
+            <button
+              className="tp-btn"
+              disabled={
+                initial.trim() === "" ||
+                approach.trim() === "" ||
+                solution.trim() === ""
+              }
+              onClick={this.createTp}
+            >
+              Submit
+            </button>
+          </div>
         </div>
       );
 
@@ -419,7 +447,7 @@ class PageQuestion extends React.Component {
           {/* question block: title, tags, description, difficulty, solved checkmark? */}
           <div className="question-block">
             <div className="question-title">
-              #{this.props.questId}: {title}{' '}
+              #{this.props.questId}: {title}
               {this.props.solved && <FontAwesomeIcon icon={faCheck} className="check" />}
             </div>
             <div className="tag-container">
@@ -440,22 +468,23 @@ class PageQuestion extends React.Component {
                 disabled={questParam === "my"}
                 onClick={() => this.handleClick("my")}
               >
-                My TP
+                <FontAwesomeIcon icon={faPencilAlt} /> My TP
               </button>
               <button
                 className="question-btn"
                 disabled={sortBy}
                 onClick={() => this.handleClick("community/top")}
               >
-                Community TPs
+                <FontAwesomeIcon icon={faUserFriends} /> Community TPs
               </button>
               <button
                 className="question-btn"
                 disabled={questParam === "related"}
                 onClick={() => this.handleClick("related")}
               >
-                Related Questions
+                <FontAwesomeIcon icon={faBullseye} /> Related Questions
               </button>
+              <div className="question-border" />
             </div>
             {section}
           </div>

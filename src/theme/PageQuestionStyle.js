@@ -13,6 +13,7 @@ export const QuestionSx = {
 
     '.check': {
         color: 'easyGreen',
+        marginLeft: '10px',
     },
 
     '.question-block': {
@@ -32,7 +33,7 @@ export const QuestionSx = {
     '.tag-container': {
         display: 'flex',
         flexWrap: 'wrap',
-        paddingBottom: '20px',
+        paddingBottom: '15px',
         borderBottom: '1px solid lightGray',
     },
 
@@ -92,6 +93,8 @@ export const QuestionSx = {
     '.question-btn-container': {
         width: '100%',
         backgroundColor: 'background',
+        display: 'flex',
+        alignItems: 'flex-end',
     },
 
     '.question-btn': {
@@ -102,7 +105,7 @@ export const QuestionSx = {
         borderRight: '1px solid #DFDEDE',
         borderBottom: '1px solid #DFDEDE',
         fontSize: '14px',
-        fontWeight: '400px !important',
+        fontWeight: 'heading !important',
         fontFamily: 'Open-Sans',
         color: 'mediumGray',
         cursor: 'pointer',
@@ -116,42 +119,59 @@ export const QuestionSx = {
         },
     },
 
+    '.question-border': {
+        flex: '2 0 auto',
+        borderBottom: '1px solid #DFDEDE',
+    },
+
     '.myTp-container': {
         width: '100%',
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        paddingTop: '30px',
-        paddingBottom: '30px',
+        padding: '30px 50px',
+    },
+
+    '.myTp-header': {
+        fontSize: '14px',
     },
 
     '.my-tp-textarea': {
-        margin: '0 50px 15px 50px',
+        margin: '8px 0',
         padding: '10px',
         resize: 'vertical',
         lineHeight: '20px',
-        fontSize: '15px',
-        fontFamily: 'Open-Sans',
+        fontSize: '14px',
+        fontFamily: 'body',
         border: '1px solid #DFDEDE',
+        borderRadius: '0',
     },
 
-    '.tp-submit-button': {
-    height: '30px',
-    width: '100px',
-    backgroundColor: 'orange',
-    color: 'black',
-    fontFamily: 'Open-Sans',
-    cursor: 'pointer',
-    border: 'none',
-    marginRight: '50px',
-    marginLeft: 'auto',
-    '&:hover': {
-        backgroundColor: 'darkOrange',
+    '.tp-btn-container': {
+        marginTop: '20px',
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
     },
-    '&:disabled': {
-        backgroundColor: 'darkGrey',
-        cursor: 'default',
-    },
+
+    '.tp-btn': {
+        width: '77px',
+        height: '33px',
+        cursor: 'pointer',
+        padding: '3px',
+        marginLeft: '15px',
+        fontWeight: '400',
+        '&:hover': {
+            backgroundColor: 'purple2',
+        },
+        '&:disabled': {
+            backgroundColor: 'lighterGray',
+            color: 'gray',
+            backgroundColor: 'lightPurple',
+            color: 'white',
+            cursor: 'default',
+        },
     },
 
     '.communityTps-background': {
