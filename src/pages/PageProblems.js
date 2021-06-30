@@ -26,8 +26,8 @@ class PageProblems extends React.Component {
       diffExpanded: false,
       topicsExpanded: false,
       companiesExpanded: false,
-      questsExpanded: [],
-      hotQuestsExpanded: [],
+      questsExpanded: new Set(),
+      hotQuestsExpanded: new Set(),
     };
   }
 
@@ -69,18 +69,9 @@ class PageProblems extends React.Component {
   };
 
   expandQuest = (quests, expanded, questId) => {
-    const arr = this.state[quests].slice();
-    let half1;
-    let half2;
-    if (expanded) {
-      const i = arr.indexOf(questId);
-      half1 = arr.slice(0, i);
-      half2 = arr.slice(i + 1);
-    } else {
-      half1 = arr;
-      half2 = [questId];
-    }
-    this.setState({ [quests]: half1.concat(half2) });
+    let newSet = new Set(this.state[quests]);
+    expanded ? newSet.delete(questId) : newSet.add(questId);
+    this.setState({ [quests]: newSet });
   };
 
   displayHotQuestion = (questId) => {
@@ -88,7 +79,7 @@ class PageProblems extends React.Component {
     const answered = this.props.questionHistory
       && this.props.questionHistory[questId];
     
-    const maxHotTags = 2;
+    const maxHotTags = 1;
     const keyArr = quest.tags && Object.keys(quest.tags);
 
     // topics that are displayed in the problem box
@@ -104,7 +95,7 @@ class PageProblems extends React.Component {
       </div>
     );
 
-    const expanded = this.state.hotQuestsExpanded.includes(questId);
+    const expanded = this.state.hotQuestsExpanded.has(questId);
 
     return (
       <div className="hot-quest-box" key={questId}>
@@ -153,7 +144,7 @@ class PageProblems extends React.Component {
     </div>
     );
 
-    const expanded = this.state.questsExpanded.includes(questId);
+    const expanded = this.state.questsExpanded.has(questId);
 
     return (
       <div key={questId}>
