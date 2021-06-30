@@ -79,7 +79,7 @@ class PageProblems extends React.Component {
     const answered = this.props.questionHistory
       && this.props.questionHistory[questId];
     
-    const maxHotTags = 1;
+    const maxHotTags = 2;
     const keyArr = quest.tags && Object.keys(quest.tags);
 
     // topics that are displayed in the problem box
