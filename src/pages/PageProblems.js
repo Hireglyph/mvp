@@ -80,18 +80,20 @@ class PageProblems extends React.Component {
       && this.props.questionHistory[questId];
     
     const maxHotTags = 2;
+    const maxDropdownDisplay = 1;
     const keyArr = quest.tags && Object.keys(quest.tags);
+    const displayDropdown = keyArr.length > maxHotTags;
 
     // topics that are displayed in the problem box
     const topics = quest.tags && keyArr.map((tag, i) =>
       <div key={tag}>
-        {(i < 1 || keyArr.length <= maxHotTags) && <div className="tag topic-tag">{tag}</div>}
+        {(i < maxDropdownDisplay || !displayDropdown) && <div className="tag topic-tag">{tag}</div>}
       </div>
     );
     // topics that are displayed in dropdown
     const dropdownTopics = quest.tags && keyArr.map((tag, i) =>
       <div key={tag}>
-        {(i !== 0) && <div className="tag topic-tag dropdown-tag">{tag}</div>}
+        {(i >= maxDropdownDisplay) && <div className="tag topic-tag dropdown-tag">{tag}</div>}
       </div>
     );
 
@@ -109,8 +111,8 @@ class PageProblems extends React.Component {
               onMouseLeave={() => this.expandQuest('hotQuestsExpanded', true, questId)}
             >
               {topics}
-              {(keyArr && keyArr.length > maxHotTags && !expanded) && <FontAwesomeIcon icon={faAngleRight} className="drop-arrow"/>}
-              {(keyArr && keyArr.length > maxHotTags && expanded) && <FontAwesomeIcon icon={faAngleDown} className="drop-arrow"/>}
+              {(keyArr && displayDropdown && !expanded) && <FontAwesomeIcon icon={faAngleRight} className="drop-arrow"/>}
+              {(keyArr && displayDropdown && expanded) && <FontAwesomeIcon icon={faAngleDown} className="drop-arrow"/>}
             </div>
             <div className="hot-quest-icon-box">
               {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
@@ -118,7 +120,7 @@ class PageProblems extends React.Component {
             </div>
           </div>
         </Link>
-        {(keyArr && keyArr.length > maxHotTags && expanded) 
+        {(keyArr && displayDropdown && expanded) 
           && <div className="dropdown hot-quests-dropdown" >{dropdownTopics}</div>}
       </div>
     );

@@ -7,7 +7,7 @@ export const PageProblemsSx = {
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'space-evenly',
-        padding: ['0px 10px', '0 50px', '0 50px 0 80px', '0 50px 0 80px', '0 140px'],
+        padding: ['0px 10px', '0 50px', '0 50px 0 80px', '0 50px 0 80px', '0 130px'],
     },
     '.section-title': {
         margin: '50px 0 0 45px',
@@ -95,7 +95,7 @@ export const PageProblemsSx = {
         flexWrap: 'wrap',
     },
     '.hot-quest-box': {
-        width: ['50%', '50%', '45%', '23%', '300px'],
+        width: ['50%', '50%', '45%', '23%', '23%'],
         maxWidth: '300px',
         minWidth: '200px',
         height: '130px',
@@ -115,6 +115,10 @@ export const PageProblemsSx = {
         color: 'black',
         backgroundColor: 'white',
         boxShadow: '2px 2px 4px rgba(128, 128, 128, 0.1)',
+        transition: '1s',
+        '&:hover': {
+            backgroundColor: 'lightPurpleGray',
+        },
     },
     '.hot-quest-tags': {
         width: '100%',
@@ -164,6 +168,10 @@ export const PageProblemsSx = {
         borderTop: '1px solid #DFDEDE',
         textDecoration: 'none',
         color: 'black',
+        transition: '1s',
+        '&:hover': {
+            backgroundColor: 'lightPurpleGray',
+        },
     },
     '.check-container': {
         width: '20px',
@@ -242,7 +250,7 @@ export const PageProblemsSx = {
         textAlign: 'left',
         fontSize: '13px',
         fontWeight: '400',
-        transition: '1s ease',
+        transition: '1s',
         '&:hover': {
             color: 'purple3',
         },
