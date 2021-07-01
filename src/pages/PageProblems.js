@@ -9,7 +9,9 @@ import { jsx } from 'theme-ui';
 import { ReactTitle } from 'react-meta-tags';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faFireAlt, faLightbulb, faPlus, faMinus, faAngleRight, faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faFireAlt, faLightbulb, 
+          faPlus, faMinus, faAngleRight, 
+          faAngleDown } from '@fortawesome/free-solid-svg-icons';
 
 import { tags, companies } from 'constants/Lists';
 import Loading from 'components/Loading.js';
@@ -87,9 +89,11 @@ class PageProblems extends React.Component {
     // topics that are displayed in the problem box
     const topics = quest.tags && keyArr.map((tag, i) =>
       <div key={tag}>
-        {(i < maxDropdownDisplay || !displayDropdown) && <div className="tag topic-tag">{tag}</div>}
+        {(i < maxDropdownDisplay || !displayDropdown) 
+          && <div className="tag topic-tag">{tag}</div>}
       </div>
     );
+
     // topics that are displayed in dropdown
     const dropdownTopics = quest.tags && keyArr.map((tag, i) =>
       <div key={tag}>
@@ -111,8 +115,10 @@ class PageProblems extends React.Component {
               onMouseLeave={() => this.expandQuest('hotQuestsExpanded', true, questId)}
             >
               {topics}
-              {(keyArr && displayDropdown && !expanded) && <FontAwesomeIcon icon={faAngleRight} className="drop-arrow"/>}
-              {(keyArr && displayDropdown && expanded) && <FontAwesomeIcon icon={faAngleDown} className="drop-arrow"/>}
+              {(keyArr && displayDropdown && !expanded) 
+                && <FontAwesomeIcon icon={faAngleRight} className="drop-arrow"/>}
+              {(keyArr && displayDropdown && expanded) 
+                && <FontAwesomeIcon icon={faAngleDown} className="drop-arrow"/>}
             </div>
             <div className="hot-quest-icon-box">
               {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
@@ -279,11 +285,19 @@ class PageProblems extends React.Component {
         }
         <div className="page-problems">
           <div className="questions-container">
-            <h3 className="section-title"><FontAwesomeIcon icon={faFireAlt}  style={{color: '#DA1C1C'}}/> Hot</h3>
+            <h3 className="section-title">
+              <FontAwesomeIcon 
+                icon={faFireAlt}  
+                style={{color: '#DA1C1C'}}/> Hot
+            </h3>
             <div className="hot-quest-container">
               {hotQuestions ? hot : noHot}
             </div>
-            <h3 className="section-title"><FontAwesomeIcon icon={faLightbulb}  style={{color: '#EBB700'}}/> Problems</h3>
+            <h3 className="section-title">
+              <FontAwesomeIcon 
+                icon={faLightbulb}  
+                style={{color: '#EBB700'}}/> Problems
+            </h3>
             <div className="problems-container">
               {tag &&
                   // click to view all questions (vanilla /questions URL)
@@ -302,7 +316,9 @@ class PageProblems extends React.Component {
           <div className="sortby-container">
             <h4 className="sortby-title">Filter by</h4>
             <div className="sortby-box">
-              <div className="sortby-header pointer" onClick={() => this.expandFilter('diffExpanded', !this.state.diffExpanded)}>
+              <div className="sortby-header pointer" 
+                onClick={() => this.expandFilter('diffExpanded', !this.state.diffExpanded)}
+              >
                 <h5 className="filter-tag-title">Difficulty</h5>
                 {this.state.diffExpanded ?
                   <FontAwesomeIcon icon={faMinus} className="pointer" /> :
@@ -374,7 +390,9 @@ class PageProblems extends React.Component {
               }
             </div>
             <div className="sortby-box">
-              <div className="sortby-header pointer" onClick={() => this.expandFilter('companiesExpanded', !this.state.companiesExpanded)}>
+              <div className="sortby-header pointer" 
+                onClick={() => this.expandFilter('companiesExpanded', !this.state.companiesExpanded)}
+              >
                 <h5 className="filter-tag-title">Companies</h5>
                 {this.state.companiesExpanded ?
                   <FontAwesomeIcon icon={faMinus} className="pointer" /> :
