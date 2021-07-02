@@ -67,8 +67,35 @@ export const QuestionSx = {
         color: 'hardRed',
     },
 
-    '.topic': {
+    '.purple': {
         color: 'purple',
+        cursor: 'pointer',
+    },
+
+    '.tp-tooltip': {
+        cursor: 'pointer',
+        position: 'absolute',
+        margin: '-35px 0 0 425px',
+        width: '260px',
+        height: '123px',
+        lineHeight: '20px',
+        padding: '12px 15px',
+        backgroundColor: 'lightPurple',
+        borderRadius: '4px',
+        fontSize: '12px',
+        fontWeight: '400',
+        '::after': {
+            display: 'block',
+            content: '""',
+            width: '0px',
+            height: '10px',
+            position: 'relative',
+            top: '-103px',
+            left: '-40px',
+            padding: '0',
+            border: '15px solid transparent',
+            borderRight: '15px solid #E0DBFE',
+        }
     },
 
     '.question-description': {

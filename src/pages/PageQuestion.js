@@ -30,6 +30,7 @@ const initialState = {
   solution: '',
   expand: new Set(),
   showAnswer: false,
+  showTooltip: false,
 };
 
 class PageQuestion extends React.Component {
@@ -172,6 +173,10 @@ class PageQuestion extends React.Component {
     this.props.firebase.update("/", updates, onComplete);
   };
 
+  displayTooltip = (display) => {
+    this.setState({ showTooltip: display });
+  };
+
   render() {
     const {
       question,
@@ -229,7 +234,7 @@ class PageQuestion extends React.Component {
       Object.keys(tags).map((tag) => {
         return (
           // link to go to questions page, sorted by the tag clicked on
-          <Link to={`/questions?tag=${tag}`} className="tag topic" key={tag}>
+          <Link to={`/questions?tag=${tag}`} className="tag purple" key={tag}>
             {tag}
           </Link>
         );
@@ -252,6 +257,19 @@ class PageQuestion extends React.Component {
           <FontAwesomeIcon icon={faAngleDown} style={{marginRight: '5px'}} /> See answer
         </span>
         {showAnswer && <div sx={{ marginLeft: '15px' }}>{answer}</div>}
+      </div>
+    );
+
+    // confirmation popup for viewing answer
+    const answerDisplayPopup = (
+      <div className="popup-container">
+        <div>
+          <FontAwesomeIcon icon={faAngleDown} className="popup-x-icon" />
+          <h3>Are you sure you want to see the answer?</h3>
+          <div className="popup-text">We<em> strongly </em>recommend that you write your own TP before viewing the answer.</div>
+          <button>Yes</button>
+          <button>No</button>
+        </div>
       </div>
     );
 
@@ -321,7 +339,43 @@ class PageQuestion extends React.Component {
         // otherwise, have initial/approach/solution
         <div className="myTp-container">
           <div className="myTp-header">
-            <div>Type out your <span style={{fontWeight: 'bolder', color: 'black'}} >Thought Process (TP)</span> for this question below. <FontAwesomeIcon icon={faQuestionCircle} className="topic" style={{marginLeft: '5px'}} /></div>
+            <div>
+              Type out your 
+              <span style={{fontWeight: 'bolder', color: 'black'}} > Thought Process (TP) </span> 
+              for this question below. 
+              <FontAwesomeIcon 
+                icon={faQuestionCircle} 
+                className="purple" 
+                style={{marginLeft: '10px'}} 
+                onMouseEnter={
+                  () => this.displayTooltip(true)
+                }  
+                onMouseLeave={
+                  () => this.displayTooltip(false)
+                }
+                onMouseOver={
+                  () => this.displayTooltip(true)
+                }
+              />
+            </div>
+            {this.state.showTooltip &&
+              <div 
+                className="tp-tooltip"
+                onMouseEnter={
+                  () => this.displayTooltip(true)
+                }  
+                onMouseLeave={
+                  () => this.displayTooltip(false)
+                }
+                onMouseOver={
+                  () => this.displayTooltip(true)
+                }
+              >
+                We use this three-box structure in order to simulate how you would 
+                present your problem-solving in a real interview setting. Click to 
+                read more about our methodology.
+              </div>
+            }
             <div style={{color: 'gray', margin: '10px 0'}}>Use $$latex formula$$ for LaTeX.</div>
           </div>
           <TextareaAutosize
