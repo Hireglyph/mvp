@@ -13,7 +13,7 @@ import Moment from 'react-moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faCaretUp, faCaretDown,
         faPencilAlt, faUserFriends, faBullseye,
-        faQuestionCircle, faAngleDown } from '@fortawesome/free-solid-svg-icons';
+        faQuestionCircle, faAngleDown, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import { currentVotes, upvoteTp, downvoteTp } from 'utils/vote';
 import PageNotFound from 'pages/PageNotFound';
@@ -23,6 +23,7 @@ import Loading from 'components/Loading';
 import { length } from 'constants/PrevLength';
 
 import { QuestionSx } from 'theme/PageQuestionStyle';
+import { PopupSx } from 'theme/PopupStyle.js';
 
 const initialState = {
   initial: '',
@@ -30,6 +31,7 @@ const initialState = {
   solution: '',
   expand: new Set(),
   showAnswer: false,
+  showAnswerConfirmation: false,
   showTooltip: false,
 };
 
@@ -124,8 +126,8 @@ class PageQuestion extends React.Component {
   };
 
   // change whether or not the answer is displayed
-  changeShowAnswer = () => {
-    this.setState({ showAnswer: !this.state.showAnswer });
+  displayAnswerConfirmation = (display) => {
+    this.setState({ showAnswerConfirmation: display });
   };
 
   // change whether or not a specific TP is expanded
@@ -252,7 +254,7 @@ class PageQuestion extends React.Component {
       <div>
         <span
           className="answer-display"
-          onClick={() => this.changeShowAnswer()}
+          onClick={() => this.displayAnswerConfirmation(true)}
         >
           <FontAwesomeIcon icon={faAngleDown} style={{marginRight: '5px'}} /> See answer
         </span>
@@ -263,12 +265,28 @@ class PageQuestion extends React.Component {
     // confirmation popup for viewing answer
     const answerDisplayPopup = (
       <div className="popup-container">
-        <div>
-          <FontAwesomeIcon icon={faAngleDown} className="popup-x-icon" />
-          <h3>Are you sure you want to see the answer?</h3>
-          <div className="popup-text">We<em> strongly </em>recommend that you write your own TP before viewing the answer.</div>
-          <button>Yes</button>
-          <button>No</button>
+        <div className="popup-box">
+          <FontAwesomeIcon 
+            icon={faTimes} 
+            className="popup-x-icon" 
+            onClick={() => this.displayAnswerConfirmation(false)}
+          />
+          <div className="popup-title">Are you sure you want to see the answer?</div>
+          <div className="popup-text">
+            We<em> strongly </em>recommend that you write 
+            your own TP before viewing the answer.
+          </div>
+          <div className="popup-btn-container">
+            <button className="popup-btn popup-red-btn">
+              Yes
+            </button>
+            <button 
+              className="popup-btn"
+              onClick={() => this.displayAnswerConfirmation(false)}
+            >
+              No
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -496,7 +514,7 @@ class PageQuestion extends React.Component {
         <ReactTitle
           title={`#${this.props.questId}: ${title} | Hireglyph`}
         />
-        <div className="page-container">
+        <div className=" page-container" id={this.state.showAnswerConfirmation && "no-scroll"}>
           {/* question block: title, tags, description, difficulty, solved checkmark? */}
           <div className="question-block">
             <div>
@@ -505,7 +523,9 @@ class PageQuestion extends React.Component {
                 {this.props.solved && <FontAwesomeIcon icon={faCheck} className="check" />}
               </div>
               <div className="tag-container">
-                <div className={difficulty + ' tag'}>{difficulty}</div>
+                <Link to={`/questions?diff=${difficulty}`} className={difficulty + ' tag'}>
+                  {difficulty}
+                </Link>
                 {topics}
               </div>
               <div className="question-description">
@@ -544,6 +564,9 @@ class PageQuestion extends React.Component {
             {section}
           </div>
         </div>
+        {this.state.showAnswerConfirmation &&
+          <div sx={PopupSx}>{answerDisplayPopup}</div>
+        }
       </div>
     );
   }
