@@ -88,7 +88,7 @@ class PageProblems extends React.Component {
 
     // topics that are displayed in the problem box
     const topics = quest.tags && keyArr.map((tag, i) =>
-      <div key={tag}>
+      <div key={i}>
         {(i < maxDropdownDisplay || !displayDropdown) 
           && <div className="tag topic-tag">{tag}</div>}
       </div>
@@ -96,7 +96,7 @@ class PageProblems extends React.Component {
 
     // topics that are displayed in dropdown
     const dropdownTopics = quest.tags && keyArr.map((tag, i) =>
-      <div key={tag}>
+      <div key={i}>
         {(i >= maxDropdownDisplay) && <div className="tag topic-tag dropdown-tag">{tag}</div>}
       </div>
     );
@@ -111,8 +111,12 @@ class PageProblems extends React.Component {
           </div>
           <div className="hot-quest-tags">
             <div className="topic-container" 
-              onMouseEnter={() => this.expandQuest('hotQuestsExpanded', false, questId)}  
-              onMouseLeave={() => this.expandQuest('hotQuestsExpanded', true, questId)}
+              onMouseEnter={() => 
+                this.expandQuest('hotQuestsExpanded', false, questId)
+              }  
+              onMouseLeave={() => 
+                this.expandQuest('hotQuestsExpanded', true, questId)
+              }
             >
               {topics}
               {(keyArr && displayDropdown && !expanded) 
@@ -141,13 +145,13 @@ class PageProblems extends React.Component {
 
     // topics that are displayed in the problem box
     const topics = quest.tags && keyArr.map((tag, i) =>
-      <div key={tag}>
+      <div key={i}>
         {(i < maxTags) && <div className="tag topic-tag">{tag}</div>}
       </div>
     );
     // topics that are displayed in dropdown
     const dropdownTopics = quest.tags && keyArr.map((tag, i) =>
-    <div key={tag}>
+    <div key={i}>
       {(i >= maxTags) && <div className="tag topic-tag dropdown-tag">{tag}</div>}
     </div>
     );
@@ -246,14 +250,14 @@ class PageProblems extends React.Component {
       </div>
     );
 
-    const topicButtons = tags.map(tag =>
+    const topicButtons = tags.map((tag, i) =>
       <div
         className={
           ((this.props.tag === tag) && " tag-selected") +
           " filter-tag-link pointer"
         }
         onClick={() => this.handleTagFilter(tag)}
-        key={tag}
+        key={i}
       >
         {tag}
       </div>
