@@ -20,7 +20,7 @@ export const PopupSx = {
         maxWidth: '540px',
         minWidth: '400px',
         borderRadius: '20px',
-        padding: '30px 70px',
+        padding: '30px 70px 40px 70px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
@@ -39,6 +39,8 @@ export const PopupSx = {
     },
 
     '.popup-title': {
+        width: '100%',
+        textAlign: 'center',
         fontSize: '20px',
         fontWeight: '700 !important',
     },
@@ -49,11 +51,15 @@ export const PopupSx = {
         margin: '10px 0',
     },
 
+    '.popup-bold': {
+        fontWeight: '700',
+    },
+
     '.popup-btn-container': {
         width: '100%',
         display: 'flex',
         justifyContent: ['space-between', 'space-between', 'space-between', 'flex-end', 'flex-end'],
-        margin: '15px 0',
+        margin: '15px 0 5px 0',
     },
 
     '.popup-btn': {

@@ -306,13 +306,16 @@ class PageQuestion extends React.Component {
           />
           <div className="popup-title">TP Preview</div>
           <div className="popup-text">
-            <b>Initial:</b>
+            <b className="popup-bold">Initial: </b>
+            {this.state.initial}
           </div>
           <div className="popup-text">
-            <b>Approaches:</b>
+            <b>Approaches: </b>
+            {this.state.approach}
           </div>
           <div className="popup-text">
-            <b>Final:</b>
+            <b>Final: </b>
+            {this.state.solution}
           </div>
         </div>
       </div>
