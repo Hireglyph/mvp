@@ -32,6 +32,7 @@ const initialState = {
   expand: new Set(),
   showAnswer: false,
   showAnswerConfirmation: false,
+  showPreview: false,
   showTooltip: false,
 };
 
@@ -126,8 +127,8 @@ class PageQuestion extends React.Component {
   };
 
   // change whether or not the answer is displayed
-  displayAnswerConfirmation = (display) => {
-    this.setState({ showAnswerConfirmation: display });
+  displayPopup = (popup, display) => {
+    this.setState({ [popup]: display });
   };
 
   // change whether or not a specific TP is expanded
@@ -254,9 +255,12 @@ class PageQuestion extends React.Component {
       <div>
         <span
           className="answer-display"
-          onClick={() => this.displayAnswerConfirmation(true)}
+          onClick={
+            () => this.displayPopup('showAnswerConfirmation', true)
+          }
         >
-          <FontAwesomeIcon icon={faAngleDown} style={{marginRight: '5px'}} /> See answer
+          <FontAwesomeIcon icon={faAngleDown} style={{marginRight: '10px'}} /> 
+          See answer
         </span>
         {showAnswer && <div sx={{ marginLeft: '15px' }}>{answer}</div>}
       </div>
@@ -269,7 +273,7 @@ class PageQuestion extends React.Component {
           <FontAwesomeIcon 
             icon={faTimes} 
             className="popup-x-icon" 
-            onClick={() => this.displayAnswerConfirmation(false)}
+            onClick={() => this.displayPopup('showAnswerConfirmation', false)}
           />
           <div className="popup-title">Are you sure you want to see the answer?</div>
           <div className="popup-text">
@@ -282,10 +286,33 @@ class PageQuestion extends React.Component {
             </button>
             <button 
               className="popup-btn"
-              onClick={() => this.displayAnswerConfirmation(false)}
+              onClick={() => this.displayPopup('showAnswerConfirmation', false)}
             >
               No
             </button>
+          </div>
+        </div>
+      </div>
+    );
+
+    // tp preview
+    const previewPopup = (
+      <div className="popup-container">
+        <div className="popup-box">
+          <FontAwesomeIcon 
+            icon={faTimes} 
+            className="popup-x-icon" 
+            onClick={() => this.displayPopup('showPreview', false)}
+          />
+          <div className="popup-title">TP Preview</div>
+          <div className="popup-text">
+            <b>Initial:</b>
+          </div>
+          <div className="popup-text">
+            <b>Approaches:</b>
+          </div>
+          <div className="popup-text">
+            <b>Final:</b>
           </div>
         </div>
       </div>
@@ -438,6 +465,9 @@ class PageQuestion extends React.Component {
                 approach.trim() === "" ||
                 solution.trim() === ""
               }
+              onClick={
+                () => this.displayPopup('showPreview', true)
+              }
             >
               Preview
             </button>
@@ -514,7 +544,7 @@ class PageQuestion extends React.Component {
         <ReactTitle
           title={`#${this.props.questId}: ${title} | Hireglyph`}
         />
-        <div className=" page-container" id={this.state.showAnswerConfirmation && "no-scroll"}>
+        <div className=" page-container" id={(this.state.showAnswerConfirmation || this.state.showPreview) && "no-scroll"}>
           {/* question block: title, tags, description, difficulty, solved checkmark? */}
           <div className="question-block">
             <div>
@@ -566,6 +596,9 @@ class PageQuestion extends React.Component {
         </div>
         {this.state.showAnswerConfirmation &&
           <div sx={PopupSx}>{answerDisplayPopup}</div>
+        }
+        {this.state.showPreview &&
+          <div sx={PopupSx}>{previewPopup}</div>
         }
       </div>
     );
