@@ -251,7 +251,7 @@ class PageQuestion extends React.Component {
 
     // if question has an answer, display "See answer"
     // and the answer itself, depending on state
-    const answerDisplay = (
+    const answerDisplay = answer && (
       <div>
         <span
           className="answer-display"

@@ -65,7 +65,7 @@ export const PopupSx = {
     '.popup-btn': {
         width: '100px',
         height: '35px',
-        padding: '5px',
+        padding: '3px',
         marginLeft: ['0', '0', '0', '13px', '13px'],
     },
 
