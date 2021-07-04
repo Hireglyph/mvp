@@ -131,6 +131,11 @@ class PageQuestion extends React.Component {
     this.setState({ [popup]: display });
   };
 
+  // change whether or not the answer is displayed
+  changeShowAnswer = () => {
+    this.setState({ showAnswer: !this.state.showAnswer });
+  };
+
   // change whether or not a specific TP is expanded
   changeExpand = (value, tpId) => {
     const cloneSet = new Set(this.state.expand);
@@ -281,12 +286,20 @@ class PageQuestion extends React.Component {
             your own TP before viewing the answer.
           </div>
           <div className="popup-btn-container">
-            <button className="popup-btn popup-red-btn">
+            <button 
+              className="popup-btn popup-red-btn"
+              onClick={() => {
+                this.changeShowAnswer();
+                this.displayPopup('showAnswerConfirmation', false);
+              }}
+            >
               Yes
             </button>
             <button 
               className="popup-btn"
-              onClick={() => this.displayPopup('showAnswerConfirmation', false)}
+              onClick={() => 
+                this.displayPopup('showAnswerConfirmation', false)
+              }
             >
               No
             </button>
