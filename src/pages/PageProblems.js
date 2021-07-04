@@ -114,6 +114,9 @@ class PageProblems extends React.Component {
               onMouseEnter={() => 
                 this.expandQuest('hotQuestsExpanded', false, questId)
               }  
+              onMouseOver={() => 
+                this.expandQuest('hotQuestsExpanded', false, questId)
+              }  
               onMouseLeave={() => 
                 this.expandQuest('hotQuestsExpanded', true, questId)
               }
@@ -168,8 +171,15 @@ class PageProblems extends React.Component {
             #{questId}: {quest.title}
           </div>
           <div className="topic-container problems-topic-container" 
-            onMouseEnter={() => this.expandQuest('questsExpanded', false, questId)}  
-            onMouseLeave={() => this.expandQuest('questsExpanded', true, questId)}
+            onMouseEnter={() => 
+              this.expandQuest('questsExpanded', false, questId)
+            }  
+            onMouseOver={() => 
+              this.expandQuest('questsExpanded', false, questId)
+            }  
+            onMouseLeave={() => 
+              this.expandQuest('questsExpanded', true, questId)
+            }
           >
             {topics}
             {(keyArr && keyArr.length > maxTags && !expanded) 

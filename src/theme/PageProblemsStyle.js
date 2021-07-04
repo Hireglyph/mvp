@@ -115,7 +115,7 @@ export const PageProblemsSx = {
         color: 'black',
         backgroundColor: 'white',
         boxShadow: '2px 2px 4px rgba(128, 128, 128, 0.1)',
-        transition: '1s',
+        transition: '.5s',
         '&:hover': {
             backgroundColor: 'lightPurpleGray',
         },
@@ -168,7 +168,7 @@ export const PageProblemsSx = {
         borderTop: '1px solid #DFDEDE',
         textDecoration: 'none',
         color: 'black',
-        transition: '1s',
+        transition: '.5s',
         '&:hover': {
             backgroundColor: 'lightPurpleGray',
         },
