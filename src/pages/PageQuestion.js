@@ -351,23 +351,26 @@ class PageQuestion extends React.Component {
     }
 
     const communityTps = (
-      <div className="communityTps-background">
-        <div className="sort-button-block">
+      <div className="communityTps-container">
+        <div className="communityTps-header">
+          <h5 style={{fontSize: '18px'}}><b>Though Processes (TPs)</b></h5>
           {/* buttons to sort by "new" and "top" TPs */}
-          <button
-            className="sort-button"
-            disabled={sortBy === "top"}
-            onClick={() => this.changeOrder("top")}
-          >
-            Top
-          </button>
-          <button
-            className="sort-button"
-            disabled={sortBy === "new"}
-            onClick={() => this.changeOrder("new")}
-          >
-            New
-          </button>
+          <div className="sort-btn-block">
+            <button
+              className="sort-btn top-sort-btn"
+              disabled={sortBy === "top"}
+              onClick={() => this.changeOrder("top")}
+            >
+              Top
+            </button>
+            <button
+              className="sort-btn new-sort-btn"
+              disabled={sortBy === "new"}
+              onClick={() => this.changeOrder("new")}
+            >
+              New
+            </button>
+          </div>
         </div>
         {/* display tpsByVote or tpsByTime */}
         {sortBy === "top" ? tpsByVote : tpsByTime}

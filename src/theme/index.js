@@ -73,6 +73,10 @@ export const theme = {
       variant: 'text.medium',
       fontSize: 4,
     },
+    h5: {
+      fontWeight: 'bold',
+      fontsize: '18px',
+    },
   },
  };
   

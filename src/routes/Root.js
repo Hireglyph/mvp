@@ -35,7 +35,6 @@ class Root extends React.Component {
             <div className="root-body">
               <Loading />
             </div>
-          <Footer />
         </div>
       );
     }

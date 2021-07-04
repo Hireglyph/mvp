@@ -1,5 +1,4 @@
 export const QuestionSx = {
-    display: 'flex',
 
     '.page-container': {
         display: 'flex',
@@ -15,6 +14,8 @@ export const QuestionSx = {
         overflowY: 'hidden',
         height: 'calc(100vh - 60px)',
     },
+
+    // question
 
     '.check': {
         color: 'easyGreen',
@@ -91,7 +92,7 @@ export const QuestionSx = {
         cursor: 'pointer',
     },
 
-    // answer
+    // myTP
 
     '.display-block': {
         flex: '2 0 400px',
@@ -210,40 +211,46 @@ export const QuestionSx = {
         },
     },
 
-    '.communityTps-background': {
-    width: '100%',
-    height: 'auto',
-    backgroundColor: 'lightGrey',
-    display: 'flex',
-    flexDirection: 'column',
-    paddingTop: '15px',
-    paddingBottom: '15px',
+    // community tps
+
+    '.communityTps-container': {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '25px 60px 25px 15px',
     },
 
-    '.sort-button-block': {
-    display: 'flex',
-    marginRight: '50px',
-    marginLeft: 'auto',
-    marginBottom: '15px',
+    '.communityTps-header': {
+        display: 'flex',
+        width: '100%',
+        justifyContent: 'space-between',
+        margin: '20px 0',
+        paddingLeft: '80px',
     },
 
-    '.sort-button': {
-    border: '1px solid #8E8E8E',
-    cursor: 'pointer',
-    backgroundColor: 'white',
-    width: '75px',
-    color: 'black',
-    fontFamily: 'Open-Sans',
-    fontSize: '15px',
-    height: '25px',
-    lineHeight: '15px',
-    '&:hover': {
-        backgroundColor: 'darkGrey',
+    '.sort-btn': {
+        border: '1px solid #DFDEDE',
+        backgroundColor: 'white',
+        width: '50px',
+        height: '25px',
+        color: 'black',
+        fontSize: '12px',
+        padding: '2px',
+        '&:hover': {
+            backgroundColor: 'lightGray',
+        },
+        '&:disabled': {
+            backgroundColor: '#DFDEDE',
+            cursor: 'default',
+        },
     },
-    '&:disabled': {
-        backgroundColor: 'orange',
-        cursor: 'default',
+
+    '.top-sort-btn': {
+        borderRadius: '5px 0 0 5px'
     },
+
+    '.new-sort-btn': {
+        borderRadius: '0 5px 5px 0'
     },
 
     '.tp-header': {
