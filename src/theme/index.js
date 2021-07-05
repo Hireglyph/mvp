@@ -1,16 +1,16 @@
 export const theme = {
-  breakpoints: ['350px', '640px', '1024px'],
+  breakpoints: ['350px', '640px', '1025px', '1400px', '1700px'],
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
   fonts: {
     default: 'Times New Roman',
     body: 'Gotham-Book, sans-serif',
     heading: 'Open-Sans, sans-serif',
   },
-  fontSizes: [10, 12, 14, 16, 20, 24, 32, 48],
+  fontSizes: [10, 12, 14, 16, 20, 25, 32, 48],
   fontWeights: {
     body: 400,
     medium: 500,
-    heading: 700,
+    heading: 600,
     bold: 700,
   },
   lineHeights: {
@@ -30,7 +30,7 @@ export const theme = {
     lightGray: '#C7C7C7',
     mediumGray: '#464646',
     easyGreen: '#27B12A',
-    medOrange: '#DE710C',
+    medOrange: '#EA9A28',
     hardRed: '#DA1C1C',
   },
   text: {
@@ -66,30 +66,12 @@ export const theme = {
     h3: {
       variant: 'text.heading',
       fontSize: 5,
+      fontWeight: 'bold',
     },
     h4: {
       variant: 'text.medium',
       fontSize: 4,
     },
-    /**button: {
-      backgroundColor: 'purple',
-      color: 'white',
-      padding: '8px 12px',
-      fontFamily: 'heading',
-      fontSize: 3,
-      fontWeight: 'normal',
-      border: 'none',
-      borderRadius: '5px',
-      transition: '.5s ease',
-      cursor: 'pointer',
-      '&:hover': {
-        backgroundColor: 'purple2',
-      },
-      '&:disabled': {
-        backgroundColor: 'lightPurple',
-        cursor: 'auto',
-      },
-    },**/
   },
  };
   

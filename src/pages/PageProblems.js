@@ -9,133 +9,28 @@ import { jsx } from 'theme-ui';
 import { ReactTitle } from 'react-meta-tags';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faFireAlt, faLightbulb, 
+          faPlus, faMinus, faAngleRight, 
+          faAngleDown } from '@fortawesome/free-solid-svg-icons';
 
 import { tags, companies } from 'constants/Lists';
 import Loading from 'components/Loading.js';
 import PageNotFound from 'pages/PageNotFound';
 
-const PageProblemsSx = {
-  display: 'flex',
-  fontFamily: 'Open-Sans',
-
-  '.link': {
-    textDecoration: 'none',
-    color: 'black',
-  },
-  '.white': {
-    color: 'white',
-  },
-  '.pointer': {
-    cursor: 'pointer',
-  },
-  '.flex': {
-    display: 'flex',
-  },
-  '.original-list': {
-    marginLeft: '20px',
-    marginRight: 'auto',
-    marginTop: '23px',
-  },
-  '.original-list:hover': {
-    color: 'mediumGrey',
-  },
-  '.sortby-container': {
-    marginTop: '130px',
-    marginRight: '50px',
-    marginLeft: '50px',
-    textAlign: 'center',
-  },
-  '.questions-container': {
-    marginTop: '30px',
-  },
-  '.quest-container': {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  '.question-box': {
-    backgroundColor: 'lightGrey',
-    width: '320px',
-    height: '145px',
-    marginRight: '20px',
-    marginTop: '10px',
-    marginBottom: '10px',
-    padding: '20px',
-  },
-  '.question-box:hover': {
-    backgroundColor: 'mediumGrey',
-  },
-  '.tag-container': {
-    display: 'flex',
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-    height: '70px',
-  },
-  '.tag': {
-    fontSize: '12px',
-    backgroundColor: 'orange',
-    borderRadius: '4px',
-    width: '107.61px',
-    height: '22px',
-    textAlign: 'center',
-    margin: '5px',
-    paddingTop: '2px',
-  },
-  '.tag-button:hover': {
-    backgroundColor: 'darkOrange',
-  },
-  '.diff-button': {
-    display: 'inline-block',
-    margin: '5px',
-    backgroundColor: 'lightGrey',
-    borderRadius: '4px',
-    width: '80px',
-  },
-  '.diff-button:hover': {
-    backgroundColor: 'mediumGrey',
-  },
-  '.tag-button-container': {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    width: '270px',
-  },
-  '.tag-selected': {
-    border: '3px #000000 solid'
-  },
-  '.no-quest': {
-    backgroundColor: 'mediumGrey',
-    width: '400px',
-    padding: '25px',
-  },
-  '.question-title': {
-    fontSize: '18px',
-  },
-  '.easy': {
-    color: 'easyGreen',
-  },
-  '.medium': {
-    color: 'medOrange',
-  },
-  '.hard': {
-    color: 'hardRed',
-  },
-  '.difficulty': {
-    fontSize: '16px',
-    marginLeft: 'auto',
-  },
-  '.check': {
-    color: 'easyGreen',
-    marginRight: '5px',
-    marginLeft: '5px',
-    marginTop: '3px',
-  },
-};
+import { PageProblemsSx } from 'theme/PageProblemsStyle';
 
 class PageProblems extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { titles: '', loaded: false };
+    this.state = { 
+      titles: '', 
+      loaded: false,
+      diffExpanded: false,
+      topicsExpanded: false,
+      companiesExpanded: false,
+      questsExpanded: new Set(),
+      hotQuestsExpanded: new Set(),
+    };
   }
 
   handleTagFilter = (tag) => {
@@ -171,32 +66,140 @@ class PageProblems extends React.Component {
     );
   };
 
-  displayQuestion = (questId) => {
+  expandFilter = (filter, expand) => {
+    this.setState({ [filter]: expand });
+  };
+
+  expandQuest = (quests, expanded, questId) => {
+    let newSet = new Set(this.state[quests]);
+    expanded ? newSet.delete(questId) : newSet.add(questId);
+    this.setState({ [quests]: newSet });
+  };
+
+  displayHotQuestion = (questId) => {
     const quest = this.props.questions[questId];
     const answered = this.props.questionHistory
       && this.props.questionHistory[questId];
-    const topics = quest.tags && Object.keys(quest.tags).map(tag =>
-      <div className="tag" key={tag}>{tag}</div>
+    
+    const maxHotTags = 2;
+    const maxDropdownDisplay = 1;
+    const keyArr = quest.tags && Object.keys(quest.tags);
+    const displayDropdown = keyArr.length > maxHotTags;
+
+    // topics that are displayed in the problem box
+    const topics = quest.tags && keyArr.map((tag, i) =>
+      <div key={i}>
+        {(i < maxDropdownDisplay || !displayDropdown) 
+          && <div className="tag topic-tag">{tag}</div>}
+      </div>
     );
 
+    // topics that are displayed in dropdown
+    const dropdownTopics = quest.tags && keyArr.map((tag, i) =>
+      <div key={i}>
+        {(i >= maxDropdownDisplay) && <div className="tag topic-tag dropdown-tag">{tag}</div>}
+      </div>
+    );
+
+    const expanded = this.state.hotQuestsExpanded.has(questId);
+
     return (
-      <Link className="question-box link" to={`/q/${questId}/my`} key={questId}>
-        <div className="flex">
+      <div className="hot-quest-box" key={questId}>
+        <Link className="hot-quest-box-link" to={`/q/${questId}/my`}>
           <div className="question-title">
             #{questId}: {quest.title}
-            {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
           </div>
-          <div className={quest.difficulty + ' difficulty'}>
-            {quest.difficulty.toUpperCase()}
+          <div className="hot-quest-tags">
+            <div className="topic-container" 
+              onMouseEnter={() => 
+                this.expandQuest('hotQuestsExpanded', false, questId)
+              }  
+              onMouseOver={() => 
+                this.expandQuest('hotQuestsExpanded', false, questId)
+              }  
+              onMouseLeave={() => 
+                this.expandQuest('hotQuestsExpanded', true, questId)
+              }
+            >
+              {topics}
+              {(keyArr && displayDropdown && !expanded) 
+                && <FontAwesomeIcon icon={faAngleRight} className="drop-arrow"/>}
+              {(keyArr && displayDropdown && expanded) 
+                && <FontAwesomeIcon icon={faAngleDown} className="drop-arrow"/>}
+            </div>
+            <div className="hot-quest-icon-box">
+              {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
+              <div className={"hot-quest-diff  " + quest.difficulty}></div>
+            </div>
           </div>
-          <div>
-            {quest.company}
+        </Link>
+        {(keyArr && displayDropdown && expanded) 
+          && <div className="dropdown hot-quests-dropdown" >{dropdownTopics}</div>}
+      </div>
+    );
+  };
+
+  displayQuestion = (questId, maxTags) => {
+    const quest = this.props.questions[questId];
+    const answered = this.props.questionHistory
+      && this.props.questionHistory[questId];
+
+    const keyArr = quest.tags && Object.keys(quest.tags);
+
+    // topics that are displayed in the problem box
+    const topics = quest.tags && keyArr.map((tag, i) =>
+      <div key={i}>
+        {(i < maxTags) && <div className="tag topic-tag">{tag}</div>}
+      </div>
+    );
+    // topics that are displayed in dropdown
+    const dropdownTopics = quest.tags && keyArr.map((tag, i) =>
+    <div key={i}>
+      {(i >= maxTags) && <div className="tag topic-tag dropdown-tag">{tag}</div>}
+    </div>
+    );
+
+    const expanded = this.state.questsExpanded.has(questId);
+
+    return (
+      <div key={questId}>
+        <Link className="problem-box" to={`/q/${questId}/my`}>
+          <div className="question-title problem-title">
+            <div className="check-container">
+              {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
+            </div>
+            #{questId}: {quest.title}
           </div>
-        </div>
-        <div className="tag-container">
-          {topics}
-        </div>
-      </Link>
+          <div className="topic-container problems-topic-container" 
+            onMouseEnter={() => 
+              this.expandQuest('questsExpanded', false, questId)
+            }  
+            onMouseOver={() => 
+              this.expandQuest('questsExpanded', false, questId)
+            }  
+            onMouseLeave={() => 
+              this.expandQuest('questsExpanded', true, questId)
+            }
+          >
+            {topics}
+            {(keyArr && keyArr.length > maxTags && !expanded) 
+              && <FontAwesomeIcon icon={faAngleRight} className="drop-arrow" />}
+            {(keyArr && keyArr.length > maxTags && expanded) 
+              && <FontAwesomeIcon icon={faAngleDown} className="drop-arrow" />}
+          </div>
+          {(keyArr && keyArr.length > maxTags && expanded) 
+            && <div className="dropdown problems-dropdown">{dropdownTopics}</div>}
+          {quest.company ?
+            <div className="tag company-tag">
+              {quest.company}
+            </div> :
+            <div className="tag no-company-tag"></div>
+          }
+          <div className={quest.difficulty + " tag problems-diff"}>
+            {quest.difficulty}
+          </div>
+        </Link>
+      </div>
     );
   };
 
@@ -222,15 +225,26 @@ class PageProblems extends React.Component {
       return <PageNotFound />;
     }
 
+    let maxTags = 4;
+    if (window.innerWidth < 1800) {
+      maxTags = 3;
+    } 
+    if (window.innerWidth < 1550) {
+      maxTags = 2;
+    } 
+    if (window.innerWidth < 1100) {
+      maxTags = 1;
+    } 
+
     const hot = hotQuestions
-      && Object.keys(hotQuestions).map(questId => this.displayQuestion(questId));
+      && Object.keys(hotQuestions).map(questId => this.displayHotQuestion(questId));
 
     // filter by difficulty, tag, & company
     const quests = Object.keys(questions)
       .filter(questId => !isDiff || questions[questId].difficulty === diff)
       .filter(questId => !tag || (questions[questId].tags && questions[questId].tags[tag]))
       .filter(questId => !company || questions[questId].company === company)
-      .map(questId => this.displayQuestion(questId));
+      .map(questId => this.displayQuestion(questId, maxTags));
 
     const noHot = (
       <div className="no-quest">
@@ -246,14 +260,14 @@ class PageProblems extends React.Component {
       </div>
     );
 
-    const tagButtons = tags.map(tag =>
+    const topicButtons = tags.map((tag, i) =>
       <div
         className={
-          (this.props.tag === tag && " tag-selected") +
-          " tag tag-button pointer"
+          ((this.props.tag === tag) && " tag-selected") +
+          " filter-tag-link pointer"
         }
         onClick={() => this.handleTagFilter(tag)}
-        key={tag}
+        key={i}
       >
         {tag}
       </div>
@@ -263,7 +277,7 @@ class PageProblems extends React.Component {
       <div
         className={
           (this.props.company === company && " tag-selected") +
-          " tag tag-button pointer"
+          " filter-tag-link pointer"
         }
         onClick={() => this.handleCompanyFilter(company)}
         key={company}
@@ -271,6 +285,7 @@ class PageProblems extends React.Component {
         {company}
       </div>
     );
+
     return (
       <div className="PageProblems" sx={PageProblemsSx}>
         {tag
@@ -282,66 +297,136 @@ class PageProblems extends React.Component {
               title={`Questions | Hireglyph`}
             />
         }
-        <div className="sortby-container">
-          <h2 className="white">Difficulty</h2>
-          {/* sort by difficulty */}
-          <div
-            className={
-              (this.props.diff === 'easy' && " tag-selected") +
-              " diff-button pointer easy"
-            }
-            onClick={() => this.handleDiffFilter('easy')}
-          >
-            EASY
+        <div className="page-problems">
+          <div className="questions-container">
+            <h3 className="section-title">
+              <FontAwesomeIcon 
+                icon={faFireAlt}  
+                style={{color: '#DA1C1C'}}/> Hot
+            </h3>
+            <div className="hot-quest-container">
+              {hotQuestions ? hot : noHot}
+            </div>
+            <h3 className="section-title">
+              <FontAwesomeIcon 
+                icon={faLightbulb}  
+                style={{color: '#EBB700'}}/> Problems
+            </h3>
+            <div className="problems-container">
+              {tag &&
+                  // click to view all questions (vanilla /questions URL)
+                  <div
+                    className="original-list-btn"
+                    onClick={() => this.props.history.push('/questions')}
+                  >
+                      View full list
+                  </div>}
+              <div className="quest-container">
+                {/* actually show questions */}
+                {quests.length ? quests : noQuests}
+              </div>
+            </div>
           </div>
-          <div
-            className={
-              (this.props.diff === 'medium' && " tag-selected") +
-              " diff-button pointer medium"
-            }
-            onClick={() => this.handleDiffFilter('medium')}
-          >
-            MEDIUM
-          </div>
-          <div
-            className={
-              (this.props.diff === 'hard' && " tag-selected") +
-              " diff-button pointer hard"
-            }
-            onClick={() => this.handleDiffFilter('hard')}
-          >
-            HARD
-          </div>
-          {/* sort by tag */}
-          <h2 className="white">Tags</h2>
-          <div className="tag-button-container">
-            {tagButtons}
-          </div>
-          <h2 className="white">Companies</h2>
-          <div className="tag-button-container">
-            {companyButtons}
-          </div>
-        </div>
-        <div className="questions-container">
-          <div className="flex">
-            <h1 className="white">Questions</h1>
-            {tag &&
-              // click to view all questions (vanilla /questions URL)
-              <div
-                className="original-list pointer white"
-                onClick={() => this.props.history.push('/questions')}
+          <div className="sortby-container">
+            <h4 className="sortby-title">Filter by</h4>
+            <div className="sortby-box">
+              <div className="sortby-header pointer" 
+                onClick={() => this.expandFilter('diffExpanded', !this.state.diffExpanded)}
               >
-                  View full list
-              </div>}
-          </div>
-          <div>HOT</div>
-          <div className="quest-container">
-            {hotQuestions ? hot : noHot}
-          </div>
-          <div>----</div>
-          <div className="quest-container">
-            {/* actually show questions */}
-            {quests.length ? quests : noQuests}
+                <h5 className="filter-tag-title">Difficulty</h5>
+                {this.state.diffExpanded ?
+                  <FontAwesomeIcon icon={faMinus} className="pointer" /> :
+                  <FontAwesomeIcon icon={faPlus} className="pointer" />
+                }
+              </div>
+              {/* sort by difficulty */}
+              {(!this.state.diffExpanded && this.props.diff) &&
+                <div
+                  className="tag-selected filter-tag-link pointer"
+                  onClick={() => this.handleDiffFilter(this.props.diff)}
+                >
+                  {this.props.diff}
+                </div>
+              }
+              {this.state.diffExpanded &&  
+                <div>
+                  <div
+                    className={
+                      (this.props.diff === 'easy' && " tag-selected") +
+                      " filter-tag-link pointer"
+                    }
+                    onClick={() => this.handleDiffFilter('easy')}
+                  >
+                    Easy
+                  </div>
+                  <div
+                    className={
+                      (this.props.diff === 'medium' && " tag-selected") +
+                      " filter-tag-link pointer"
+                    }
+                    onClick={() => this.handleDiffFilter('medium')}
+                  >
+                    Medium
+                  </div>
+                  <div
+                    className={
+                      (this.props.diff === 'hard' && " tag-selected") +
+                      " filter-tag-link pointer"
+                    }
+                    onClick={() => this.handleDiffFilter('hard')}
+                  >
+                    Hard
+                  </div>
+                </div>
+              }
+            </div>
+            <div className="sortby-box">
+              {/* sort by topic */}
+              <div className="sortby-header pointer" onClick={() => this.expandFilter('topicsExpanded', !this.state.topicsExpanded)}>
+                <h5 className="filter-tag-title">Topics</h5>
+                {this.state.topicsExpanded ?
+                  <FontAwesomeIcon icon={faMinus} className="pointer" /> :
+                  <FontAwesomeIcon icon={faPlus} className="pointer" />
+                }
+              </div>
+              {(!this.state.topicsExpanded && this.props.tag) &&
+                <div
+                  className="tag-selected filter-tag-link pointer"
+                  onClick={() => this.handleTagFilter(this.props.tag)}
+                >
+                  {this.props.tag}
+                </div>
+              }
+              {this.state.topicsExpanded &&
+                <div>
+                  {topicButtons}
+                </div>
+              }
+            </div>
+            <div className="sortby-box">
+              <div className="sortby-header pointer" 
+                onClick={() => this.expandFilter('companiesExpanded', !this.state.companiesExpanded)}
+              >
+                <h5 className="filter-tag-title">Companies</h5>
+                {this.state.companiesExpanded ?
+                  <FontAwesomeIcon icon={faMinus} className="pointer" /> :
+                  <FontAwesomeIcon icon={faPlus} className="pointer" />
+                }
+              </div>
+              {(!this.state.companiesExpanded && this.props.company) &&
+                <div
+                  className="tag-selected filter-tag-link pointer"
+                  onClick={() => this.handleCompanyFilter(this.props.company)}
+                >
+                  {this.props.company}
+                </div>
+              }
+              {this.state.companiesExpanded &&
+                <div>
+                  {companyButtons}
+                </div>
+              }
+            </div>
           </div>
         </div>
       </div>
