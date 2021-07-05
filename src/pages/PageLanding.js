@@ -25,7 +25,8 @@ const PageLandingSx = {
     marginRight: '60px',
     fontFamily: 'Open-Sans-Bold',
     color: 'black',
-    fontSize: '30px',
+    fontSize: '40px',
+    lineHeight: '45px',
     alignItems: 'center',
     textAlign: 'center',
     '@media(max-width: 475px)': {
@@ -315,14 +316,14 @@ class PageLanding extends React.Component {
     return (
       <div sx={PageLandingSx}>
         <ReactTitle
-          title="Hireglyph - Quant Finance + Consulting Interview Preparation"
+          title="Hireglyph - Quant Finance Interview Preparation"
         />
         <div className="flex-elements centered">
           <div className="title">
-            Ace your next quant or consulting interview.
+            Ace your next quant finance interview.
           </div>
           <div className="subline">
-            Join 400+ aspiring professionals at Harvard, Columbia, Berkeley, Michigan, Waterloo, and more.
+            Join 800+ aspiring professionals at Harvard, Columbia, Berkeley, Michigan, Waterloo, and more.
           </div>
           <div className="main-box">
             <div>
@@ -331,9 +332,9 @@ class PageLanding extends React.Component {
             <div className="main-text">
               <div className="sub-title">
                 Hireglyph — the premier collaborative interview preparation platform for {' '}
-                <span className="bold">quant finance</span>
+                <span className="bold">quant trading</span>
                 {' '} and {' '}
-                <span className="bold">consulting</span>
+                <span className="bold">research</span>
                 .
               </div>
               <div>
@@ -341,7 +342,7 @@ class PageLanding extends React.Component {
                   Join our <span className="highlight">{' '}mailing list{' '}</span> to...
                 </div>
                 <ul className="mailing-li">
-                  <li>Get the latest quant and consulting internships right to your inbox</li>
+                  <li>Get the latest quant finance internships right to your inbox</li>
                   <li>Learn tips and tricks about preparing for your interviews</li>
                   <li>
                     Be the first to find out about the Hireglyph platform when we
