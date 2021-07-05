@@ -9,6 +9,7 @@ import { compose } from 'redux';
 import TextareaAutosize from 'react-textarea-autosize';
 import { ReactTitle } from 'react-meta-tags';
 import Moment from 'react-moment';
+import Latex from 'react-latex';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faCaretUp, faCaretDown,
@@ -17,6 +18,7 @@ import { faCheck, faCaretUp, faCaretDown,
         faExpandAlt, faCompressAlt, faAlignLeft } from '@fortawesome/free-solid-svg-icons';
 
 import { currentVotes, upvoteTp, downvoteTp } from 'utils/vote';
+import { displayContent } from 'utils/display';
 import PageNotFound from 'pages/PageNotFound';
 import TpPreview from 'components/TpPreview';
 import QuestionPreview from 'components/QuestionPreview';
@@ -115,6 +117,7 @@ class PageQuestion extends React.Component {
               </Link>
             </div>
           </div>
+          <div className="tp-divider"></div>
           <div className="tp-preview">
             <TpPreview
               initial={tp.initial}
@@ -330,15 +333,15 @@ class PageQuestion extends React.Component {
           <div className="popup-title">TP Preview</div>
           <div className="popup-text">
             <b className="popup-bold">Initial: </b>
-            {this.state.initial}
+            <Latex>{displayContent(this.state.initial)}</Latex>
           </div>
           <div className="popup-text">
             <b>Approaches: </b>
-            {this.state.approach}
+            <Latex>{displayContent(this.state.approach)}</Latex>
           </div>
           <div className="popup-text">
             <b>Final: </b>
-            {this.state.solution}
+            <Latex>{displayContent(this.state.solution)}</Latex>
           </div>
         </div>
       </div>

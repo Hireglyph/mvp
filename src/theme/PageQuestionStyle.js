@@ -290,12 +290,12 @@ export const QuestionSx = {
         padding: '10px 25px 10px 10px',
         overflow: 'hidden',
         width: '100%',
+        fontSize: '14px',
     },
 
     '.tp-header': {
         display: 'flex',
         justifyContent: 'space-between',
-        fontSize: '14px',
     },
 
     '.tp-options': {
@@ -309,6 +309,12 @@ export const QuestionSx = {
 
     '.see-feedback': {
         marginLeft: '20px',
+    },
+
+    '.tp-divider': {
+        width: '20px',
+        borderTop: '1px solid #DFDEDE',
+        margin: '7px 0',
     },
 
     '.tp-preview': {
