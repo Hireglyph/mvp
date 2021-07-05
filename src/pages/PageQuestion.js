@@ -26,7 +26,7 @@ import Loading from 'components/Loading';
 import { length } from 'constants/PrevLength';
 
 import { QuestionSx } from 'theme/PageQuestionStyle';
-import { PopupSx } from 'theme/PopupStyle.js';
+import { PopupSx } from 'theme/ComponentStyle.js';
 
 const initialState = {
   initial: '',

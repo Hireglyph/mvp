@@ -18,6 +18,7 @@ import Loading from 'components/Loading.js';
 import PageNotFound from 'pages/PageNotFound';
 
 import { PageProblemsSx } from 'theme/PageProblemsStyle';
+import { HotQuestSx, QuestDisplaySx } from 'theme/ComponentStyle.js';
 
 class PageProblems extends React.Component {
   constructor(props) {
@@ -304,15 +305,17 @@ class PageProblems extends React.Component {
                 icon={faFireAlt}  
                 style={{color: '#DA1C1C'}}/> Hot
             </h3>
-            <div className="hot-quest-container">
-              {hotQuestions ? hot : noHot}
+            <div sx={HotQuestSx}>
+              <div sx={QuestDisplaySx} className="hot-quest-container">
+                {hotQuestions ? hot : noHot}
+              </div>
             </div>
             <h3 className="section-title">
               <FontAwesomeIcon 
                 icon={faLightbulb}  
                 style={{color: '#EBB700'}}/> Problems
             </h3>
-            <div className="problems-container">
+            <div sx={QuestDisplaySx} className="problems-container">
               {tag &&
                   // click to view all questions (vanilla /questions URL)
                   <div

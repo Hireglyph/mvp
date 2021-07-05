@@ -10,63 +10,7 @@ import { compose } from 'redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
-const PreviewSx = {
-  '.preview-link': {
-    textDecoration: 'none',
-  },
-
-  '.question-preview': {
-    fontFamily: 'Open-Sans',
-    color: 'black',
-    width: '100%',
-    backgroundColor: 'lightGrey',
-    minHeight: '60px',
-    border: '1px solid #8E8E8E',
-    '&:hover': {
-      backgroundColor: 'mediumGrey',
-    },
-  },
-
-  '.check-mark': {
-    color: 'easyGreen',
-    marginRight: '5px',
-    marginLeft: '5px',
-    marginTop: '3px',
-  },
-
-  '.preview-top': {
-    display: 'flex',
-    marginTop: '10px',
-    marginLeft: '10px',
-    marginRight: '10px',
-  },
-
-  '.preview-difficulty': {
-    marginRight: '10px',
-    marginLeft: 'auto',
-  },
-
-  '.preview-tags-block': {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginLeft: '10px',
-    marginRight: '10px',
-    marginBottom: '5px',
-  },
-
-  '.preview-tag': {
-    fontSize: '12px',
-    backgroundColor: 'orange',
-    borderRadius: '4px',
-    width: '100px',
-    height: '20px',
-    textAlign: 'center',
-    margin: '5px',
-    lineHeight: '20px',
-    color: 'black',
-  },
-};
+import { HotQuestSx } from 'theme/ComponentStyle.js';
 
 class QuestionPreview extends React.Component {
   render() {
@@ -86,7 +30,7 @@ class QuestionPreview extends React.Component {
     // display question: title, difficulty, tags
     // + checkmark if user has solved the question
     return (
-      <div sx={PreviewSx}>
+      <div sx={HotQuestSx}>
         <Link
           className="preview-link"
           to={`/q/${questId}`}

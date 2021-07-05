@@ -258,7 +258,6 @@ export const QuestionSx = {
         display: 'flex',
         minHeight: '60px',
         marginBottom: '30px',
-        marginRight: '60px',
     },
 
     '.tp-arrows': {

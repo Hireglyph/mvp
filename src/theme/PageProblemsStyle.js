@@ -20,13 +20,12 @@ export const PageProblemsSx = {
         marginRight: ['30px', '50px', '50px', '50px', '80px'],
         flex: '2 1 auto',
     },
-
-    // shared styles
-    '.pointer': {
+    '.pointer': {  
         '&:hover': {
-            cursor: 'pointer',
+            cursor: 'pointer'
         }
     },
+<<<<<<< HEAD
     '.question-title': {
         fontSize: '16px',
     },
@@ -142,6 +141,8 @@ export const PageProblemsSx = {
         margin: '1px 0 0 12px',
     },
 
+=======
+>>>>>>> 705e886 (moved q styles to shared file)
 
     // regular question specific styling
     '.problems-container': {
