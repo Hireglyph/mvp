@@ -287,36 +287,28 @@ export const QuestionSx = {
     '.tp-interior':{
         border: '1px solid #DFDEDE',
         borderRadius: '5px',
-        padding: '8px',
+        padding: '10px 25px 10px 10px',
         overflow: 'hidden',
         width: '100%',
     },
 
     '.tp-header': {
         display: 'flex',
+        justifyContent: 'space-between',
+        fontSize: '14px',
     },
 
-    '.expand-collapse': {
-    cursor: 'pointer',
-    color: 'black',
-    fontSize: '12px',
-    marginRight: '0px',
-    marginLeft: 'auto',
-    '&:hover': {
-        textDecoration: 'underline',
-    },
+    '.tp-options': {
+        display: 'flex',
+        color: 'purple',
+        fontFamily: 'body',
+        fontSize: '13px',
+        cursor: 'pointer',
+        fontWeight: '600',
     },
 
     '.see-feedback': {
-    color: 'black',
-    backgroundColor: 'white',
-    fontStyle: 'italic',
-    width: '150px',
-    paddingLeft: '5px',
-    },
-
-    '.see-feedback-link': {
-    color: 'black',
+        marginLeft: '20px',
     },
 
     '.tp-preview': {

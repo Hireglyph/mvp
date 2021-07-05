@@ -13,7 +13,8 @@ import Moment from 'react-moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faCaretUp, faCaretDown,
         faPencilAlt, faUserFriends, faBullseye,
-        faQuestionCircle, faAngleDown, faTimes } from '@fortawesome/free-solid-svg-icons';
+        faQuestionCircle, faAngleDown, faTimes,
+        faExpandAlt, faCompressAlt, faAlignLeft } from '@fortawesome/free-solid-svg-icons';
 
 import { currentVotes, upvoteTp, downvoteTp } from 'utils/vote';
 import PageNotFound from 'pages/PageNotFound';
@@ -52,10 +53,18 @@ class PageQuestion extends React.Component {
   // generate expand/collapse message
   generateMessage = (isExpanded, tpId) => {
     if (!isExpanded) {
-      return <div onClick={() => this.changeExpand(true, tpId)}>Expand TP</div>;
+      return (
+        <div onClick={() => this.changeExpand(true, tpId)}>
+          <FontAwesomeIcon icon={faExpandAlt} />
+          {'\xa0'} Expand TP
+        </div>
+      );
     }
     return (
-      <div onClick={() => this.changeExpand(false, tpId)}>Collapse TP</div>
+      <div onClick={() => this.changeExpand(false, tpId)}>
+        <FontAwesomeIcon icon={faCompressAlt} />
+        {'\xa0'} Collapse TP
+      </div>
     );
   };
 
@@ -87,14 +96,23 @@ class PageQuestion extends React.Component {
         </div>
         <div className="tp-interior">
           <div className="tp-header">
-            <div>@{username}{' '}</div>
-            <Moment fromNow>{tp.date}</Moment>
-            <div className="expand-collapse">
+            <div style={{display: 'flex'}}>
+              <div style={{fontFamily: 'Gotham-Bold'}}>@{username} •{'\xa0'}</div> 
+              <em><Moment fromNow>{tp.date}</Moment></em>
+            </div>
+            <div className="tp-options">
               {(tp.initial && tp.initial.length > length) ||
               (tp.approach && tp.approach.length > length) ||
               (tp.solution && tp.solution.length > length)
                 ? this.generateMessage(expanded, tpId)
                 : ""}
+              <Link
+                className="see-feedback"
+                to={`/tp/${this.props.questId}/${tpId}`}
+              >
+                <FontAwesomeIcon icon={faAlignLeft} />
+                {'\xa0'} Open Thread
+              </Link>
             </div>
           </div>
           <div className="tp-preview">
@@ -104,14 +122,6 @@ class PageQuestion extends React.Component {
               solution={tp.solution}
               expanded={expanded}
             />
-          </div>
-          <div className="see-feedback">
-            <Link
-              className="see-feedback-link"
-              to={`/tp/${this.props.questId}/${tpId}`}
-            >
-              See Feedback...
-            </Link>
           </div>
         </div>
       </div>
