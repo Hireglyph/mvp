@@ -217,15 +217,16 @@ export const QuestionSx = {
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        padding: '25px 60px 25px 15px',
+        padding: '25px 60px 25px 25px',
     },
 
     '.communityTps-header': {
         display: 'flex',
         width: '100%',
         justifyContent: 'space-between',
+        alignItems: 'flex-end',
         margin: '20px 0',
-        paddingLeft: '80px',
+        paddingLeft: '60px',
     },
 
     '.sort-btn': {
@@ -253,8 +254,46 @@ export const QuestionSx = {
         borderRadius: '0 5px 5px 0'
     },
 
+    '.tp-block': {
+        display: 'flex',
+        minHeight: '60px',
+        marginBottom: '30px',
+        marginRight: '60px',
+    },
+
+    '.tp-arrows': {
+        textAlign: 'center',
+        margin: '10px 10px 0 0',
+        fontSize: '14px',
+    },
+
+    '.fa-layers': {
+        height: '18px',
+        width: '50px',
+    },
+
+    '.upvoted-arrow': {
+        color: 'easyGreen',
+    },
+    
+    '.downvoted-arrow': {
+        color: 'hardRed',
+    },
+
+    '.blank-arrow': {
+        color: 'lighterGray',
+    },
+
+    '.tp-interior':{
+        border: '1px solid #DFDEDE',
+        borderRadius: '5px',
+        padding: '8px',
+        overflow: 'hidden',
+        width: '100%',
+    },
+
     '.tp-header': {
-    display: 'flex',
+        display: 'flex',
     },
 
     '.expand-collapse': {
@@ -286,18 +325,6 @@ export const QuestionSx = {
     fontFamily: 'Gotham-Book',
     },
 
-    '.tp-interior':{
-    overflow: 'hidden',
-    width: '100%',
-    },
-
-    '.tp-block': {
-    display: 'flex',
-    minHeight: '60px',
-    marginBottom: '30px',
-    marginRight: '60px',
-    },
-
     '.message-section': {
     width: '100%',
     height: 'auto',
@@ -308,33 +335,5 @@ export const QuestionSx = {
 
     '.message-link': {
     color: 'darkOrange',
-    },
-
-    '.tp-arrows': {
-    textAlign: 'center',
-    marginTop: '20px',
-    },
-
-    '.fa-layers': {
-    height: '18px',
-    width: '50px',
-    },
-
-    '.upvoted-arrow': {
-    color: '#00D305',
-    },
-
-    '.downvoted-arrow': {
-    color: '#E44C4C',
-    },
-
-    '.blank-arrow': {
-    color: 'white',
-    },
-
-    '.fa-caret-up, .fa-caret-down': {
-    stroke: 'black',
-    strokeWidth: '7',
-    transform: 'scaleY(0.8)',
     },
 };

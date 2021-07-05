@@ -20,7 +20,7 @@ export const PopupSx = {
         maxWidth: '540px',
         minWidth: '400px',
         borderRadius: '20px',
-        padding: '30px 70px 40px 70px',
+        padding: '30px 60px 40px 60px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
@@ -43,6 +43,7 @@ export const PopupSx = {
         textAlign: 'center',
         fontSize: '20px',
         fontWeight: '700 !important',
+        fontFamily: 'Open-Sans-Bold',
     },
 
     '.popup-text': {

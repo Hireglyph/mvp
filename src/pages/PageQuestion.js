@@ -77,7 +77,7 @@ class PageQuestion extends React.Component {
           >
             <FontAwesomeIcon icon={faCaretUp} size="3x" />
           </div>
-          <div className="centered">{tp.total}</div>
+          <div>{tp.total}</div>
           <div
             className={(isDownvoted ? "downvoted-arrow" : "blank-arrow") + " fa-layers"}
             onClick={() => downvoteTp(tpInfo)}
@@ -353,7 +353,7 @@ class PageQuestion extends React.Component {
     const communityTps = (
       <div className="communityTps-container">
         <div className="communityTps-header">
-          <h5 style={{fontSize: '18px'}}><b>Though Processes (TPs)</b></h5>
+          <div style={{fontSize: '18px', fontFamily: 'Open-Sans-Bold'}}><b>Thought Processes (TPs)</b></div>
           {/* buttons to sort by "new" and "top" TPs */}
           <div className="sort-btn-block">
             <button
