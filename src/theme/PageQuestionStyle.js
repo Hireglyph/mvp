@@ -96,6 +96,7 @@ export const QuestionSx = {
 
     '.display-block': {
         flex: '2 0 400px',
+        width: '66%',
         height: 'fit-content',
         minHeight: 'calc(100vh - 60px)',
         borderLeft: '2px solid #DFDEDE',
