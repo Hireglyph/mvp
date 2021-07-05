@@ -25,8 +25,7 @@ const PageLandingSx = {
     marginRight: '60px',
     fontFamily: 'Open-Sans-Bold',
     color: 'black',
-    fontSize: '40px',
-    lineHeight: '45px',
+    fontSize: '30px',
     alignItems: 'center',
     textAlign: 'center',
     '@media(max-width: 475px)': {
@@ -60,14 +59,14 @@ const PageLandingSx = {
     marginTop: '60px',
     justifyContent: 'center',
     '@media(min-width: 1051px)': {
-      background: theme => `linear-gradient(to bottom left, transparent 0%, transparent 50%, #EBE9F3 50%, #EBE9F3 100%)`,
+      background: theme => `linear-gradient(to bottom left, transparent 0%, transparent 50%, ${theme.colors.lightPurpleGrey} 50%, ${theme.colors.lightPurpleGrey} 100%)`,
     },
   },
 
   '.aesthetic': {
     '@media(max-width: 1050px)': {
       height: '150px',
-      background: theme => `linear-gradient(to bottom left, transparent 0%, transparent 50%, #EBE9F3 50%, #EBE9F3 100%)`,
+      background: theme => `linear-gradient(to bottom left, transparent 0%, transparent 50%, ${theme.colors.lightPurpleGrey} 50%, ${theme.colors.lightPurpleGrey} 100%)`,
     },
     '@media(max-width: 720px)': {
       height: '100px',
@@ -174,7 +173,7 @@ const PageLandingSx = {
   },
 
   '.logo-banner': {
-    backgroundColor: '#EBE9F3',
+    backgroundColor: 'lightPurpleGrey',
     '@media(min-width: 1051px)': {
       paddingTop: '40px',
     },
@@ -250,7 +249,7 @@ const PageLandingSx = {
     fontFamily: 'Open-Sans-Italic',
     fontSize: '28px',
     textAlign: 'center',
-    backgroundColor: '#EBE9F3',
+    backgroundColor: 'lightPurpleGrey',
     padding: '12px',
     '@media(max-width: 475px)': {
       fontSize: '20px',
@@ -316,14 +315,14 @@ class PageLanding extends React.Component {
     return (
       <div sx={PageLandingSx}>
         <ReactTitle
-          title="Hireglyph - Quant Finance Interview Preparation"
+          title="Hireglyph - Quant Finance + Consulting Interview Preparation"
         />
         <div className="flex-elements centered">
           <div className="title">
-            Ace your next quant finance interview.
+            Ace your next quant or consulting interview.
           </div>
           <div className="subline">
-            Join 800+ aspiring professionals at Harvard, Columbia, Berkeley, Michigan, Waterloo, and more.
+            Join 400+ aspiring professionals at Harvard, Columbia, Berkeley, Michigan, Waterloo, and more.
           </div>
           <div className="main-box">
             <div>
@@ -332,9 +331,9 @@ class PageLanding extends React.Component {
             <div className="main-text">
               <div className="sub-title">
                 Hireglyph — the premier collaborative interview preparation platform for {' '}
-                <span className="bold">quant trading</span>
+                <span className="bold">quant finance</span>
                 {' '} and {' '}
-                <span className="bold">research</span>
+                <span className="bold">consulting</span>
                 .
               </div>
               <div>
@@ -342,7 +341,7 @@ class PageLanding extends React.Component {
                   Join our <span className="highlight">{' '}mailing list{' '}</span> to...
                 </div>
                 <ul className="mailing-li">
-                  <li>Get the latest quant finance internships right to your inbox</li>
+                  <li>Get the latest quant and consulting internships right to your inbox</li>
                   <li>Learn tips and tricks about preparing for your interviews</li>
                   <li>
                     Be the first to find out about the Hireglyph platform when we
