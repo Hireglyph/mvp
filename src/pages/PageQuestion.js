@@ -349,7 +349,7 @@ class PageQuestion extends React.Component {
 
     // message if no TPs for the question (or all TPs are deleted)
     const noTps =
-      <div className="message-section">
+      <div className="message-section no-tps">
         There are no TPs yet for this question. Be the first to write one!
       </div>;
 
@@ -533,16 +533,15 @@ class PageQuestion extends React.Component {
     if (!uid) {
       section = (
         <div className="message-section">
-          You need to log in or register before writing
+          You must log in or register before writing
           your own TP or accessing community TPs.
         </div>
       );
     } else if (!onboarded) {
       section = (
         <div className="message-section">
-          You need to set your username on the {' '}
+          You must set your username on the {' '}
           <Link
-            className="message-link"
             to={`/profile`}
           >
             Profile
@@ -554,9 +553,8 @@ class PageQuestion extends React.Component {
     } else if (!this.props.emailVerified) {
       section = (
         <div className="message-section">
-          You need to verify your email on the {' '}
+          You must verify your email on the {' '}
           <Link
-            className="message-link"
             to={`/profile`}
           >
             Profile

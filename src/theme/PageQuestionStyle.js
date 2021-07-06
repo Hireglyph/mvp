@@ -324,14 +324,16 @@ export const QuestionSx = {
     },
 
     '.message-section': {
-    width: '100%',
-    height: 'auto',
-    backgroundColor: 'lightGrey',
-    padding: '30px',
-    fontStyle: 'italic',
+        margin: 'auto',
+        width: '90%',
+        height: 'auto',
+        fontStyle: 'italic',
+        textAlign: 'center',
+        padding: '80px 0 0 0',
     },
 
-    '.message-link': {
-    color: 'darkOrange',
+    '.no-tps': {
+        borderTop: '1px solid lightGray',
+        paddingTop: '40px',
     },
 };
