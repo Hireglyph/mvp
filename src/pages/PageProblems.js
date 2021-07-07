@@ -18,7 +18,7 @@ import Loading from 'components/Loading.js';
 import PageNotFound from 'pages/PageNotFound';
 
 import { PageProblemsSx } from 'theme/PageProblemsStyle';
-import { HotQuestSx, QuestDisplaySx } from 'theme/ComponentStyle.js';
+import { BoxQuestSx, QuestDisplaySx } from 'theme/ComponentStyle.js';
 
 class PageProblems extends React.Component {
   constructor(props) {
@@ -106,11 +106,11 @@ class PageProblems extends React.Component {
 
     return (
       <div className="hot-quest-box" key={questId}>
-        <Link className="hot-quest-box-link" to={`/q/${questId}/my`}>
+        <Link className="box-quest-box-link" to={`/q/${questId}/my`}>
           <div className="question-title">
             #{questId}: {quest.title}
           </div>
-          <div className="hot-quest-tags">
+          <div className="box-quest-tags">
             <div className="topic-container" 
               onMouseEnter={() => 
                 this.expandQuest('hotQuestsExpanded', false, questId)
@@ -128,14 +128,14 @@ class PageProblems extends React.Component {
               {(keyArr && displayDropdown && expanded) 
                 && <FontAwesomeIcon icon={faAngleDown} className="drop-arrow"/>}
             </div>
-            <div className="hot-quest-icon-box">
+            <div className="box-quest-icon-box">
               {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
-              <div className={"hot-quest-diff  " + quest.difficulty}></div>
+              <div className={"box-quest-diff  " + quest.difficulty}></div>
             </div>
           </div>
         </Link>
         {(keyArr && displayDropdown && expanded) 
-          && <div className="dropdown hot-quests-dropdown" >{dropdownTopics}</div>}
+          && <div className="dropdown box-quests-dropdown" >{dropdownTopics}</div>}
       </div>
     );
   };
@@ -305,7 +305,7 @@ class PageProblems extends React.Component {
                 icon={faFireAlt}  
                 style={{color: '#DA1C1C'}}/> Hot
             </h3>
-            <div sx={HotQuestSx}>
+            <div sx={BoxQuestSx}>
               <div sx={QuestDisplaySx} className="hot-quest-container">
                 {hotQuestions ? hot : noHot}
               </div>

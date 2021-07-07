@@ -26,7 +26,7 @@ import Loading from 'components/Loading';
 import { length } from 'constants/PrevLength';
 
 import { QuestionSx } from 'theme/PageQuestionStyle';
-import { PopupSx } from 'theme/ComponentStyle.js';
+import { PopupSx, HotQuestSx, QuestDisplaySx } from 'theme/ComponentStyle.js';
 
 const initialState = {
   initial: '',
@@ -264,7 +264,11 @@ class PageQuestion extends React.Component {
     const relatedQs =
       relatedQuestions &&
       Object.keys(relatedQuestions).map((questId) => {
-        return <QuestionPreview questId={questId} uid={uid} key={questId} />;
+        return (
+          <div key={questId}>
+            <QuestionPreview questId={questId} uid={uid} />
+          </div>
+        );
       });
 
     // if question has an answer, display "See answer"
@@ -577,16 +581,18 @@ class PageQuestion extends React.Component {
         <div className=" page-container" id={(this.state.showAnswerConfirmation || this.state.showPreview) && "no-scroll"}>
           {/* question block: title, tags, description, difficulty, solved checkmark? */}
           <div className="question-block">
-            <div className="question-title">
-              #{this.props.questId}: {title}{' '}
-              {this.props.solved && <FontAwesomeIcon icon={faCheck} className="check" />}
-            </div>
-            <div className="tag-container">
-              <div className={difficulty + ' tag'}>{difficulty}</div>
-              {topics}
-            </div>
-            <div className="question-description">
-              {description}
+            <div>
+              <div className="question-title">
+                #{this.props.questId}: {title}{' '}
+                {this.props.solved && <FontAwesomeIcon icon={faCheck} className="check" />}
+              </div>
+              <div className="tag-container">
+                <div className={difficulty + ' tag'}>{difficulty}</div>
+                {topics}
+              </div>
+              <div className="question-description">
+                {description}
+              </div>
             </div>
             <div>{answerDisplay}</div>
           </div>
@@ -617,7 +623,9 @@ class PageQuestion extends React.Component {
               </button>
               <div className="question-border" />
             </div>
-            {section}
+            <div sx={QuestDisplaySx} className={questParam + "-quest-container" }>
+              {section}
+            </div>
           </div>
         </div>
         {this.state.showAnswerConfirmation &&

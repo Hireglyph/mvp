@@ -317,11 +317,15 @@ export const QuestionSx = {
         margin: '7px 0',
     },
 
-
     '.tp-preview': {
-    backgroundColor: 'white',
-    padding: '5px',
-    fontFamily: 'Gotham-Book',
+        padding: '5px',
+    },
+
+    '.related-quest-container': {
+        padding: '40px 50px',
+        width: '100%',
+        display: 'flex',
+        flexWrap: 'wrap',
     },
 
     '.message-section': {

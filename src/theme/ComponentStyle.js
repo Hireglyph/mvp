@@ -69,7 +69,8 @@ export const PopupSx = {
     }
 };
 
-export const HotQuestSx = {
+export const BoxQuestSx = {
+    // hot quest specific styles
     '.hot-quest-container': {
         display: 'flex',
         flexWrap: 'wrap',
@@ -81,7 +82,21 @@ export const HotQuestSx = {
         height: '130px',
         margin: '15px 15px 0 0',
     },
-    '.hot-quest-box-link': {
+    
+    // related quest specific styles
+    '.related-quest-box': {
+        width: ['50%', '50%', '30%', '40%', '30%'],
+        maxWidth: '300px',
+        minWidth: '200px',
+        height: '130px',
+        margin: '8px',
+    },
+    '.related-quest-box-link': {
+        border: '1px solid #DFDEDE',
+    },
+
+    // shared styles
+    '.box-quest-box-link': {
         width: '100%',
         height: '100%',
         padding: '20px 20px 17px 20px',
@@ -94,23 +109,23 @@ export const HotQuestSx = {
         textDecoration: 'none',
         color: 'black',
         backgroundColor: 'white',
-        boxShadow: '2px 2px 4px rgba(128, 128, 128, 0.1)',
+        boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.1)',
     },
-    '.hot-quest-tags': {
+    '.box-quest-tags': {
         width: '100%',
         height: '30px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
     },
-    '.hot-quests-dropdown': {
+    '.box-quests-dropdown': {
         margin: '-13px 0 0 10px',
         padding: '0px 10px 2px 10px',
     },
-    '.hot-quest-icon-box': {
+    '.box-quest-icon-box': {
         display: 'flex',
     },
-    '.hot-quest-diff': {
+    '.box-quest-diff': {
         width: '13px',
         height: '13px',
         padding: '0',
@@ -164,6 +179,7 @@ export const QuestDisplaySx = {
         color: 'purple',
         backgroundColor: 'white',
         border: '1px solid #5A3FFF',
+        minWidth: 'fit-content',
     },
     '.tag-btn:hover': {
         cursor: 'pointer',
