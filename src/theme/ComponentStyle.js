@@ -97,6 +97,7 @@ export const BoxQuestSx = {
     '.box-quest-box-link': {
         width: '100%',
         height: '100%',
+        fontSize: '16px',
         padding: '20px 20px 17px 20px',
         display: 'flex',
         flexDirection: 'column',

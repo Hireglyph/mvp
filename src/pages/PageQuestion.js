@@ -277,9 +277,10 @@ class PageQuestion extends React.Component {
       <div>
         <span
           className="answer-display"
-          onClick={
-            () => this.displayPopup('showAnswerConfirmation', true)
-          }
+          onClick={() => {
+            if (!this.state.showAnswer) this.displayPopup('showAnswerConfirmation', true);
+            else this.changeShowAnswer();
+          }}
         >
           <FontAwesomeIcon icon={faAngleDown} style={{marginRight: '10px'}} /> 
           See answer
