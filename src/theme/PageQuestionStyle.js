@@ -323,7 +323,6 @@ export const QuestionSx = {
 
     '.related-quest-container': {
         padding: '40px 50px',
-        width: '100%',
         display: 'flex',
         flexWrap: 'wrap',
     },

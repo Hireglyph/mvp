@@ -578,7 +578,12 @@ class PageQuestion extends React.Component {
         <ReactTitle
           title={`#${this.props.questId}: ${title} | Hireglyph`}
         />
-        <div className=" page-container" id={(this.state.showAnswerConfirmation || this.state.showPreview) && "no-scroll"}>
+        <div 
+          className="page-container" 
+          id={(this.state.showAnswerConfirmation || this.state.showPreview) ?
+            "no-scroll" : ""
+          }
+        >
           {/* question block: title, tags, description, difficulty, solved checkmark? */}
           <div className="question-block">
             <div>

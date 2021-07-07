@@ -85,11 +85,9 @@ export const BoxQuestSx = {
     
     // related quest specific styles
     '.related-quest-box': {
-        width: ['50%', '50%', '30%', '40%', '30%'],
-        maxWidth: '300px',
-        minWidth: '200px',
+        width: ['250px', '250px', '200px', '220px', '250px'],
         height: '130px',
-        margin: '8px',
+        margin: '10px',
     },
     '.related-quest-box-link': {
         border: '1px solid #DFDEDE',
@@ -110,6 +108,10 @@ export const BoxQuestSx = {
         color: 'black',
         backgroundColor: 'white',
         boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.1)',
+        transition: '.5s',
+        '&:hover': {
+            backgroundColor: 'lightPurpleGray',
+        }
     },
     '.box-quest-tags': {
         width: '100%',
