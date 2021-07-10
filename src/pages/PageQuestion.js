@@ -26,7 +26,7 @@ import Loading from 'components/Loading';
 import { length } from 'constants/PrevLength';
 
 import { QuestionSx } from 'theme/PageQuestionStyle';
-import { PopupSx, HotQuestSx, QuestDisplaySx } from 'theme/ComponentStyle.js';
+import { PopupSx, QuestDisplaySx, ScoreArrowsSx, ThreadBoxSx } from 'theme/ComponentStyle.js';
 
 const initialState = {
   initial: '',
@@ -79,8 +79,8 @@ class PageQuestion extends React.Component {
     const tpInfo = {tp, tpId, isUpvoted, isDownvoted, ...this.props};
 
     return tp && tp.creator && (
-      <div className="tp-block" key={tpId}>
-        <div className="tp-arrows">
+      <div className="tp-block" key={tpId} sx={ThreadBoxSx}>
+        <div className="tp-arrows" sx={ScoreArrowsSx}>
           {/* upvote + downvote arrow and TP score */}
           <div
             className={(isUpvoted ? "upvoted-arrow" : "blank-arrow") + " fa-layers"}
@@ -458,7 +458,9 @@ class PageQuestion extends React.Component {
                 read more about our methodology.
               </div>
             }
-            <div style={{color: 'gray', margin: '10px 0'}}>Use $$latex formula$$ for LaTeX.</div>
+            <div style={{color: 'gray', margin: '10px 0'}}>
+              Use $$latex formula$$ for LaTeX.
+            </div>
           </div>
           <TextareaAutosize
             className="my-tp-textarea"

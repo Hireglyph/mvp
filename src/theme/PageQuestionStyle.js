@@ -267,58 +267,8 @@ export const QuestionSx = {
         fontSize: '14px',
     },
 
-    '.fa-layers': {
-        height: '18px',
-        width: '50px',
-    },
-
-    '.upvoted-arrow': {
-        color: 'easyGreen',
-    },
-    
-    '.downvoted-arrow': {
-        color: 'hardRed',
-    },
-
-    '.blank-arrow': {
-        color: 'lighterGray',
-    },
-
-    '.tp-interior':{
-        border: '1px solid #DFDEDE',
-        borderRadius: '5px',
-        padding: '10px 25px 10px 10px',
-        overflow: 'hidden',
-        width: '100%',
-        fontSize: '14px',
-    },
-
-    '.tp-header': {
-        display: 'flex',
-        justifyContent: 'space-between',
-    },
-
-    '.tp-options': {
-        display: 'flex',
-        color: 'purple',
-        fontFamily: 'body',
-        fontSize: '13px',
-        cursor: 'pointer',
-        fontWeight: '600',
-    },
-
     '.see-feedback': {
         marginLeft: '20px',
-    },
-
-    '.tp-divider': {
-        width: '20px',
-        borderTop: '1px solid #DFDEDE',
-        margin: '7px 0',
-    },
-
-    '.tp-preview': {
-        padding: '5px',
     },
 
     '.related-quest-container': {

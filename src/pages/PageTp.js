@@ -11,9 +11,8 @@ import Latex from 'react-latex';
 import TextareaAutosize from 'react-textarea-autosize';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ReactTitle } from 'react-meta-tags';
-import { faArrowCircleLeft,
-         faCaretUp,
-         faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { faReply, faCaretUp,
+         faCaretDown, faAngleLeft, } from '@fortawesome/free-solid-svg-icons';
 import Moment from 'react-moment';
 
 import { currentVotes, getVoteValues, upvoteTp, downvoteTp } from 'utils/vote';
@@ -22,159 +21,8 @@ import PageNotFound from 'pages/PageNotFound';
 import Loading from 'components/Loading';
 import { tpDelete, feedbackDelete, replyDelete } from 'utils/delete';
 
-const TpSx = {
-  display: 'flex',
-
-  '.page-container': {
-    position: 'relative',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: '50px',
-    marginBottom: '50px',
-    paddingBottom: '30px',
-    width: '700px',
-    height: 'auto',
-    background: 'white',
-    fontFamily: 'Open-Sans',
-  },
-
-  '.tp-header': {
-    display: 'flex',
-    backgroundColor: 'orange',
-    height: '50px',
-    lineHeight: '50px',
-  },
-
-  '.back-hover': {
-    cursor: 'pointer',
-    fontSize: '20px',
-    width: '60px',
-    textAlign: 'center',
-    '&:hover': {
-      color: '#505050',
-    },
-  },
-
-  '.question-link': {
-    color: 'black',
-  },
-
-  '.tp-body': {
-    display: 'flex',
-    backgroundColor: 'lightGrey',
-  },
-
-  '.tp-content': {
-    backgroundColor: 'white',
-    width: '100%',
-    marginRight: '60px',
-    marginTop: '20px',
-    marginBottom: '20px',
-    minHeight: '100px',
-    fontFamily: 'Gotham-Book',
-    padding: '10px',
-    overflow: 'hidden',
-    whiteSpace: 'pre-wrap',
-  },
-
-  '.content-label': {
-    fontFamily: 'Gotham-Bold'
-  },
-
-  '.arrows-container': {
-    width: '60px',
-  },
-
-  '.centered': {
-    textAlign: 'center',
-  },
-
-  '.input-feedback': {
-    width: 'calc(100% - 120px)',
-    padding: '5px',
-    marginLeft: '60px',
-    resize: 'vertical',
-    verticalAlign: 'bottom',
-    minHeight: '40px',
-    fontFamily: 'Open-Sans',
-    lineHeight: '20px',
-  },
-
-  '.button-box': {
-    width: 'calc(100% - 120px)',
-    border: '1px solid #000000',
-    marginLeft: '60px',
-    textAlign: 'right',
-  },
-
-  '.submit-button': {
-    verticalAlign: 'bottom',
-    height: '30px',
-    width: '70px',
-    backgroundColor: 'orange',
-    color: 'black',
-    fontFamily: 'Open-Sans',
-    cursor: 'pointer',
-    border: 'none',
-    '&:hover': {
-      backgroundColor: 'darkOrange',
-    },
-    '&:disabled': {
-      backgroundColor: 'darkGrey',
-      cursor: 'default',
-    },
-  },
-
-  '.feedback-block': {
-    display: 'flex',
-    minHeight: '60px',
-    marginTop: '30px',
-    marginRight: '60px',
-  },
-
-  '.feedback-content': {
-    marginTop: '10px',
-    width: '100%',
-    fontFamily: 'Gotham-Book',
-    overflow: 'hidden',
-    whiteSpace: 'pre-wrap',
-  },
-
-  '.feedback-top': {
-    display: 'flex',
-  },
-
-  '.reply-click': {
-    cursor: 'pointer',
-  },
-
-  '.cancel-reply': {
-    color: 'red',
-  },
-
-  '.fa-layers': {
-    height: '18px',
-    width: '60px',
-  },
-
-  '.upvoted-arrow': {
-    color: '#00D305',
-  },
-
-  '.downvoted-arrow': {
-    color: '#E44C4C',
-  },
-
-  '.blank-arrow': {
-    color: 'white',
-  },
-
-  '.fa-caret-up, .fa-caret-down': {
-    stroke: 'black',
-    strokeWidth: '7',
-    transform: 'scaleY(0.8)',
-  },
-};
+import { TpSx } from 'theme/PageTPStyle.js';
+import { ScoreArrowsSx, ThreadBoxSx } from 'theme/ComponentStyle';
 
 class PageTp extends React.Component {
   constructor(props) {
@@ -486,7 +334,7 @@ class PageTp extends React.Component {
 
           // upvote/downvote arrows + score
           const feedbackScoreArrows = !deleted && (
-            <div className="centered">
+            <div className="centered" sx={ScoreArrowsSx}>
               <div
                 className={(feedbackUpvoted ? "upvoted-arrow" : "blank-arrow") + " fa-layers"}
                 onClick={() => this.upvoteFeedback(feedbackId)}
@@ -513,37 +361,52 @@ class PageTp extends React.Component {
               const replyDeleted = !replyCreator;
               const isReplyUpvoted = repliesTo[replyId].users && repliesTo[replyId].users[uid];
               return (
-                <div key={replyId} id={replyId}>
-                  <div className="feedback-top">
-                  <div>@{replyUsername}{' '}</div>
-                    <Moment fromNow>{replyDate}</Moment>
-                    {!replyDeleted && (this.state.replyToID === replyId ?
-                      <div
-                        className="reply-click cancel-reply"
-                        onClick={() => this.cancelReply()}
-                      >
-                        Reply
+                <div key={replyId} id={replyId} sx={ThreadBoxSx}>
+                  <div className="tp-interior">
+                    <div className="tp-header">
+                      <div style={{display: 'flex'}}>
+                        <div style={{fontFamily: 'Gotham-Bold'}}>@{username} •{'\xa0'}</div> 
+                        <em><Moment fromNow>{tp.date}</Moment></em>
                       </div>
-                    :
-                      <div
-                        className="reply-click"
-                        onClick={() => this.setReply(feedbackId, replyId, replyUsername)}
-                      >
-                        Reply
+                      <div className="tp-options">
+                        {!replyDeleted && (this.state.replyToID === replyId ?
+                          <div
+                            className="reply-click cancel-reply"
+                            onClick={() => this.cancelReply()}
+                          >
+                            <FontAwesomeIcon icon={faReply} />
+                            {'\xa0'} Reply
+                          </div>
+                        :
+                          <div
+                            className="reply-click"
+                            onClick={() => this.setReply(feedbackId, replyId, replyUsername)}
+                          >
+                            <FontAwesomeIcon icon={faReply} />
+                            {'\xa0'} Reply
+                          </div>
+                        )}
                       </div>
-                    )}
+                    </div>
+                    <div className="tp-divider"></div>
+                    <div className="tp-preview">
+                      text
+                    </div>
                   </div>
+
                   <div>
-                    {!replyDeleted && <div className="feedback-top">
-                      {/* upvote arrow + score for reply (only display score if >0) */}
-                      <div
-                        className={(isReplyUpvoted ? "upvoted-arrow" : "blank-arrow") + " fa-layers"}
-                        onClick={() => this.upvoteReply(replyId, feedbackId)}
-                      >
-                        <FontAwesomeIcon icon={faCaretUp} size="2x" />
+                    {!replyDeleted && 
+                      <div className="feedback-top">
+                        {/* upvote arrow + score for reply (only display score if >0) */}
+                        <div
+                          className={(isReplyUpvoted ? "upvoted-arrow" : "blank-arrow") + " fa-layers"}
+                          onClick={() => this.upvoteReply(replyId, feedbackId)}
+                        >
+                          <FontAwesomeIcon icon={faCaretUp} size="2x" />
+                        </div>
+                        <div>{repliesTo[replyId].score > 0 && repliesTo[replyId].score}</div>
                       </div>
-                      <div>{repliesTo[replyId].score > 0 && repliesTo[replyId].score}</div>
-                    </div>}
+                    }
                     <div>
                       @{toUsername}{' '}
                     </div>
@@ -566,6 +429,7 @@ class PageTp extends React.Component {
                 </div>
               );
             })
+          
           // reply textArea if replying to feedback or a reply corresponding to the feedbackId
           const replyTextArea = this.state.replyFeedbackID === feedbackId && (
             <div>
@@ -589,6 +453,7 @@ class PageTp extends React.Component {
               </button>
             </div>
           );
+
           return (
             <div className="feedback-block" key={feedbackId} id={`${feedbackId}`}>
               <div className="arrows-container">
@@ -649,13 +514,16 @@ class PageTp extends React.Component {
           minRows={2}
           className="input-feedback"
           name="feedback"
-          placeholder="Enter feedback here"
+          placeholder="Your feedback..."
           onChange={this.handleChange}
           value={this.state.feedback}
         />
-        <div className="button-box">
+        <div className="btn-box">
+        <div className="latex-message">
+          Use $$latex formula$$ for LaTeX.
+        </div>
           <button
-            className="submit-button"
+            className="submit-btn"
             disabled={this.state.feedback.trim() === ""}
             onClick={this.createFeedback}
           >
@@ -667,7 +535,7 @@ class PageTp extends React.Component {
 
     // upvote/downvote arrows and score for the TP
     const scoreArrows = this.props.tp.creator && (
-      <div className="centered">
+      <div className="centered" sx={ScoreArrowsSx}>
         <div
           className={(isUpvoted ? "upvoted-arrow" : "blank-arrow") + " fa-layers"}
           onClick={() => upvoteTp(this.props)}
@@ -696,63 +564,65 @@ class PageTp extends React.Component {
         <div className="page-container">
           <div className="tp-header">
             <div className="back-hover" onClick={() => this.props.history.goBack()}>
-              <FontAwesomeIcon icon={faArrowCircleLeft} />
+              <FontAwesomeIcon icon={faAngleLeft} /> Back
             </div>
             <div>
-              TP by @{tp.username} to {' '}
+              TP to {' '}
               <Link
                 className="question-link"
                 to={`/q/${questId}`}
               >
                 Question #{questId}
               </Link> {' '}
-              <Moment fromNow>{tp.date}</Moment>
+              by <b style={{fontFamily: 'Open-Sans-Bold'}}>@{tp.username}</b> • {' '}
+              <em><Moment fromNow>{tp.date}</Moment></em>
             </div>
             <br />
           </div>
           <div className="tp-body">
-            <div className="arrows-container" style={{ marginTop: '20px' }}>
-              {scoreArrows}
-            </div>
-            <div className="tp-content">
-              <div className="content-label">
-                {tp.initial && 'Initial Thoughts:'}
+            <div className="tp-content-container">
+              <div className="arrows-container" style={{ marginTop: '20px' }}>
+                {scoreArrows}
               </div>
-              <div>
-                <Latex>{tp.initial && displayContent(tp.initial)}</Latex>
+              <div className="tp-content">
+                <div className="tp-content-box">
+                  <span className="content-label">
+                    {tp.initial && 'Initial: '}
+                  </span>
+                  <Latex>{tp.initial && displayContent(tp.initial)}</Latex>
+                </div>
+                <div className="tp-content-box">
+                  <span className="content-label">
+                    {tp.approach && 'Approach(es) tried: '}
+                  </span>
+                  <Latex>{tp.approach && displayContent(tp.approach)}</Latex>
+                </div>
+                <div className="tp-content-box">
+                  <span className="content-label">
+                    {tp.solution && 'Final solution: '}
+                  </span>
+                  <Latex>{tp.solution && displayContent(tp.solution)}</Latex>
+                </div>
+                {/* show delete button if current user wrote the tp */}
+                {uid === tp.creator &&
+                  <button
+                    onClick={() => tpDelete({
+                      firebase: this.props.firebase,
+                      questId,
+                      tpId: this.props.tpId,
+                      uid: tp.creator,
+                    })}
+                  >
+                    Delete TP
+                  </button>
+                }
               </div>
-              <div className="content-label">
-                {tp.approach && 'Approaches Tried:'}
-              </div>
-              <div>
-                <Latex>{tp.approach && displayContent(tp.approach)}</Latex>
-              </div>
-              <div className="content-label">
-                {tp.solution && 'Final Solution:'}
-              </div>
-              <div>
-                <Latex>{tp.solution && displayContent(tp.solution)}</Latex>
-              </div>
-              {/* show delete button if current user wrote the tp */}
-              {uid === tp.creator &&
-                <button
-                  onClick={() => tpDelete({
-                    firebase: this.props.firebase,
-                    questId,
-                    tpId: this.props.tpId,
-                    uid: tp.creator,
-                  })}
-                >
-                  Delete TP
-                </button>
-              }
             </div>
           </div>
-          <br />
           {this.state.loading || this.state.replyLoading
             ? <Loading/>
             : (
-            <div>
+            <div className="all-feedback-container">
               {/* feedback textArea and feedbacks + replies display */}
               {myFeedback}
               {feedbacksDisplay}
