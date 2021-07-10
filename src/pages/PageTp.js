@@ -412,6 +412,7 @@ class PageTp extends React.Component {
                     </div>
                     <Latex>{displayContent(reply)}</Latex>
                   </div>
+                  
                   {/* show delete button if current user wrote the reply */}
                   {uid === replyCreator &&
                     <button
@@ -435,22 +436,27 @@ class PageTp extends React.Component {
             <div>
               <div>Reply To: {this.state.toUsername}</div>
               <TextareaAutosize
+                className="input-feedback"
                 minRows={2}
                 name="reply"
                 placeholder="Enter reply here"
                 onChange={this.handleChange}
                 value={this.state.reply}
               />
-              <button
-                onClick={this.cancelReply}
-              >
-                Delete
-              </button>
-              <button
-                onClick={this.createReply}
-              >
-                Reply
-              </button>
+              <div className="btn-box reply-btn-box">
+                <button
+                  className="thread-btn"
+                  onClick={this.cancelReply}
+                >
+                  Delete
+                </button>
+                <button
+                  className="thread-btn"
+                  onClick={this.createReply}
+                >
+                  Reply
+                </button>
+              </div>
             </div>
           );
 
@@ -523,7 +529,7 @@ class PageTp extends React.Component {
           Use $$latex formula$$ for LaTeX.
         </div>
           <button
-            className="submit-btn"
+            className="thread-btn"
             disabled={this.state.feedback.trim() === ""}
             onClick={this.createFeedback}
           >

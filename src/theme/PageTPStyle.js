@@ -12,6 +12,18 @@ export const TpSx = {
         background: 'white',
         fontFamily: 'Open-Sans',
     },
+
+    '.thread-btn': {
+        padding: '0',
+        fontSize: '14px',
+        width: '70px',
+        height: '30px',
+        marginRight: '10px',
+        '&:disabled': {
+          backgroundColor: 'purple2',
+          cursor: 'default',
+        },
+      },
   
     '.tp-header': {
         display: 'flex',
@@ -102,18 +114,6 @@ export const TpSx = {
         marginLeft: '13px',
     },
   
-    '.submit-btn': {
-      padding: '0',
-      fontSize: '14px',
-      width: '70px',
-      height: '30px',
-      marginRight: '10px',
-      '&:disabled': {
-        backgroundColor: 'purple2',
-        cursor: 'default',
-      },
-    },
-  
     '.feedback-block': {
       display: 'flex',
       minHeight: '60px',
@@ -140,5 +140,9 @@ export const TpSx = {
     '.cancel-reply': {
       color: 'red',
     },
+
+    '.reply-btn-box': {
+        justifyContent: 'flex-end',
+    }
 
 };
