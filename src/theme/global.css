@@ -121,6 +121,10 @@ a {
   color: #5A3FFF;
   text-decoration: none;
 }
+a:hover, a:focus, a:active {
+  color: #5A3FFF;
+  text-decoration: none;
+}
 
 @media (max-width: 350px) {
   body, button, input, textarea {
