@@ -77,6 +77,8 @@ export const TpSx = {
   
     '.arrows-container': {
         width: '60px',
+        position: 'relative',
+        top: '10px',
     },
   
     '.centered': {
@@ -101,6 +103,8 @@ export const TpSx = {
     },
   
     '.btn-box': {
+        position: 'relative',
+        top: '-10px',
         width: '100%',
         height: '40px',
         backgroundColor: 'lighterGray',
@@ -115,29 +119,31 @@ export const TpSx = {
     },
   
     '.feedback-block': {
-      display: 'flex',
-      width: '100%',
-      flexDirection: 'column',
-      minHeight: '60px',
-      marginTop: '30px',
-      marginRight: '60px',
+        display: 'flex',
+        width: '100%',
+        flexDirection: 'column',
+        minHeight: '60px',
+        marginRight: '60px',
     },
 
     '.feedback-content-container': {
         display: 'flex',
         width: '100%',
     },  
-  
-    '.feedback-content': {
-      marginTop: '10px',
-      width: '100%',
-      fontFamily: 'Gotham-Book',
-      overflow: 'hidden',
-      whiteSpace: 'pre-wrap',
+
+    '.input-reply': {
+        width: 'calc(100% - 30px)',
+        marginLeft: '30px',
     },
-  
-    '.feedback-top': {
-      display: 'flex',
+
+    '.replies-container': {
+        width: 'calc(100% - 70px)',
+        margin: '0 0 10px 70px',
+        borderLeft: '1px solid #DFDEDE',
+    },
+
+    '.reply-content-container': {
+        marginBottom: '20px',
     },
   
     '.reply-option': {
@@ -155,6 +161,12 @@ export const TpSx = {
     '.reply-btn-box': {
         justifyContent: 'flex-end',
         backgroundColor: 'white',
-    }
+        top: '0',
+        marginBottom: '10px',
+    },
+
+    '.cancel-btn': {
+        backgroundColor: '#ff7373',
+    },
 
 };

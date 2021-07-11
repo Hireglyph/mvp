@@ -187,7 +187,12 @@ class PageTp extends React.Component {
   };
 
   setReply = (replyFeedbackID, replyToID, toUsername) => {
-    this.setState({ replyFeedbackID, replyToID, toUsername });
+    this.setState({ 
+      replyFeedbackID, 
+      replyToID, 
+      toUsername,
+      reply: "@" + toUsername,
+    });
   };
 
   cancelReply = () => {
@@ -361,25 +366,27 @@ class PageTp extends React.Component {
               const replyDate = repliesTo[replyId].date;
               const replyDeleted = !replyCreator;
               const isReplyUpvoted = repliesTo[replyId].users && repliesTo[replyId].users[uid];
-              return (
+              if (!replyDeleted) return (
                 <div key={replyId} id={replyId} sx={ThreadBoxSx}>
-                  <div>
+                  <div className="feedback-content-container reply-content-container">
                     {!replyDeleted && 
-                      <div className="feedback-top">
+                      <div sx={ScoreArrowsSx}>
                         {/* upvote arrow + score for reply (only display score if >0) */}
                         <div
                           className={(isReplyUpvoted ? "upvoted-arrow" : "blank-arrow") + " fa-layers"}
                           onClick={() => this.upvoteReply(replyId, feedbackId)}
                         >
-                          <FontAwesomeIcon icon={faCaretUp} size="2x" />
+                          <FontAwesomeIcon icon={faCaretUp} size="3x" />
                         </div>
-                        <div>{repliesTo[replyId].score > 0 && repliesTo[replyId].score}</div>
+                        <div style={{textAlign: 'center'}}>
+                          {repliesTo[replyId].score > 0 && repliesTo[replyId].score}
+                        </div>
                       </div>
                     }
                     <div className="thread-box-interior">
                       <div className="thread-box-header">
                         <div style={{display: 'flex'}}>
-                          <div style={{fontFamily: 'Gotham-Bold'}}>{this.props.username} •{'\xa0'}</div> 
+                          <div style={{fontFamily: 'Gotham-Bold'}}>{replyUsername} •{'\xa0'}</div> 
                           <em><Moment fromNow>{tp.date}</Moment></em>
                         </div>
                         <div className="thread-box-options">
@@ -399,13 +406,15 @@ class PageTp extends React.Component {
                               {'\xa0'} Delete Reply 
                             </div>
                           }
-                          <div
-                            className="reply-option"
-                            onClick={() => this.setReply(feedbackId, feedbackId, feedbackUsername)}
-                          >
-                            <FontAwesomeIcon icon={faReply} />
-                            {'\xa0'} Reply
-                          </div>
+                          {!replyDeleted && 
+                            <div
+                              className="reply-option"
+                              onClick={() => this.setReply(feedbackId, feedbackId, replyUsername)}
+                            >
+                              <FontAwesomeIcon icon={faReply} />
+                              {'\xa0'} Reply
+                            </div>
+                          }
                         </div>
                       </div>
                       <div className="thread-box-divider"></div>
@@ -421,21 +430,20 @@ class PageTp extends React.Component {
           // reply textArea if replying to feedback or a reply corresponding to the feedbackId
           const replyTextArea = this.state.replyFeedbackID === feedbackId && (
             <div>
-              <div>Reply To: {this.state.toUsername}</div>
               <TextareaAutosize
-                className="input-feedback"
+                className="input-feedback input-reply"
                 minRows={2}
                 name="reply"
-                placeholder="Enter reply here"
+                placeholder="Your reply..."
                 onChange={this.handleChange}
                 value={this.state.reply}
               />
               <div className="btn-box reply-btn-box">
                 <button
-                  className="thread-btn"
+                  className="thread-btn cancel-btn"
                   onClick={this.cancelReply}
                 >
-                  Delete
+                  Cancel
                 </button>
                 <button
                   className="thread-btn"
@@ -447,7 +455,7 @@ class PageTp extends React.Component {
             </div>
           );
 
-          return (
+          if (!deleted) return (
             <div className="feedback-block" key={feedbackId} id={`${feedbackId}`} sx={ThreadBoxSx}>
               <div className="feedback-content-container">
                 <div className="arrows-container">
@@ -460,39 +468,41 @@ class PageTp extends React.Component {
                       <em><Moment fromNow>{tp.date}</Moment></em>
                     </div>
                     <div className="thread-box-options">
-                      <div
-                        className="reply-click"
-                        onClick={() => this.setReply(feedbackId, feedbackId, feedbackUsername)}
-                      >
-                        <FontAwesomeIcon icon={faReply} />
-                        {'\xa0'} Reply
-                      </div>
+                      {/* show delete button if current user wrote the feedback */}
+                      {uid === creator &&
+                        <div
+                          onClick={() => feedbackDelete({
+                            firebase: this.props.firebase,
+                            tpId: this.props.tpId,
+                            feedbackId,
+                            uid: creator,
+                          })}
+                          className="delete-reply"
+                        >
+                          <FontAwesomeIcon icon={faTrashAlt} />
+                          {'\xa0'}Delete Feedback
+                        </div>
+                      }
+                      {!deleted &&
+                        <div
+                          className="reply-option"
+                          onClick={() => this.setReply(feedbackId, feedbackId, feedbackUsername)}
+                        >
+                          <FontAwesomeIcon icon={faReply} />
+                          {'\xa0'} Reply
+                        </div>
+                      }
                     </div>
                   </div>
                   <div className="thread-box-divider"></div>
                   <div className="thread-box-preview">
                     <Latex>{displayContent(feedback)}</Latex>
                   </div>
-                  {/* show delete button if current user wrote the feedback */}
-                  {uid === creator &&
-                    <button
-                      onClick={() => feedbackDelete({
-                        firebase: this.props.firebase,
-                        tpId: this.props.tpId,
-                        feedbackId,
-                        uid: creator,
-                      })}
-                    >
-                      Delete Feedback
-                    </button>
-                  }
                 </div>
               </div>
               <br />
-              <div>
+              <div className="replies-container">
                 {replyTextArea}
-              </div>
-              <div>
                 {repliesDisplay}
               </div>
             </div>
@@ -503,7 +513,7 @@ class PageTp extends React.Component {
 
     // textArea to write feedback directly to the TP (not a reply)
     const myFeedback = this.props.tp.creator && (
-      <div>
+      <div style={{marginBottom: '20px',}}>
         <TextareaAutosize
           minRows={2}
           className="input-feedback"
@@ -513,9 +523,9 @@ class PageTp extends React.Component {
           value={this.state.feedback}
         />
         <div className="btn-box">
-        <div className="latex-message">
-          Use $$latex formula$$ for LaTeX.
-        </div>
+          <div className="latex-message">
+            Use $$latex formula$$ for LaTeX.
+          </div>
           <button
             className="thread-btn"
             disabled={this.state.feedback.trim() === ""}
