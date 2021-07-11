@@ -3,7 +3,7 @@ export const PopupSx = {
 
     '.popup-container': {
         zIndex: '200 !important',
-        position: 'absolute',
+        position: 'fixed',
         top: '0',
         left: '0',
         width: '100vw',
@@ -16,7 +16,7 @@ export const PopupSx = {
     '.popup-box': {
         backgroundColor: 'white',
         width: '50%',
-        maxWidth: '540px',
+        maxWidth: '600px',
         minWidth: '400px',
         borderRadius: '20px',
         padding: '30px 60px 40px 60px',
@@ -46,6 +46,11 @@ export const PopupSx = {
         fontSize: '16px',
         fontWeight: '400',
         margin: '10px 0',
+    },
+    '.popup-text-center': {
+        fontSize: '16px',
+        fontWeight: '400',
+        margin: '10px auto',
     },
     '.popup-bold': {
         fontWeight: '700',

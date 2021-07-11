@@ -11,8 +11,8 @@ import Latex from 'react-latex';
 import TextareaAutosize from 'react-textarea-autosize';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ReactTitle } from 'react-meta-tags';
-import { faReply, faCaretUp, 
-         faCaretDown, faAngleLeft, } from '@fortawesome/free-solid-svg-icons';
+import { faReply, faCaretUp, faTimes,
+         faCaretDown, faAngleLeft, faSearch, } from '@fortawesome/free-solid-svg-icons';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import Moment from 'react-moment';
 
@@ -23,7 +23,7 @@ import Loading from 'components/Loading';
 import { tpDelete, feedbackDelete, replyDelete } from 'utils/delete';
 
 import { TpSx } from 'theme/PageTPStyle.js';
-import { ScoreArrowsSx, ThreadBoxSx } from 'theme/ComponentStyle';
+import { ScoreArrowsSx, ThreadBoxSx, PopupSx } from 'theme/ComponentStyle';
 
 class PageTp extends React.Component {
   constructor(props) {
@@ -40,6 +40,12 @@ class PageTp extends React.Component {
       replyLoading: true,
       replyKeys: {},
       replies: {},
+      popup: false,
+      popupFeedbackId: '', 
+      popupCreator: '',
+      popupReplyId: '', 
+      popupReplyCreator: '',
+      replyTo: 'feedback',
     };
   }
 
@@ -186,12 +192,13 @@ class PageTp extends React.Component {
     firebase.update('/', updates);
   };
 
-  setReply = (replyFeedbackID, replyToID, toUsername) => {
+  setReply = (replyFeedbackID, replyToID, toUsername, replyTo) => {
     this.setState({ 
       replyFeedbackID, 
       replyToID, 
       toUsername,
       reply: "@" + toUsername,
+      replyTo,
     });
   };
 
@@ -307,6 +314,24 @@ class PageTp extends React.Component {
     firebase.update('/', updates);
   };
 
+  // change whether or not popup is displayed
+  displayPopup = (display) => {
+    this.setState({ popup: display });
+  };
+
+  // delete reply or delete feedback clicked
+  onDeleteClicked = (replyTo, popupCreator, 
+    popupReplyCreator, popupFeedbackId, popupReplyId) => {
+      this.setState({
+        replyTo,
+        popupCreator, 
+        popupReplyCreator, 
+        popupFeedbackId, 
+        popupReplyId,
+      });
+      this.displayPopup(true);
+  };
+
   render() {
     const { feedbacks, replies }  = this.state;
 
@@ -393,14 +418,16 @@ class PageTp extends React.Component {
                           {/* show delete button if current user wrote the reply */}
                           {uid === replyCreator &&
                             <div
-                              onClick={() => replyDelete({
-                                firebase: this.props.firebase,
-                                tpId: this.props.tpId,
-                                replyFeedbackID: feedbackId,
-                                replyId,
-                                uid: replyCreator,
-                              })}
                               className="delete-reply reply-option"
+                              onClick={() => 
+                                this.onDeleteClicked(
+                                  'reply', 
+                                  this.state.popupCreator, 
+                                  replyCreator, 
+                                  feedbackId, 
+                                  replyId
+                                )
+                              }
                             >
                               <FontAwesomeIcon icon={faTrashAlt} />
                               {'\xa0'} Delete Reply 
@@ -409,7 +436,7 @@ class PageTp extends React.Component {
                           {!replyDeleted && 
                             <div
                               className="reply-option"
-                              onClick={() => this.setReply(feedbackId, feedbackId, replyUsername)}
+                              onClick={() => this.setReply(feedbackId, feedbackId, replyUsername, 'reply')}
                             >
                               <FontAwesomeIcon icon={faReply} />
                               {'\xa0'} Reply
@@ -471,13 +498,16 @@ class PageTp extends React.Component {
                       {/* show delete button if current user wrote the feedback */}
                       {uid === creator &&
                         <div
-                          onClick={() => feedbackDelete({
-                            firebase: this.props.firebase,
-                            tpId: this.props.tpId,
-                            feedbackId,
-                            uid: creator,
-                          })}
                           className="delete-reply"
+                          onClick={() => 
+                            this.onDeleteClicked(
+                              'feedback', 
+                              creator, 
+                              this.state.popupReplyCreator, 
+                              feedbackId, 
+                              this.state.popupReplyId
+                            )
+                          }
                         >
                           <FontAwesomeIcon icon={faTrashAlt} />
                           {'\xa0'}Delete Feedback
@@ -486,7 +516,7 @@ class PageTp extends React.Component {
                       {!deleted &&
                         <div
                           className="reply-option"
-                          onClick={() => this.setReply(feedbackId, feedbackId, feedbackUsername)}
+                          onClick={() => this.setReply(feedbackId, feedbackId, feedbackUsername, 'feedback')}
                         >
                           <FontAwesomeIcon icon={faReply} />
                           {'\xa0'} Reply
@@ -502,8 +532,9 @@ class PageTp extends React.Component {
               </div>
               <br />
               <div className="replies-container">
-                {replyTextArea}
+                {this.state.replyTo === 'feedback' && replyTextArea}
                 {repliesDisplay}
+                {this.state.replyTo === 'reply' && replyTextArea}
               </div>
             </div>
           );
@@ -552,6 +583,60 @@ class PageTp extends React.Component {
           onClick={() => downvoteTp(this.props)}
         >
           <FontAwesomeIcon icon={faCaretDown} size="3x" />
+        </div>
+      </div>
+    );
+
+    // confirmation popup for viewing answer
+    const deletePopup = (
+      <div className="popup-container">
+        <div className="popup-box">
+          <FontAwesomeIcon 
+            icon={faTimes} 
+            className="popup-x-icon" 
+            onClick={() => this.displayPopup(false)}
+          />
+          <div className="popup-title">
+            Are you sure you want to delete your {this.state.replyTo}?
+          </div>
+          <div className="popup-text-center">
+            This action is non-reversible.
+          </div>
+          <div className="popup-btn-container" style={{justifyContent: 'space-around'}}>
+            <button 
+              className="popup-btn popup-red-btn"
+              onClick={this.state.replyTo === "reply" ? 
+                () => {
+                  replyDelete({
+                    firebase: this.props.firebase,
+                    tpId: this.props.tpId,
+                    replyFeedbackID: this.state.popupFeedbackId,
+                    replyId: this.state.popupReplyId,
+                    uid: this.state.popupReplyCreator,
+                  }) 
+                  this.displayPopup(false);
+                }
+                :
+                () => {
+                  feedbackDelete({
+                    firebase: this.props.firebase,
+                    tpId: this.props.tpId,
+                    feedbackId: this.state.popupFeedbackId,
+                    uid: this.state.popupCreator,
+                  })
+                  this.displayPopup(false);
+                }
+              }
+            >
+              Delete
+            </button>
+            <button 
+              className="popup-btn"
+              onClick={() => this.displayPopup(false)}
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -632,6 +717,9 @@ class PageTp extends React.Component {
               {feedbacksDisplay}
             </div>
           )}
+        </div>
+        <div sx={PopupSx}>
+          {this.state.popup && deletePopup}
         </div>
       </div>
     );

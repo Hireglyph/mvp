@@ -140,7 +140,7 @@ class PageQuestion extends React.Component {
     this.props.history.push(`/q/${questId}/community/${sortBy}`);
   };
 
-  // change whether or not the answer is displayed
+  // change whether or not popup is displayed
   displayPopup = (popup, display) => {
     this.setState({ [popup]: display });
   };
