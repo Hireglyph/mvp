@@ -11,8 +11,9 @@ import Latex from 'react-latex';
 import TextareaAutosize from 'react-textarea-autosize';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ReactTitle } from 'react-meta-tags';
-import { faReply, faCaretUp,
+import { faReply, faCaretUp, 
          faCaretDown, faAngleLeft, } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import Moment from 'react-moment';
 
 import { currentVotes, getVoteValues, upvoteTp, downvoteTp } from 'utils/vote';
@@ -362,38 +363,6 @@ class PageTp extends React.Component {
               const isReplyUpvoted = repliesTo[replyId].users && repliesTo[replyId].users[uid];
               return (
                 <div key={replyId} id={replyId} sx={ThreadBoxSx}>
-                  <div className="tp-interior">
-                    <div className="tp-header">
-                      <div style={{display: 'flex'}}>
-                        <div style={{fontFamily: 'Gotham-Bold'}}>@{username} •{'\xa0'}</div> 
-                        <em><Moment fromNow>{tp.date}</Moment></em>
-                      </div>
-                      <div className="tp-options">
-                        {!replyDeleted && (this.state.replyToID === replyId ?
-                          <div
-                            className="reply-click cancel-reply"
-                            onClick={() => this.cancelReply()}
-                          >
-                            <FontAwesomeIcon icon={faReply} />
-                            {'\xa0'} Reply
-                          </div>
-                        :
-                          <div
-                            className="reply-click"
-                            onClick={() => this.setReply(feedbackId, replyId, replyUsername)}
-                          >
-                            <FontAwesomeIcon icon={faReply} />
-                            {'\xa0'} Reply
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    <div className="tp-divider"></div>
-                    <div className="tp-preview">
-                      text
-                    </div>
-                  </div>
-
                   <div>
                     {!replyDeleted && 
                       <div className="feedback-top">
@@ -407,26 +376,44 @@ class PageTp extends React.Component {
                         <div>{repliesTo[replyId].score > 0 && repliesTo[replyId].score}</div>
                       </div>
                     }
-                    <div>
-                      @{toUsername}{' '}
+                    <div className="thread-box-interior">
+                      <div className="thread-box-header">
+                        <div style={{display: 'flex'}}>
+                          <div style={{fontFamily: 'Gotham-Bold'}}>{this.props.username} •{'\xa0'}</div> 
+                          <em><Moment fromNow>{tp.date}</Moment></em>
+                        </div>
+                        <div className="thread-box-options">
+                          {/* show delete button if current user wrote the reply */}
+                          {uid === replyCreator &&
+                            <div
+                              onClick={() => replyDelete({
+                                firebase: this.props.firebase,
+                                tpId: this.props.tpId,
+                                replyFeedbackID: feedbackId,
+                                replyId,
+                                uid: replyCreator,
+                              })}
+                              className="delete-reply reply-option"
+                            >
+                              <FontAwesomeIcon icon={faTrashAlt} />
+                              {'\xa0'} Delete Reply 
+                            </div>
+                          }
+                          <div
+                            className="reply-option"
+                            onClick={() => this.setReply(feedbackId, feedbackId, feedbackUsername)}
+                          >
+                            <FontAwesomeIcon icon={faReply} />
+                            {'\xa0'} Reply
+                          </div>
+                        </div>
+                      </div>
+                      <div className="thread-box-divider"></div>
+                      <div className="thread-box-preview">
+                        <Latex>{displayContent(reply)}</Latex>
+                      </div>
                     </div>
-                    <Latex>{displayContent(reply)}</Latex>
                   </div>
-                  
-                  {/* show delete button if current user wrote the reply */}
-                  {uid === replyCreator &&
-                    <button
-                      onClick={() => replyDelete({
-                        firebase: this.props.firebase,
-                        tpId: this.props.tpId,
-                        replyFeedbackID: feedbackId,
-                        replyId,
-                        uid: replyCreator,
-                      })}
-                    >
-                      Delete Reply
-                    </button>
-                  }
                 </div>
               );
             })
@@ -461,52 +448,53 @@ class PageTp extends React.Component {
           );
 
           return (
-            <div className="feedback-block" key={feedbackId} id={`${feedbackId}`}>
-              <div className="arrows-container">
-                {feedbackScoreArrows}
-              </div>
-              <div className="feedback-content">
-                <div className="feedback-top">
-                  <div>@{feedbackUsername}{' '}</div>
-                  <Moment fromNow>{date}</Moment>
-                  {!deleted && (this.state.replyToID === feedbackId ?
-                    <div
-                      className="reply-click cancel-reply"
-                      onClick={() => this.cancelReply()}
-                    >
-                      Reply
-                    </div>
-                  :
-                    <div
-                      className="reply-click"
-                      onClick={() => this.setReply(feedbackId, feedbackId, feedbackUsername)}
-                    >
-                      Reply
-                    </div>
-                  )}
+            <div className="feedback-block" key={feedbackId} id={`${feedbackId}`} sx={ThreadBoxSx}>
+              <div className="feedback-content-container">
+                <div className="arrows-container">
+                  {feedbackScoreArrows}
                 </div>
-                <div>
-                  <Latex>{displayContent(feedback)}</Latex>
-                </div>
-                {/* show delete button if current user wrote the feedback */}
-                {uid === creator &&
-                  <button
-                    onClick={() => feedbackDelete({
-                      firebase: this.props.firebase,
-                      tpId: this.props.tpId,
-                      feedbackId,
-                      uid: creator,
-                    })}
-                  >
-                    Delete Feedback
-                  </button>
-                }
-                <div>
-                  {repliesDisplay}
-                  {replyTextArea}
+                <div className="thread-box-interior">
+                  <div className="thread-box-header">
+                    <div style={{display: 'flex'}}>
+                      <div style={{fontFamily: 'Gotham-Bold'}}>{feedbackUsername} •{'\xa0'}</div> 
+                      <em><Moment fromNow>{tp.date}</Moment></em>
+                    </div>
+                    <div className="thread-box-options">
+                      <div
+                        className="reply-click"
+                        onClick={() => this.setReply(feedbackId, feedbackId, feedbackUsername)}
+                      >
+                        <FontAwesomeIcon icon={faReply} />
+                        {'\xa0'} Reply
+                      </div>
+                    </div>
+                  </div>
+                  <div className="thread-box-divider"></div>
+                  <div className="thread-box-preview">
+                    <Latex>{displayContent(feedback)}</Latex>
+                  </div>
+                  {/* show delete button if current user wrote the feedback */}
+                  {uid === creator &&
+                    <button
+                      onClick={() => feedbackDelete({
+                        firebase: this.props.firebase,
+                        tpId: this.props.tpId,
+                        feedbackId,
+                        uid: creator,
+                      })}
+                    >
+                      Delete Feedback
+                    </button>
+                  }
                 </div>
               </div>
               <br />
+              <div>
+                {replyTextArea}
+              </div>
+              <div>
+                {repliesDisplay}
+              </div>
             </div>
           );
         }

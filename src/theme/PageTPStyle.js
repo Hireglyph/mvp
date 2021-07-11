@@ -116,10 +116,17 @@ export const TpSx = {
   
     '.feedback-block': {
       display: 'flex',
+      width: '100%',
+      flexDirection: 'column',
       minHeight: '60px',
       marginTop: '30px',
       marginRight: '60px',
     },
+
+    '.feedback-content-container': {
+        display: 'flex',
+        width: '100%',
+    },  
   
     '.feedback-content': {
       marginTop: '10px',
@@ -133,16 +140,21 @@ export const TpSx = {
       display: 'flex',
     },
   
-    '.reply-click': {
-      cursor: 'pointer',
+    '.reply-option': {
+        marginLeft: '13px',
     },
   
     '.cancel-reply': {
       color: 'red',
     },
 
+    '.delete-reply': {
+        color: 'hardRed',
+    },
+
     '.reply-btn-box': {
         justifyContent: 'flex-end',
+        backgroundColor: 'white',
     }
 
 };

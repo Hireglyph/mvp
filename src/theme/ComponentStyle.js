@@ -221,7 +221,9 @@ export const ScoreArrowsSx = {
 }
 
 export const ThreadBoxSx = {
-    '.tp-interior':{
+    fontSize: '14px',
+
+    '.thread-box-interior':{
         border: '1px solid #DFDEDE',
         borderRadius: '5px',
         padding: '10px 25px 10px 10px',
@@ -231,12 +233,13 @@ export const ThreadBoxSx = {
         fontFamily: 'body',
     },
 
-    '.tp-header': {
+    '.thread-box-header': {
         display: 'flex',
         justifyContent: 'space-between',
+        fontSize: '14px',
     },
 
-    '.tp-options': {
+    '.thread-box-options': {
         display: 'flex',
         color: 'purple',
         fontFamily: 'body',
@@ -245,13 +248,13 @@ export const ThreadBoxSx = {
         fontWeight: '600',
     },
 
-    '.tp-divider': {
+    '.thread-box-divider': {
         width: '20px',
         borderTop: '1px solid #DFDEDE',
         margin: '7px 0',
     },
 
-    '.tp-preview': {
+    '.thread-box-preview': {
         padding: '5px',
     },
 }

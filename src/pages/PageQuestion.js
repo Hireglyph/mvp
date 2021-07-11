@@ -14,8 +14,9 @@ import Latex from 'react-latex';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faCaretUp, faCaretDown,
         faPencilAlt, faUserFriends, faBullseye,
-        faQuestionCircle, faAngleDown, faTimes,
-        faExpandAlt, faCompressAlt, faAlignLeft } from '@fortawesome/free-solid-svg-icons';
+        faAngleDown, faTimes, faExpandAlt, 
+        faCompressAlt, faAlignLeft } from '@fortawesome/free-solid-svg-icons';
+import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons';
 
 import { currentVotes, upvoteTp, downvoteTp } from 'utils/vote';
 import { displayContent } from 'utils/display';
@@ -96,13 +97,13 @@ class PageQuestion extends React.Component {
             <FontAwesomeIcon icon={faCaretDown} size="3x" />
           </div>
         </div>
-        <div className="tp-interior">
-          <div className="tp-header">
+        <div className="thread-box-interior">
+          <div className="thread-box-header">
             <div style={{display: 'flex'}}>
               <div style={{fontFamily: 'Gotham-Bold'}}>@{username} •{'\xa0'}</div> 
               <em><Moment fromNow>{tp.date}</Moment></em>
             </div>
-            <div className="tp-options">
+            <div className="thread-box-options">
               {(tp.initial && tp.initial.length > length) ||
               (tp.approach && tp.approach.length > length) ||
               (tp.solution && tp.solution.length > length)
@@ -117,8 +118,8 @@ class PageQuestion extends React.Component {
               </Link>
             </div>
           </div>
-          <div className="tp-divider"></div>
-          <div className="tp-preview">
+          <div className="thread-box-divider"></div>
+          <div className="thread-box-preview">
             <TpPreview
               initial={tp.initial}
               approach={tp.approach}
