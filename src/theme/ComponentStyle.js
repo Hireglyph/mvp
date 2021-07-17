@@ -70,7 +70,7 @@ export const PopupSx = {
     '.popup-red-btn': {
         backgroundColor: 'white',
         color: 'red',
-        border: '2px solid #ff7a7a',
+        border: theme => `2px solid ${theme.colors.brightRed}`,
     }
 };
 
@@ -125,6 +125,7 @@ export const BoxQuestSx = {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
+        fontSize: '13px',
     },
     '.box-quests-dropdown': {
         margin: '-13px 0 0 10px',
@@ -195,7 +196,7 @@ export const QuestDisplaySx = {
     '.dropdown': {
         position: 'absolute',
         borderRadius: '5px',
-        backgroundColor: 'white',
+        backgroundColor: 'lightPurpleGray',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
@@ -221,7 +222,7 @@ export const ScoreArrowsSx = {
     },
 
     '.blank-arrow': {
-        color: 'lighterGray',
+        color: 'lightGray',
     },
 }
 

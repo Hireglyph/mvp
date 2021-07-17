@@ -50,6 +50,7 @@ export const TpSx = {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        marginTop: '20px',
     },
 
     '.tp-content-container': {
@@ -60,7 +61,7 @@ export const TpSx = {
   
     '.tp-content': {
         backgroundColor: 'white',
-        margin: '20px 80px 20px 0px',
+        margin: '0 80px 20px 0px',
         minHeight: '100px',
         fontFamily: 'Gotham-Book',
         overflow: 'hidden',
@@ -78,7 +79,7 @@ export const TpSx = {
     '.arrows-container': {
         width: '60px',
         position: 'relative',
-        top: '10px',
+        top: '-10px',
     },
   
     '.centered': {
@@ -107,7 +108,7 @@ export const TpSx = {
         top: '-10px',
         width: '100%',
         height: '40px',
-        backgroundColor: 'lighterGray',
+        backgroundColor: 'lightGray',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -158,6 +159,15 @@ export const TpSx = {
         color: 'hardRed',
     },
 
+    '.delete-tp-btn': {
+        marginLeft: 'auto',
+        marginRight: '40px',
+        color: 'hardRed',
+        '&:hover': {
+            cursor: 'pointer',
+        },
+    },
+
     '.reply-btn-box': {
         justifyContent: 'flex-end',
         backgroundColor: 'white',
@@ -168,7 +178,4 @@ export const TpSx = {
     '.cancel-btn': {
         backgroundColor: '#ff7373',
     },
-
-
-
 };

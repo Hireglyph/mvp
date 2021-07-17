@@ -12,7 +12,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ReactTitle } from 'react-meta-tags';
 import { faReply, faCaretUp, faTimes,
-         faCaretDown, faAngleLeft, faSearch, } from '@fortawesome/free-solid-svg-icons';
+         faCaretDown, faAngleLeft, } from '@fortawesome/free-solid-svg-icons';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import Moment from 'react-moment';
 
@@ -46,6 +46,8 @@ class PageTp extends React.Component {
       popupReplyId: '', 
       popupReplyCreator: '',
       replyTo: 'feedback',
+      tpCreator: '',
+      tpQuestId: '',
     };
   }
 
@@ -197,7 +199,7 @@ class PageTp extends React.Component {
       replyFeedbackID, 
       replyToID, 
       toUsername,
-      reply: "@" + toUsername,
+      reply: "@" + toUsername + " ",
       replyTo,
     });
   };
@@ -332,6 +334,16 @@ class PageTp extends React.Component {
       this.displayPopup(true);
   };
 
+  // delete tp clicked
+  onDeleteTpClicked = (replyTo, tpCreator, tpQuestId) => {
+    this.setState({
+      replyTo,
+      tpCreator,
+      tpQuestId,
+    });
+    this.displayPopup(true);
+  };
+
   render() {
     const { feedbacks, replies }  = this.state;
 
@@ -355,7 +367,7 @@ class PageTp extends React.Component {
       feedbacks &&
       this.state.keys.map((feedbackId) => {
         if (feedbacks[feedbackId]) {
-          const { creator, feedback, score, username, users, date } = feedbacks[
+          const { creator, feedback, score, username, users } = feedbacks[
             feedbackId
           ];
           const deleted = !feedbacks[feedbackId].creator;
@@ -385,73 +397,74 @@ class PageTp extends React.Component {
           const repliesTo = replies && replies[feedbackId];
           const repliesDisplay = this.state.replyKeys[feedbackId] && replies[feedbackId] &&
             this.state.replyKeys[feedbackId].map(replyId => {
-              const { reply, toUsername } = repliesTo[replyId];
+              const { reply } = repliesTo[replyId];
               const replyCreator = repliesTo[replyId].creator;
               const replyUsername = repliesTo[replyId].username;
-              const replyDate = repliesTo[replyId].date;
               const replyDeleted = !replyCreator;
               const isReplyUpvoted = repliesTo[replyId].users && repliesTo[replyId].users[uid];
-              if (!replyDeleted) return (
-                <div key={replyId} id={replyId} sx={ThreadBoxSx}>
-                  <div className="feedback-content-container reply-content-container">
-                    {!replyDeleted && 
-                      <div sx={ScoreArrowsSx}>
-                        {/* upvote arrow + score for reply (only display score if >0) */}
-                        <div
-                          className={(isReplyUpvoted ? "upvoted-arrow" : "blank-arrow") + " fa-layers"}
-                          onClick={() => this.upvoteReply(replyId, feedbackId)}
-                        >
-                          <FontAwesomeIcon icon={faCaretUp} size="3x" />
+              if (!replyDeleted) { 
+                return (
+                  <div key={replyId} id={replyId} sx={ThreadBoxSx}>
+                    <div className="feedback-content-container reply-content-container">
+                      {!replyDeleted && 
+                        <div sx={ScoreArrowsSx}>
+                          {/* upvote arrow + score for reply (only display score if >0) */}
+                          <div
+                            className={(isReplyUpvoted ? "upvoted-arrow" : "blank-arrow") + " fa-layers"}
+                            onClick={() => this.upvoteReply(replyId, feedbackId)}
+                          >
+                            <FontAwesomeIcon icon={faCaretUp} size="3x" />
+                          </div>
+                          <div style={{textAlign: 'center'}}>
+                            {repliesTo[replyId].score > 0 && repliesTo[replyId].score}
+                          </div>
                         </div>
-                        <div style={{textAlign: 'center'}}>
-                          {repliesTo[replyId].score > 0 && repliesTo[replyId].score}
+                      }
+                      <div className="thread-box-interior">
+                        <div className="thread-box-header">
+                          <div style={{display: 'flex'}}>
+                            <div style={{fontFamily: 'Gotham-Bold'}}>{replyUsername} •{'\xa0'}</div> 
+                            <em><Moment fromNow>{tp.date}</Moment></em>
+                          </div>
+                          <div className="thread-box-options">
+                            {/* show delete button if current user wrote the reply */}
+                            {uid === replyCreator &&
+                              <div
+                                className="delete-reply reply-option"
+                                onClick={() => 
+                                  this.onDeleteClicked(
+                                    'reply', 
+                                    this.state.popupCreator, 
+                                    replyCreator, 
+                                    feedbackId, 
+                                    replyId
+                                  )
+                                }
+                              >
+                                <FontAwesomeIcon icon={faTrashAlt} />
+                                {'\xa0'} Delete Reply 
+                              </div>
+                            }
+                            {!replyDeleted && 
+                              <div
+                                className="reply-option"
+                                onClick={() => this.setReply(feedbackId, feedbackId, replyUsername, 'reply')}
+                              >
+                                <FontAwesomeIcon icon={faReply} />
+                                {'\xa0'} Reply
+                              </div>
+                            }
+                          </div>
                         </div>
-                      </div>
-                    }
-                    <div className="thread-box-interior">
-                      <div className="thread-box-header">
-                        <div style={{display: 'flex'}}>
-                          <div style={{fontFamily: 'Gotham-Bold'}}>{replyUsername} •{'\xa0'}</div> 
-                          <em><Moment fromNow>{tp.date}</Moment></em>
+                        <div className="thread-box-divider"></div>
+                        <div className="thread-box-preview">
+                          <Latex>{displayContent(reply)}</Latex>
                         </div>
-                        <div className="thread-box-options">
-                          {/* show delete button if current user wrote the reply */}
-                          {uid === replyCreator &&
-                            <div
-                              className="delete-reply reply-option"
-                              onClick={() => 
-                                this.onDeleteClicked(
-                                  'reply', 
-                                  this.state.popupCreator, 
-                                  replyCreator, 
-                                  feedbackId, 
-                                  replyId
-                                )
-                              }
-                            >
-                              <FontAwesomeIcon icon={faTrashAlt} />
-                              {'\xa0'} Delete Reply 
-                            </div>
-                          }
-                          {!replyDeleted && 
-                            <div
-                              className="reply-option"
-                              onClick={() => this.setReply(feedbackId, feedbackId, replyUsername, 'reply')}
-                            >
-                              <FontAwesomeIcon icon={faReply} />
-                              {'\xa0'} Reply
-                            </div>
-                          }
-                        </div>
-                      </div>
-                      <div className="thread-box-divider"></div>
-                      <div className="thread-box-preview">
-                        <Latex>{displayContent(reply)}</Latex>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
+              )};
+              return (<div></div>);
             })
           
           // reply textArea if replying to feedback or a reply corresponding to the feedbackId
@@ -482,62 +495,63 @@ class PageTp extends React.Component {
             </div>
           );
 
-          if (!deleted) return (
-            <div className="feedback-block" key={feedbackId} id={`${feedbackId}`} sx={ThreadBoxSx}>
-              <div className="feedback-content-container">
-                <div className="arrows-container">
-                  {feedbackScoreArrows}
-                </div>
-                <div className="thread-box-interior">
-                  <div className="thread-box-header">
-                    <div style={{display: 'flex'}}>
-                      <div style={{fontFamily: 'Gotham-Bold'}}>{feedbackUsername} •{'\xa0'}</div> 
-                      <em><Moment fromNow>{tp.date}</Moment></em>
+          if (!deleted) {
+            return (
+              <div className="feedback-block" key={feedbackId} id={`${feedbackId}`} sx={ThreadBoxSx}>
+                <div className="feedback-content-container">
+                  <div className="arrows-container">
+                    {feedbackScoreArrows}
+                  </div>
+                  <div className="thread-box-interior">
+                    <div className="thread-box-header">
+                      <div style={{display: 'flex'}}>
+                        <div style={{fontFamily: 'Gotham-Bold'}}>{feedbackUsername} •{'\xa0'}</div> 
+                        <em><Moment fromNow>{tp.date}</Moment></em>
+                      </div>
+                      <div className="thread-box-options">
+                        {/* show delete button if current user wrote the feedback */}
+                        {uid === creator &&
+                          <div
+                            className="delete-reply"
+                            onClick={() => 
+                              this.onDeleteClicked(
+                                'feedback', 
+                                creator, 
+                                this.state.popupReplyCreator, 
+                                feedbackId, 
+                                this.state.popupReplyId
+                              )
+                            }
+                          >
+                            <FontAwesomeIcon icon={faTrashAlt} />
+                            {'\xa0'}Delete Feedback
+                          </div>
+                        }
+                        {!deleted &&
+                          <div
+                            className="reply-option"
+                            onClick={() => this.setReply(feedbackId, feedbackId, feedbackUsername, 'feedback')}
+                          >
+                            <FontAwesomeIcon icon={faReply} />
+                            {'\xa0'} Reply
+                          </div>
+                        }
+                      </div>
                     </div>
-                    <div className="thread-box-options">
-                      {/* show delete button if current user wrote the feedback */}
-                      {uid === creator &&
-                        <div
-                          className="delete-reply"
-                          onClick={() => 
-                            this.onDeleteClicked(
-                              'feedback', 
-                              creator, 
-                              this.state.popupReplyCreator, 
-                              feedbackId, 
-                              this.state.popupReplyId
-                            )
-                          }
-                        >
-                          <FontAwesomeIcon icon={faTrashAlt} />
-                          {'\xa0'}Delete Feedback
-                        </div>
-                      }
-                      {!deleted &&
-                        <div
-                          className="reply-option"
-                          onClick={() => this.setReply(feedbackId, feedbackId, feedbackUsername, 'feedback')}
-                        >
-                          <FontAwesomeIcon icon={faReply} />
-                          {'\xa0'} Reply
-                        </div>
-                      }
+                    <div className="thread-box-divider"></div>
+                    <div className="thread-box-preview">
+                      <Latex>{displayContent(feedback)}</Latex>
                     </div>
                   </div>
-                  <div className="thread-box-divider"></div>
-                  <div className="thread-box-preview">
-                    <Latex>{displayContent(feedback)}</Latex>
-                  </div>
+                </div>
+                <br />
+                <div className="replies-container">
+                  {this.state.replyTo === 'feedback' && replyTextArea}
+                  {repliesDisplay}
+                  {this.state.replyTo === 'reply' && replyTextArea}
                 </div>
               </div>
-              <br />
-              <div className="replies-container">
-                {this.state.replyTo === 'feedback' && replyTextArea}
-                {repliesDisplay}
-                {this.state.replyTo === 'reply' && replyTextArea}
-              </div>
-            </div>
-          );
+          )};
         }
         return null;
       });
@@ -604,38 +618,55 @@ class PageTp extends React.Component {
           </div>
           <div className="popup-btn-container" style={{justifyContent: 'space-around'}}>
             <button 
-              className="popup-btn popup-red-btn"
-              onClick={this.state.replyTo === "reply" ? 
-                () => {
-                  replyDelete({
-                    firebase: this.props.firebase,
-                    tpId: this.props.tpId,
-                    replyFeedbackID: this.state.popupFeedbackId,
-                    replyId: this.state.popupReplyId,
-                    uid: this.state.popupReplyCreator,
-                  }) 
-                  this.displayPopup(false);
-                }
-                :
-                () => {
-                  feedbackDelete({
-                    firebase: this.props.firebase,
-                    tpId: this.props.tpId,
-                    feedbackId: this.state.popupFeedbackId,
-                    uid: this.state.popupCreator,
-                  })
-                  this.displayPopup(false);
-                }
-              }
-            >
-              Delete
-            </button>
-            <button 
               className="popup-btn"
               onClick={() => this.displayPopup(false)}
             >
               Cancel
             </button>
+            {this.state.replyTo === "TP" ?
+              <button
+                className="popup-btn popup-red-btn"
+                onClick={() => {
+                  tpDelete({
+                    firebase: this.props.firebase,
+                    questId: this.state.tpQuestId,
+                    tpId: this.props.tpId,
+                    uid: this.state.tpCreator,
+                  });
+                  this.displayPopup(false);
+                }}
+              >
+                Delete
+              </button>
+              :
+              <button 
+                className="popup-btn popup-red-btn"
+                onClick={this.state.replyTo === "reply" ? 
+                  () => {
+                    replyDelete({
+                      firebase: this.props.firebase,
+                      tpId: this.props.tpId,
+                      replyFeedbackID: this.state.popupFeedbackId,
+                      replyId: this.state.popupReplyId,
+                      uid: this.state.popupReplyCreator,
+                    }) 
+                    this.displayPopup(false);
+                  }
+                  :
+                  () => {
+                    feedbackDelete({
+                      firebase: this.props.firebase,
+                      tpId: this.props.tpId,
+                      feedbackId: this.state.popupFeedbackId,
+                      uid: this.state.popupCreator,
+                    })
+                    this.displayPopup(false);
+                  }
+                }
+              >
+                Delete
+              </button>
+            }
           </div>
         </div>
       </div>
@@ -669,6 +700,22 @@ class PageTp extends React.Component {
             <br />
           </div>
           <div className="tp-body">
+            {/* show delete button if current user wrote the tp */}
+            {uid === tp.creator &&
+                <div
+                  className="delete-tp-btn"
+                  onClick={() => {
+                    this.onDeleteTpClicked(
+                      'TP',
+                      tp.creator,
+                      questId,
+                    )
+                  }}
+                >
+                  <FontAwesomeIcon icon={faTrashAlt} />
+                  {'\xa0'}Delete TP
+                </div>
+              }
             <div className="tp-content-container">
               <div className="arrows-container" style={{ marginTop: '20px' }}>
                 {scoreArrows}
@@ -692,19 +739,6 @@ class PageTp extends React.Component {
                   </span>
                   <Latex>{tp.solution && displayContent(tp.solution)}</Latex>
                 </div>
-                {/* show delete button if current user wrote the tp */}
-                {uid === tp.creator &&
-                  <button
-                    onClick={() => tpDelete({
-                      firebase: this.props.firebase,
-                      questId,
-                      tpId: this.props.tpId,
-                      uid: tp.creator,
-                    })}
-                  >
-                    Delete TP
-                  </button>
-                }
               </div>
             </div>
           </div>

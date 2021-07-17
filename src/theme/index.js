@@ -27,12 +27,15 @@ export const theme = {
     lightPurpleGray: '#EBE9F3',
     orange: '#EA9A28',
     darkOrange: '#CA8522',
-    lighterGray: '#DFDEDE',
-    lightGray: '#C7C7C7',
+    lightGray: '#DFDEDE',
     mediumGray: '#464646',
     easyGreen: '#27B12A',
     medOrange: '#EA9A28',
     hardRed: '#DA1C1C',
+    brightRed: '#ff7a7a',
+  },
+  sizes: {
+    withoutHeader: 'calc(100vh - 60px)',
   },
   text: {
     heading: {

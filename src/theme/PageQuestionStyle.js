@@ -1,18 +1,17 @@
 export const QuestionSx = {
-
     '.page-container': {
         display: 'flex',
         alignItems: 'flex-start',
         fontFamily: 'Open-Sans',
         width: '100%',
         height: 'fit-content',
-        minHeight: 'calc(100vh - 60px)',
+        minHeight: theme => `${theme.sizes.withoutHeader}`,
         backgroundColor: 'white',
     },
 
     '#no-scroll': {
         overflowY: 'hidden',
-        height: 'calc(100vh - 60px)',
+        minHeight: theme => `${theme.sizes.withoutHeader}`,
     },
 
     // question
@@ -34,7 +33,7 @@ export const QuestionSx = {
         paddingBottom: '40px',
         minWidth: '400px',
         height: 'fit-content',
-        minHeight: 'calc(100vh - 60px)',
+        minHeight: theme => `${theme.sizes.withoutHeader}`,
     },
 
     '.question-title': {
@@ -46,7 +45,7 @@ export const QuestionSx = {
         display: 'flex',
         flexWrap: 'wrap',
         paddingBottom: '15px',
-        borderBottom: '1px solid lightGray',
+        borderBottom: theme => `1px solid ${theme.colors.lightGray}`,
     },
 
     '.tag': {
@@ -98,8 +97,8 @@ export const QuestionSx = {
         flex: '2 0 400px',
         width: '66%',
         height: 'fit-content',
-        minHeight: 'calc(100vh - 60px)',
-        borderLeft: '2px solid #DFDEDE',
+        minHeight: theme => `${theme.sizes.withoutHeader}`,
+        borderLeft: theme => `2px solid ${theme.colors.lightGray}`,
     },
 
     '.question-btn-container': {
@@ -114,8 +113,8 @@ export const QuestionSx = {
         height: '35px',
         backgroundColor: 'background',
         borderRadius: '0',
-        borderRight: '1px solid #DFDEDE',
-        borderBottom: '1px solid #DFDEDE',
+        borderRight: theme => `1px solid ${theme.colors.lightGray}`,
+        borderBottom: theme => `1px solid ${theme.colors.lightGray}`,
         fontSize: '14px',
         fontWeight: 'heading !important',
         fontFamily: 'Open-Sans',
@@ -133,7 +132,7 @@ export const QuestionSx = {
 
     '.question-border': {
         flex: '2 0 auto',
-        borderBottom: '1px solid #DFDEDE',
+        borderBottom: theme => `1px solid ${theme.colors.lightGray}`,
     },
 
     '.myTp-container': {
@@ -170,7 +169,7 @@ export const QuestionSx = {
             left: '-40px',
             padding: '0',
             border: '15px solid transparent',
-            borderRight: '15px solid #E0DBFE',
+            borderRight: theme => `15px solid ${theme.colors.lightPurple}`,
         }
     },
 
@@ -181,7 +180,7 @@ export const QuestionSx = {
         lineHeight: '20px',
         fontSize: '14px',
         fontFamily: 'body',
-        border: '1px solid #DFDEDE',
+        border: theme => `1px solid ${theme.colors.lightGray}`,
         borderRadius: '0',
     },
 
@@ -204,8 +203,6 @@ export const QuestionSx = {
             backgroundColor: 'purple2',
         },
         '&:disabled': {
-            backgroundColor: 'lighterGray',
-            color: 'gray',
             backgroundColor: 'lightPurple',
             color: 'white',
             cursor: 'default',
@@ -231,7 +228,7 @@ export const QuestionSx = {
     },
 
     '.sort-btn': {
-        border: '1px solid #DFDEDE',
+        border: theme => `1px solid ${theme.colors.lightGray}`,
         backgroundColor: 'white',
         width: '50px',
         height: '25px',
@@ -242,7 +239,7 @@ export const QuestionSx = {
             backgroundColor: 'lightGray',
         },
         '&:disabled': {
-            backgroundColor: '#DFDEDE',
+            backgroundColor: 'lightGray',
             cursor: 'default',
         },
     },
@@ -287,7 +284,7 @@ export const QuestionSx = {
     },
 
     '.no-tps': {
-        borderTop: '1px solid lightGray',
+        borderTop: theme => `1px solid ${theme.colors.lightGray}`,
         paddingTop: '40px',
     },
 };

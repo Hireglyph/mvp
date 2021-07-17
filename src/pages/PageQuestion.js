@@ -15,7 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faCaretUp, faCaretDown,
         faPencilAlt, faUserFriends, faBullseye,
         faAngleDown, faTimes, faExpandAlt, 
-        faCompressAlt, faAlignLeft } from '@fortawesome/free-solid-svg-icons';
+        faCompressAlt, faAlignLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons';
 
 import { currentVotes, upvoteTp, downvoteTp } from 'utils/vote';
@@ -283,7 +283,7 @@ class PageQuestion extends React.Component {
             else this.changeShowAnswer();
           }}
         >
-          <FontAwesomeIcon icon={faAngleDown} style={{marginRight: '10px'}} /> 
+          <FontAwesomeIcon icon={showAnswer ? faAngleRight : faAngleDown} style={{marginRight: '10px'}} /> 
           See answer
         </span>
         {showAnswer && <div sx={{ marginLeft: '15px' }}>{answer}</div>}
@@ -488,16 +488,6 @@ class PageQuestion extends React.Component {
             value={solution}
           />
           <div className="tp-btn-container">
-            <button
-              className="tp-btn"
-              disabled={
-                initial.trim() === "" ||
-                approach.trim() === "" ||
-                solution.trim() === ""
-              }
-            >
-              Save
-            </button>
             <button
               className="tp-btn"
               disabled={

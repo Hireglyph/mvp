@@ -27,7 +27,6 @@ class QuestionPreview extends React.Component {
   };
 
   render() {
-
     const { questId, question, solved } = this.props;
 
     if (!isLoaded(question)) {
