@@ -27,14 +27,13 @@ class App extends React.Component {
 
     const AuthComponent =
       !uid ? <Redirect to="/register" /> :
-      !onboarded ? <PageOnboard /> :
-      !emailVerified ? <PageConfirmEmail /> : null;
+      !emailVerified ? <PageConfirmEmail /> :
+      !onboarded ? <PageOnboard /> : null;
 
     const questIsLoaded = isLoaded(questions);
 
     return (
       <div className="App">
-
         <Switch>
           {/* routes that completely require login */}
           <Route exact path="/profile/:historyParam?">
