@@ -3,7 +3,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import { jsx } from 'theme-ui';
 
 import App from 'routes/App';
@@ -35,7 +35,6 @@ class Root extends React.Component {
             <div className="root-body">
               <Loading />
             </div>
-          <Footer />
         </div>
       );
     }
@@ -80,7 +79,7 @@ class Root extends React.Component {
             <Route component={PageNotFound} />
           </Switch>
         </div>
-        <Footer />
+        {(this.props.location.pathname.split('/')[1] !== 'q') && <Footer />}
       </div>
     );
   }
@@ -98,5 +97,6 @@ const mapStateToProps = state => {
 };
 
 export default compose(
+  withRouter,
   connect(mapStateToProps)
 )(Root);

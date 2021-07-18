@@ -11,9 +11,9 @@ import Latex from 'react-latex';
 import TextareaAutosize from 'react-textarea-autosize';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ReactTitle } from 'react-meta-tags';
-import { faArrowCircleLeft,
-         faCaretUp,
-         faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { faReply, faCaretUp, faTimes,
+         faCaretDown, faAngleLeft, } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import Moment from 'react-moment';
 
 import { currentVotes, getVoteValues, upvoteTp, downvoteTp } from 'utils/vote';
@@ -22,159 +22,8 @@ import PageNotFound from 'pages/PageNotFound';
 import Loading from 'components/Loading';
 import { tpDelete, feedbackDelete, replyDelete } from 'utils/delete';
 
-const TpSx = {
-  display: 'flex',
-
-  '.page-container': {
-    position: 'relative',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: '50px',
-    marginBottom: '50px',
-    paddingBottom: '30px',
-    width: '700px',
-    height: 'auto',
-    background: 'white',
-    fontFamily: 'Open-Sans',
-  },
-
-  '.tp-header': {
-    display: 'flex',
-    backgroundColor: 'orange',
-    height: '50px',
-    lineHeight: '50px',
-  },
-
-  '.back-hover': {
-    cursor: 'pointer',
-    fontSize: '20px',
-    width: '60px',
-    textAlign: 'center',
-    '&:hover': {
-      color: '#505050',
-    },
-  },
-
-  '.question-link': {
-    color: 'black',
-  },
-
-  '.tp-body': {
-    display: 'flex',
-    backgroundColor: 'lightGrey',
-  },
-
-  '.tp-content': {
-    backgroundColor: 'white',
-    width: '100%',
-    marginRight: '60px',
-    marginTop: '20px',
-    marginBottom: '20px',
-    minHeight: '100px',
-    fontFamily: 'Gotham-Book',
-    padding: '10px',
-    overflow: 'hidden',
-    whiteSpace: 'pre-wrap',
-  },
-
-  '.content-label': {
-    fontFamily: 'Gotham-Bold'
-  },
-
-  '.arrows-container': {
-    width: '60px',
-  },
-
-  '.centered': {
-    textAlign: 'center',
-  },
-
-  '.input-feedback': {
-    width: 'calc(100% - 120px)',
-    padding: '5px',
-    marginLeft: '60px',
-    resize: 'vertical',
-    verticalAlign: 'bottom',
-    minHeight: '40px',
-    fontFamily: 'Open-Sans',
-    lineHeight: '20px',
-  },
-
-  '.button-box': {
-    width: 'calc(100% - 120px)',
-    border: '1px solid #000000',
-    marginLeft: '60px',
-    textAlign: 'right',
-  },
-
-  '.submit-button': {
-    verticalAlign: 'bottom',
-    height: '30px',
-    width: '70px',
-    backgroundColor: 'orange',
-    color: 'black',
-    fontFamily: 'Open-Sans',
-    cursor: 'pointer',
-    border: 'none',
-    '&:hover': {
-      backgroundColor: 'darkOrange',
-    },
-    '&:disabled': {
-      backgroundColor: 'darkGrey',
-      cursor: 'default',
-    },
-  },
-
-  '.feedback-block': {
-    display: 'flex',
-    minHeight: '60px',
-    marginTop: '30px',
-    marginRight: '60px',
-  },
-
-  '.feedback-content': {
-    marginTop: '10px',
-    width: '100%',
-    fontFamily: 'Gotham-Book',
-    overflow: 'hidden',
-    whiteSpace: 'pre-wrap',
-  },
-
-  '.feedback-top': {
-    display: 'flex',
-  },
-
-  '.reply-click': {
-    cursor: 'pointer',
-  },
-
-  '.cancel-reply': {
-    color: 'red',
-  },
-
-  '.fa-layers': {
-    height: '18px',
-    width: '60px',
-  },
-
-  '.upvoted-arrow': {
-    color: '#00D305',
-  },
-
-  '.downvoted-arrow': {
-    color: '#E44C4C',
-  },
-
-  '.blank-arrow': {
-    color: 'white',
-  },
-
-  '.fa-caret-up, .fa-caret-down': {
-    stroke: 'black',
-    strokeWidth: '7',
-    transform: 'scaleY(0.8)',
-  },
-};
+import { TpSx } from 'theme/PageTPStyle.js';
+import { ScoreArrowsSx, ThreadBoxSx, PopupSx } from 'theme/ComponentStyle';
 
 class PageTp extends React.Component {
   constructor(props) {
@@ -191,6 +40,14 @@ class PageTp extends React.Component {
       replyLoading: true,
       replyKeys: {},
       replies: {},
+      popup: false,
+      popupFeedbackId: '', 
+      popupCreator: '',
+      popupReplyId: '', 
+      popupReplyCreator: '',
+      replyTo: 'feedback',
+      tpCreator: '',
+      tpQuestId: '',
     };
   }
 
@@ -337,8 +194,14 @@ class PageTp extends React.Component {
     firebase.update('/', updates);
   };
 
-  setReply = (replyFeedbackID, replyToID, toUsername) => {
-    this.setState({ replyFeedbackID, replyToID, toUsername });
+  setReply = (replyFeedbackID, replyToID, toUsername, replyTo) => {
+    this.setState({ 
+      replyFeedbackID, 
+      replyToID, 
+      toUsername,
+      reply: "@" + toUsername + " ",
+      replyTo,
+    });
   };
 
   cancelReply = () => {
@@ -453,6 +316,34 @@ class PageTp extends React.Component {
     firebase.update('/', updates);
   };
 
+  // change whether or not popup is displayed
+  displayPopup = (display) => {
+    this.setState({ popup: display });
+  };
+
+  // delete reply or delete feedback clicked
+  onDeleteClicked = (replyTo, popupCreator, 
+    popupReplyCreator, popupFeedbackId, popupReplyId) => {
+      this.setState({
+        replyTo,
+        popupCreator, 
+        popupReplyCreator, 
+        popupFeedbackId, 
+        popupReplyId,
+      });
+      this.displayPopup(true);
+  };
+
+  // delete tp clicked
+  onDeleteTpClicked = (replyTo, tpCreator, tpQuestId) => {
+    this.setState({
+      replyTo,
+      tpCreator,
+      tpQuestId,
+    });
+    this.displayPopup(true);
+  };
+
   render() {
     const { feedbacks, replies }  = this.state;
 
@@ -476,7 +367,7 @@ class PageTp extends React.Component {
       feedbacks &&
       this.state.keys.map((feedbackId) => {
         if (feedbacks[feedbackId]) {
-          const { creator, feedback, score, username, users, date } = feedbacks[
+          const { creator, feedback, score, username, users } = feedbacks[
             feedbackId
           ];
           const deleted = !feedbacks[feedbackId].creator;
@@ -486,7 +377,7 @@ class PageTp extends React.Component {
 
           // upvote/downvote arrows + score
           const feedbackScoreArrows = !deleted && (
-            <div className="centered">
+            <div className="centered" sx={ScoreArrowsSx}>
               <div
                 className={(feedbackUpvoted ? "upvoted-arrow" : "blank-arrow") + " fa-layers"}
                 onClick={() => this.upvoteFeedback(feedbackId)}
@@ -506,156 +397,182 @@ class PageTp extends React.Component {
           const repliesTo = replies && replies[feedbackId];
           const repliesDisplay = this.state.replyKeys[feedbackId] && replies[feedbackId] &&
             this.state.replyKeys[feedbackId].map(replyId => {
-              const { reply, toUsername } = repliesTo[replyId];
+              const { reply } = repliesTo[replyId];
               const replyCreator = repliesTo[replyId].creator;
               const replyUsername = repliesTo[replyId].username;
-              const replyDate = repliesTo[replyId].date;
               const replyDeleted = !replyCreator;
               const isReplyUpvoted = repliesTo[replyId].users && repliesTo[replyId].users[uid];
-              return (
-                <div key={replyId} id={replyId}>
-                  <div className="feedback-top">
-                  <div>@{replyUsername}{' '}</div>
-                    <Moment fromNow>{replyDate}</Moment>
-                    {!replyDeleted && (this.state.replyToID === replyId ?
-                      <div
-                        className="reply-click cancel-reply"
-                        onClick={() => this.cancelReply()}
-                      >
-                        Reply
+              if (!replyDeleted) { 
+                return (
+                  <div key={replyId} id={replyId} sx={ThreadBoxSx}>
+                    <div className="feedback-content-container reply-content-container">
+                      {!replyDeleted && 
+                        <div sx={ScoreArrowsSx}>
+                          {/* upvote arrow + score for reply (only display score if >0) */}
+                          <div
+                            className={(isReplyUpvoted ? "upvoted-arrow" : "blank-arrow") + " fa-layers"}
+                            onClick={() => this.upvoteReply(replyId, feedbackId)}
+                          >
+                            <FontAwesomeIcon icon={faCaretUp} size="3x" />
+                          </div>
+                          <div style={{textAlign: 'center'}}>
+                            {repliesTo[replyId].score > 0 && repliesTo[replyId].score}
+                          </div>
+                        </div>
+                      }
+                      <div className="thread-box-interior">
+                        <div className="thread-box-header">
+                          <div style={{display: 'flex'}}>
+                            <div style={{fontFamily: 'Gotham-Bold'}}>{replyUsername} •{'\xa0'}</div> 
+                            <em><Moment fromNow>{tp.date}</Moment></em>
+                          </div>
+                          <div className="thread-box-options">
+                            {/* show delete button if current user wrote the reply */}
+                            {uid === replyCreator &&
+                              <div
+                                className="delete-reply reply-option"
+                                onClick={() => 
+                                  this.onDeleteClicked(
+                                    'reply', 
+                                    this.state.popupCreator, 
+                                    replyCreator, 
+                                    feedbackId, 
+                                    replyId
+                                  )
+                                }
+                              >
+                                <FontAwesomeIcon icon={faTrashAlt} />
+                                {'\xa0'} Delete Reply 
+                              </div>
+                            }
+                            {!replyDeleted && 
+                              <div
+                                className="reply-option"
+                                onClick={() => this.setReply(feedbackId, feedbackId, replyUsername, 'reply')}
+                              >
+                                <FontAwesomeIcon icon={faReply} />
+                                {'\xa0'} Reply
+                              </div>
+                            }
+                          </div>
+                        </div>
+                        <div className="thread-box-divider"></div>
+                        <div className="thread-box-preview">
+                          <Latex>{displayContent(reply)}</Latex>
+                        </div>
                       </div>
-                    :
-                      <div
-                        className="reply-click"
-                        onClick={() => this.setReply(feedbackId, replyId, replyUsername)}
-                      >
-                        Reply
-                      </div>
-                    )}
-                  </div>
-                  <div>
-                    {!replyDeleted && <div className="feedback-top">
-                      {/* upvote arrow + score for reply (only display score if >0) */}
-                      <div
-                        className={(isReplyUpvoted ? "upvoted-arrow" : "blank-arrow") + " fa-layers"}
-                        onClick={() => this.upvoteReply(replyId, feedbackId)}
-                      >
-                        <FontAwesomeIcon icon={faCaretUp} size="2x" />
-                      </div>
-                      <div>{repliesTo[replyId].score > 0 && repliesTo[replyId].score}</div>
-                    </div>}
-                    <div>
-                      @{toUsername}{' '}
                     </div>
-                    <Latex>{displayContent(reply)}</Latex>
                   </div>
-                  {/* show delete button if current user wrote the reply */}
-                  {uid === replyCreator &&
-                    <button
-                      onClick={() => replyDelete({
-                        firebase: this.props.firebase,
-                        tpId: this.props.tpId,
-                        replyFeedbackID: feedbackId,
-                        replyId,
-                        uid: replyCreator,
-                      })}
-                    >
-                      Delete Reply
-                    </button>
-                  }
-                </div>
-              );
+              )};
+              return (<div></div>);
             })
+          
           // reply textArea if replying to feedback or a reply corresponding to the feedbackId
           const replyTextArea = this.state.replyFeedbackID === feedbackId && (
             <div>
-              <div>Reply To: {this.state.toUsername}</div>
               <TextareaAutosize
+                className="input-feedback input-reply"
                 minRows={2}
                 name="reply"
-                placeholder="Enter reply here"
+                placeholder="Your reply..."
                 onChange={this.handleChange}
                 value={this.state.reply}
               />
-              <button
-                onClick={this.cancelReply}
-              >
-                Delete
-              </button>
-              <button
-                onClick={this.createReply}
-              >
-                Reply
-              </button>
+              <div className="btn-box reply-btn-box">
+                <button
+                  className="thread-btn cancel-btn"
+                  onClick={this.cancelReply}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="thread-btn"
+                  onClick={this.createReply}
+                >
+                  Reply
+                </button>
+              </div>
             </div>
           );
-          return (
-            <div className="feedback-block" key={feedbackId} id={`${feedbackId}`}>
-              <div className="arrows-container">
-                {feedbackScoreArrows}
-              </div>
-              <div className="feedback-content">
-                <div className="feedback-top">
-                  <div>@{feedbackUsername}{' '}</div>
-                  <Moment fromNow>{date}</Moment>
-                  {!deleted && (this.state.replyToID === feedbackId ?
-                    <div
-                      className="reply-click cancel-reply"
-                      onClick={() => this.cancelReply()}
-                    >
-                      Reply
+
+          if (!deleted) {
+            return (
+              <div className="feedback-block" key={feedbackId} id={`${feedbackId}`} sx={ThreadBoxSx}>
+                <div className="feedback-content-container">
+                  <div className="arrows-container">
+                    {feedbackScoreArrows}
+                  </div>
+                  <div className="thread-box-interior">
+                    <div className="thread-box-header">
+                      <div style={{display: 'flex'}}>
+                        <div style={{fontFamily: 'Gotham-Bold'}}>{feedbackUsername} •{'\xa0'}</div> 
+                        <em><Moment fromNow>{tp.date}</Moment></em>
+                      </div>
+                      <div className="thread-box-options">
+                        {/* show delete button if current user wrote the feedback */}
+                        {uid === creator &&
+                          <div
+                            className="delete-reply"
+                            onClick={() => 
+                              this.onDeleteClicked(
+                                'feedback', 
+                                creator, 
+                                this.state.popupReplyCreator, 
+                                feedbackId, 
+                                this.state.popupReplyId
+                              )
+                            }
+                          >
+                            <FontAwesomeIcon icon={faTrashAlt} />
+                            {'\xa0'}Delete Feedback
+                          </div>
+                        }
+                        {!deleted &&
+                          <div
+                            className="reply-option"
+                            onClick={() => this.setReply(feedbackId, feedbackId, feedbackUsername, 'feedback')}
+                          >
+                            <FontAwesomeIcon icon={faReply} />
+                            {'\xa0'} Reply
+                          </div>
+                        }
+                      </div>
                     </div>
-                  :
-                    <div
-                      className="reply-click"
-                      onClick={() => this.setReply(feedbackId, feedbackId, feedbackUsername)}
-                    >
-                      Reply
+                    <div className="thread-box-divider"></div>
+                    <div className="thread-box-preview">
+                      <Latex>{displayContent(feedback)}</Latex>
                     </div>
-                  )}
+                  </div>
                 </div>
-                <div>
-                  <Latex>{displayContent(feedback)}</Latex>
-                </div>
-                {/* show delete button if current user wrote the feedback */}
-                {uid === creator &&
-                  <button
-                    onClick={() => feedbackDelete({
-                      firebase: this.props.firebase,
-                      tpId: this.props.tpId,
-                      feedbackId,
-                      uid: creator,
-                    })}
-                  >
-                    Delete Feedback
-                  </button>
-                }
-                <div>
+                <br />
+                <div className="replies-container">
+                  {this.state.replyTo === 'feedback' && replyTextArea}
                   {repliesDisplay}
-                  {replyTextArea}
+                  {this.state.replyTo === 'reply' && replyTextArea}
                 </div>
               </div>
-              <br />
-            </div>
-          );
+          )};
         }
         return null;
       });
 
     // textArea to write feedback directly to the TP (not a reply)
     const myFeedback = this.props.tp.creator && (
-      <div>
+      <div style={{marginBottom: '20px',}}>
         <TextareaAutosize
           minRows={2}
           className="input-feedback"
           name="feedback"
-          placeholder="Enter feedback here"
+          placeholder="Your feedback..."
           onChange={this.handleChange}
           value={this.state.feedback}
         />
-        <div className="button-box">
+        <div className="btn-box">
+          <div className="latex-message">
+            Use $$latex formula$$ for LaTeX.
+          </div>
           <button
-            className="submit-button"
+            className="thread-btn"
             disabled={this.state.feedback.trim() === ""}
             onClick={this.createFeedback}
           >
@@ -667,7 +584,7 @@ class PageTp extends React.Component {
 
     // upvote/downvote arrows and score for the TP
     const scoreArrows = this.props.tp.creator && (
-      <div className="centered">
+      <div className="centered" sx={ScoreArrowsSx}>
         <div
           className={(isUpvoted ? "upvoted-arrow" : "blank-arrow") + " fa-layers"}
           onClick={() => upvoteTp(this.props)}
@@ -684,6 +601,77 @@ class PageTp extends React.Component {
       </div>
     );
 
+    // confirmation popup for viewing answer
+    const deletePopup = (
+      <div className="popup-container">
+        <div className="popup-box">
+          <FontAwesomeIcon 
+            icon={faTimes} 
+            className="popup-x-icon" 
+            onClick={() => this.displayPopup(false)}
+          />
+          <div className="popup-title">
+            Are you sure you want to delete your {this.state.replyTo}?
+          </div>
+          <div className="popup-text-center">
+            This action is non-reversible.
+          </div>
+          <div className="popup-btn-container" style={{justifyContent: 'space-around'}}>
+            <button 
+              className="popup-btn"
+              onClick={() => this.displayPopup(false)}
+            >
+              Cancel
+            </button>
+            {this.state.replyTo === "TP" ?
+              <button
+                className="popup-btn popup-red-btn"
+                onClick={() => {
+                  tpDelete({
+                    firebase: this.props.firebase,
+                    questId: this.state.tpQuestId,
+                    tpId: this.props.tpId,
+                    uid: this.state.tpCreator,
+                  });
+                  this.displayPopup(false);
+                }}
+              >
+                Delete
+              </button>
+              :
+              <button 
+                className="popup-btn popup-red-btn"
+                onClick={this.state.replyTo === "reply" ? 
+                  () => {
+                    replyDelete({
+                      firebase: this.props.firebase,
+                      tpId: this.props.tpId,
+                      replyFeedbackID: this.state.popupFeedbackId,
+                      replyId: this.state.popupReplyId,
+                      uid: this.state.popupReplyCreator,
+                    }) 
+                    this.displayPopup(false);
+                  }
+                  :
+                  () => {
+                    feedbackDelete({
+                      firebase: this.props.firebase,
+                      tpId: this.props.tpId,
+                      feedbackId: this.state.popupFeedbackId,
+                      uid: this.state.popupCreator,
+                    })
+                    this.displayPopup(false);
+                  }
+                }
+              >
+                Delete
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+    );
+
     return (
       <div sx={TpSx}>
         <link
@@ -696,68 +684,76 @@ class PageTp extends React.Component {
         <div className="page-container">
           <div className="tp-header">
             <div className="back-hover" onClick={() => this.props.history.goBack()}>
-              <FontAwesomeIcon icon={faArrowCircleLeft} />
+              <FontAwesomeIcon icon={faAngleLeft} /> Back
             </div>
             <div>
-              TP by @{tp.username} to {' '}
+              TP to {' '}
               <Link
                 className="question-link"
                 to={`/q/${questId}`}
               >
                 Question #{questId}
               </Link> {' '}
-              <Moment fromNow>{tp.date}</Moment>
+              by <b style={{fontFamily: 'Open-Sans-Bold'}}>@{tp.username}</b> • {' '}
+              <em><Moment fromNow>{tp.date}</Moment></em>
             </div>
             <br />
           </div>
           <div className="tp-body">
-            <div className="arrows-container" style={{ marginTop: '20px' }}>
-              {scoreArrows}
-            </div>
-            <div className="tp-content">
-              <div className="content-label">
-                {tp.initial && 'Initial Thoughts:'}
-              </div>
-              <div>
-                <Latex>{tp.initial && displayContent(tp.initial)}</Latex>
-              </div>
-              <div className="content-label">
-                {tp.approach && 'Approaches Tried:'}
-              </div>
-              <div>
-                <Latex>{tp.approach && displayContent(tp.approach)}</Latex>
-              </div>
-              <div className="content-label">
-                {tp.solution && 'Final Solution:'}
-              </div>
-              <div>
-                <Latex>{tp.solution && displayContent(tp.solution)}</Latex>
-              </div>
-              {/* show delete button if current user wrote the tp */}
-              {uid === tp.creator &&
-                <button
-                  onClick={() => tpDelete({
-                    firebase: this.props.firebase,
-                    questId,
-                    tpId: this.props.tpId,
-                    uid: tp.creator,
-                  })}
+            {/* show delete button if current user wrote the tp */}
+            {uid === tp.creator &&
+                <div
+                  className="delete-tp-btn"
+                  onClick={() => {
+                    this.onDeleteTpClicked(
+                      'TP',
+                      tp.creator,
+                      questId,
+                    )
+                  }}
                 >
-                  Delete TP
-                </button>
+                  <FontAwesomeIcon icon={faTrashAlt} />
+                  {'\xa0'}Delete TP
+                </div>
               }
+            <div className="tp-content-container">
+              <div className="arrows-container" style={{ marginTop: '20px' }}>
+                {scoreArrows}
+              </div>
+              <div className="tp-content">
+                <div className="tp-content-box">
+                  <span className="content-label">
+                    {tp.initial && 'Initial: '}
+                  </span>
+                  <Latex>{tp.initial && displayContent(tp.initial)}</Latex>
+                </div>
+                <div className="tp-content-box">
+                  <span className="content-label">
+                    {tp.approach && 'Approach(es) tried: '}
+                  </span>
+                  <Latex>{tp.approach && displayContent(tp.approach)}</Latex>
+                </div>
+                <div className="tp-content-box">
+                  <span className="content-label">
+                    {tp.solution && 'Final solution: '}
+                  </span>
+                  <Latex>{tp.solution && displayContent(tp.solution)}</Latex>
+                </div>
+              </div>
             </div>
           </div>
-          <br />
           {this.state.loading || this.state.replyLoading
             ? <Loading/>
             : (
-            <div>
+            <div className="all-feedback-container">
               {/* feedback textArea and feedbacks + replies display */}
               {myFeedback}
               {feedbacksDisplay}
             </div>
           )}
+        </div>
+        <div sx={PopupSx}>
+          {this.state.popup && deletePopup}
         </div>
       </div>
     );

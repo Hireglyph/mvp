@@ -92,7 +92,7 @@ button {
   padding: 8px 12px;
   font-family: 'Open-Sans';
   font-size: 16px;
-  font-weight: bold;
+  font-weight: normal;
   border: none;
   border-radius: 5px;
   transition: .5s ease;
@@ -114,6 +114,16 @@ input, textarea {
   font-family: 'Open-Sans';
   font-size: 16px;
   font-weight: normal;
+  resize: none;
+}
+
+a {
+  color: #5A3FFF;
+  text-decoration: none;
+}
+a:hover, a:focus, a:active {
+  color: #5A3FFF;
+  text-decoration: none;
 }
 
 @media (max-width: 350px) {

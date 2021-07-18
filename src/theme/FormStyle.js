@@ -105,6 +105,7 @@ export const FormSx = {
   // contact page specific styles
   '.contact-submit-btn': {
     width: '100%',
+    border: 'none',
     fontSize: '18px',
     fontWeight: 'normal',
     backgroundColor: 'purple',
