@@ -49,7 +49,7 @@ class PageOnboard extends React.Component {
     updates[`/usernameIndex/${username}`] = true;
 
     this.props.firebase.update('/', updates);
-    this.props.history.push('/');
+    this.props.history.push('/questions');
   };
 
   // only allow
