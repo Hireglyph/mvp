@@ -1,12 +1,11 @@
+import { Media } from "react-bootstrap"
+
 export const PageProblemsSx = {
     fontFamily: 'Open-Sans',
 
     // overall page styles
     '.page-problems': {
         width: '100%',
-        display: 'flex',
-        alignItems: 'flex-start',
-        justifyContent: 'space-evenly',
         padding: ['0px 10px', '0 50px', '0 50px 0 80px', '0 50px 0 80px', '0 130px'],
     },
     '.section-title': {
@@ -17,8 +16,13 @@ export const PageProblemsSx = {
     '.questions-container': {
         margin: '0',
         marginTop: '30px',
+        //marginRight: '30px',
+    },
+
+    '.problems-section': {
+        display: 'flex',
         marginRight: ['30px', '50px', '50px', '50px', '80px'],
-        flex: '2 1 auto',
+        //justifyContent: 'space-evenly',
     },
 
     // shared styles
@@ -92,12 +96,16 @@ export const PageProblemsSx = {
     // hot question specific styling
     '.hot-quest-container': {
         display: 'flex',
-        flexWrap: 'wrap',
+        //flexWrap: 'wrap',
+        overflowX: 'scroll',
+        //overflowY: 'hidden',
+        whiteSpace: 'nowrap',
     },
     '.hot-quest-box': {
-        width: ['50%', '50%', '45%', '23%', '23%'],
-        maxWidth: '300px',
-        minWidth: '200px',
+        //width: ['50%', '50%', '45%', '23%', '23%'],
+        width: '250px',
+        //maxWidth: '300px',
+        //minWidth: '200px',
         height: '130px',
         margin: '15px 15px 0 0',
     },
@@ -215,7 +223,8 @@ export const PageProblemsSx = {
         flex: '1 0 auto',
         minWidth: '200px',
         maxWidth: '250px',
-        marginTop: '130px',
+        marginLeft: '20px',
+        //marginTop: '65px',
         textAlign: 'center',
     },
     '.sortby-title': {
