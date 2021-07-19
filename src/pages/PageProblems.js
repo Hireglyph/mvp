@@ -1,6 +1,7 @@
 /** @jsx jsx */
 
 import React from 'react';
+import * as Scroll from 'react-scroll';
 import { Link, withRouter } from 'react-router-dom';
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import { connect } from 'react-redux';
@@ -42,6 +43,10 @@ class PageProblems extends React.Component {
         '/questions/?' + base :
         `/questions/?tag=${tag}&` + base
     );
+    this.setState({
+      topicsExpanded: false,
+    });
+    Scroll.animateScroll.scrollTo(window.pageYOffset === 250 ? 251 : 250);
   };
 
   handleDiffFilter = (diff) => {
@@ -53,6 +58,10 @@ class PageProblems extends React.Component {
         '/questions/?' + base :
         `/questions/?diff=${diff}&` + base
     );
+    this.setState({
+      diffExpanded: false,
+    });
+    Scroll.animateScroll.scrollTo(window.pageYOffset === 250 ? 251 : 250);
   };
 
   handleCompanyFilter = (company) => {
@@ -64,6 +73,10 @@ class PageProblems extends React.Component {
         '/questions/?' + base :
         `/questions/?company=${company}&` + base
     );
+    this.setState({
+      companiesExpanded: false
+    });
+    Scroll.animateScroll.scrollTo(window.pageYOffset === 250 ? 251 : 250);
   };
 
   expandFilter = (filter, expand) => {
@@ -106,7 +119,7 @@ class PageProblems extends React.Component {
     return (
       <div className="hot-quest-box" key={questId}>
         <Link className="hot-quest-box-link" to={`/q/${questId}/my`}>
-          <div className="question-title">
+          <div className="hot-title">
             #{questId}: {quest.title}
           </div>
           <div className="hot-quest-tags">
@@ -168,7 +181,8 @@ class PageProblems extends React.Component {
             <div className="check-container">
               {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
             </div>
-            #{questId}: {quest.title}
+            #{questId}: {" "}
+            {quest.title.slice(0, 20) + (quest.title.length > 20 ? '...' : '')}
           </div>
           <div className="topic-container problems-topic-container" 
             onMouseEnter={() => 

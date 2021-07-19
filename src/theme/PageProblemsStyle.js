@@ -6,7 +6,7 @@ export const PageProblemsSx = {
     // overall page styles
     '.page-problems': {
         width: '100%',
-        padding: ['0px 10px', '0 50px', '0 50px 0 80px', '0 50px 0 80px', '0 130px'],
+        paddingLeft: ['25px', '25px', '50px', '150px', '200px'],
     },
     '.section-title': {
         margin: '50px 0 0 45px',
@@ -31,8 +31,17 @@ export const PageProblemsSx = {
             cursor: 'pointer',
         }
     },
+    '.hot-title': {
+        fontSize: '16px',
+    },
     '.question-title': {
         fontSize: '16px',
+        '@media (max-width: 1025px)': {
+            fontSize: '14px',
+        },
+        '@media (max-width: 640px)': {
+            fontSize: '12px',
+        },
     },
     '.easy': {
         backgroundColor: 'easyGreen',
@@ -71,6 +80,9 @@ export const PageProblemsSx = {
         textAlign: 'center',
         marginRight: '5px',
         padding: '1px 5px',
+        '@media (max-width: 640px)': {
+            fontSize: '10px',
+        },
     },
     '.topic-tag': {
         color: 'purple',
@@ -102,8 +114,7 @@ export const PageProblemsSx = {
         whiteSpace: 'nowrap',
     },
     '.hot-quest-box': {
-        //width: ['50%', '50%', '45%', '23%', '23%'],
-        width: '250px',
+        minWidth: '250px',
         //maxWidth: '300px',
         //minWidth: '200px',
         height: '130px',
@@ -186,13 +197,23 @@ export const PageProblemsSx = {
         marginRight: '25px',
     },
     '.problem-title': {
-        width: '40%',
+        width: '325px',
         display: 'flex',
         justifyContent: 'flex-start',
+        '@media (max-width: 1025px)': {
+            width: '275px',
+        },
+        '@media (max-width: 640px)': {
+            width: '200px',
+        },
     },
     '.problems-topic-container': {
-        width: '30%',
+        width: '200px',
         marginLeft: '30px',
+        '@media (max-width: 640px)': {
+            width: '100px',
+            marginLeft: '20px',
+        },
     },
     '.problems-dropdown': {
         margin: '75px 0 0 260px',
