@@ -6,7 +6,8 @@ export const PageProblemsSx = {
     // overall page styles
     '.page-problems': {
         width: '100%',
-        paddingLeft: ['25px', '25px', '50px', '150px', '200px'],
+        paddingLeft: ['25px', '25px', '50px', '100px', '100px'],
+        paddingRight: ['25px', '25px', '50px', '100px', '100px'],
     },
     '.section-title': {
         margin: '50px 0 0 45px',
@@ -21,7 +22,11 @@ export const PageProblemsSx = {
 
     '.problems-section': {
         display: 'flex',
-        marginRight: ['30px', '50px', '50px', '50px', '80px'],
+        overflowX: 'scroll',
+        overflowY: 'hidden',
+        '@media (max-width: 1025px)': {
+            flexDirection: 'column-reverse',
+        }
         //justifyContent: 'space-evenly',
     },
 
@@ -110,7 +115,7 @@ export const PageProblemsSx = {
         display: 'flex',
         //flexWrap: 'wrap',
         overflowX: 'scroll',
-        //overflowY: 'hidden',
+        overflowY: 'hidden',
         whiteSpace: 'nowrap',
     },
     '.hot-quest-box': {
@@ -164,6 +169,8 @@ export const PageProblemsSx = {
 
     // regular question specific styling
     '.problems-container': {
+        maxWidth: ['300px', '600px', '800px', '800px', '800px'],
+        minWidth: ['300px', '600px', '800px', '800px', '800px'],
         margin: '20px 0 40px 0',
         borderRadius: '20px',
         backgroundColor: 'white',
@@ -197,11 +204,11 @@ export const PageProblemsSx = {
         marginRight: '25px',
     },
     '.problem-title': {
-        width: '325px',
+        width: '300px',
         display: 'flex',
         justifyContent: 'flex-start',
         '@media (max-width: 1025px)': {
-            width: '275px',
+            width: '250px',
         },
         '@media (max-width: 640px)': {
             width: '200px',
@@ -210,8 +217,12 @@ export const PageProblemsSx = {
     '.problems-topic-container': {
         width: '200px',
         marginLeft: '30px',
-        '@media (max-width: 640px)': {
+        '@media (max-width: 1025px)': {
             width: '100px',
+            marginLeft: '20px',
+        },
+        '@media (max-width: 640px)': {
+            width: '75px',
             marginLeft: '20px',
         },
     },
@@ -223,7 +234,6 @@ export const PageProblemsSx = {
         width: '85px',
         color: 'white',
         backgroundColor: 'mediumGray',
-        marginRight: ['0', '0', '0', '4%', '6%'],
     },
     '.no-company-tag': {
         width: '85px',
@@ -237,15 +247,16 @@ export const PageProblemsSx = {
         padding: '1px 5px',
         fontSize: '14px',
         border: 'none',
+        '@media (max-width: 640px)': {
+            fontSize: '10px',
+        },
     },
 
     // filter styling
     '.sortby-container': {
-        flex: '1 0 auto',
-        minWidth: '200px',
+        minWidth: '250px',
         maxWidth: '250px',
         marginLeft: '20px',
-        //marginTop: '65px',
         textAlign: 'center',
     },
     '.sortby-title': {

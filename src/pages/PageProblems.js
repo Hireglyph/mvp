@@ -29,8 +29,8 @@ class PageProblems extends React.Component {
       diffExpanded: false,
       topicsExpanded: false,
       companiesExpanded: false,
-      questsExpanded: new Set(),
-      hotQuestsExpanded: new Set(),
+      questExpanded: null,
+      hotQuestExpanded: null,
     };
   }
 
@@ -83,10 +83,10 @@ class PageProblems extends React.Component {
     this.setState({ [filter]: expand });
   };
 
-  expandQuest = (quests, expanded, questId) => {
-    let newSet = new Set(this.state[quests]);
-    expanded ? newSet.delete(questId) : newSet.add(questId);
-    this.setState({ [quests]: newSet });
+  expandQuest = (quest, expanded, questId) => {
+    let newQuest = expanded ? null : questId;
+    //expanded ? newSet.delete(questId) : newSet.add(questId);
+    this.setState({ [quest]: newQuest });
   };
 
   displayHotQuestion = (questId) => {
@@ -114,7 +114,7 @@ class PageProblems extends React.Component {
       </div>
     );
 
-    const expanded = this.state.hotQuestsExpanded.has(questId);
+    const expanded = this.state.hotQuestExpanded === questId;
 
     return (
       <div className="hot-quest-box" key={questId}>
@@ -125,13 +125,13 @@ class PageProblems extends React.Component {
           <div className="hot-quest-tags">
             <div className="topic-container" 
               onMouseEnter={() => 
-                this.expandQuest('hotQuestsExpanded', false, questId)
+                this.expandQuest('hotQuestExpanded', false, questId)
               }  
               onMouseOver={() => 
-                this.expandQuest('hotQuestsExpanded', false, questId)
+                this.expandQuest('hotQuestExpanded', false, questId)
               }  
               onMouseLeave={() => 
-                this.expandQuest('hotQuestsExpanded', true, questId)
+                this.expandQuest('hotQuestExpanded', true, questId)
               }
             >
               {topics}
@@ -172,7 +172,7 @@ class PageProblems extends React.Component {
     </div>
     );
 
-    const expanded = this.state.questsExpanded.has(questId);
+    const expanded = this.state.questExpanded === questId;
 
     return (
       <div key={questId}>
@@ -186,13 +186,13 @@ class PageProblems extends React.Component {
           </div>
           <div className="topic-container problems-topic-container" 
             onMouseEnter={() => 
-              this.expandQuest('questsExpanded', false, questId)
+              this.expandQuest('questExpanded', false, questId)
             }  
             onMouseOver={() => 
-              this.expandQuest('questsExpanded', false, questId)
+              this.expandQuest('questExpanded', false, questId)
             }  
             onMouseLeave={() => 
-              this.expandQuest('questsExpanded', true, questId)
+              this.expandQuest('questExpanded', true, questId)
             }
           >
             {topics}
