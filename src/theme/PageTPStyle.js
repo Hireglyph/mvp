@@ -6,8 +6,9 @@ export const TpSx = {
         position: 'relative',
         margin: 'auto',
         paddingBottom: '30px',
-        width: '70%',
-        minWidth: '700px',
+        //width: '70%',
+        //minWidth: '700px',
+        width: ['400px', '500px', '640px', '800px', '800px'],
         height: 'auto',
         background: 'white',
         fontFamily: 'Open-Sans',
@@ -32,6 +33,9 @@ export const TpSx = {
         fontSize: '18px',
         padding: '10px',
         borderBottom: '1px solid lightGray',
+        '@media(max-width: 640px)': {
+            fontSize: '13px',
+        },
     },
   
     '.back-hover': {

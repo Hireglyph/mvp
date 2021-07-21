@@ -367,7 +367,7 @@ class PageTp extends React.Component {
       feedbacks &&
       this.state.keys.map((feedbackId) => {
         if (feedbacks[feedbackId]) {
-          const { creator, feedback, score, username, users } = feedbacks[
+          const { creator, feedback, score, username, users, date } = feedbacks[
             feedbackId
           ];
           const deleted = !feedbacks[feedbackId].creator;
@@ -400,6 +400,7 @@ class PageTp extends React.Component {
               const { reply } = repliesTo[replyId];
               const replyCreator = repliesTo[replyId].creator;
               const replyUsername = repliesTo[replyId].username;
+              const replyDate = repliesTo[replyId].date;
               const replyDeleted = !replyCreator;
               const isReplyUpvoted = repliesTo[replyId].users && repliesTo[replyId].users[uid];
               if (!replyDeleted) { 
@@ -424,7 +425,7 @@ class PageTp extends React.Component {
                         <div className="thread-box-header">
                           <div style={{display: 'flex'}}>
                             <div style={{fontFamily: 'Gotham-Bold'}}>{replyUsername} •{'\xa0'}</div> 
-                            <em><Moment fromNow>{tp.date}</Moment></em>
+                            <em><Moment fromNow>{replyDate}</Moment></em>
                           </div>
                           <div className="thread-box-options">
                             {/* show delete button if current user wrote the reply */}
@@ -506,7 +507,7 @@ class PageTp extends React.Component {
                     <div className="thread-box-header">
                       <div style={{display: 'flex'}}>
                         <div style={{fontFamily: 'Gotham-Bold'}}>{feedbackUsername} •{'\xa0'}</div> 
-                        <em><Moment fromNow>{tp.date}</Moment></em>
+                        <em><Moment fromNow>{date}</Moment></em>
                       </div>
                       <div className="thread-box-options">
                         {/* show delete button if current user wrote the feedback */}
