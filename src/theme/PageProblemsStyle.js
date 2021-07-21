@@ -169,8 +169,8 @@ export const PageProblemsSx = {
 
     // regular question specific styling
     '.problems-container': {
-        maxWidth: ['300px', '600px', '800px', '800px', '800px'],
-        minWidth: ['300px', '600px', '800px', '800px', '800px'],
+        maxWidth: ['300px', '600px', '800px', '850px', '850px'],
+        minWidth: ['300px', '600px', '800px', '850px', '850px'],
         margin: '20px 0 40px 0',
         borderRadius: '20px',
         backgroundColor: 'white',
@@ -207,9 +207,9 @@ export const PageProblemsSx = {
         width: '300px',
         display: 'flex',
         justifyContent: 'flex-start',
-        '@media (max-width: 1025px)': {
-            width: '250px',
-        },
+        //'@media (max-width: 1025px)': {
+        //    width: '275px',
+        //},
         '@media (max-width: 640px)': {
             width: '200px',
         },
@@ -234,12 +234,21 @@ export const PageProblemsSx = {
         width: '85px',
         color: 'white',
         backgroundColor: 'mediumGray',
+        marginRight: '50px',
+        marginLeft: 'auto',
+        '@media (max-width: 640px)': {
+            marginRight: '20px',
+        }
     },
     '.no-company-tag': {
         width: '85px',
         color: 'white',
         backgroundColor: 'white',
-        marginRight: ['0', '0', '0', '4%', '6%'],
+        marginRight: '50px',
+        marginLeft: 'auto',
+        '@media (max-width: 640px)': {
+            marginRight: '20px',
+        }
     },
     '.problems-diff': {
         width: '75px',

@@ -246,7 +246,7 @@ class PageProblems extends React.Component {
     if (window.innerWidth < 1550) {
       maxTags = 2;
     } 
-    if (window.innerWidth < 1100) {
+    if (window.innerWidth < 1025) {
       maxTags = 1;
     }
 
