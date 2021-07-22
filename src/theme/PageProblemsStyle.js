@@ -17,7 +17,6 @@ export const PageProblemsSx = {
     '.questions-container': {
         margin: '0',
         marginTop: '30px',
-        //marginRight: '30px',
     },
 
     '.problems-section': {
@@ -27,7 +26,6 @@ export const PageProblemsSx = {
         '@media (max-width: 1025px)': {
             flexDirection: 'column-reverse',
         }
-        //justifyContent: 'space-evenly',
     },
     '.pointer': {  
         '&:hover': {
@@ -111,15 +109,12 @@ export const PageProblemsSx = {
     // hot question specific styling
     '.hot-quest-container': {
         display: 'flex',
-        //flexWrap: 'wrap',
         overflowX: 'scroll',
         overflowY: 'hidden',
         whiteSpace: 'nowrap',
     },
     '.hot-quest-box': {
         minWidth: '250px',
-        //maxWidth: '300px',
-        //minWidth: '200px',
         height: '130px',
         margin: '15px 15px 0 0',
     },
@@ -204,9 +199,6 @@ export const PageProblemsSx = {
         width: '300px',
         display: 'flex',
         justifyContent: 'flex-start',
-        //'@media (max-width: 1025px)': {
-        //    width: '275px',
-        //},
         '@media (max-width: 640px)': {
             width: '200px',
         },
