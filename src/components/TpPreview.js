@@ -40,7 +40,7 @@ export default class TpPreview extends Component {
           {approach && (
             <div className="tp-preview-block format-text">
               <div className="tp-preview-label">
-                Approaches:
+                Approach(es) Tried:
               </div>
               <div>
                 <Latex>{displayContent(approach)}</Latex>
@@ -50,7 +50,7 @@ export default class TpPreview extends Component {
           {solution && (
             <div className="tp-preview-block format-text">
               <div className="tp-preview-label">
-                Solution:
+                Final Solution:
               </div>
               <div>
                 <Latex>{displayContent(solution)}</Latex>
@@ -79,7 +79,7 @@ export default class TpPreview extends Component {
           {approach && (
             <div className="tp-preview-block">
               <span className="tp-preview-label">
-                Approaches:&nbsp;
+                Approach(es) Tried:&nbsp;
               </span>
               <span>
                 <Latex>
@@ -94,7 +94,7 @@ export default class TpPreview extends Component {
           {solution && (
             <div className="tp-preview-block">
               <span className="tp-preview-label">
-                Solution:&nbsp;
+                Final Solution:&nbsp;
               </span>
               <span>
                 <Latex>

@@ -19,6 +19,7 @@ import Loading from 'components/Loading.js';
 import PageNotFound from 'pages/PageNotFound';
 
 import { PageProblemsSx } from 'theme/PageProblemsStyle';
+import { BoxQuestSx, QuestDisplaySx } from 'theme/ComponentStyle.js';
 
 class PageProblems extends React.Component {
   constructor(props) {
@@ -122,7 +123,7 @@ class PageProblems extends React.Component {
           <div className="hot-title">
             #{questId}: {quest.title}
           </div>
-          <div className="hot-quest-tags">
+          <div className="box-quest-tags">
             <div className="topic-container" 
               onMouseEnter={() => 
                 this.expandQuest('hotQuestExpanded', false, questId)
@@ -140,14 +141,14 @@ class PageProblems extends React.Component {
               {(keyArr && displayDropdown && expanded) 
                 && <FontAwesomeIcon icon={faAngleDown} className="drop-arrow"/>}
             </div>
-            <div className="hot-quest-icon-box">
+            <div className="box-quest-icon-box">
               {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
-              <div className={"hot-quest-diff  " + quest.difficulty}></div>
+              <div className={"box-quest-diff  " + quest.difficulty}></div>
             </div>
           </div>
         </Link>
         {(keyArr && displayDropdown && expanded) 
-          && <div className="dropdown hot-quests-dropdown" >{dropdownTopics}</div>}
+          && <div className="dropdown box-quests-dropdown" >{dropdownTopics}</div>}
       </div>
     );
   };
@@ -318,8 +319,10 @@ class PageProblems extends React.Component {
                 icon={faFireAlt}  
                 style={{color: '#DA1C1C'}}/> Hot
             </h3>
-            <div className="hot-quest-container">
-              {hotQuestions ? hot : noHot}
+            <div sx={BoxQuestSx}>
+              <div sx={QuestDisplaySx} className="hot-quest-container">
+                {hotQuestions ? hot : noHot}
+              </div>
             </div>
           </div>
           <h3 className="section-title">

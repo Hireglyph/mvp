@@ -29,11 +29,9 @@ export const PageProblemsSx = {
         }
         //justifyContent: 'space-evenly',
     },
-
-    // shared styles
-    '.pointer': {
+    '.pointer': {  
         '&:hover': {
-            cursor: 'pointer',
+            cursor: 'pointer'
         }
     },
     '.hot-title': {
@@ -165,7 +163,6 @@ export const PageProblemsSx = {
         borderRadius: '50px',
         margin: '1px 0 0 12px',
     },
-
 
     // regular question specific styling
     '.problems-container': {
