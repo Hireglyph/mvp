@@ -35,7 +35,9 @@ class PageOnboard extends React.Component {
 
     const usernameExists = await this.checkUsernameExists(username);
     if (usernameExists) {
-      this.setState({ error: "Username taken." });
+      this.setState({
+        error: "Username taken. Please pick another username."
+      });
       return;
     }
 
