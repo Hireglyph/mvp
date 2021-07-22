@@ -18,7 +18,6 @@ class PageRegister extends React.Component {
       email: '',
       password: '',
       confirmPassword: '',
-      username: '',
       error: '',
     };
   }
@@ -34,15 +33,8 @@ class PageRegister extends React.Component {
         password: this.state.password,
       };
 
-      const profile = {
-        email: this.state.email,
-        username: this.state.username,
-        onboarded: true,
-        admin: false,
-      };
-
       try {
-        await this.props.registerUser(credentials, profile);
+        await this.props.registerUser(credentials, {});
         await this.props.auth().currentUser.sendEmailVerification();
       } catch (error) {
         this.setState({ error: error.message });
@@ -64,6 +56,10 @@ class PageRegister extends React.Component {
   };
 
   render() {
+    const disabled = !this.state.email.trim() ||
+                     !this.state.password.trim() ||
+                     !this.state.confirmPassword.trim();
+
     return (
       <div sx={FormSx}>
         <ReactTitle title="Register | Hireglyph"/>
@@ -92,17 +88,10 @@ class PageRegister extends React.Component {
             type="password"
             value={this.state.confirmPassword}
           />
-          <input
-            className="form-input"
-            name="username"
-            onChange={this.handleChange}
-            placeholder="Username"
-            value={this.state.username}
-          />
           <div className="auth-btn-container">
             <button
               className="form-btn"
-              disabled={!this.state.username.trim()}
+              disabled={disabled}
               onClick={this.register}
             >
               Register

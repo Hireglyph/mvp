@@ -22,15 +22,50 @@ class PageOnboard extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
 
   // update profile with username
-  register = () => {
-    const profile = {
+  register = async () => {
+    const { username } = this.state;
+    const { uid } = this.props;
+
+    if (!this.isUsernameValid(username)) {
+      this.setState({
+        error: "Username is invalid. Only lowercase alphabetic characters, numbers, dashes, and underscores are allowed."
+      });
+      return;
+    }
+
+    const usernameExists = await this.checkUsernameExists(username);
+    if (usernameExists) {
+      this.setState({
+        error: "Username taken. Please pick another username."
+      });
+      return;
+    }
+
+    const updates = {};
+    updates[`/users/${uid}`] = {
       email: this.props.email,
-      username: this.state.username,
+      username,
       onboarded: true,
       admin: false,
     };
+    updates[`/usernameIndex/${username}`] = true;
 
-    this.props.updateProfile(profile);
+    this.props.firebase.update('/', updates);
+    this.props.history.push('/questions');
+  };
+
+  // only allow
+  isUsernameValid = username => {
+    const regexp = /^[a-z0-9-_]+$/;
+    return username.search(regexp) !== -1;
+  }
+
+  checkUsernameExists = async username => {
+    const snapshot = await this.props.firebase
+      .database()
+      .ref(`usernameIndex/${username}`)
+      .once('value');
+    return snapshot.exists();
   };
 
   render() {
@@ -53,6 +88,9 @@ class PageOnboard extends React.Component {
           >
             Register Username
           </button>
+          <div className="form-small-text auth-error">
+            {this.state.error}
+          </div>
         </div>
       </div>
     );
@@ -63,6 +101,7 @@ const mapStateToProps = (state, props) => {
   return {
     updateProfile: props.firebase.updateProfile,
     email: state.firebase.auth.email,
+    uid: state.firebase.auth.uid,
   };
 };
 
