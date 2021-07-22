@@ -326,119 +326,123 @@ class PageProblems extends React.Component {
               style={{color: '#EBB700'}}/> Problems
           </h3>
           <div className="problems-section">
-            <div className="problems-container">
-              {tag &&
-                // click to view all questions (vanilla /questions URL)
-                <div
-                  className="original-list-btn"
-                  onClick={() => this.props.history.push('/questions')}
-                >
-                    View full list
-                </div>}
-              <div className="quest-container">
-                {/* actually show questions */}
-                {quests.length ? quests : noQuests}
+            <div className="scrolly">
+              <div className="problems-container">
+                {tag &&
+                  // click to view all questions (vanilla /questions URL)
+                  <div
+                    className="original-list-btn"
+                    onClick={() => this.props.history.push('/questions')}
+                  >
+                      View full list
+                  </div>}
+                <div className="quest-container">
+                  {/* actually show questions */}
+                  {quests.length ? quests : noQuests}
+                </div>
               </div>
             </div>
-            <div className="sortby-container">
-              <h4 className="sortby-title">Filter by</h4>
-              <div className="sortby-box">
-                <div className="sortby-header pointer" 
-                  onClick={() => this.expandFilter('diffExpanded', !this.state.diffExpanded)}
-                >
-                  <h5 className="filter-tag-title">Difficulty</h5>
-                  {this.state.diffExpanded ?
-                    <FontAwesomeIcon icon={faMinus} className="pointer" /> :
-                    <FontAwesomeIcon icon={faPlus} className="pointer" />
+            <div className="scrolly">
+              <div className="sortby-container">
+                <h4 className="sortby-title">Filter by:</h4>
+                <div className="sortby-box">
+                  <div className="sortby-header pointer"
+                    onClick={() => this.expandFilter('diffExpanded', !this.state.diffExpanded)}
+                  >
+                    <h5 className="filter-tag-title">Difficulty</h5>
+                    {this.state.diffExpanded ?
+                      <FontAwesomeIcon icon={faMinus} className="pointer" /> :
+                      <FontAwesomeIcon icon={faPlus} className="pointer" />
+                    }
+                  </div>
+                  {/* sort by difficulty */}
+                  {(!this.state.diffExpanded && this.props.diff) &&
+                    <div
+                      className="tag-selected filter-tag-link pointer"
+                      onClick={() => this.handleDiffFilter(this.props.diff)}
+                    >
+                      {this.props.diff}
+                    </div>
+                  }
+                  {this.state.diffExpanded &&  
+                    <div>
+                      <div
+                        className={
+                          (this.props.diff === 'easy' && " tag-selected") +
+                          " filter-tag-link pointer"
+                        }
+                        onClick={() => this.handleDiffFilter('easy')}
+                      >
+                        Easy
+                      </div>
+                      <div
+                        className={
+                          (this.props.diff === 'medium' && " tag-selected") +
+                          " filter-tag-link pointer"
+                        }
+                        onClick={() => this.handleDiffFilter('medium')}
+                      >
+                        Medium
+                      </div>
+                      <div
+                        className={
+                          (this.props.diff === 'hard' && " tag-selected") +
+                          " filter-tag-link pointer"
+                        }
+                        onClick={() => this.handleDiffFilter('hard')}
+                      >
+                        Hard
+                      </div>
+                    </div>
                   }
                 </div>
-                {/* sort by difficulty */}
-                {(!this.state.diffExpanded && this.props.diff) &&
-                  <div
-                    className="tag-selected filter-tag-link pointer"
-                    onClick={() => this.handleDiffFilter(this.props.diff)}
-                  >
-                    {this.props.diff}
+                <div className="sortby-box">
+                  {/* sort by topic */}
+                  <div className="sortby-header pointer" onClick={() => this.expandFilter('topicsExpanded', !this.state.topicsExpanded)}>
+                    <h5 className="filter-tag-title">Topics</h5>
+                    {this.state.topicsExpanded ?
+                      <FontAwesomeIcon icon={faMinus} className="pointer" /> :
+                      <FontAwesomeIcon icon={faPlus} className="pointer" />
+                    }
                   </div>
-                }
-                {this.state.diffExpanded &&  
-                  <div>
+                  {(!this.state.topicsExpanded && this.props.tag) &&
                     <div
-                      className={
-                        (this.props.diff === 'easy' && " tag-selected") +
-                        " filter-tag-link pointer"
-                      }
-                      onClick={() => this.handleDiffFilter('easy')}
+                      className="tag-selected filter-tag-link pointer"
+                      onClick={() => this.handleTagFilter(this.props.tag)}
                     >
-                      Easy
+                      {this.props.tag}
                     </div>
-                    <div
-                      className={
-                        (this.props.diff === 'medium' && " tag-selected") +
-                        " filter-tag-link pointer"
-                      }
-                      onClick={() => this.handleDiffFilter('medium')}
-                    >
-                      Medium
+                  }
+                  {this.state.topicsExpanded &&
+                    <div>
+                      {topicButtons}
                     </div>
-                    <div
-                      className={
-                        (this.props.diff === 'hard' && " tag-selected") +
-                        " filter-tag-link pointer"
-                      }
-                      onClick={() => this.handleDiffFilter('hard')}
-                    >
-                      Hard
-                    </div>
-                  </div>
-                }
-              </div>
-              <div className="sortby-box">
-                {/* sort by topic */}
-                <div className="sortby-header pointer" onClick={() => this.expandFilter('topicsExpanded', !this.state.topicsExpanded)}>
-                  <h5 className="filter-tag-title">Topics</h5>
-                  {this.state.topicsExpanded ?
-                    <FontAwesomeIcon icon={faMinus} className="pointer" /> :
-                    <FontAwesomeIcon icon={faPlus} className="pointer" />
                   }
                 </div>
-                {(!this.state.topicsExpanded && this.props.tag) &&
-                  <div
-                    className="tag-selected filter-tag-link pointer"
-                    onClick={() => this.handleTagFilter(this.props.tag)}
+                <div className="sortby-box">
+                  <div className="sortby-header pointer" 
+                    onClick={() => this.expandFilter('companiesExpanded', !this.state.companiesExpanded)}
                   >
-                    {this.props.tag}
+                    <h5 className="filter-tag-title">Companies</h5>
+                    {this.state.companiesExpanded ?
+                      <FontAwesomeIcon icon={faMinus} className="pointer" /> :
+                      <FontAwesomeIcon icon={faPlus} className="pointer" />
+                    }
                   </div>
-                }
-                {this.state.topicsExpanded &&
-                  <div>
-                    {topicButtons}
-                  </div>
-                }
-              </div>
-              <div className="sortby-box">
-                <div className="sortby-header pointer" 
-                  onClick={() => this.expandFilter('companiesExpanded', !this.state.companiesExpanded)}
-                >
-                  <h5 className="filter-tag-title">Companies</h5>
-                  {this.state.companiesExpanded ?
-                    <FontAwesomeIcon icon={faMinus} className="pointer" /> :
-                    <FontAwesomeIcon icon={faPlus} className="pointer" />
+                  {(!this.state.companiesExpanded && this.props.company) &&
+                    <div
+                      className="tag-selected filter-tag-link pointer"
+                      onClick={() => this.handleCompanyFilter(this.props.company)}
+                    >
+                      {this.props.company}
+                    </div>
+                  }
+                  {this.state.companiesExpanded &&
+                    <div>
+                      {companyButtons}
+                    </div>
                   }
                 </div>
-                {(!this.state.companiesExpanded && this.props.company) &&
-                  <div
-                    className="tag-selected filter-tag-link pointer"
-                    onClick={() => this.handleCompanyFilter(this.props.company)}
-                  >
-                    {this.props.company}
-                  </div>
-                }
-                {this.state.companiesExpanded &&
-                  <div>
-                    {companyButtons}
-                  </div>
-                }
               </div>
             </div>
           </div>

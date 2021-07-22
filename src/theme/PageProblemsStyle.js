@@ -1,5 +1,3 @@
-import { Media } from "react-bootstrap"
-
 export const PageProblemsSx = {
     fontFamily: 'Open-Sans',
 
@@ -21,9 +19,7 @@ export const PageProblemsSx = {
 
     '.problems-section': {
         display: 'flex',
-        overflowX: 'scroll',
-        overflowY: 'hidden',
-        '@media (max-width: 1025px)': {
+        '@media (max-width: 1350px)': {
             flexDirection: 'column-reverse',
         }
     },
@@ -159,6 +155,11 @@ export const PageProblemsSx = {
         margin: '1px 0 0 12px',
     },
 
+    '.scrolly': {
+        overflowX: 'scroll',
+        overflowY: 'hidden',
+    },
+
     // regular question specific styling
     '.problems-container': {
         maxWidth: ['300px', '600px', '800px', '850px', '850px'],
@@ -167,8 +168,8 @@ export const PageProblemsSx = {
         borderRadius: '20px',
         backgroundColor: 'white',
         boxShadow: '2px 2px 4px rgba(128, 128, 128, 0.1)',
-        padding: '20px 20px'
-,    },
+        padding: '20px 20px',
+    },
     '.original-list-btn': {
         width: 'fit-content',
         margin: '5px auto 10px 20px',
@@ -199,18 +200,17 @@ export const PageProblemsSx = {
         width: '300px',
         display: 'flex',
         justifyContent: 'flex-start',
+        '@media (max-width: 1025px)': {
+            width: '250px',
+        },
         '@media (max-width: 640px)': {
-            width: '200px',
+            width: '175px',
         },
     },
     '.problems-topic-container': {
         width: '200px',
         marginLeft: '30px',
         '@media (max-width: 1025px)': {
-            width: '100px',
-            marginLeft: '20px',
-        },
-        '@media (max-width: 640px)': {
             width: '75px',
             marginLeft: '20px',
         },
@@ -256,16 +256,32 @@ export const PageProblemsSx = {
         maxWidth: '250px',
         marginLeft: '20px',
         textAlign: 'center',
+        '@media (max-width: 1350px)': {
+            display: 'flex',
+            marginTop: '10px',
+        }
     },
     '.sortby-title': {
         fontSize: '20px',
         fontWeight: '600',
+        '@media (max-width: 1350px)': {
+            display: 'none',
+        },
     },
     '.sortby-box': {
         backgroundColor: 'white',
         padding: '0',
         borderTop: '4px solid #EFEFEF',
         paddingBottom: '10px',
+        height: '100%',
+        '@media (max-width: 1350px)': {
+            marginRight: '20px',
+            minWidth: '200px'
+        },
+        '@media (max-width: 1025px)': {
+            marginRight: '15px',
+            minWidth: '125px'
+        },
     },
     '.sortby-header': {
         width: '100%',
@@ -279,6 +295,12 @@ export const PageProblemsSx = {
         textAlign: 'left',
         fontSize: '16px',
         fontWeight: '600',
+        '@media (max-width: 1350px)': {
+            marginRight: '5px',
+        },
+        '@media (max-width: 1025px)': {
+            fontSize: '14px',
+        },
     },
     '.filter-tag-link': {
         textTransform: 'capitalize',
@@ -292,6 +314,12 @@ export const PageProblemsSx = {
         transition: '1s',
         '&:hover': {
             color: 'purple3',
+        },
+        '@media (max-width: 1350px)': {
+            margin: '0px 5px 5px 25px',
+        },
+        '@media (max-width: 1025px)': {
+            fontSize: '10px',
         },
     },
     '.tag-selected': {
