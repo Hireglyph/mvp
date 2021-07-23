@@ -43,9 +43,7 @@ class PageProblems extends React.Component {
         '/questions/?' + base :
         `/questions/?tag=${tag}&` + base
     );
-    this.setState({
-      topicsExpanded: false,
-    });
+    this.setState({ topicsExpanded: false });
     Scroll.animateScroll.scrollTo(window.pageYOffset === 250 ? 251 : 250);
   };
 
@@ -58,9 +56,7 @@ class PageProblems extends React.Component {
         '/questions/?' + base :
         `/questions/?diff=${diff}&` + base
     );
-    this.setState({
-      diffExpanded: false,
-    });
+    this.setState({ diffExpanded: false });
     Scroll.animateScroll.scrollTo(window.pageYOffset === 250 ? 251 : 250);
   };
 
@@ -73,9 +69,7 @@ class PageProblems extends React.Component {
         '/questions/?' + base :
         `/questions/?company=${company}&` + base
     );
-    this.setState({
-      companiesExpanded: false
-    });
+    this.setState({ companiesExpanded: false });
     Scroll.animateScroll.scrollTo(window.pageYOffset === 250 ? 251 : 250);
   };
 
@@ -83,9 +77,9 @@ class PageProblems extends React.Component {
     this.setState({ [filter]: expand });
   };
 
-  expandQuest = (quest, expanded, questId) => {
+  expandQuest = (paramName, expanded, questId) => {
     let newQuest = expanded ? null : questId;
-    this.setState({ [quest]: newQuest });
+    this.setState({ [paramName]: newQuest });
   };
 
   displayHotQuestion = (questId) => {
