@@ -1,6 +1,7 @@
 /** @jsx jsx */
 
 import React from 'react';
+import * as Scroll from 'react-scroll';
 import { Link, withRouter } from 'react-router-dom';
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import { connect } from 'react-redux';
@@ -18,7 +19,6 @@ import Loading from 'components/Loading.js';
 import PageNotFound from 'pages/PageNotFound';
 
 import { PageProblemsSx } from 'theme/PageProblemsStyle';
-import { BoxQuestSx, QuestDisplaySx } from 'theme/ComponentStyle.js';
 
 class PageProblems extends React.Component {
   constructor(props) {
@@ -29,8 +29,8 @@ class PageProblems extends React.Component {
       diffExpanded: false,
       topicsExpanded: false,
       companiesExpanded: false,
-      questsExpanded: new Set(),
-      hotQuestsExpanded: new Set(),
+      questExpanded: null,
+      hotQuestExpanded: null,
     };
   }
 
@@ -43,6 +43,8 @@ class PageProblems extends React.Component {
         '/questions/?' + base :
         `/questions/?tag=${tag}&` + base
     );
+    this.setState({ topicsExpanded: false });
+    Scroll.animateScroll.scrollTo(window.pageYOffset === 250 ? 251 : 250);
   };
 
   handleDiffFilter = (diff) => {
@@ -54,6 +56,8 @@ class PageProblems extends React.Component {
         '/questions/?' + base :
         `/questions/?diff=${diff}&` + base
     );
+    this.setState({ diffExpanded: false });
+    Scroll.animateScroll.scrollTo(window.pageYOffset === 250 ? 251 : 250);
   };
 
   handleCompanyFilter = (company) => {
@@ -65,16 +69,17 @@ class PageProblems extends React.Component {
         '/questions/?' + base :
         `/questions/?company=${company}&` + base
     );
+    this.setState({ companiesExpanded: false });
+    Scroll.animateScroll.scrollTo(window.pageYOffset === 250 ? 251 : 250);
   };
 
   expandFilter = (filter, expand) => {
     this.setState({ [filter]: expand });
   };
 
-  expandQuest = (quests, expanded, questId) => {
-    let newSet = new Set(this.state[quests]);
-    expanded ? newSet.delete(questId) : newSet.add(questId);
-    this.setState({ [quests]: newSet });
+  expandQuest = (paramName, expanded, questId) => {
+    let newQuest = expanded ? null : questId;
+    this.setState({ [paramName]: newQuest });
   };
 
   displayHotQuestion = (questId) => {
@@ -87,7 +92,6 @@ class PageProblems extends React.Component {
     const keyArr = quest.tags && Object.keys(quest.tags);
     const displayDropdown = keyArr.length > maxHotTags;
 
-    // topics that are displayed in the problem box
     const topics = quest.tags && keyArr.map((tag, i) =>
       <div key={i}>
         {(i < maxDropdownDisplay || !displayDropdown) 
@@ -102,24 +106,24 @@ class PageProblems extends React.Component {
       </div>
     );
 
-    const expanded = this.state.hotQuestsExpanded.has(questId);
+    const expanded = this.state.hotQuestExpanded === questId;
 
     return (
       <div className="hot-quest-box" key={questId}>
-        <Link className="box-quest-box-link" to={`/q/${questId}/my`}>
-          <div className="question-title">
+        <Link className="hot-quest-box-link" to={`/q/${questId}/my`}>
+          <div className="hot-title">
             #{questId}: {quest.title}
           </div>
-          <div className="box-quest-tags">
+          <div className="hot-quest-tags">
             <div className="topic-container" 
               onMouseEnter={() => 
-                this.expandQuest('hotQuestsExpanded', false, questId)
+                this.expandQuest('hotQuestExpanded', false, questId)
               }  
               onMouseOver={() => 
-                this.expandQuest('hotQuestsExpanded', false, questId)
+                this.expandQuest('hotQuestExpanded', false, questId)
               }  
               onMouseLeave={() => 
-                this.expandQuest('hotQuestsExpanded', true, questId)
+                this.expandQuest('hotQuestExpanded', true, questId)
               }
             >
               {topics}
@@ -128,14 +132,14 @@ class PageProblems extends React.Component {
               {(keyArr && displayDropdown && expanded) 
                 && <FontAwesomeIcon icon={faAngleDown} className="drop-arrow"/>}
             </div>
-            <div className="box-quest-icon-box">
+            <div className="hot-quest-icon-box">
               {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
-              <div className={"box-quest-diff  " + quest.difficulty}></div>
+              <div className={"hot-quest-diff  " + quest.difficulty}></div>
             </div>
           </div>
         </Link>
         {(keyArr && displayDropdown && expanded) 
-          && <div className="dropdown box-quests-dropdown" >{dropdownTopics}</div>}
+          && <div className="dropdown hot-quests-dropdown" >{dropdownTopics}</div>}
       </div>
     );
   };
@@ -160,7 +164,7 @@ class PageProblems extends React.Component {
     </div>
     );
 
-    const expanded = this.state.questsExpanded.has(questId);
+    const expanded = this.state.questExpanded === questId;
 
     return (
       <div key={questId}>
@@ -169,17 +173,18 @@ class PageProblems extends React.Component {
             <div className="check-container">
               {answered && <FontAwesomeIcon icon={faCheck} className="check" />}
             </div>
-            #{questId}: {quest.title}
+            #{questId}: {" "}
+            {quest.title.slice(0, 20) + (quest.title.length > 20 ? '...' : '')}
           </div>
           <div className="topic-container problems-topic-container" 
             onMouseEnter={() => 
-              this.expandQuest('questsExpanded', false, questId)
+              this.expandQuest('questExpanded', false, questId)
             }  
             onMouseOver={() => 
-              this.expandQuest('questsExpanded', false, questId)
+              this.expandQuest('questExpanded', false, questId)
             }  
             onMouseLeave={() => 
-              this.expandQuest('questsExpanded', true, questId)
+              this.expandQuest('questExpanded', true, questId)
             }
           >
             {topics}
@@ -233,9 +238,9 @@ class PageProblems extends React.Component {
     if (window.innerWidth < 1550) {
       maxTags = 2;
     } 
-    if (window.innerWidth < 1100) {
+    if (window.innerWidth < 1025) {
       maxTags = 1;
-    } 
+    }
 
     const hot = hotQuestions
       && Object.keys(hotQuestions).map(questId => this.displayHotQuestion(questId));
@@ -305,18 +310,19 @@ class PageProblems extends React.Component {
                 icon={faFireAlt}  
                 style={{color: '#DA1C1C'}}/> Hot
             </h3>
-            <div sx={BoxQuestSx}>
-              <div sx={QuestDisplaySx} className="hot-quest-container">
-                {hotQuestions ? hot : noHot}
-              </div>
+            <div className="hot-quest-container">
+              {hotQuestions ? hot : noHot}
             </div>
-            <h3 className="section-title">
-              <FontAwesomeIcon 
-                icon={faLightbulb}  
-                style={{color: '#EBB700'}}/> Problems
-            </h3>
-            <div sx={QuestDisplaySx} className="problems-container">
-              {tag &&
+          </div>
+          <h3 className="section-title">
+            <FontAwesomeIcon 
+              icon={faLightbulb}  
+              style={{color: '#EBB700'}}/> Problems
+          </h3>
+          <div className="problems-section">
+            <div className="scrolly">
+              <div className="problems-container">
+                {tag &&
                   // click to view all questions (vanilla /questions URL)
                   <div
                     className="original-list-btn"
@@ -324,111 +330,114 @@ class PageProblems extends React.Component {
                   >
                       View full list
                   </div>}
-              <div className="quest-container">
-                {/* actually show questions */}
-                {quests.length ? quests : noQuests}
+                <div className="quest-container">
+                  {/* actually show questions */}
+                  {quests.length ? quests : noQuests}
+                </div>
               </div>
             </div>
-          </div>
-          <div className="sortby-container">
-            <h4 className="sortby-title">Filter by</h4>
-            <div className="sortby-box">
-              <div className="sortby-header pointer" 
-                onClick={() => this.expandFilter('diffExpanded', !this.state.diffExpanded)}
-              >
-                <h5 className="filter-tag-title">Difficulty</h5>
-                {this.state.diffExpanded ?
-                  <FontAwesomeIcon icon={faMinus} className="pointer" /> :
-                  <FontAwesomeIcon icon={faPlus} className="pointer" />
-                }
-              </div>
-              {/* sort by difficulty */}
-              {(!this.state.diffExpanded && this.props.diff) &&
-                <div
-                  className="tag-selected filter-tag-link pointer"
-                  onClick={() => this.handleDiffFilter(this.props.diff)}
-                >
-                  {this.props.diff}
-                </div>
-              }
-              {this.state.diffExpanded &&  
-                <div>
-                  <div
-                    className={
-                      (this.props.diff === 'easy' && " tag-selected") +
-                      " filter-tag-link pointer"
-                    }
-                    onClick={() => this.handleDiffFilter('easy')}
+            <div className="scrolly">
+              <div className="sortby-container">
+                <h4 className="sortby-title">Filter by:</h4>
+                <div className="sortby-box">
+                  <div className="sortby-header pointer"
+                    onClick={() => this.expandFilter('diffExpanded', !this.state.diffExpanded)}
                   >
-                    Easy
-                  </div>
-                  <div
-                    className={
-                      (this.props.diff === 'medium' && " tag-selected") +
-                      " filter-tag-link pointer"
+                    <h5 className="filter-tag-title">Difficulty</h5>
+                    {this.state.diffExpanded ?
+                      <FontAwesomeIcon icon={faMinus} className="pointer" /> :
+                      <FontAwesomeIcon icon={faPlus} className="pointer" />
                     }
-                    onClick={() => this.handleDiffFilter('medium')}
-                  >
-                    Medium
                   </div>
-                  <div
-                    className={
-                      (this.props.diff === 'hard' && " tag-selected") +
-                      " filter-tag-link pointer"
+                  {/* sort by difficulty */}
+                  {(!this.state.diffExpanded && this.props.diff) &&
+                    <div
+                      className="tag-selected filter-tag-link pointer"
+                      onClick={() => this.handleDiffFilter(this.props.diff)}
+                    >
+                      {this.props.diff}
+                    </div>
+                  }
+                  {this.state.diffExpanded &&  
+                    <div>
+                      <div
+                        className={
+                          (this.props.diff === 'easy' && " tag-selected") +
+                          " filter-tag-link pointer"
+                        }
+                        onClick={() => this.handleDiffFilter('easy')}
+                      >
+                        Easy
+                      </div>
+                      <div
+                        className={
+                          (this.props.diff === 'medium' && " tag-selected") +
+                          " filter-tag-link pointer"
+                        }
+                        onClick={() => this.handleDiffFilter('medium')}
+                      >
+                        Medium
+                      </div>
+                      <div
+                        className={
+                          (this.props.diff === 'hard' && " tag-selected") +
+                          " filter-tag-link pointer"
+                        }
+                        onClick={() => this.handleDiffFilter('hard')}
+                      >
+                        Hard
+                      </div>
+                    </div>
+                  }
+                </div>
+                <div className="sortby-box">
+                  {/* sort by topic */}
+                  <div className="sortby-header pointer" onClick={() => this.expandFilter('topicsExpanded', !this.state.topicsExpanded)}>
+                    <h5 className="filter-tag-title">Topics</h5>
+                    {this.state.topicsExpanded ?
+                      <FontAwesomeIcon icon={faMinus} className="pointer" /> :
+                      <FontAwesomeIcon icon={faPlus} className="pointer" />
                     }
-                    onClick={() => this.handleDiffFilter('hard')}
-                  >
-                    Hard
                   </div>
+                  {(!this.state.topicsExpanded && this.props.tag) &&
+                    <div
+                      className="tag-selected filter-tag-link pointer"
+                      onClick={() => this.handleTagFilter(this.props.tag)}
+                    >
+                      {this.props.tag}
+                    </div>
+                  }
+                  {this.state.topicsExpanded &&
+                    <div>
+                      {topicButtons}
+                    </div>
+                  }
                 </div>
-              }
-            </div>
-            <div className="sortby-box">
-              {/* sort by topic */}
-              <div className="sortby-header pointer" onClick={() => this.expandFilter('topicsExpanded', !this.state.topicsExpanded)}>
-                <h5 className="filter-tag-title">Topics</h5>
-                {this.state.topicsExpanded ?
-                  <FontAwesomeIcon icon={faMinus} className="pointer" /> :
-                  <FontAwesomeIcon icon={faPlus} className="pointer" />
-                }
+                <div className="sortby-box">
+                  <div className="sortby-header pointer" 
+                    onClick={() => this.expandFilter('companiesExpanded', !this.state.companiesExpanded)}
+                  >
+                    <h5 className="filter-tag-title">Companies</h5>
+                    {this.state.companiesExpanded ?
+                      <FontAwesomeIcon icon={faMinus} className="pointer" /> :
+                      <FontAwesomeIcon icon={faPlus} className="pointer" />
+                    }
+                  </div>
+                  {(!this.state.companiesExpanded && this.props.company) &&
+                    <div
+                      className="tag-selected filter-tag-link pointer"
+                      onClick={() => this.handleCompanyFilter(this.props.company)}
+                    >
+                      {this.props.company}
+                    </div>
+                  }
+                  {this.state.companiesExpanded &&
+                    <div>
+                      {companyButtons}
+                    </div>
+                  }
+                </div>
               </div>
-              {(!this.state.topicsExpanded && this.props.tag) &&
-                <div
-                  className="tag-selected filter-tag-link pointer"
-                  onClick={() => this.handleTagFilter(this.props.tag)}
-                >
-                  {this.props.tag}
-                </div>
-              }
-              {this.state.topicsExpanded &&
-                <div>
-                  {topicButtons}
-                </div>
-              }
-            </div>
-            <div className="sortby-box">
-              <div className="sortby-header pointer" 
-                onClick={() => this.expandFilter('companiesExpanded', !this.state.companiesExpanded)}
-              >
-                <h5 className="filter-tag-title">Companies</h5>
-                {this.state.companiesExpanded ?
-                  <FontAwesomeIcon icon={faMinus} className="pointer" /> :
-                  <FontAwesomeIcon icon={faPlus} className="pointer" />
-                }
-              </div>
-              {(!this.state.companiesExpanded && this.props.company) &&
-                <div
-                  className="tag-selected filter-tag-link pointer"
-                  onClick={() => this.handleCompanyFilter(this.props.company)}
-                >
-                  {this.props.company}
-                </div>
-              }
-              {this.state.companiesExpanded &&
-                <div>
-                  {companyButtons}
-                </div>
-              }
             </div>
           </div>
         </div>
