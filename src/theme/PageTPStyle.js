@@ -6,8 +6,6 @@ export const TpSx = {
         position: 'relative',
         margin: 'auto',
         paddingBottom: '30px',
-        //width: '70%',
-        //minWidth: '700px',
         width: ['300px', '375px', '640px', '800px', '800px'],
         height: 'auto',
         background: 'white',
@@ -197,7 +195,6 @@ export const TpSx = {
     },
 
     '.vanish': {
-        //backgroundColor: 'red',
         '@media (max-width: 1025px)': {
             display: 'none',
         }
