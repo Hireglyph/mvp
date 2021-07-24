@@ -64,7 +64,9 @@ class PageRegister extends React.Component {
       <div sx={FormSx}>
         <ReactTitle title="Register | Hireglyph"/>
         <div className="page-container">
-          <div className="form-title">Register</div>
+          <div className="form-title-container">
+            <div className="form-title">Register</div>
+          </div>
           <input
             className="form-input"
             name="email"

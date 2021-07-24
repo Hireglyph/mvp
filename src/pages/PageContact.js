@@ -39,7 +39,9 @@ class PageContact extends React.Component {
       <div sx={FormSx}>
         <ReactTitle title="Contact Us | Hireglyph"/>
         <div className="page-container">
-          <div className="form-title">Contact Us</div>
+          <div className="form-title-container">
+            <div className="form-title">Contact Us</div>
+          </div>
           <div className="form-small-text">
             Fill out this form or email us at admin@hireglyph.com
             directly to reach us!

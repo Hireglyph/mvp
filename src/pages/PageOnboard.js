@@ -8,6 +8,8 @@ import { compose } from 'redux';
 import { jsx } from 'theme-ui';
 
 import { FormSx } from 'theme/FormStyle';
+import { subscribeToMailchimp } from 'utils/mailchimp';
+import Checkbox from 'components/Checkbox';
 
 class PageOnboard extends React.Component {
   constructor(props) {
@@ -15,11 +17,16 @@ class PageOnboard extends React.Component {
     this.state = {
       username: '',
       error: '',
+      subscribe: true,
     };
   }
 
   handleChange = (event) =>
     this.setState({ [event.target.name]: event.target.value });
+
+  handleCheck = () => {
+    this.setState({ subscribe: !this.state.subscribe });
+  };
 
   // update profile with username
   register = async () => {
@@ -51,6 +58,11 @@ class PageOnboard extends React.Component {
     updates[`/usernameIndex/${username}`] = true;
 
     this.props.firebase.update('/', updates);
+
+    if (this.state.subscribe) {
+      subscribeToMailchimp(this.props.email);
+    }
+
     this.props.history.push('/questions');
   };
 
@@ -72,7 +84,9 @@ class PageOnboard extends React.Component {
     return (
       <div sx={FormSx}>
         <div className="page-container">
-          <div className="form-title">Set your username!</div>
+          <div className="form-title-container">
+            <div className="form-title">Set your username!</div>
+          </div>
           <input
             className="form-input"
             name="username"
@@ -80,6 +94,13 @@ class PageOnboard extends React.Component {
             placeholder="Username"
             value={this.state.username}
           />
+          <div className="bottom-padding">
+            <Checkbox
+              label={"I want to receive quant/finance internships, interview tips, & more (don't worry, we won't spam your inbox)!"}
+              checked={this.state.subscribe}
+              handleCheck={this.handleCheck}
+            />
+          </div>
           <button
             className="form-btn"
             id="onboard-btn"
