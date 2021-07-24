@@ -263,4 +263,11 @@ export const ThreadBoxSx = {
     '.thread-box-preview': {
         padding: '5px',
     },
+
+    '.feedback-top': {
+        display: 'flex',
+        '@media (max-width: 640px)': {
+            flexDirection: 'column',
+        },
+    },
 }
