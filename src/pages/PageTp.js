@@ -423,7 +423,7 @@ class PageTp extends React.Component {
                       }
                       <div className="thread-box-interior">
                         <div className="thread-box-header">
-                          <div style={{display: 'flex'}}>
+                          <div className="feedback-top">
                             <div style={{fontFamily: 'Gotham-Bold'}}>{replyUsername} •{'\xa0'}</div> 
                             <em><Moment fromNow>{replyDate}</Moment></em>
                           </div>
@@ -443,7 +443,7 @@ class PageTp extends React.Component {
                                 }
                               >
                                 <FontAwesomeIcon icon={faTrashAlt} />
-                                {'\xa0'} Delete Reply 
+                                <div className="vanish">{'\xa0'} Delete Reply</div>
                               </div>
                             }
                             {!replyDeleted && 
@@ -452,7 +452,7 @@ class PageTp extends React.Component {
                                 onClick={() => this.setReply(feedbackId, feedbackId, replyUsername, 'reply')}
                               >
                                 <FontAwesomeIcon icon={faReply} />
-                                {'\xa0'} Reply
+                                <div className="vanish">{'\xa0'} Reply</div>
                               </div>
                             }
                           </div>
@@ -505,7 +505,7 @@ class PageTp extends React.Component {
                   </div>
                   <div className="thread-box-interior">
                     <div className="thread-box-header">
-                      <div style={{display: 'flex'}}>
+                      <div className="feedback-top">
                         <div style={{fontFamily: 'Gotham-Bold'}}>{feedbackUsername} •{'\xa0'}</div> 
                         <em><Moment fromNow>{date}</Moment></em>
                       </div>
@@ -525,7 +525,7 @@ class PageTp extends React.Component {
                             }
                           >
                             <FontAwesomeIcon icon={faTrashAlt} />
-                            {'\xa0'}Delete Feedback
+                            <div className="vanish">{'\xa0'}Delete Feedback</div>
                           </div>
                         }
                         {!deleted &&
@@ -534,7 +534,7 @@ class PageTp extends React.Component {
                             onClick={() => this.setReply(feedbackId, feedbackId, feedbackUsername, 'feedback')}
                           >
                             <FontAwesomeIcon icon={faReply} />
-                            {'\xa0'} Reply
+                            <div className="vanish">{'\xa0'} Reply</div>
                           </div>
                         }
                       </div>
@@ -687,16 +687,20 @@ class PageTp extends React.Component {
             <div className="back-hover" onClick={() => this.props.history.goBack()}>
               <FontAwesomeIcon icon={faAngleLeft} /> Back
             </div>
-            <div>
-              TP to {' '}
-              <Link
-                className="question-link"
-                to={`/q/${questId}`}
-              >
-                Question #{questId}
-              </Link> {' '}
-              by <b style={{fontFamily: 'Open-Sans-Bold'}}>@{tp.username}</b> • {' '}
-              <em><Moment fromNow>{tp.date}</Moment></em>
+            <div className="tp-title">
+              <div>
+                TP to {' '}
+                <Link
+                  className="question-link"
+                  to={`/q/${questId}`}
+                >
+                  Question #{questId}
+                </Link> {' '}
+                by <b style={{fontFamily: 'Open-Sans-Bold'}}>@{tp.username}</b> • {' '}
+              </div>
+              <div>
+                <em><Moment fromNow>{tp.date}</Moment></em>
+              </div>
             </div>
             <br />
           </div>
@@ -714,7 +718,7 @@ class PageTp extends React.Component {
                   }}
                 >
                   <FontAwesomeIcon icon={faTrashAlt} />
-                  {'\xa0'}Delete TP
+                  <div className="vanish">{'\xa0'}Delete TP</div>
                 </div>
               }
             <div className="tp-content-container">
