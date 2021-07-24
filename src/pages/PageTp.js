@@ -442,7 +442,7 @@ class PageTp extends React.Component {
                                   )
                                 }
                               >
-                                <FontAwesomeIcon icon={faTrashAlt} />
+                                <div><FontAwesomeIcon icon={faTrashAlt} /></div>
                                 <div className="vanish">{'\xa0'} Delete Reply</div>
                               </div>
                             }
@@ -451,7 +451,7 @@ class PageTp extends React.Component {
                                 className="reply-option"
                                 onClick={() => this.setReply(feedbackId, feedbackId, replyUsername, 'reply')}
                               >
-                                <FontAwesomeIcon icon={faReply} />
+                                <div><FontAwesomeIcon icon={faReply} /></div>
                                 <div className="vanish">{'\xa0'} Reply</div>
                               </div>
                             }
@@ -465,7 +465,7 @@ class PageTp extends React.Component {
                     </div>
                   </div>
               )};
-              return (<div></div>);
+              return null;
             })
           
           // reply textArea if replying to feedback or a reply corresponding to the feedbackId
@@ -524,7 +524,7 @@ class PageTp extends React.Component {
                               )
                             }
                           >
-                            <FontAwesomeIcon icon={faTrashAlt} />
+                            <div><FontAwesomeIcon icon={faTrashAlt} /></div>
                             <div className="vanish">{'\xa0'}Delete Feedback</div>
                           </div>
                         }
@@ -533,7 +533,7 @@ class PageTp extends React.Component {
                             className="reply-option"
                             onClick={() => this.setReply(feedbackId, feedbackId, feedbackUsername, 'feedback')}
                           >
-                            <FontAwesomeIcon icon={faReply} />
+                            <div><FontAwesomeIcon icon={faReply} /></div>
                             <div className="vanish">{'\xa0'} Reply</div>
                           </div>
                         }
@@ -717,7 +717,7 @@ class PageTp extends React.Component {
                     )
                   }}
                 >
-                  <FontAwesomeIcon icon={faTrashAlt} />
+                  <div><FontAwesomeIcon icon={faTrashAlt} /></div>
                   <div className="vanish">{'\xa0'}Delete TP</div>
                 </div>
               }

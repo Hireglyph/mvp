@@ -197,6 +197,7 @@ export const TpSx = {
     },
 
     '.vanish': {
+        //backgroundColor: 'red',
         '@media (max-width: 1025px)': {
             display: 'none',
         }
