@@ -1,5 +1,5 @@
-import React from "react"
-import jsonp from "jsonp"
+import React from "react";
+import jsonp from "jsonp";
 import PropTypes from 'prop-types';
 
 const howDidYouHearAboutUs = 'https://us1.list-manage.com/survey?u=04e7de515f8682261e4fd1984&id=edcf6cf17e';

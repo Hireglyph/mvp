@@ -51,7 +51,7 @@ class PageLogin extends React.Component {
       <div sx={FormSx}>
         <ReactTitle title="Login | Hireglyph"/>
         <div className="page-container">
-          <div>
+          <div className="form-title-container">
             <div className="form-title">Login</div>
           </div>
           <div className="form-small-text auth-error">{this.state.error}</div>

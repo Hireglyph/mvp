@@ -73,7 +73,9 @@ class PageConfirmEmail extends React.Component {
     return (
       <div sx={FormSx}>
         <div className="page-container" id="confirm-email-container">
-          <div className="confirm-email-title">An email has been sent!</div>
+          <div className="form-title-container">
+            <div className="confirm-email-title">An email has been sent!</div>
+          </div>
           <div className="notif-text" id="confirm-text">
             {this.state.error}
             {this.state.error2 && <div><br/></div>}

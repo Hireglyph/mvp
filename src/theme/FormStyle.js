@@ -15,8 +15,11 @@ export const FormSx = {
     borderRadius: '20px',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'flex-start',
+  },
+
+  '.form-title-container': {
+    width: '100%',
   },
   
   '.form-title': {
@@ -100,6 +103,10 @@ export const FormSx = {
   // onboard page specific styles
   '#onboard-btn': {
     margin: '5px 0 20px 0',
+  },
+
+  '.bottom-padding': {
+    paddingBottom: '10px',
   },
   
   // contact page specific styles
