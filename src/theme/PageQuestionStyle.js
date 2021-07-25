@@ -4,6 +4,7 @@ export const QuestionSx = {
         alignItems: 'flex-start',
         fontFamily: 'Open-Sans',
         width: '100%',
+        minWidth: '950px',
         height: 'fit-content',
         minHeight: theme => `${theme.sizes.withoutHeader}`,
         backgroundColor: 'white',
@@ -26,14 +27,18 @@ export const QuestionSx = {
         flexDirection: 'column',
         justifyContent: 'space-between',
         position: 'sticky',
-        top: '50px',
-        overflowY: 'auto',
         flex: '1 0 200px',
         padding: '70px',
         paddingBottom: '40px',
-        minWidth: '400px',
-        height: 'fit-content',
+        minWidth: '425px',
+        maxWidth: '425px',
+        height: 'calc(100vh - 100px)',
+        overflowY: 'scroll',
         minHeight: theme => `${theme.sizes.withoutHeader}`,
+        '@media (max-width: 1025px)': {
+            minWidth: '350px',
+            maxWidth: '350px',
+        }
     },
 
     '.question-title': {
@@ -95,10 +100,13 @@ export const QuestionSx = {
 
     '.display-block': {
         flex: '2 0 400px',
-        width: '66%',
+        width: 'calc(100% - 425px)',
         height: 'fit-content',
         minHeight: theme => `${theme.sizes.withoutHeader}`,
         borderLeft: theme => `2px solid ${theme.colors.lightGray}`,
+        '@media (max-width: 1025px)': {
+            width: 'calc(100% - 350px)',
+        },
     },
 
     '.question-btn-container': {
