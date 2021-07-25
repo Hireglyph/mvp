@@ -26,6 +26,7 @@ export const QuestionSx = {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
+        top: '20px',
         position: 'sticky',
         flex: '1 0 200px',
         padding: '70px',
