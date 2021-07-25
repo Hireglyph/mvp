@@ -17,15 +17,14 @@ const GoogleButtonSx = {
     backgroundColor: 'white',
     border: '1px solid gray',
 
-    '&:hover': {
-      backgroundColor: 'lightGrey',
+    '&:hover, &:disabled': {
+      backgroundColor: 'lightGray',
     },
   
     '.google-icon': {
       height: '25px', 
       paddingRight: '15px',
     },
-
   },
 };
 
@@ -38,6 +37,7 @@ export default class GoogleButton extends Component {
           className="google-button"
           type="button"
           onClick={this.props.onClick}
+          disabled={this.props.disabled}
         >
           <img
             alt="google"

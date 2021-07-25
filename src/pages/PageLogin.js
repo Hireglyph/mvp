@@ -18,6 +18,7 @@ class PageLogin extends React.Component {
     this.state = {
       email: '',
       password: '',
+      loggingIn: false,
       loading: false,
     };
   }
@@ -33,20 +34,29 @@ class PageLogin extends React.Component {
     };
 
     try {
+      this.setState({ loggingIn: true });
       await this.props.firebase.login(credentials);
     } catch (error) {
       this.setState({ error: error.message });
     }
+
+    this.setState({ loggingIn: false });
   };
 
   // login with Google
   loginWithProvider = (provider) => {
+    this.setState({ loading: true });
     this.props.loginUser({ provider }).catch((error) => {
-      this.setState({ message: error.message });
+      this.setState({ loading: false, message: error.message });
     });
   };
 
   render() {
+    const disabled = !this.state.email.trim() ||
+                     !this.state.password.trim() ||
+                     this.state.loggingIn ||
+                     this.state.loading;
+
     return (
       <div sx={FormSx}>
         <ReactTitle title="Login | Hireglyph"/>
@@ -54,7 +64,6 @@ class PageLogin extends React.Component {
           <div className="form-title-container">
             <div className="form-title">Login</div>
           </div>
-          <div className="form-small-text auth-error">{this.state.error}</div>
           {/* inputs for email + password */}
           <div className="auth-input-container">
             <input
@@ -74,29 +83,32 @@ class PageLogin extends React.Component {
               value={this.state.password}
             />
           </div>
-          {!this.state.loading ? (
-            <div className="auth-btn-container">
-              {/* button to log in w/ email + pass */}
-              <button className="form-btn" onClick={this.login}>
-                Log in
-              </button>
-              <div className="auth-line">
-                ─────&nbsp;&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;&nbsp;─────
-              </div>
-              {/* button to log in with Google */}
-              <GoogleButton onClick={() => this.loginWithProvider('google')} />
-
-              {/* link to register page */}
-              <div className="auth-closing">
-                New to Hireglyph?&nbsp;
-                <Link to="register" className="form-link">
-                  <div>Register here!</div>
-                </Link>
-              </div>
+          <div className="auth-btn-container">
+            {/* button to log in w/ email + pass */}
+            <button
+              className="form-btn"
+              onClick={this.login}
+              disabled={disabled}
+            >
+              Log in
+            </button>
+            <div className="form-small-text auth-error">{this.state.error}</div>
+            <div className="auth-line">
+              ─────&nbsp;&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;&nbsp;─────
             </div>
-          ) : (
-            <Loading />
-          )}
+            {/* button to log in with Google */}
+            <GoogleButton
+              onClick={() => this.loginWithProvider('google')}
+              disabled={this.state.loading || this.state.loggingIn}
+            />
+            {/* link to register page */}
+            <div className="auth-closing">
+              New to Hireglyph?&nbsp;
+              <Link to="register" className="form-link">
+                <div>Register here!</div>
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     );

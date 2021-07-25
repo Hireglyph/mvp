@@ -20,6 +20,7 @@ class PageRegister extends React.Component {
       confirmPassword: '',
       error: '',
       registering: false,
+      loading: false,
     };
   }
 
@@ -63,7 +64,8 @@ class PageRegister extends React.Component {
     const disabled = !this.state.email.trim() ||
                      !this.state.password.trim() ||
                      !this.state.confirmPassword.trim() ||
-                     this.state.registering;
+                     this.state.registering ||
+                     this.state.loading;
 
     return (
       <div sx={FormSx}>
@@ -110,6 +112,7 @@ class PageRegister extends React.Component {
             <GoogleButton
               onClick={() => this.loginWithProvider('google')}
               text={"Sign up with Google"}
+              disabled={this.state.loading || this.state.registering}
             />
             {/* link to login page */}
             <div className="auth-closing">
