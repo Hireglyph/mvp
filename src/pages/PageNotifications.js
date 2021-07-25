@@ -10,11 +10,12 @@ import { compose } from 'redux';
 import { ReactTitle } from 'react-meta-tags';
 import Moment from 'react-moment';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretUp, faComments } from '@fortawesome/free-solid-svg-icons';
+
 import Loading from 'components/Loading';
 
 const NotifSx = {
-  display: 'flex',
-
   '.page-container': {
     position: 'relative',
     marginLeft: 'auto',
@@ -26,49 +27,87 @@ const NotifSx = {
     fontFamily: 'Open-Sans',
     display: 'flex',
     flexDirection: 'column',
+    background: 'white',
+    boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.1)',
+    borderRadius: '20px',
+    padding: '25px',
   },
 
   '.notif-title-box': {
-    border: '1px solid black',
-    padding: '9px',
-    width: '140px',
-    backgroundColor: 'orange',
-    fontSize: '20px',
+    paddingBottom: '10px',
+    fontSize: '25px',
   },
 
-  '.notif-link': {
-    textDecoration: 'none',
+  '.box': {
+    display: 'flex',
+    width: '100%',
+    padding: '10px',
+    fontSize: '14px',
+    borderRadius: '10px',
+    alignItems: 'center',
   },
 
   '.box-viewed': {
-    width: '100%',
-    padding: '5px',
-    border: '1px solid black',
-    backgroundColor: 'lightGrey',
-    color: '#3E3C3C',
+    color: 'placeholderGray',
+    backgroundColor: 'white',
     '&:hover': {
-      border: '2px solid orange',
+      backgroundColor: 'lightPurpleGray',
     },
   },
 
   '.box-unviewed': {
-    width: '100%',
-    padding: '5px',
-    border: '1px solid black',
-    backgroundColor: 'white',
     color: 'black',
+    backgroundColor: 'white',
     '&:hover': {
-      border: '2px solid orange',
+      backgroundColor: 'lightPurpleGray',
     },
   },
 
-  '.message-section': {
-    width: '100%',
-    height: 'auto',
-    backgroundColor: 'lightGrey',
-    padding: '30px',
-    fontStyle: 'italic',
+  '.time-text': {
+    fontSize: '10px',
+    color: 'placeholderGray',
   },
+
+  '.icon-container': {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: '15px',
+    marginRight: '15px',
+    height: '40px',
+    width: '40px',
+    backgroundColor: 'lightPurpleGray',
+    borderRadius: '50%',
+    textAlign: 'center',
+  },
+
+  '.caret-icon': {
+    fontSize: '40px',
+    color: 'easyGreen',
+  },
+
+  '.comments-icon': {
+    fontSize: '22px',
+    color: 'blue',
+    verticalAlign: 'middle',
+  },
+
+  '.semi-bold': {
+    fontWeight: 600,
+  },
+
+  '.italic': {
+    fontFamily: 'Open-Sans-Italic',
+  },
+
+  '.purple-dot': {
+    marginLeft: 'auto',
+    marginRight: '10px',
+    width: '10px',
+    height: '10px',
+    backgroundColor: 'purple',
+    borderRadius: '50%',
+  }
 };
 
 class PageNotifications extends React.Component {
@@ -88,9 +127,11 @@ class PageNotifications extends React.Component {
   }
 
   render() {
-    if (!isLoaded(this.props.notifications)) {
+    if (!isLoaded(this.props.notifications) || !isLoaded(this.props.questions)) {
       return <Loading />;
     }
+
+    const { questions } = this.props;
 
     const notifications =
       this.props.notifications ? (
@@ -102,91 +143,153 @@ class PageNotifications extends React.Component {
             // user's tp got upvoted notification
             if (notification && notification.type === "tpUpvote") {
               return (
-                <div key={notifId}>
-                  <Link
+                <Link
                     className="notif-link"
                     to={`/tp/${notification.questId}/${notification.tpId}`}
                     onClick={() => this.viewed(notifId)}
                   >
-                    <div className={notification.viewed ? "box-viewed" : "box-unviewed"}>
-                      @{notification.username} upvoted your TP to Question
-                      #{notification.questId}
+                  <div
+                    key={notifId}
+                    className={notification.viewed ? 'box box-viewed' : 'box box-unviewed'}
+                  >
+                    <div className="icon-container">
+                      <FontAwesomeIcon icon={faCaretUp} className="caret-icon"/>
                     </div>
-                  </Link>
-                  <Moment fromNow>{notification.date}</Moment>
-                </div>
+                    <div>
+                      <span className="semi-bold">@{notification.username} </span>
+                      upvoted your
+                      <span className="semi-bold"> TP </span>
+                      to
+                      <span className="italic"> {questions[notification.questId].title}</span>
+                      <div className="time-text">
+                        <Moment fromNow>{notification.date}</Moment>
+                      </div>
+                    </div>
+                    {!notification.viewed && <div className="purple-dot"></div>}
+                  </div>
+                </Link>
               );
             }
             // user's feedback got upvoted notification
             if (notification && notification.type === "tpFeedbackUpvote") {
               return (
-                <div key={notifId}>
-                  <Link
+                <Link
                     className="notif-link"
                     smooth to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
                     onClick={() => this.viewed(notifId)}
                   >
-                    <div className={notification.viewed ? 'box-viewed' : 'box-unviewed'}>
-                      @{notification.username} upvoted your feedback to
-                      @{notification.author}'s TP to Question #{notification.questId}
+                  <div
+                    key={notifId}
+                    className={notification.viewed ? 'box box-viewed' : 'box box-unviewed'}
+                  >
+                    <div className="icon-container">
+                      <FontAwesomeIcon icon={faCaretUp} className="caret-icon"/>
                     </div>
-                  </Link>
-                  <Moment fromNow>{notification.date}</Moment>
-                </div>
+                    <div>
+                      <span className="semi-bold">@{notification.username} </span>
+                      upvoted your feedback to
+                      <span className="semi-bold"> @{notification.author}</span>
+                      's TP to
+                      <span className="italic"> {questions[notification.questId].title}</span>
+                      <div className="time-text">
+                        <Moment fromNow>{notification.date}</Moment>
+                      </div>
+                    </div>
+                    {!notification.viewed && <div className="purple-dot"></div>}
+                  </div>
+                </Link>
               );
             }
             // user's tp got a feedback notification
             if (notification && notification.type === "tpFeedback") {
               return (
-                <div key={notifId}>
-                  <Link
+                <Link
                     className="notif-link"
                     smooth to={`/tp/${notification.questId}/${notification.tpId}#${notification.feedbackId}`}
                     onClick={() => this.viewed(notifId)}
                   >
-                    <div className={notification.viewed ? "box-viewed" : "box-unviewed"}>
-                      @{notification.username} gave feedback to your TP to Question
-                      #{notification.questId}
+                  <div
+                    key={notifId}
+                    className={notification.viewed ? 'box box-viewed' : 'box box-unviewed'}
+                  >
+                    <div className="icon-container">
+                      <FontAwesomeIcon icon={faComments} className="comments-icon"/>
                     </div>
-                  </Link>
-                  <Moment fromNow>{notification.date}</Moment>
-                </div>
+                    <div>
+                      <span className="semi-bold">@{notification.username} </span>
+                      left
+                      <span className="semi-bold"> feedback </span>
+                      for your TP to
+                      <span className="italic"> {questions[notification.questId].title}</span>
+                      <div className="time-text">
+                        <Moment fromNow>{notification.date}</Moment>
+                      </div>
+                    </div>
+                    {!notification.viewed && <div className="purple-dot"></div>}
+                  </div>
+                </Link>
               );
             }
             // user's feedback/reply got a reply notification
             if (notification && notification.type === "reply") {
               return (
-                <div key={notifId}>
-                  <Link
+                <Link
                     className="notif-link"
                     smooth to={`/tp/${notification.questId}/${notification.tpId}#${notification.replyId}`}
                     onClick={() => this.viewed(notifId)}
                   >
-                    <div className={notification.viewed ? 'box-viewed' : 'box-unviewed'}>
-                      @{notification.username} replied to you about
-                      @{notification.author}'s TP to Question #{notification.questId}
+                  <div
+                    key={notifId}
+                    className={notification.viewed ? 'box box-viewed' : 'box box-unviewed'}
+                  >
+                    <div className="icon-container">
+                      <FontAwesomeIcon icon={faComments} className="comments-icon"/>
                     </div>
-                  </Link>
-                  <Moment fromNow>{notification.date}</Moment>
-                </div>
+                    <div>
+                      <span className="semi-bold">@{notification.username} </span>
+                      replied to you on
+                      <span className="semi-bold"> @{notification.author}</span>
+                      's TP to
+                      <span className="italic"> {questions[notification.questId].title}</span>
+                      <div className="time-text">
+                        <Moment fromNow>{notification.date}</Moment>
+                      </div>
+                    </div>
+                    {!notification.viewed && <div className="purple-dot"></div>}
+                  </div>
+                </Link>
               );
             }
             // user's reply was upvoted notification
             if (notification && notification.type === "replyUpvote") {
               return (
-                <div key={notifId}>
-                  <Link
+                <Link
                     className="notif-link"
                     smooth to={`/tp/${notification.questId}/${notification.tpId}#${notification.replyId}`}
                     onClick={() => this.viewed(notifId)}
                   >
-                    <div className={notification.viewed ? 'box-viewed' : 'box-unviewed'}>
-                      @{notification.username} upvoted your reply about
-                      @{notification.author}'s TP to Question #{notification.questId}
+                  <div
+                    key={notifId}
+                    className={notification.viewed ? 'box box-viewed' : 'box box-unviewed'}
+                  >
+                    <div className="icon-container">
+                      <FontAwesomeIcon icon={faCaretUp} className="caret-icon"/>
                     </div>
-                  </Link>
-                  <Moment fromNow>{notification.date}</Moment>
-                </div>
+                    <div>
+                      <span className="semi-bold">@{notification.username} </span>
+                      upvoted your
+                      <span className="semi-bold"> reply </span>
+                      to
+                      <span className="semi-bold"> @{notification.author}</span>
+                      's TP to
+                      <span className="italic"> {questions[notification.questId].title}</span>
+                      <div className="time-text">
+                        <Moment fromNow>{notification.date}</Moment>
+                      </div>
+                    </div>
+                    {!notification.viewed && <div className="purple-dot"></div>}
+                  </div>
+                </Link>
               );
             }
             return null;
@@ -211,7 +314,9 @@ class PageNotifications extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return { notifications:  state.firebase.data.notifications };
+  return {
+    notifications:  state.firebase.data.notifications
+  };
 };
 
 export default compose(
