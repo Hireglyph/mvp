@@ -19,6 +19,7 @@ class PageRegister extends React.Component {
       password: '',
       confirmPassword: '',
       error: '',
+      registering: false,
     };
   }
 
@@ -34,11 +35,14 @@ class PageRegister extends React.Component {
       };
 
       try {
+        this.setState({ registering: true });
         await this.props.registerUser(credentials, {});
         await this.props.auth().currentUser.sendEmailVerification();
       } catch (error) {
         this.setState({ error: error.message });
       }
+
+      this.setState({ registering: false });
     }
     // if passwords do not match, display message
     else {
@@ -58,7 +62,8 @@ class PageRegister extends React.Component {
   render() {
     const disabled = !this.state.email.trim() ||
                      !this.state.password.trim() ||
-                     !this.state.confirmPassword.trim();
+                     !this.state.confirmPassword.trim() ||
+                     this.state.registering;
 
     return (
       <div sx={FormSx}>
