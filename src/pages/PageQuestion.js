@@ -99,7 +99,7 @@ class PageQuestion extends React.Component {
         </div>
         <div className="thread-box-interior">
           <div className="thread-box-header">
-            <div style={{display: 'flex'}}>
+            <div className="tp-intro">
               <div style={{fontFamily: 'Gotham-Bold'}}>@{username} •{'\xa0'}</div> 
               <em><Moment fromNow>{tp.date}</Moment></em>
             </div>

@@ -8,6 +8,17 @@ export const QuestionSx = {
         height: 'fit-content',
         minHeight: theme => `${theme.sizes.withoutHeader}`,
         backgroundColor: 'white',
+        '@media (max-width: 450px)': {
+            minWidth: '450px',
+            flexDirection: 'column',
+        },
+    },
+
+    '.tp-intro': {
+        display: 'flex',
+        '@media (max-width: 1125px)': {
+            flexDirection: 'column',
+        },
     },
 
     '#no-scroll': {
@@ -39,6 +50,13 @@ export const QuestionSx = {
         '@media (max-width: 1025px)': {
             minWidth: '350px',
             maxWidth: '350px',
+        },
+        '@media (max-width: 450px)': {
+            minWidth: '400px',
+            maxWidth: '400px',
+            maxHeight: '50vh',
+            minHeight: '50vh',
+            paddingRight: '0px',
         }
     },
 
