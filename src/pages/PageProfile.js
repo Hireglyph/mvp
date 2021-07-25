@@ -17,163 +17,7 @@ import Loading from 'components/Loading';
 import { length } from 'constants/PrevLength';
 import { displayContent } from 'utils/display';
 import { tpDelete, feedbackDelete, replyDelete } from 'utils/delete';
-
-const ProfileSx = {
-  display: 'flex',
-
-  '.page-container': {
-    position: 'relative',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: '50px',
-    marginBottom: '50px',
-    width: '700px',
-    height: 'auto',
-    fontFamily: 'Open-Sans',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-
-  '.profile-box': {
-    width: '100%',
-    marginBottom: '10px',
-    backgroundColor: 'lightGrey',
-  },
-
-  '.profile-header': {
-    display: 'flex',
-    marginTop: '10px',
-    marginLeft: '10px',
-    marginRight: '20px',
-  },
-
-  '.profile-header-button': {
-    marginRight: '0px',
-    marginLeft: 'auto',
-  },
-
-  '.profile-box-bottom': {
-    display: 'flex',
-    float: 'right',
-    marginRight: '20px',
-    marginBottom: '5px',
-  },
-
-  '.profile-link': {
-    marginLeft: '10px',
-    textDecoration: 'none',
-  },
-
-  '.profile-onclick': {
-    fontFamily: 'Open-Sans',
-    fontSize: '12px',
-    height: '20px',
-    lineHeight: '20px',
-    width: 'auto',
-    paddingRight: '5px',
-    paddingLeft: '5px',
-    textAlign: 'center',
-    backgroundColor: 'orange',
-    color: 'black',
-    border: '1px solid black',
-    cursor: 'pointer',
-    '&:hover': {
-      backgroundColor: 'darkOrange',
-    },
-  },
-
-  '.profile-delete': {
-    cursor: 'pointer',
-    color: 'black',
-    fontSize: '12px',
-    lineHeight: '20px',
-    '&:hover': {
-      color: 'red',
-    },
-  },
-
-  '.profile-message': {
-    cursor: 'pointer',
-    color: 'black',
-    fontSize: '12px',
-    '&:hover': {
-      textDecoration: 'underline',
-    },
-  },
-
-  '.profile-box-content': {
-    display: 'flex',
-    marginTop: '5px',
-    marginBottom: '5px',
-    marginRight: '20px',
-  },
-
-  '.profile-box-interior': {
-    backgroundColor: 'white',
-    width: '100%',
-    padding: '5px',
-    fontFamily: 'Gotham-Book',
-    overflow: 'hidden',
-  },
-
-  '.format-text': {
-    whiteSpace: 'pre-wrap',
-  },
-
-  '.profile-box-score': {
-    textAlign: 'center',
-    width: '40px',
-  },
-
-  '.positive-score': {
-    color: '#27B12A',
-  },
-
-  '.negative-score': {
-    color: 'red',
-  },
-
-  '.profile-page-header': {
-    display: 'flex',
-    marginBottom: '10px',
-  },
-
-  '.profile-username': {
-    color: 'white',
-    fontSize: '25px',
-    marginBottom: '10px',
-  },
-
-  '.profile-page-buttons': {
-    width: '33.3%',
-    height: '35px',
-    backgroundColor: 'lightGrey',
-    border: 'none',
-    fontFamily: 'Open-Sans',
-    color: 'black',
-    cursor: 'pointer',
-    '&:hover': {
-      opacity: '0.8',
-    },
-    '&:disabled': {
-      backgroundColor: 'orange',
-      cursor: 'default',
-      opacity: '1.0',
-    },
-  },
-
-  '.message-section': {
-    width: '100%',
-    height: 'auto',
-    backgroundColor: 'lightGrey',
-    padding: '30px',
-    fontStyle: 'italic',
-  },
-
-  '.message-link': {
-    color: 'darkOrange',
-  },
-};
+import { ProfileSx } from 'theme/PageProfileStyle'
 
 class PageProfile extends React.Component {
   constructor(props) {
@@ -564,6 +408,18 @@ class PageProfile extends React.Component {
         ? feedbacks
         : replies;
 
+    const diffStats = Object.keys(this.state.difficultyStats).map(diff => {
+      return (
+        <div>
+          <div className="tp-stats-label">{diff}</div>
+          <div 
+            className={"tp-stats tp-stats-" + diff}>
+            {this.state.difficultyStats[diff]}
+          </div>
+        </div>
+      );
+    });
+
     return (
       <div sx={ProfileSx}>
         <link
@@ -578,35 +434,60 @@ class PageProfile extends React.Component {
           }
         />
         <div className="page-container">
-          <div className="profile-username">
-            Your profile, @{username}
+          <div className="history-block">
+            <div className="history-header">
+              {historyParam === 'tp' && <h6>TP History</h6>}
+              {historyParam === 'feedback' && <h5>Feedback History</h5>}
+              {historyParam === 'reply' && <h5>Reply History</h5>}
+              {/* top buttons where users can change URL param */}
+              <div className="sort-btn-block">
+                <button
+                  className="sort-btn tp-sort-btn"
+                  disabled={historyParam === 'tp'}
+                  onClick={() => this.handleTps('tp')}
+                >
+                  TPs
+                </button>
+                <button
+                  className="sort-btn feedback-sort-btn"
+                  disabled={historyParam === 'feedback'}
+                  onClick={() => this.handleTps('feedback')}
+                >
+                  Feedback
+                </button>
+                <button
+                  className="sort-btn reply-sort-btn"
+                  disabled={historyParam === 'reply'}
+                  onClick={() => this.handleTps('reply')}
+                >
+                  Replies
+                </button>
+              </div>
+            </div>
+            {/* main display */}
+            {display}
           </div>
-          <div className="profile-page-header">
-            {/* top buttons where users can change URL param */}
-            <button
-              className="profile-page-buttons"
-              disabled={historyParam === 'tp'}
-              onClick={() => this.handleTps('tp')}
-            >
-              TPs Submitted
-            </button>
-            <button
-              className="profile-page-buttons"
-              disabled={historyParam === 'feedback'}
-              onClick={() => this.handleTps('feedback')}
-            >
-              Feedback Given
-            </button>
-            <button
-              className="profile-page-buttons"
-              disabled={historyParam === 'reply'}
-              onClick={() => this.handleTps('reply')}
-            >
-              Replies Given
-            </button>
+          <div className="profile-block">
+            <div className="profile-container">
+              <h6>Profile</h6>
+              <div className="profile-stats">
+                <div className="profile-stat">@{username}</div>
+                <div className="profile-stat">24 upvotes</div>
+              </div>
+              <div>
+                <div className="tp-stats-header"><b>10TPs</b></div>
+                <div className="solved-tps-chart">
+
+                </div>
+                <div className="difficulty-stats">
+                  {diffStats}
+                </div>
+                <div className="topic-stats">
+
+                </div>
+              </div>
+            </div>
           </div>
-          {/* main display */}
-          {display}
         </div>
       </div>
     );
