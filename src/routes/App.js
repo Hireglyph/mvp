@@ -48,7 +48,8 @@ class App extends React.Component {
           </Route>
 
           <Route exact path="/notifications">
-            {AuthComponent || <PageNotifications uid={uid} />}
+            {AuthComponent ||
+              <PageNotifications uid={uid} questions={questions} />}
           </Route>
 
           <Route
