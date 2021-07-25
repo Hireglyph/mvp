@@ -3,8 +3,7 @@ export const ProfileSx = {
 
   '.page-container': {
     position: 'relative',
-    marginTop: '50px',
-    marginBottom: '50px',
+    margin: '50px',
     width: '100%',
     fontFamily: 'Open-Sans',
     display: 'flex',
@@ -14,7 +13,7 @@ export const ProfileSx = {
   // history block specific styles
 
   '.history-block': {
-    
+    width: '60%',
   },
 
   '.history-header': {
@@ -87,7 +86,9 @@ export const ProfileSx = {
   // profile block specific styles
 
   '.profile-block': {
-    minWidth: '413px',
+    width: '20%',
+    maxWidth: '413px',
+    minWidth: '350px'
   },
 
   '.profile-container': {
@@ -115,20 +116,38 @@ export const ProfileSx = {
     borderBottom: theme => `1px solid ${theme.colors.lightGray}`,
     width: '100%',
     padding: '5px',
+    fontFamily: 'Open-Sans-SemiBold'
+  },
+
+
+  '.difficulty-stats': {
+    display: 'flex',
+    flexWrap: 'wrap',
+    margin: '10px 0',
+  },
+
+  '.tp-stats': {
+    width: '50%',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    padding: '10px 20px',
   },
 
   '.tp-stats-label': {
     textTransform: 'capitalize',
   },
 
-  '.tp-stats': {
+  '.tp-stats-number': {
     backgroundColor: 'purple',
-    width: '42px',
-    height: '27px',
+    width: '35px',
+    height: '25px',
     color: 'white',
     textAlign: 'center',
     borderRadius: '15px',
-    padding: '2px',
+    padding: '1px',
+    marginLeft: '15px',
+    fontSize: '15px',
   },
 
   '.tp-stats-easy': {

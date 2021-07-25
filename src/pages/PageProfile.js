@@ -410,10 +410,10 @@ class PageProfile extends React.Component {
 
     const diffStats = Object.keys(this.state.difficultyStats).map(diff => {
       return (
-        <div>
+        <div className="tp-stats">
           <div className="tp-stats-label">{diff}</div>
           <div 
-            className={"tp-stats tp-stats-" + diff}>
+            className={"tp-stats-number tp-stats-" + diff}>
             {this.state.difficultyStats[diff]}
           </div>
         </div>
