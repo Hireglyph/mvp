@@ -120,7 +120,7 @@ export const ProfileSx = {
   },
 
 
-  '.difficulty-stats': {
+  '.tag-stats': {
     display: 'flex',
     flexWrap: 'wrap',
     margin: '10px 0',
@@ -140,7 +140,7 @@ export const ProfileSx = {
 
   '.tp-stats-number': {
     backgroundColor: 'purple',
-    width: '35px',
+    minWidth: '35px',
     height: '25px',
     color: 'white',
     textAlign: 'center',

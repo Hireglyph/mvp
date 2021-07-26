@@ -420,6 +420,18 @@ class PageProfile extends React.Component {
       );
     });
 
+    const tagStats = Object.keys(this.state.tagStats).map(tag => {
+      return (
+        <div className="tp-stats">
+          <div className="tp-stats-label">{tag}</div>
+          <div 
+            className="tp-stats-number">
+            {this.state.tagStats[tag]}
+          </div>
+        </div>
+      );
+    });
+
     return (
       <div sx={ProfileSx}>
         <link
@@ -479,11 +491,11 @@ class PageProfile extends React.Component {
                 <div className="solved-tps-chart">
 
                 </div>
-                <div className="difficulty-stats">
+                <div className="tag-stats">
                   {diffStats}
                 </div>
-                <div className="topic-stats">
-
+                <div className="tag-stats">
+                  {tagStats}
                 </div>
               </div>
             </div>
