@@ -55,11 +55,12 @@ export const QuestionSx = {
         '@media (max-width: 450px)': {
             minWidth: '400px',
             maxWidth: '400px',
-            maxHeight: '60vh',
-            minHeight: '60vh',
             paddingRight: '0px',
             position: 'relative',
             marginBottom: '10px',
+            height: 'fit-content',
+            minHeight: '0',
+            display: 'inline-block',
         }
     },
 
@@ -134,6 +135,9 @@ export const QuestionSx = {
             maxWidth: '400px',
             padding: '0',
             position: 'relative',
+            height: 'fit-content',
+            minHeight: '0',
+            display: 'inline-block',
         }
     },
 
