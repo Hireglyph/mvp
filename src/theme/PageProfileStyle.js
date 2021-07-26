@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 export const ProfileSx = {
   display: 'flex',
 
@@ -26,6 +28,7 @@ export const ProfileSx = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginBottom: '20px',
   },
 
   'h6': {
@@ -81,6 +84,105 @@ export const ProfileSx = {
       cursor: 'default',
       opacity: '1.0',
     },
+  },
+
+  '.profile-box': {
+    width: '100%',
+    margin: '10px 0',
+    backgroundColor: 'white',
+    borderRadius: '15px',
+    padding: '10px',
+  },
+
+  '.profile-header': {
+    display: 'flex',
+    margin: '10px 20px 0 10px',
+    fontSize: '16px',
+  },
+
+  '.profile-header-button': {
+    marginRight: '0px',
+    marginLeft: 'auto',
+  },
+
+  '.profile-box-bottom': {
+    display: 'flex',
+    float: 'right',
+    marginRight: '20px',
+    marginBottom: '5px',
+  },
+
+  '.profile-link': {
+    marginLeft: '10px',
+    textDecoration: 'none',
+  },
+
+  '.profile-onclick': {
+    fontFamily: 'Open-Sans',
+    fontSize: '14px',
+    padding: '0 5px',
+    textAlign: 'center',
+    cursor: 'pointer',
+  },
+
+  '.profile-delete-btn': {
+    cursor: 'pointer',
+    color: 'hardRed',
+    fontSize: '14px',
+  },
+
+  '.profile-message': {
+    cursor: 'pointer',
+    color: 'black',
+    fontSize: '12px',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  },
+
+  '.profile-box-content': {
+    display: 'flex',
+    marginTop: '5px',
+    marginBottom: '5px',
+    marginRight: '20px',
+  },
+
+  '.profile-box-interior': {
+    backgroundColor: 'white',
+    width: '100%',
+    padding: '5px',
+    fontFamily: 'Gotham-Book',
+    overflow: 'hidden',
+    fontSize: '13px',
+  },
+
+  '.format-text': {
+    whiteSpace: 'pre-wrap',
+  },
+
+  '.profile-box-score': {
+    textAlign: 'center',
+    width: '40px',
+  },
+
+  '.positive-score': {
+    color: '#27B12A',
+  },
+
+  '.negative-score': {
+    color: 'red',
+  },
+
+  '.message-section': {
+    width: '100%',
+    height: 'auto',
+    backgroundColor: 'lightGrey',
+    padding: '30px',
+    fontStyle: 'italic',
+  },
+
+  '.message-link': {
+    color: 'darkOrange',
   },
 
   // profile block specific styles
@@ -160,118 +262,5 @@ export const ProfileSx = {
 
   '.tp-stats-hard': {
     backgroundColor: 'hardRed',
-  },
-
-
-
-  '.profile-box': {
-    width: '100%',
-    marginBottom: '10px',
-    backgroundColor: 'lightGrey',
-  },
-
-  '.profile-header': {
-    display: 'flex',
-    marginTop: '10px',
-    marginLeft: '10px',
-    marginRight: '20px',
-  },
-
-  '.profile-header-button': {
-    marginRight: '0px',
-    marginLeft: 'auto',
-  },
-
-  '.profile-box-bottom': {
-    display: 'flex',
-    float: 'right',
-    marginRight: '20px',
-    marginBottom: '5px',
-  },
-
-  '.profile-link': {
-    marginLeft: '10px',
-    textDecoration: 'none',
-  },
-
-  '.profile-onclick': {
-    fontFamily: 'Open-Sans',
-    fontSize: '12px',
-    height: '20px',
-    lineHeight: '20px',
-    width: 'auto',
-    paddingRight: '5px',
-    paddingLeft: '5px',
-    textAlign: 'center',
-    backgroundColor: 'orange',
-    color: 'black',
-    border: '1px solid black',
-    cursor: 'pointer',
-    '&:hover': {
-      backgroundColor: 'darkOrange',
-    },
-  },
-
-  '.profile-delete': {
-    cursor: 'pointer',
-    color: 'black',
-    fontSize: '12px',
-    lineHeight: '20px',
-    '&:hover': {
-      color: 'red',
-    },
-  },
-
-  '.profile-message': {
-    cursor: 'pointer',
-    color: 'black',
-    fontSize: '12px',
-    '&:hover': {
-      textDecoration: 'underline',
-    },
-  },
-
-  '.profile-box-content': {
-    display: 'flex',
-    marginTop: '5px',
-    marginBottom: '5px',
-    marginRight: '20px',
-  },
-
-  '.profile-box-interior': {
-    backgroundColor: 'white',
-    width: '100%',
-    padding: '5px',
-    fontFamily: 'Gotham-Book',
-    overflow: 'hidden',
-  },
-
-  '.format-text': {
-    whiteSpace: 'pre-wrap',
-  },
-
-  '.profile-box-score': {
-    textAlign: 'center',
-    width: '40px',
-  },
-
-  '.positive-score': {
-    color: '#27B12A',
-  },
-
-  '.negative-score': {
-    color: 'red',
-  },
-
-  '.message-section': {
-    width: '100%',
-    height: 'auto',
-    backgroundColor: 'lightGrey',
-    padding: '30px',
-    fontStyle: 'italic',
-  },
-
-  '.message-link': {
-    color: 'darkOrange',
   },
 };

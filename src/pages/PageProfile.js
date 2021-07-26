@@ -10,6 +10,9 @@ import { compose } from 'redux';
 import Latex from 'react-latex';
 import { ReactTitle } from 'react-meta-tags';
 import Moment from 'react-moment';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
+import { faExpandAlt, faCompressAlt } from '@fortawesome/free-solid-svg-icons';
 
 import { tags } from 'constants/Lists';
 import TpPreview from 'components/TpPreview';
@@ -144,13 +147,32 @@ class PageProfile extends React.Component {
             return (
               <div className="profile-box" key={tpId}>
                 <div className="profile-header">
-                  <div>Response to Question #{tp.questId}{' '}</div>
-                  <Moment fromNow>{tp.date}</Moment>
+                  <div>Response to <b>Question #{tp.questId}</b>{' •\xa0'}</div>
+                  <em><Moment fromNow>{tp.date}</Moment></em>
                   <div className="profile-header-button">
                     {((tp.initial && tp.initial.length > length) ||
                       (tp.approach && tp.approach.length > length) ||
                       (tp.solution && tp.solution.length > length))
                      && this.generateMessage(isTpExpanded, tpId, 'tp')}
+                  </div>
+                  <div className="profile-box-bottom">
+                    <div
+                      className="profile-delete-btn"
+                      onClick={() => tpDelete({
+                        firebase: this.props.firebase,
+                        questId: tp.questId,
+                        tpId,
+                        uid: this.props.uid,
+                      })}
+                    >
+                      Delete
+                    </div>
+                    <Link
+                      className="profile-link"
+                      to={`/tp/${tp.questId}/${tpId}`}
+                    >
+                      <div className="profile-onclick">Go to TP</div>
+                    </Link>
                   </div>
                 </div>
                 <div className="profile-box-content">
@@ -173,25 +195,6 @@ class PageProfile extends React.Component {
                       expanded={isTpExpanded}
                     />
                   </div>
-                </div>
-                <div className="profile-box-bottom">
-                  <div
-                    className="profile-delete"
-                    onClick={() => tpDelete({
-                      firebase: this.props.firebase,
-                      questId: tp.questId,
-                      tpId,
-                      uid: this.props.uid,
-                    })}
-                  >
-                    Delete
-                  </div>
-                  <Link
-                    className="profile-link"
-                    to={`/tp/${tp.questId}/${tpId}`}
-                  >
-                    <div className="profile-onclick">Go to TP</div>
-                  </Link>
                 </div>
               </div>
             );
@@ -373,13 +376,15 @@ class PageProfile extends React.Component {
                       uid: this.props.uid,
                     })}
                   >
-                    Delete
+                    <div><FontAwesomeIcon icon={faTrashAlt} /></div>
+                    {'\xa0'} Delete 
                   </div>
                   <Link
                     className="profile-link"
                     smooth to={`/tp/${questId}/${tpId}#${replyId}`}
                   >
                     <div className="profile-onclick">
+                      <div><FontAwesomeIcon icon={faExpandAlt} /></div>
                       Go to Reply
                     </div>
                   </Link>
@@ -408,9 +413,9 @@ class PageProfile extends React.Component {
         ? feedbacks
         : replies;
 
-    const diffStats = Object.keys(this.state.difficultyStats).map(diff => {
+    const diffStats = Object.keys(this.state.difficultyStats).map((diff, i) => {
       return (
-        <div className="tp-stats">
+        <div className="tp-stats" key={i}>
           <div className="tp-stats-label">{diff}</div>
           <div 
             className={"tp-stats-number tp-stats-" + diff}>
@@ -420,9 +425,9 @@ class PageProfile extends React.Component {
       );
     });
 
-    const tagStats = Object.keys(this.state.tagStats).map(tag => {
+    const tagStats = Object.keys(this.state.tagStats).map((tag, i) => {
       return (
-        <div className="tp-stats">
+        <div className="tp-stats" key={i}>
           <div className="tp-stats-label">{tag}</div>
           <div 
             className="tp-stats-number">
