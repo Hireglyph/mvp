@@ -23,6 +23,12 @@ const RootSx = {
   '.root-body': {
     minHeight: 'calc(100vh - 175px)',
   },
+
+  '.nav-bar': {
+    position: 'sticky',
+    top: 0,
+    zIndex: 10,
+  },
   
   '.page-question': {
     minWidth: '950px',
@@ -51,7 +57,7 @@ class Root extends React.Component {
 
     return (
       <div className="Root" sx={RootSx}>
-        <div className={isPageQuestion ? "page-question" : " "}>
+        <div className={"nav-bar" + (isPageQuestion ? " page-question" : " ")}>
           <NavBar
             uid={uid}
             isLoaded={this.props.isLoaded}

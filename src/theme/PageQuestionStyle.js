@@ -11,6 +11,7 @@ export const QuestionSx = {
         '@media (max-width: 450px)': {
             minWidth: '450px',
             flexDirection: 'column',
+            display: 'inline-block',
         },
     },
 
@@ -54,9 +55,11 @@ export const QuestionSx = {
         '@media (max-width: 450px)': {
             minWidth: '400px',
             maxWidth: '400px',
-            maxHeight: '50vh',
-            minHeight: '50vh',
+            maxHeight: '60vh',
+            minHeight: '60vh',
             paddingRight: '0px',
+            position: 'relative',
+            marginBottom: '10px',
         }
     },
 
@@ -126,6 +129,12 @@ export const QuestionSx = {
         '@media (max-width: 1025px)': {
             width: 'calc(100% - 350px)',
         },
+        '@media (max-width: 450px)': {
+            minWidth: '400px',
+            maxWidth: '400px',
+            padding: '0',
+            position: 'relative',
+        }
     },
 
     '.question-btn-container': {
@@ -133,6 +142,9 @@ export const QuestionSx = {
         backgroundColor: 'background',
         display: 'flex',
         alignItems: 'flex-end',
+        '@media (max-width: 450px)': {
+            marginLeft: '20px',
+        }
     },
 
     '.question-btn': {
@@ -155,6 +167,9 @@ export const QuestionSx = {
             borderBottom: 'none',
             cursor: 'default',
         },
+        '@media (max-width: 450px)': {
+            height: '55px',
+        },
     },
 
     '.question-border': {
@@ -168,6 +183,11 @@ export const QuestionSx = {
         display: 'flex',
         flexDirection: 'column',
         padding: '30px 50px',
+        '@media (max-width: 450px)': {
+            padding: '0',
+            marginLeft: '20px',
+            marginTop: '20px',
+        },
     },
 
     '.myTp-header': {
@@ -243,6 +263,13 @@ export const QuestionSx = {
         display: 'flex',
         flexDirection: 'column',
         padding: '25px 60px 25px 25px',
+        '@media (max-width: 450px)': {
+            minWidth: '400px',
+            maxWidth: '400px',
+            padding: '0',
+            paddingTop: '20px',
+            paddingLeft: '10px',
+        },
     },
 
     '.communityTps-header': {
