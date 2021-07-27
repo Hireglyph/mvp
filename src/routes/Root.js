@@ -33,8 +33,8 @@ const RootSx = {
   '.page-question': {
     minWidth: '950px',
     '@media (max-width: 450px)': {
-      minWidth: '450px',
-  },
+      minWidth: '400px',
+    },
   },
 }
 

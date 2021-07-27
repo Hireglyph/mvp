@@ -9,9 +9,11 @@ export const QuestionSx = {
         minHeight: theme => `${theme.sizes.withoutHeader}`,
         backgroundColor: 'white',
         '@media (max-width: 450px)': {
-            minWidth: '450px',
+            minWidth: '400px',
             flexDirection: 'column',
             display: 'inline-block',
+            minHeight: '100vh',
+            paddingBottom: '20px',
         },
     },
 
@@ -53,9 +55,11 @@ export const QuestionSx = {
             maxWidth: '350px',
         },
         '@media (max-width: 450px)': {
-            minWidth: '400px',
-            maxWidth: '400px',
-            paddingRight: '0px',
+            minWidth: '350px',
+            maxWidth: '350px',
+            paddingLeft: '10px',
+            paddingRight: '10px',
+            marginLeft: '20px',
             position: 'relative',
             marginBottom: '10px',
             height: 'fit-content',
@@ -122,6 +126,7 @@ export const QuestionSx = {
     // myTP
 
     '.display-block': {
+        //backgroundColor: 'red',
         flex: '2 0 400px',
         width: 'calc(100% - 425px)',
         height: 'fit-content',
@@ -131,13 +136,15 @@ export const QuestionSx = {
             width: 'calc(100% - 350px)',
         },
         '@media (max-width: 450px)': {
-            minWidth: '400px',
-            maxWidth: '400px',
+            minWidth: '350px',
+            maxWidth: '350px',
             padding: '0',
             position: 'relative',
             height: 'fit-content',
             minHeight: '0',
             display: 'inline-block',
+            marginLeft: '5px',
+            borderLeft: '0',
         }
     },
 
@@ -172,7 +179,22 @@ export const QuestionSx = {
             cursor: 'default',
         },
         '@media (max-width: 450px)': {
-            height: '55px',
+            margin: '3px',
+            width: '75px',
+        },
+    },
+
+    '.button-text': {
+        display: 'inline-block',
+        '@media (max-width: 450px)': {
+            display: 'none',
+        },
+    },
+
+    '.vanish': {
+        display: 'inline-block',
+        '@media (max-width: 450px)': {
+            display: 'none',
         },
     },
 
@@ -268,11 +290,11 @@ export const QuestionSx = {
         flexDirection: 'column',
         padding: '25px 60px 25px 25px',
         '@media (max-width: 450px)': {
-            minWidth: '400px',
-            maxWidth: '400px',
+            minWidth: '350px',
+            maxWidth: '350px',
             padding: '0',
+            paddingLeft: '15px',
             paddingTop: '20px',
-            paddingLeft: '10px',
         },
     },
 
@@ -283,6 +305,21 @@ export const QuestionSx = {
         alignItems: 'flex-end',
         margin: '20px 0',
         paddingLeft: '60px',
+        '@media (max-width: 450px)': {
+            paddingLeft: '25px',
+        },
+    },
+
+    '.tps-section-header': {
+        fontSize: '18px',
+        fontFamily: 'Open-Sans-Bold',
+        '@media (max-width: 450px)': {
+            fontSize: '16px', 
+        },
+    },
+
+    '.sort-btn-block': {
+        display: 'flex',
     },
 
     '.sort-btn': {

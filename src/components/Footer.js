@@ -11,6 +11,7 @@ const FooterSx = {
   marginBottom: '15px',
   
   '.hr': {
+    marginTop: '0px',
     backgroundColor: 'lightGray',
     marginBottom: '12px',
   },

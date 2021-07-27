@@ -10,6 +10,10 @@ export const TpSx = {
         height: 'auto',
         background: 'white',
         fontFamily: 'Open-Sans',
+        minHeight: 'calc(100vh - 110px)',
+        '@media(max-width: 640px)': {
+            minHeight: 'calc(100vh - 140px)',
+        },
     },
 
     '.thread-btn': {
