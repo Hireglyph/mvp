@@ -31,6 +31,12 @@ const NotifSx = {
     boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.1)',
     borderRadius: '20px',
     padding: '25px',
+    '@media (max-width: 800px)': {
+      width: '500px',
+    },
+    '@media (max-width: 450px)': {
+      width: '350px',
+    },
   },
 
   '.notif-title-box': {
@@ -45,6 +51,25 @@ const NotifSx = {
     fontSize: '14px',
     borderRadius: '10px',
     alignItems: 'center',
+    '@media (max-width: 800px)': {
+      fontSize: '12px',
+    },
+    '@media (max-width: 450px)': {
+      fontSize: '10px',
+    },
+  },
+
+  '.inner-text': {
+    minWidth: '500px',
+    maxWidth: '500px',
+    '@media (max-width: 800px)': {
+      minWidth: '300px',
+      maxWidth: '300px',
+    },
+    '@media (max-width: 450px)': {
+      minWidth: '175px',
+      maxWidth: '175px',
+    },
   },
 
   '.box-viewed': {
@@ -79,6 +104,9 @@ const NotifSx = {
     backgroundColor: 'lightPurpleGray',
     borderRadius: '50%',
     textAlign: 'center',
+    '@media (max-width: 450px)': {
+      marginLeft: '0',
+    },
   },
 
   '.caret-icon': {
@@ -155,7 +183,7 @@ class PageNotifications extends React.Component {
                     <div className="icon-container">
                       <FontAwesomeIcon icon={faCaretUp} className="caret-icon"/>
                     </div>
-                    <div>
+                    <div className="inner-text">
                       <span className="semi-bold">@{notification.username} </span>
                       upvoted your
                       <span className="semi-bold"> TP </span>
@@ -185,7 +213,7 @@ class PageNotifications extends React.Component {
                     <div className="icon-container">
                       <FontAwesomeIcon icon={faCaretUp} className="caret-icon"/>
                     </div>
-                    <div>
+                    <div className="inner-text">
                       <span className="semi-bold">@{notification.username} </span>
                       upvoted your feedback to
                       <span className="semi-bold"> @{notification.author}</span>
@@ -215,7 +243,7 @@ class PageNotifications extends React.Component {
                     <div className="icon-container">
                       <FontAwesomeIcon icon={faComments} className="comments-icon"/>
                     </div>
-                    <div>
+                    <div className="inner-text">
                       <span className="semi-bold">@{notification.username} </span>
                       left
                       <span className="semi-bold"> feedback </span>
@@ -245,7 +273,7 @@ class PageNotifications extends React.Component {
                     <div className="icon-container">
                       <FontAwesomeIcon icon={faComments} className="comments-icon"/>
                     </div>
-                    <div>
+                    <div className="inner-text">
                       <span className="semi-bold">@{notification.username} </span>
                       replied to you on
                       <span className="semi-bold"> @{notification.author}</span>
@@ -275,7 +303,7 @@ class PageNotifications extends React.Component {
                     <div className="icon-container">
                       <FontAwesomeIcon icon={faCaretUp} className="caret-icon"/>
                     </div>
-                    <div>
+                    <div className="inner-text">
                       <span className="semi-bold">@{notification.username} </span>
                       upvoted your
                       <span className="semi-bold"> reply </span>
