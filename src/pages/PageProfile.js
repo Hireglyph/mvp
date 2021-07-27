@@ -12,7 +12,7 @@ import { ReactTitle } from 'react-meta-tags';
 import Moment from 'react-moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
-import { faExpandAlt, faCompressAlt } from '@fortawesome/free-solid-svg-icons';
+import { faExpandAlt, faCompressAlt, faAlignLeft } from '@fortawesome/free-solid-svg-icons';
 
 import { tags } from 'constants/Lists';
 import TpPreview from 'components/TpPreview';
@@ -79,7 +79,8 @@ class PageProfile extends React.Component {
           onClick={() => this.changeExpand(true, id, type)}
           className="profile-message"
         >
-          Expand
+          <FontAwesomeIcon icon={faExpandAlt} />
+          {'\xa0'} Expand
         </div>
       );
     }
@@ -88,7 +89,8 @@ class PageProfile extends React.Component {
         onClick={() => this.changeExpand(false, id, type)}
         className="profile-message"
       >
-        Collapse
+        <FontAwesomeIcon icon={faCompressAlt} />
+        {'\xa0'} Collapse
       </div>
     );
   };
@@ -146,54 +148,60 @@ class PageProfile extends React.Component {
           if (tp) {
             return (
               <div className="profile-box" key={tpId}>
-                <div className="profile-header">
-                  <div>Response to <b>Question #{tp.questId}</b>{' •\xa0'}</div>
-                  <em><Moment fromNow>{tp.date}</Moment></em>
-                  <div className="profile-header-button">
-                    {((tp.initial && tp.initial.length > length) ||
-                      (tp.approach && tp.approach.length > length) ||
-                      (tp.solution && tp.solution.length > length))
-                     && this.generateMessage(isTpExpanded, tpId, 'tp')}
-                  </div>
-                  <div className="profile-box-bottom">
-                    <div
-                      className="profile-delete-btn"
-                      onClick={() => tpDelete({
-                        firebase: this.props.firebase,
-                        questId: tp.questId,
-                        tpId,
-                        uid: this.props.uid,
-                      })}
-                    >
-                      Delete
-                    </div>
-                    <Link
-                      className="profile-link"
-                      to={`/tp/${tp.questId}/${tpId}`}
-                    >
-                      <div className="profile-onclick">Go to TP</div>
-                    </Link>
-                  </div>
+                <div
+                  className={
+                    (tp.total &&
+                      tp.total > 0
+                        ? "positive-score"
+                        : tp.total < 0 && "negative-score")
+                    + " profile-box-score"
+                  }
+                >
+                  {tp.total}
                 </div>
-                <div className="profile-box-content">
-                  <div
-                    className={
-                      (tp.total &&
-                        tp.total > 0
-                          ? "positive-score"
-                          : tp.total < 0 && "negative-score")
-                      + " profile-box-score"
-                    }
-                  >
-                    {tp.total}
+                <div className="profile-box-right">
+                  <div className="profile-header">
+                    <div>Your response to <b>Question #{tp.questId}</b></div>
+                    <div className="profile-header-button">
+                      {((tp.initial && tp.initial.length > length) ||
+                        (tp.approach && tp.approach.length > length) ||
+                        (tp.solution && tp.solution.length > length))
+                      && this.generateMessage(isTpExpanded, tpId, 'tp')}
+                    </div>
+                    <div className="profile-box-bottom">
+                      <Link
+                        className="profile-link"
+                        to={`/tp/${tp.questId}/${tpId}`}
+                      >
+                        <div className="profile-onclick">
+                          <FontAwesomeIcon icon={faAlignLeft} />
+                          {'\xa0'} Open Thread
+                        </div>
+                      </Link>
+                      <div
+                        className="profile-delete-btn"
+                        onClick={() => tpDelete({
+                          firebase: this.props.firebase,
+                          questId: tp.questId,
+                          tpId,
+                          uid: this.props.uid,
+                        })}
+                      >
+                        <FontAwesomeIcon icon={faTrashAlt} />
+                        {'\xa0'}Delete
+                      </div>
+                    </div>
                   </div>
-                  <div className="profile-box-interior">
-                    <TpPreview
-                      initial={tp.initial}
-                      approach={tp.approach}
-                      solution={tp.solution}
-                      expanded={isTpExpanded}
-                    />
+                  <em className="moment-posted"><Moment fromNow>{tp.date}</Moment></em>
+                  <div className="profile-box-content">
+                    <div className="profile-box-interior">
+                      <TpPreview
+                        initial={tp.initial}
+                        approach={tp.approach}
+                        solution={tp.solution}
+                        expanded={isTpExpanded}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

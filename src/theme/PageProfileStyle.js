@@ -91,12 +91,19 @@ export const ProfileSx = {
     margin: '10px 0',
     backgroundColor: 'white',
     borderRadius: '15px',
-    padding: '10px',
+    padding: '20px 24px 20px 8px',
+    display: 'flex',
+  },
+
+  '.profile-box-right': {
+    width: '100%',
   },
 
   '.profile-header': {
     display: 'flex',
-    margin: '10px 20px 0 10px',
+    justifyContent: 'space-between',
+    width: '100%',
+    margin: '0',
     fontSize: '16px',
   },
 
@@ -107,50 +114,47 @@ export const ProfileSx = {
 
   '.profile-box-bottom': {
     display: 'flex',
-    float: 'right',
-    marginRight: '20px',
-    marginBottom: '5px',
   },
 
   '.profile-link': {
     marginLeft: '10px',
-    textDecoration: 'none',
+    fontSize: '14px',
+    fontFamily: 'body',
+    fontWeight: 'bold',
   },
 
   '.profile-onclick': {
-    fontFamily: 'Open-Sans',
     fontSize: '14px',
-    padding: '0 5px',
-    textAlign: 'center',
-    cursor: 'pointer',
+    marginRight: '10px',
   },
 
   '.profile-delete-btn': {
     cursor: 'pointer',
     color: 'hardRed',
     fontSize: '14px',
+    fontFamily: 'body',
+    fontWeight: 'bold',
   },
 
   '.profile-message': {
     cursor: 'pointer',
-    color: 'black',
-    fontSize: '12px',
-    '&:hover': {
-      textDecoration: 'underline',
-    },
+    fontSize: '14px',
+    color: 'purple',
+  },
+
+  '.moment-posted': {
+    fontSize: '14px',
+    color: 'gray',
   },
 
   '.profile-box-content': {
     display: 'flex',
-    marginTop: '5px',
-    marginBottom: '5px',
-    marginRight: '20px',
+    margin: '10px 0 5px 0',
   },
 
   '.profile-box-interior': {
     backgroundColor: 'white',
     width: '100%',
-    padding: '5px',
     fontFamily: 'Gotham-Book',
     overflow: 'hidden',
     fontSize: '13px',
@@ -163,10 +167,12 @@ export const ProfileSx = {
   '.profile-box-score': {
     textAlign: 'center',
     width: '40px',
+    marginTop: '20px',
+    color: 'purple',
   },
 
   '.positive-score': {
-    color: '#27B12A',
+    color: 'easyGreen',
   },
 
   '.negative-score': {
@@ -202,7 +208,6 @@ export const ProfileSx = {
     padding: '30px 30px',
     display: 'flex',
     flexDirection: 'column',
-
   },
 
   '.profile-stats': {
@@ -238,18 +243,19 @@ export const ProfileSx = {
 
   '.tp-stats-label': {
     textTransform: 'capitalize',
+    fontSize: '14px',
   },
 
   '.tp-stats-number': {
     backgroundColor: 'purple',
-    minWidth: '35px',
-    height: '25px',
+    minWidth: '28px',
+    height: '22px',
     color: 'white',
     textAlign: 'center',
     borderRadius: '15px',
-    padding: '1px',
+    padding: '2px',
     marginLeft: '15px',
-    fontSize: '15px',
+    fontSize: '13px',
   },
 
   '.tp-stats-easy': {
