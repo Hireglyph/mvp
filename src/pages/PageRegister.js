@@ -19,6 +19,8 @@ class PageRegister extends React.Component {
       password: '',
       confirmPassword: '',
       error: '',
+      registering: false,
+      loading: false,
     };
   }
 
@@ -34,11 +36,14 @@ class PageRegister extends React.Component {
       };
 
       try {
+        this.setState({ registering: true });
         await this.props.registerUser(credentials, {});
         await this.props.auth().currentUser.sendEmailVerification();
       } catch (error) {
         this.setState({ error: error.message });
       }
+
+      this.setState({ registering: false });
     }
     // if passwords do not match, display message
     else {
@@ -58,7 +63,9 @@ class PageRegister extends React.Component {
   render() {
     const disabled = !this.state.email.trim() ||
                      !this.state.password.trim() ||
-                     !this.state.confirmPassword.trim();
+                     !this.state.confirmPassword.trim() ||
+                     this.state.registering ||
+                     this.state.loading;
 
     return (
       <div sx={FormSx}>
@@ -105,6 +112,7 @@ class PageRegister extends React.Component {
             <GoogleButton
               onClick={() => this.loginWithProvider('google')}
               text={"Sign up with Google"}
+              disabled={this.state.loading || this.state.registering}
             />
             {/* link to login page */}
             <div className="auth-closing">
