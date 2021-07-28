@@ -29,10 +29,12 @@ export const theme = {
     darkOrange: '#CA8522',
     lightGray: '#DFDEDE',
     mediumGray: '#464646',
+    placeholderGray: 'rgba(0, 0, 0, 0.5)',
     easyGreen: '#27B12A',
     medOrange: '#EA9A28',
     hardRed: '#DA1C1C',
     brightRed: '#ff7a7a',
+    blue: '#2589FE'
   },
   sizes: {
     withoutHeader: 'calc(100vh - 60px)',
