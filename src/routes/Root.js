@@ -23,6 +23,19 @@ const RootSx = {
   '.root-body': {
     minHeight: 'calc(100vh - 175px)',
   },
+
+  '.nav-bar': {
+    position: 'sticky',
+    top: 0,
+    zIndex: 10,
+  },
+  
+  '.page-question': {
+    minWidth: '950px',
+    '@media (max-width: 450px)': {
+      minWidth: '400px',
+    },
+  },
 }
 
 class Root extends React.Component {
@@ -40,10 +53,16 @@ class Root extends React.Component {
     }
 
     const { emailVerified, onboarded, uid } = this.props;
+    const isPageQuestion = (this.props.location.pathname.split('/')[1] === 'q');
 
     return (
       <div className="Root" sx={RootSx}>
-        <NavBar uid={uid} isLoaded={this.props.isLoaded} />
+        <div className={"nav-bar" + (isPageQuestion ? " page-question" : " ")}>
+          <NavBar
+            uid={uid}
+            isLoaded={this.props.isLoaded}
+          />
+        </div>
         <div className="root-body">
           <Switch>
             {/* authentification routes */}

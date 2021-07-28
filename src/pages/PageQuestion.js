@@ -59,14 +59,14 @@ class PageQuestion extends React.Component {
       return (
         <div onClick={() => this.changeExpand(true, tpId)}>
           <FontAwesomeIcon icon={faExpandAlt} />
-          {'\xa0'} Expand TP
+          <p className="vanish">{'\xa0'} Expand TP</p>
         </div>
       );
     }
     return (
       <div onClick={() => this.changeExpand(false, tpId)}>
         <FontAwesomeIcon icon={faCompressAlt} />
-        {'\xa0'} Collapse TP
+        <p className="vanish">{'\xa0'} Collapse TP</p>
       </div>
     );
   };
@@ -99,8 +99,12 @@ class PageQuestion extends React.Component {
         </div>
         <div className="thread-box-interior">
           <div className="thread-box-header">
-            <div style={{display: 'flex'}}>
-              <div style={{fontFamily: 'Gotham-Bold'}}>@{username} •{'\xa0'}</div> 
+            <div className="tp-intro">
+              <div 
+                style={{fontFamily: 'Gotham-Bold'}}
+              >
+                @{window.innerWidth > 450 ? username : username.slice(0, 15)} •{'\xa0'}
+              </div> 
               <em><Moment fromNow>{tp.date}</Moment></em>
             </div>
             <div className="thread-box-options">
@@ -114,7 +118,7 @@ class PageQuestion extends React.Component {
                 to={`/tp/${this.props.questId}/${tpId}`}
               >
                 <FontAwesomeIcon icon={faAlignLeft} />
-                {'\xa0'} Open Thread
+                <p className="vanish">{'\xa0'} Open Thread</p>
               </Link>
             </div>
           </div>
@@ -337,14 +341,18 @@ class PageQuestion extends React.Component {
             onClick={() => this.displayPopup('showPreview', false)}
           />
           <div className="popup-title">TP Preview</div>
-          <div className="popup-text">
-            <b className="popup-bold">Initial: </b>
-            <Latex>{displayContent(this.state.initial)}</Latex>
-          </div>
-          <div className="popup-text">
-            <b>Approaches: </b>
-            <Latex>{displayContent(this.state.approach)}</Latex>
-          </div>
+          {difficulty !== "easy" &&
+            <div className="popup-text">
+              <b className="popup-bold">Initial: </b>
+              <Latex>{displayContent(this.state.initial)}</Latex>
+            </div>
+          }
+          {difficulty !== "easy" &&
+            <div className="popup-text">
+              <b>Approaches: </b>
+              <Latex>{displayContent(this.state.approach)}</Latex>
+            </div>
+          }
           <div className="popup-text">
             <b>Final: </b>
             <Latex>{displayContent(this.state.solution)}</Latex>
@@ -372,7 +380,7 @@ class PageQuestion extends React.Component {
     const communityTps = (
       <div className="communityTps-container">
         <div className="communityTps-header">
-          <div style={{fontSize: '18px', fontFamily: 'Open-Sans-Bold'}}><b>Thought Processes (TPs)</b></div>
+          <div className="tps-section-header"><b>Thought Processes (TPs)</b></div>
           {/* buttons to sort by "new" and "top" TPs */}
           <div className="sort-btn-block">
             <button
@@ -409,6 +417,15 @@ class PageQuestion extends React.Component {
             value={solution}
           />
           <div className="tp-btn-container">
+            <button
+              className="tp-btn"
+              disabled={solution.trim() === ""}
+              onClick={
+                () => this.displayPopup('showPreview', true)
+              }
+            >
+              Preview
+            </button>
             <button
               className="tp-btn"
               disabled={solution.trim() === ""}
@@ -604,21 +621,24 @@ class PageQuestion extends React.Component {
                 disabled={questParam === "my"}
                 onClick={() => this.handleClick("my")}
               >
-                <FontAwesomeIcon icon={faPencilAlt} /> My TP
+                <FontAwesomeIcon icon={faPencilAlt} />
+                {" "}<p className="button-text">My TP</p>
               </button>
               <button
                 className="question-btn"
                 disabled={sortBy}
                 onClick={() => this.handleClick("community/top")}
               >
-                <FontAwesomeIcon icon={faUserFriends} /> Community TPs
+                <FontAwesomeIcon icon={faUserFriends} />
+                {" "}<p className="button-text">Community TPs</p>
               </button>
               <button
                 className="question-btn"
                 disabled={questParam === "related"}
                 onClick={() => this.handleClick("related")}
               >
-                <FontAwesomeIcon icon={faBullseye} /> Related Questions
+                <FontAwesomeIcon icon={faBullseye} />
+                {" "}<p className="button-text">Related Questions</p>
               </button>
               <div className="question-border" />
             </div>
