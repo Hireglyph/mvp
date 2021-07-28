@@ -61,6 +61,7 @@ export const ProfileSx = {
   '.feedback-sort-btn': {
     borderRadius: '0 0 0 0',
     borderRight: 'none',
+    borderLeft: 'none',
   },
 
   '.reply-sort-btn': {
@@ -91,7 +92,7 @@ export const ProfileSx = {
     margin: '10px 0',
     backgroundColor: 'white',
     borderRadius: '15px',
-    padding: '20px 24px 20px 8px',
+    padding: '20px',
     display: 'flex',
   },
 
@@ -107,39 +108,39 @@ export const ProfileSx = {
     fontSize: '16px',
   },
 
-  '.profile-header-button': {
-    marginRight: '0px',
-    marginLeft: 'auto',
+  '.profile-box-title': {
+    margin: '0',
+    padding: '0'
   },
 
   '.profile-box-bottom': {
     display: 'flex',
+    margin: '0 10px',
   },
 
-  '.profile-link': {
-    marginLeft: '10px',
+  '.profile-btn': {
+    minWidth: 'fit-content',
+    cursor: 'pointer',
     fontSize: '14px',
     fontFamily: 'body',
     fontWeight: 'bold',
+    color: 'purple',
   },
 
-  '.profile-onclick': {
-    fontSize: '14px',
-    marginRight: '10px',
-  },
-
-  '.profile-delete-btn': {
-    cursor: 'pointer',
-    color: 'hardRed',
+  '.profile-open-thread': {
+    margin: '0 10px',
     fontSize: '14px',
     fontFamily: 'body',
     fontWeight: 'bold',
   },
 
   '.profile-message': {
-    cursor: 'pointer',
-    fontSize: '14px',
-    color: 'purple',
+    minWidth: '80px',
+    margin: '0',
+  },
+
+  '.profile-delete-btn': {
+    color: 'hardRed',
   },
 
   '.moment-posted': {
@@ -165,9 +166,8 @@ export const ProfileSx = {
   },
 
   '.profile-box-score': {
-    textAlign: 'center',
-    width: '40px',
-    marginTop: '20px',
+    width: '20px',
+    margin: '20px 10px 0 5px',
     color: 'purple',
   },
 
@@ -244,6 +244,7 @@ export const ProfileSx = {
   '.tp-stats-label': {
     textTransform: 'capitalize',
     fontSize: '14px',
+    textAlign: 'right',
   },
 
   '.tp-stats-number': {

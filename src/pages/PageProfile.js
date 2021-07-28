@@ -77,7 +77,7 @@ class PageProfile extends React.Component {
       return (
         <div
           onClick={() => this.changeExpand(true, id, type)}
-          className="profile-message"
+          className="profile-message profile-btn"
         >
           <FontAwesomeIcon icon={faExpandAlt} />
           {'\xa0'} Expand
@@ -87,7 +87,7 @@ class PageProfile extends React.Component {
     return (
       <div
         onClick={() => this.changeExpand(false, id, type)}
-        className="profile-message"
+        className="profile-message profile-btn"
       >
         <FontAwesomeIcon icon={faCompressAlt} />
         {'\xa0'} Collapse
@@ -126,9 +126,11 @@ class PageProfile extends React.Component {
       tpHistory,
       replyHistory,
       username,
+      questions,
     } = this.props;
 
-    if (!isLoaded(tpHistory) || !isLoaded(feedbackHistory) || !isLoaded(replyHistory)) {
+    if (!isLoaded(tpHistory) || !isLoaded(feedbackHistory) 
+        || !isLoaded(replyHistory) || !isLoaded(questions)) {
       return <Loading />;
     }
 
@@ -161,25 +163,25 @@ class PageProfile extends React.Component {
                 </div>
                 <div className="profile-box-right">
                   <div className="profile-header">
-                    <div>Your response to <b>Question #{tp.questId}</b></div>
-                    <div className="profile-header-button">
-                      {((tp.initial && tp.initial.length > length) ||
-                        (tp.approach && tp.approach.length > length) ||
-                        (tp.solution && tp.solution.length > length))
-                      && this.generateMessage(isTpExpanded, tpId, 'tp')}
+                    <div className="profile-box-title">
+                      Your answer to <b>Question #{tp.questId}: {questions[tp.questId].title}</b>
                     </div>
                     <div className="profile-box-bottom">
+                      <div>
+                        {((tp.initial && tp.initial.length > length) ||
+                          (tp.approach && tp.approach.length > length) ||
+                          (tp.solution && tp.solution.length > length))
+                        && this.generateMessage(isTpExpanded, tpId, 'tp')}
+                      </div>
                       <Link
-                        className="profile-link"
+                        className="profile-open-thread profile-btn"
                         to={`/tp/${tp.questId}/${tpId}`}
                       >
-                        <div className="profile-onclick">
-                          <FontAwesomeIcon icon={faAlignLeft} />
-                          {'\xa0'} Open Thread
-                        </div>
+                        <FontAwesomeIcon icon={faAlignLeft} />
+                        {'\xa0'} Open Thread
                       </Link>
                       <div
-                        className="profile-delete-btn"
+                        className="profile-delete-btn profile-btn"
                         onClick={() => tpDelete({
                           firebase: this.props.firebase,
                           questId: tp.questId,
@@ -242,66 +244,68 @@ class PageProfile extends React.Component {
           if (feedback && username && questId && tpId) {
             return (
               <div className="profile-box" key={feedbackId}>
-                <div className="profile-header">
-                  <div>
-                    Feedback to @{username}'s TP to Question #{questId}{' '}
-                  </div>
-                  <Moment fromNow>{date}</Moment>
-                  <div className="profile-header-button">
-                    {feedback.length > length
-                      && this.generateMessage(
-                          isFeedbackExpanded,
-                          feedbackId,
-                          'feedback'
-                        )}
-                  </div>
+                <div className={
+                  (score &&
+                    score > 0
+                      ? "positive-score"
+                      : score < 0 && "negative-score")
+                  + " profile-box-score"
+                }>
+                  {score}
                 </div>
-                <div className="profile-box-content">
-                  <div className={
-                    (score &&
-                      score > 0
-                        ? "positive-score"
-                        : score < 0 && "negative-score")
-                    + " profile-box-score"
-                  }>
-                    {score}
-                  </div>
-                  <div
-                    className={
-                      "profile-box-interior" +
-                      (isFeedbackExpanded ? " format-text" : "")
-                    }
-                  >
-                    <Latex>
-                      {isFeedbackExpanded
-                        ? displayContent(feedback)
-                        : displayContent(
-                            feedback.slice(0, length + 1) +
-                            (feedback.length > length ? '...' : '')
-                      )}
-                    </Latex>
-                  </div>
-                </div>
-                <div className="profile-box-bottom">
-                  <div
-                    className="profile-delete"
-                    onClick={() => feedbackDelete({
-                      firebase: this.props.firebase,
-                      tpId,
-                      feedbackId,
-                      uid: this.props.uid,
-                    })}
-                  >
-                    Delete
-                  </div>
-                  <Link
-                    className="profile-link"
-                    smooth to={`/tp/${questId}/${tpId}#${feedbackId}`}
-                  >
-                    <div className="profile-onclick">
-                      Go to Feedback
+                <div className="profile-box-right">
+                  <div className="profile-header">
+                    <div className="profile-box-title">
+                      Feedback to @{username}'s TP to Question #{questId}{' '}
                     </div>
-                  </Link>
+                    <div className="profile-box-bottom">
+                      <div>
+                        {feedback.length > length
+                          && this.generateMessage(
+                              isFeedbackExpanded,
+                              feedbackId,
+                              'feedback'
+                            )}
+                      </div>
+                      <Link
+                        className="profile-open-thread profile-btn"
+                        smooth to={`/tp/${questId}/${tpId}#${feedbackId}`}
+                      >
+                        <FontAwesomeIcon icon={faAlignLeft} />
+                        {'\xa0'} Open Thread
+                      </Link>
+                      <div
+                        className="profile-delete-btn profile-btn"
+                        onClick={() => feedbackDelete({
+                          firebase: this.props.firebase,
+                          tpId,
+                          feedbackId,
+                          uid: this.props.uid,
+                        })}
+                      >
+                        <FontAwesomeIcon icon={faTrashAlt} />
+                        {'\xa0'}Delete
+                      </div>
+                    </div>
+                  </div>
+                  <Moment fromNow className="moment-posted">{date}</Moment>
+                  <div className="profile-box-content">
+                    <div
+                      className={
+                        "profile-box-interior" +
+                        (isFeedbackExpanded ? " format-text" : "")
+                      }
+                    >
+                      <Latex>
+                        {isFeedbackExpanded
+                          ? displayContent(feedback)
+                          : displayContent(
+                              feedback.slice(0, length + 1) +
+                              (feedback.length > length ? '...' : '')
+                        )}
+                      </Latex>
+                    </div>
+                  </div>
                 </div>
               </div>
             );
@@ -333,7 +337,8 @@ class PageProfile extends React.Component {
             replyFeedbackID,
             tpId,
             username,
-            date
+            date,
+            score
           } = replyHistory[replyId];
 
           const isReplyExpanded = this.state.replyExpand.has(replyId);
@@ -341,61 +346,72 @@ class PageProfile extends React.Component {
           if (reply && replyFeedbackID && username && questId && tpId) {
             return (
               <div className="profile-box" key={replyId}>
-                <div className="profile-header">
-                  <div>
-                    Reply to to @{username} about a TP to Question #{questId}{' '}
-                  </div>
-                  <Moment fromNow>{date}</Moment>
-                  <div className="profile-header-button">
-                    {reply.length > length
-                      && this.generateMessage(
-                          isReplyExpanded,
-                          replyId,
-                          'reply'
-                        )}
-                  </div>
+                <div
+                  className={
+                    (score &&
+                      score > 0
+                        ? "positive-score"
+                        : score < 0 && "negative-score")
+                    + " profile-box-score"
+                  }
+                >
+                  {score}
                 </div>
-                <div className="profile-box-content">
-                  <div className="profile-box-score"/>
-                  <div
-                    className={
-                      "profile-box-interior" +
-                      (isReplyExpanded ? " format-text" : "")
-                    }
-                  >
-                    <Latex>
-                      {isReplyExpanded
-                        ? displayContent(reply)
-                        : displayContent(
-                            reply.slice(0, length + 1) +
-                            (reply.length > length ? '...' : '')
-                      )}
-                    </Latex>
-                  </div>
-                </div>
-                <div className="profile-box-bottom">
-                  <div
-                    className="profile-delete"
-                    onClick={() => replyDelete({
-                      firebase: this.props.firebase,
-                      tpId,
-                      replyFeedbackID,
-                      replyId,
-                      uid: this.props.uid,
-                    })}
-                  >
-                    <div><FontAwesomeIcon icon={faTrashAlt} /></div>
-                    {'\xa0'} Delete 
-                  </div>
-                  <Link
-                    className="profile-link"
-                    smooth to={`/tp/${questId}/${tpId}#${replyId}`}
-                  >
-                    <div className="profile-onclick">
-                      <div><FontAwesomeIcon icon={faExpandAlt} /></div>
-                      Go to Reply
+                <div className="profile-box-right">
+                  <div className="profile-header">
+                    <div className="profile-box-title">
+                      Reply to @{username}{' • '}
+                      <Moment fromNow>{date}</Moment>
                     </div>
-                  </Link>
+                    <div className="profile-box-bottom">
+                      <div>
+                        {reply.length > length
+                          && this.generateMessage(
+                              isReplyExpanded,
+                              replyId,
+                              'reply'
+                            )}
+                      </div>
+                      <Link
+                        className="profile-open-thread profile-btn"
+                        smooth to={`/tp/${questId}/${tpId}#${replyId}`}
+                      >
+                        <FontAwesomeIcon icon={faAlignLeft} />
+                        {'\xa0'} Open Thread
+                      </Link>
+                      <div
+                        className="profile-delete-btn profile-btn"
+                        onClick={() => replyDelete({
+                          firebase: this.props.firebase,
+                          tpId,
+                          replyFeedbackID,
+                          replyId,
+                          uid: this.props.uid,
+                        })}
+                      >
+                        <FontAwesomeIcon icon={faTrashAlt} />
+                        {'\xa0'} Delete 
+                      </div>
+                    </div>
+                  </div>
+                  <div className="moment-posted">In thread: __'s TP for Question #{questId}: {questions[questId].title}</div>
+                  <div className="profile-box-content">
+                    <div
+                      className={
+                        "profile-box-interior" +
+                        (isReplyExpanded ? " format-text" : "")
+                      }
+                    >
+                      <Latex>
+                        {isReplyExpanded
+                          ? displayContent(reply)
+                          : displayContent(
+                              reply.slice(0, length + 1) +
+                              (reply.length > length ? '...' : '')
+                        )}
+                      </Latex>
+                    </div>
+                  </div>
                 </div>
               </div>
             );
@@ -462,8 +478,8 @@ class PageProfile extends React.Component {
           <div className="history-block">
             <div className="history-header">
               {historyParam === 'tp' && <h6>TP History</h6>}
-              {historyParam === 'feedback' && <h5>Feedback History</h5>}
-              {historyParam === 'reply' && <h5>Reply History</h5>}
+              {historyParam === 'feedback' && <h6>Feedback History</h6>}
+              {historyParam === 'reply' && <h6>Reply History</h6>}
               {/* top buttons where users can change URL param */}
               <div className="sort-btn-block">
                 <button
