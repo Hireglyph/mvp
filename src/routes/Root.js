@@ -13,6 +13,7 @@ import PageContact from 'pages/PageContact';
 import PageLanding from 'pages/PageLanding';
 import PageContentPolicy from 'pages/PageContentPolicy';
 import PagePrivacyPolicy from 'pages/PagePrivacyPolicy';
+import PageAbout from 'pages/PageAbout';
 import PageNotFound from 'pages/PageNotFound';
 
 import NavBar from 'components/NavBar';
@@ -73,6 +74,7 @@ class Root extends React.Component {
             <Route exact path="/"        component={PageLanding} />
             <Route exact path="/content" component={PageContentPolicy} />
             <Route exact path="/privacy" component={PagePrivacyPolicy} />
+            <Route exact path="/about" component={PageAbout} />
             <Route exact path="/contact" component={PageContact} />
 
             {/* catch broken routes*/}

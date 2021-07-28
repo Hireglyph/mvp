@@ -212,11 +212,11 @@ class NavBar extends React.Component {
                 </Nav.Link>
                 <Nav.Link
                   as={Link}
-                  className={"nav-link " + ((path === 'howto') && "nav-link-clicked")}
-                  to='/howto'
+                  className={"nav-link " + ((path === 'about') && "nav-link-clicked")}
+                  to='/about'
                 >
                   <div>
-                    How to
+                    About
                   </div>
                 </Nav.Link>
               </div>}
