@@ -172,7 +172,7 @@ class PageProfile extends React.Component {
                 <div className="profile-box-right">
                   <div className="profile-header">
                     <div className="profile-box-title">
-                      Your answer to <b>Question #{tp.questId}: {questions[tp.questId].title}</b>
+                      Your answer to <b>#{tp.questId}: {questions[tp.questId].title}</b>
                     </div>
                     <div className="profile-box-bottom">
                       <div>
@@ -264,7 +264,7 @@ class PageProfile extends React.Component {
                 <div className="profile-box-right">
                   <div className="profile-header">
                     <div className="profile-box-title">
-                      Feedback to @{username}'s TP to Question #{questId}{' '}
+                      Feedback to @{username}'s TP to <b>#{questId}: {questions[questId].title}</b>{' '}
                     </div>
                     <div className="profile-box-bottom">
                       <div>
@@ -369,7 +369,7 @@ class PageProfile extends React.Component {
                   <div className="profile-header">
                     <div className="profile-box-title">
                       Reply to @{username}{' • '}
-                      <Moment fromNow>{date}</Moment>
+                      <em><Moment fromNow>{date}</Moment></em>
                     </div>
                     <div className="profile-box-bottom">
                       <div>
