@@ -110,7 +110,8 @@ export const ProfileSx = {
 
   '.profile-box-title': {
     margin: '0',
-    padding: '0'
+    padding: '0', 
+    maxWidth: '380px',
   },
 
   '.profile-box-bottom': {
