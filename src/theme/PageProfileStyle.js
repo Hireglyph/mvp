@@ -210,6 +210,30 @@ export const ProfileSx = {
     flexDirection: 'column',
   },
 
+  '.solved-tps-chart-label': {
+    paddingLeft: '10px',
+    fontFamily: 'Open-Sans-Semibold'
+  },
+
+  '.solved-tps-block': {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: '20px 0',
+  },
+
+  '.solved-tps-chart-block': {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+
+  '.solved-tps-chart-center': {
+    position: 'absolute',
+    marginTop: '60px',
+    minWidth: 'fit-content',
+  },
+
   '.profile-stats': {
     display: 'flex',
     margin: '10px 0',

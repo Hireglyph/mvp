@@ -13,6 +13,7 @@ import Moment from 'react-moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { faExpandAlt, faCompressAlt, faAlignLeft } from '@fortawesome/free-solid-svg-icons';
+import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
 
 import { tags } from 'constants/Lists';
 import TpPreview from 'components/TpPreview';
@@ -137,6 +138,13 @@ class PageProfile extends React.Component {
     if (historyParam !== 'tp' && historyParam !== 'feedback' && historyParam !== 'reply') {
       return <Redirect to={`/profile/tp`} />;
     }
+
+    // for tp pie chart
+    const chartData = [
+      { name: 'Unsolved', value: questions.length },
+      { name: 'Solved', value: this.state.tpCount },
+    ];
+    const chartColors = ['#E0DBFE', '#5A3FFF'];
 
     /* display tpHistory: traverse thru all the tpIds in tpHistory,
       display header (tp info) + tp preview that user can expand/collapse */
@@ -338,9 +346,9 @@ class PageProfile extends React.Component {
             tpId,
             username,
             date,
-            score
           } = replyHistory[replyId];
 
+          const score = replyHistory[replyId].score;
           const isReplyExpanded = this.state.replyExpand.has(replyId);
 
           if (reply && replyFeedbackID && username && questId && tpId) {
@@ -394,7 +402,7 @@ class PageProfile extends React.Component {
                       </div>
                     </div>
                   </div>
-                  <div className="moment-posted">In thread: __'s TP for Question #{questId}: {questions[questId].title}</div>
+                  <div className="moment-posted">In thread: TP for <span>Question #{questId}: {questions[questId].title}</span></div>
                   <div className="profile-box-content">
                     <div
                       className={
@@ -513,12 +521,42 @@ class PageProfile extends React.Component {
               <h6>Profile</h6>
               <div className="profile-stats">
                 <div className="profile-stat">@{username}</div>
-                <div className="profile-stat">24 upvotes</div>
+                <div className="profile-stat">{this.state.netUpvotes} upvotes</div>
               </div>
               <div>
-                <div className="tp-stats-header"><b>10TPs</b></div>
-                <div className="solved-tps-chart">
-
+                <div className="tp-stats-header"><b>{this.state.tpCount} TPs</b></div>
+                <div className="solved-tps-block">
+                  <div className="solved-tps-chart-label">Problems Solved</div>
+                  <div className="solved-tps-chart-block">
+                    <PieChart 
+                      width={180} 
+                      height={180} 
+                      onMouseEnter={this.onPieEnter}
+                      style={{transform: 'rotate(-90deg)'}}
+                    >
+                      <Pie
+                        data={chartData}
+                        cx={90}
+                        cy={80}
+                        innerRadius={50}
+                        outerRadius={80}
+                        fill="#8884d8"
+                        paddingAngle={3}
+                        dataKey="value"
+                      >
+                        {chartData.map((entry, index) => (
+                          <Cell 
+                            key={`cell-${index}`} 
+                            fill={chartColors[index % chartColors.length]} 
+                          />
+                        ))}
+                      </Pie>
+                    </PieChart>
+                    <div className="solved-tps-chart-center">
+                      <span style={{fontSize: '28px', fontFamily: 'Open-Sans-Bold'}}>{this.state.tpCount}</span> 
+                      <span style={{color: 'gray'}}> / {this.props.questions.length}</span>
+                    </div>
+                  </div>
                 </div>
                 <div className="tag-stats">
                   {diffStats}
