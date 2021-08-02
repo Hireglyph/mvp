@@ -1,5 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 export const ProfileSx = {
   display: 'flex',
 
@@ -202,11 +200,10 @@ export const ProfileSx = {
 
   '.profile-container': {
     width: '100%',
-    padding: '10px',
     backgroundColor: 'white',
     boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.1)',
     borderRadius: '15px',
-    padding: '30px 30px',
+    padding: '30px',
     display: 'flex',
     flexDirection: 'column',
   },

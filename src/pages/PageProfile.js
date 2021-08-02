@@ -13,7 +13,7 @@ import Moment from 'react-moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { faExpandAlt, faCompressAlt, faAlignLeft } from '@fortawesome/free-solid-svg-icons';
-import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell } from 'recharts';
 
 import { tags } from 'constants/Lists';
 import TpPreview from 'components/TpPreview';
