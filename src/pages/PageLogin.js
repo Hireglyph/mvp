@@ -9,7 +9,6 @@ import { jsx } from 'theme-ui';
 import { ReactTitle } from 'react-meta-tags';
 
 import { FormSx } from 'theme/FormStyle';
-import Loading from 'components/Loading';
 import GoogleButton from 'components/GoogleButton';
 
 class PageLogin extends React.Component {

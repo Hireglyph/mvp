@@ -6,10 +6,10 @@ import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { jsx } from 'theme-ui';
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Dropdown } from 'react-bootstrap';
  
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserCircle, faBell } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle, faBell, faBars } from '@fortawesome/free-solid-svg-icons';
  
 import logo from 'assets/images/logo.svg';
  
@@ -70,6 +70,9 @@ const NavBarSx = {
   '.nav-link-clicked': {
     color: '#5A3FFF !important',
     borderBottom: '5px solid #5A3FFF',
+    '@media (max-width: 640px)': {
+      border: 'none',
+    }
   },
 
   '#nav-icon-container': {
@@ -95,6 +98,61 @@ const NavBarSx = {
     backgroundColor: 'red',
     margin: '12px 0 0 18px',
   },
+
+  '.collapse': {
+    '@media (max-width: 640px)': {
+      display: 'none',
+    }
+  },
+
+  '.expand': {
+    marginRight: '0px',
+    marginLeft: 'auto',
+    '@media (min-width: 641px)': {
+      display: 'none',
+    }
+  },
+
+  '.faBars': {
+    color: 'black',
+    '&:active': {
+      color: 'black',
+    },
+    '&:focus': {
+      color: 'black',
+    },
+    '&:active:focus': {
+      color: 'black',
+    },
+  },
+
+  '.dropdown-toggle': {
+    color: 'black',
+    width: '50px',
+    backgroundColor: 'white !important',
+    border: '0',
+    '&:active': {
+      backgroundColor: 'white !important',
+    },
+    '&:focus': {
+      backgroundColor: 'white !important',
+    },
+    '&:active:focus': {
+      backgroundColor: 'white !important',
+    },
+    '&:visited': {
+      backgroundColor: 'white !important',
+    },
+    '&:link': {
+      backgroundColor: 'white !important',
+    },
+  },
+
+  '.dropdown-menu': {
+    right: '0',
+    left: 'auto',
+  },
+
 };
   
 class NavBar extends React.Component {
@@ -176,16 +234,108 @@ class NavBar extends React.Component {
       </React.Fragment>
     );
   };
+
+  dropdown = () => {
+    const { firebase, uid } = this.props;
+    const path = this.props.location.pathname.split('/')[1];
+    if (!uid) {
+      return (
+        <Dropdown>
+          <Dropdown.Toggle variant="success" id="dropdown-basic">
+            <FontAwesomeIcon className="faBars" icon={faBars} />
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item
+              as={Link}
+              to='/questions'
+              className={((path === 'questions') && "nav-link-clicked")}
+            >
+              Problems
+            </Dropdown.Item>
+            <Dropdown.Item
+              as={Link}
+              to='/about'
+              className={((path === 'about') && "nav-link-clicked")}
+            >
+              About Us
+            </Dropdown.Item>
+            <Dropdown.Item
+              as={Link}
+              to='/login'
+              className={((path === 'login') && "nav-link-clicked")}
+            >
+              Login
+            </Dropdown.Item>
+            <Dropdown.Item
+              as={Link}
+              to='/register'
+              className={((path === 'register') && "nav-link-clicked")}
+            >
+              Register
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+    }
+
+    return (
+      <Dropdown>
+        <Dropdown.Toggle variant="success" id="dropdown-basic">
+          <FontAwesomeIcon className="faBars" icon={faBars} />
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+          <Dropdown.Item
+            as={Link}
+            to='/questions'
+            className={((path === 'questions') && "nav-link-clicked")}
+          >
+            Problems
+          </Dropdown.Item>
+          <Dropdown.Item
+            as={Link}
+            to='/about'
+            className={((path === 'about') && "nav-link-clicked")}
+          >
+            About Us
+          </Dropdown.Item>
+          <Dropdown.Item
+            as={Link}
+            to='/notifications'
+            className={((path === 'notifications') && "nav-link-clicked")}
+          >
+            Notifications
+          </Dropdown.Item>
+          <Dropdown.Item
+            as={Link}
+            to='/profile/tp'
+            className={((path === 'profile') && "nav-link-clicked")}
+          >
+            Profile
+          </Dropdown.Item>
+          <Dropdown.Item
+            onClick={() => {
+              this.props.history.push('/');
+              firebase.logout();
+            }}
+          >
+            Logout
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    );
+  };
   
   render() {
     // retrieve what should be displayed in the navbar
     const navbarContent = this.navbarContent();
+    const dropdown = this.dropdown();
 
     const path = this.props.location.pathname.split('/')[1];
   
     // base navbar: Hireglyph logo (home) and link to questions
+    console.log(!navbarContent);
     return (
-      <Navbar collapseOnSelect expand="lg" sx={NavBarSx}>
+      <Navbar sx={NavBarSx}>
         <Navbar.Brand>
           <Link to='/'>
             <img
@@ -195,34 +345,33 @@ class NavBar extends React.Component {
             />
           </Link>
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mr-auto"></Nav>
-          <Nav className="ml-auto">
-            {navbarContent &&
-              <div className="nav-link-container">
-                <Nav.Link
-                  as={Link}
-                  className={"nav-link " + ((path === 'questions') && "nav-link-clicked")}
-                  to='/questions'
-                >
-                  <div>
-                    Problems
-                  </div>
-                </Nav.Link>
-                <Nav.Link
-                  as={Link}
-                  className={"nav-link " + ((path === 'about') && "nav-link-clicked")}
-                  to='/about'
-                >
-                  <div>
-                    About
-                  </div>
-                </Nav.Link>
-              </div>}
-            {navbarContent}
-          </Nav>
-        </Navbar.Collapse>
+        <Nav className="ml-auto collapse">
+          {navbarContent &&
+            <div className="nav-link-container">
+              <Nav.Link
+                as={Link}
+                className={"nav-link " + ((path === 'questions') && "nav-link-clicked")}
+                to='/questions'
+              >
+                <div>
+                  Problems
+                </div>
+              </Nav.Link>
+              <Nav.Link
+                as={Link}
+                className={"nav-link " + ((path === 'about') && "nav-link-clicked")}
+                to='/about'
+              >
+                <div>
+                  About
+                </div>
+              </Nav.Link>
+            </div>}
+          {navbarContent}
+        </Nav>
+        <Nav className="expand">
+          {dropdown}
+        </Nav>
       </Navbar>
     );
   }
