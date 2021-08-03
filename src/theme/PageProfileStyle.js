@@ -7,13 +7,15 @@ export const ProfileSx = {
     width: '100%',
     fontFamily: 'Open-Sans',
     display: 'flex',
+    flexDirection: ['column-reverse', 'column-reverse', 'column-reverse', 'row', 'row'],
     justifyContent: 'space-around',
   },
 
   // history block specific styles
 
   '.history-block': {
-    width: '60%',
+    width: ['100%', '100%', '100%', '60%', '60%'],
+    marginTop: ['30px', '30px', '30px', '0', '0'],
   },
 
   '.history-header': {
@@ -101,6 +103,7 @@ export const ProfileSx = {
   '.profile-header': {
     display: 'flex',
     justifyContent: 'space-between',
+    flexDirection: ['column-reverse', 'column-reverse', 'row', 'row', 'row'],
     width: '100%',
     margin: '0',
     fontSize: '16px',
@@ -109,31 +112,31 @@ export const ProfileSx = {
   '.profile-box-title': {
     margin: '0',
     padding: '0', 
-    maxWidth: '380px',
+    maxWidth: ['100%', '100%', '50%', '50%', '70%'],
   },
 
-  '.profile-box-bottom': {
+  '.profile-btn-block': {
     display: 'flex',
-    margin: '0 10px',
+    marginBottom: ['10px', '10px', '0', '0', '0'],
+    fontSize: ['13px', '13px', '14px', '14px', '14px'],
   },
 
   '.profile-btn': {
     minWidth: 'fit-content',
     cursor: 'pointer',
-    fontSize: '14px',
     fontFamily: 'body',
     fontWeight: 'bold',
     color: 'purple',
+    marginLeft: '10px',
   },
 
   '.profile-open-thread': {
-    margin: '0 10px',
-    fontSize: '14px',
     fontFamily: 'body',
     fontWeight: 'bold',
+    margin: '0',
   },
 
-  '.profile-message': {
+  '.expand-collapse-btn': {
     minWidth: '80px',
     margin: '0',
   },
@@ -193,9 +196,9 @@ export const ProfileSx = {
   // profile block specific styles
 
   '.profile-block': {
-    width: '20%',
-    maxWidth: '413px',
-    minWidth: '350px'
+    width: ['100%', '100%', '100%', '20%', '20%'],
+    maxWidth: ['none', 'none', 'none', '413px', '413px'],
+    minWidth: ['none', 'none', 'none', '350px', '350px'],
   },
 
   '.profile-container': {
@@ -208,9 +211,9 @@ export const ProfileSx = {
     flexDirection: 'column',
   },
 
-  '.solved-tps-chart-label': {
-    paddingLeft: '10px',
-    fontFamily: 'Open-Sans-Semibold'
+  '.tp-stats-block': {
+    display: 'flex',
+    flexDirection: ['column', 'column', 'row', 'column', 'column'],
   },
 
   '.solved-tps-block': {
@@ -218,6 +221,12 @@ export const ProfileSx = {
     justifyContent: 'center',
     alignItems: 'center',
     margin: '20px 0',
+  },
+
+  '.solved-tps-chart-label': {
+    paddingLeft: '10px',
+    fontFamily: 'Open-Sans-Semibold',
+    width: '100px',
   },
 
   '.solved-tps-chart-block': {
@@ -245,7 +254,10 @@ export const ProfileSx = {
     borderBottom: theme => `1px solid ${theme.colors.lightGray}`,
     width: '100%',
     padding: '5px',
-    fontFamily: 'Open-Sans-SemiBold'
+    fontFamily: 'Open-Sans-SemiBold',
+    display: 'flex',
+    justifyContent: 'space-between',
+    cursor: 'pointer',
   },
 
 

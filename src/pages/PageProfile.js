@@ -12,7 +12,8 @@ import { ReactTitle } from 'react-meta-tags';
 import Moment from 'react-moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
-import { faExpandAlt, faCompressAlt, faAlignLeft } from '@fortawesome/free-solid-svg-icons';
+import { faExpandAlt, faCompressAlt, faAlignLeft,
+          faAngleRight, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { PieChart, Pie, Cell } from 'recharts';
 
 import { tags } from 'constants/Lists';
@@ -35,6 +36,7 @@ class PageProfile extends React.Component {
       netUpvotes: null,
       difficultyStats: {},
       tagStats: {},
+      showTpStats: true,
     };
   }
 
@@ -78,7 +80,7 @@ class PageProfile extends React.Component {
       return (
         <div
           onClick={() => this.changeExpand(true, id, type)}
-          className="profile-message profile-btn"
+          className="expand-collapse-btn profile-btn"
         >
           <FontAwesomeIcon icon={faExpandAlt} />
           {'\xa0'} Expand
@@ -88,7 +90,7 @@ class PageProfile extends React.Component {
     return (
       <div
         onClick={() => this.changeExpand(false, id, type)}
-        className="profile-message profile-btn"
+        className="expand-collapse-btn profile-btn"
       >
         <FontAwesomeIcon icon={faCompressAlt} />
         {'\xa0'} Collapse
@@ -118,6 +120,10 @@ class PageProfile extends React.Component {
   // go to different URL parameters in profile page (tp/feedback/reply)
   handleTps = (historyParam) => {
     this.props.history.push(`/profile/${historyParam}`);
+  };
+
+  onStatsDropdownClick = () => {
+    this.setState({ showTpStats: !this.state.showTpStats });
   };
 
   render() {
@@ -174,7 +180,7 @@ class PageProfile extends React.Component {
                     <div className="profile-box-title">
                       Your answer to <b>#{tp.questId}: {questions[tp.questId].title}</b>
                     </div>
-                    <div className="profile-box-bottom">
+                    <div className="profile-btn-block">
                       <div>
                         {((tp.initial && tp.initial.length > length) ||
                           (tp.approach && tp.approach.length > length) ||
@@ -266,7 +272,7 @@ class PageProfile extends React.Component {
                     <div className="profile-box-title">
                       Feedback to @{username}'s TP to <b>#{questId}: {questions[questId].title}</b>{' '}
                     </div>
-                    <div className="profile-box-bottom">
+                    <div className="profile-btn-block">
                       <div>
                         {feedback.length > length
                           && this.generateMessage(
@@ -371,7 +377,7 @@ class PageProfile extends React.Component {
                       Reply to @{username}{' • '}
                       <em><Moment fromNow>{date}</Moment></em>
                     </div>
-                    <div className="profile-box-bottom">
+                    <div className="profile-btn-block">
                       <div>
                         {reply.length > length
                           && this.generateMessage(
@@ -524,46 +530,64 @@ class PageProfile extends React.Component {
                 <div className="profile-stat">{this.state.netUpvotes} upvotes</div>
               </div>
               <div>
-                <div className="tp-stats-header"><b>{this.state.tpCount} TPs</b></div>
-                <div className="solved-tps-block">
-                  <div className="solved-tps-chart-label">Problems Solved</div>
-                  <div className="solved-tps-chart-block">
-                    <PieChart 
-                      width={180} 
-                      height={180} 
-                      onMouseEnter={this.onPieEnter}
-                      style={{transform: 'rotate(-90deg)'}}
-                    >
-                      <Pie
-                        data={chartData}
-                        cx={90}
-                        cy={80}
-                        innerRadius={50}
-                        outerRadius={80}
-                        fill="#8884d8"
-                        paddingAngle={3}
-                        dataKey="value"
-                      >
-                        {chartData.map((entry, index) => (
-                          <Cell 
-                            key={`cell-${index}`} 
-                            fill={chartColors[index % chartColors.length]} 
-                          />
-                        ))}
-                      </Pie>
-                    </PieChart>
-                    <div className="solved-tps-chart-center">
-                      <span style={{fontSize: '28px', fontFamily: 'Open-Sans-Bold'}}>{this.state.tpCount}</span> 
-                      <span style={{color: 'gray'}}> / {this.props.questions.length}</span>
-                    </div>
+                <div 
+                  className="tp-stats-header"
+                  onClick={this.onStatsDropdownClick}
+                >
+                  <div><b>{this.state.tpCount} TPs</b></div>
+                  <div>
+                    {this.state.showTpStats ?
+                      <FontAwesomeIcon icon={faAngleRight} />
+                      :
+                      <FontAwesomeIcon icon={faAngleDown} />
+                    }
                   </div>
                 </div>
-                <div className="tag-stats">
-                  {diffStats}
-                </div>
-                <div className="tag-stats">
-                  {tagStats}
-                </div>
+                {this.state.showTpStats &&
+                  <div className="tp-stats-block">
+                    <div className="solved-tps-block">
+                      <div className="solved-tps-chart-label">Problems Solved</div>
+                      <div className="solved-tps-chart-block">
+                        <PieChart 
+                          width={180} 
+                          height={180} 
+                          onMouseEnter={this.onPieEnter}
+                          style={{transform: 'rotate(-90deg)'}}
+                        >
+                          <Pie
+                            data={chartData}
+                            cx={90}
+                            cy={80}
+                            innerRadius={50}
+                            outerRadius={80}
+                            fill="#8884d8"
+                            paddingAngle={3}
+                            dataKey="value"
+                          >
+                            {chartData.map((entry, index) => (
+                              <Cell 
+                                key={`cell-${index}`} 
+                                fill={chartColors[index % chartColors.length]} 
+                              />
+                            ))}
+                          </Pie>
+                        </PieChart>
+                        <div className="solved-tps-chart-center">
+                          <span style={{fontSize: '28px', fontFamily: 'Open-Sans-Bold'}}>{this.state.tpCount}</span> 
+                          <span style={{color: 'gray'}}> / {this.props.questions.length}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="tag-stats">
+                        {diffStats}
+                      </div>
+                      <div className="tag-stats">
+                        {tagStats}
+                      </div>
+                    </div>
+                  </div>
+                }
               </div>
             </div>
           </div>
