@@ -489,7 +489,11 @@ class PageProfile extends React.Component {
           title={
             historyParam === "tp"
               ? "Profile - TPs | Hireglyph"
-              : "Profile - Feedbacks | Hireglyph"
+              : (
+                historyParam === "feedback"
+                ? "Profile - Feedback | Hireglyph"
+                : "Profile - Replies | Hireglyph"
+              )
           }
         />
         <div className="page-container">
