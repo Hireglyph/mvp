@@ -184,13 +184,16 @@ export const ProfileSx = {
   '.message-section': {
     width: '100%',
     height: 'auto',
-    backgroundColor: 'lightGrey',
+    backgroundColor: 'white',
     padding: '30px',
     fontStyle: 'italic',
   },
 
   '.message-link': {
-    color: 'darkOrange',
+    color: 'purple',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
   },
 
   // profile block specific styles

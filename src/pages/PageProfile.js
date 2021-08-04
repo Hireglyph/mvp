@@ -54,21 +54,25 @@ class PageProfile extends React.Component {
       let tagStats = {};
       tags.forEach(tag => tagStats[tag] = 0);
 
-      Object.keys(tpHistory).forEach(tpId => netUpvotes += tpHistory[tpId].total);
-      Object.keys(feedbackHistory).forEach(feedbackId =>
+      tpHistory &&
+        Object.keys(tpHistory).forEach(tpId => netUpvotes += tpHistory[tpId].total);
+      feedbackHistory &&
+        Object.keys(feedbackHistory).forEach(feedbackId =>
         netUpvotes += feedbackHistory[feedbackId].score);
-      Object.keys(questionHistory).forEach(questId =>
-        difficultyStats[questions[questId].difficulty] += 1);
-      Object.keys(questionHistory).forEach(questId =>
-        Object.keys(questions[questId].tags).forEach(tag =>
-          tags.indexOf(tag.toString()) >= 0 && (tagStats[tag] += 1))
+      questionHistory &&
+        Object.keys(questionHistory).forEach(questId =>
+          difficultyStats[questions[questId].difficulty] += 1);
+      questionHistory &&
+        Object.keys(questionHistory).forEach(questId =>
+          Object.keys(questions[questId].tags).forEach(tag =>
+            tags.indexOf(tag.toString()) >= 0 && (tagStats[tag] += 1))
       );
 
       this.setState({
         netUpvotes,
         difficultyStats,
         tagStats,
-        tpCount: Object.keys(tpHistory).length,
+        tpCount: tpHistory ? Object.keys(tpHistory).length : 0,
         calculated: true
       });
     }
@@ -228,7 +232,7 @@ class PageProfile extends React.Component {
     ) : (
       // display message if no TPs in tpHistory
       <div className="message-section">
-        You have not written any TPs yet. Go to our{' '}
+        You haven't written any TPs yet. Go to our{' '}
         <Link className="message-link" to={`/questions`}>
           Questions
         </Link>{' '}
@@ -329,7 +333,7 @@ class PageProfile extends React.Component {
       ) : (
         // display message if no feedback in feedbackHistory
         <div className="message-section">
-          You have not written any feedback yet. Go to our{' '}
+          You haven't written any feedback yet. Go to our{' '}
           <Link className="message-link" to={`/questions`}>
             Questions
           </Link>{' '}
@@ -435,7 +439,7 @@ class PageProfile extends React.Component {
       ) : (
         // display message if no reply in replyHistory
         <div className="message-section">
-          You have not written any replies yet. Go to our{' '}
+          You haven't written any replies yet. Go to our{' '}
           <Link className="message-link" to={`/questions`}>
             Questions
           </Link>{' '}
