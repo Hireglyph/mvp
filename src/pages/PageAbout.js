@@ -165,7 +165,7 @@ class PageAbout extends React.Component {
   render () {
     return (
       <div sx={PageLandingSx}>
-        <ReactTitle title="About Us — Hireglyph" />
+        <ReactTitle title="About Us | Hireglyph" />
         <div className="page-about">
           <div className="intro-section">
             <div className="intro-title">The Hireglyph Story</div>
