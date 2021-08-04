@@ -3,19 +3,30 @@ export const ProfileSx = {
 
   '.page-container': {
     position: 'relative',
-    margin: '50px',
+    margin: '40px',
     width: '100%',
     fontFamily: 'Open-Sans',
     display: 'flex',
     flexDirection: ['column-reverse', 'column-reverse', 'column-reverse', 'row', 'row'],
     justifyContent: 'space-around',
+    '@media (max-width: 450px)' : {
+      marginLeft: '10px',
+      marginRight: '10px',
+    },
   },
 
   // history block specific styles
 
   '.history-block': {
-    width: ['100%', '100%', '100%', '60%', '60%'],
+    minWidth: ['400px', '400px', '600px', '575px', '800px'],
+    maxWidth: ['400px', '400px', '600px', '575px', '800px'],
     marginTop: ['30px', '30px', '30px', '0', '0'],
+    marginLeft: 'auto',
+    marginRight: ['auto', 'auto', 'auto', '25px', '25px'],
+    '@media (max-width: 450px)' : {
+      minWidth: '350px',
+      maxWidth: '350px',
+    },
   },
 
   '.history-header': {
@@ -199,9 +210,18 @@ export const ProfileSx = {
   // profile block specific styles
 
   '.profile-block': {
-    width: ['100%', '100%', '100%', '20%', '20%'],
-    maxWidth: ['none', 'none', 'none', '413px', '413px'],
-    minWidth: ['none', 'none', 'none', '350px', '350px'],
+    //width: ['100%', '100%', '100%', '20%', '20%'],
+    //maxWidth: ['none', 'none', 'none', '413px', '413px'],
+    //minWidth: ['none', 'none', 'none', '350px', '350px'],
+
+    minWidth: ['400px', '400px', '600px', '325px', '325px'],
+    maxWidth: ['400px', '400px', '600px', '325px', '325px'],
+    marginRight: 'auto',
+    marginLeft: ['auto', 'auto', 'auto', '25px', '25px'],
+    '@media (max-width: 450px)' : {
+      minWidth: '350px',
+      maxWidth: '350px',
+    },
   },
 
   '.profile-container': {
