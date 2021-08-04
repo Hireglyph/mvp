@@ -126,31 +126,31 @@ const NavBarSx = {
     },
   },
 
-  '.dropdown-toggle': {
+  '.toggle': {
     color: 'black',
     width: '50px',
     backgroundColor: 'white !important',
     border: '0',
+    border: '1px solid black !important',
     '&:active': {
       backgroundColor: 'white !important',
+      boxShadow: 'none !important',
     },
     '&:focus': {
       backgroundColor: 'white !important',
-    },
-    '&:active:focus': {
-      backgroundColor: 'white !important',
-    },
-    '&:visited': {
-      backgroundColor: 'white !important',
-    },
-    '&:link': {
-      backgroundColor: 'white !important',
+      boxShadow: 'none !important',
     },
   },
 
   '.dropdown-menu': {
     right: '0',
     left: 'auto',
+  },
+
+  '.dropdown-toggle-item': {
+    '&:active': {
+      backgroundColor: '#5A3FFF !important',
+    },
   },
 
 };
@@ -241,35 +241,35 @@ class NavBar extends React.Component {
     if (!uid) {
       return (
         <Dropdown>
-          <Dropdown.Toggle variant="success" id="dropdown-basic">
+          <Dropdown.Toggle className="toggle" variant="success" id="dropdown-basic">
             <FontAwesomeIcon className="faBars" icon={faBars} />
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item
               as={Link}
               to='/questions'
-              className={((path === 'questions') && "nav-link-clicked")}
+              className={"dropdown-toggle-item " + ((path === 'questions') && "nav-link-clicked")}
             >
               Problems
             </Dropdown.Item>
             <Dropdown.Item
               as={Link}
               to='/about'
-              className={((path === 'about') && "nav-link-clicked")}
+              className={"dropdown-toggle-item " + ((path === 'about') && "nav-link-clicked")}
             >
               About Us
             </Dropdown.Item>
             <Dropdown.Item
               as={Link}
               to='/login'
-              className={((path === 'login') && "nav-link-clicked")}
+              className={"dropdown-toggle-item " + ((path === 'login') && "nav-link-clicked")}
             >
               Login
             </Dropdown.Item>
             <Dropdown.Item
               as={Link}
               to='/register'
-              className={((path === 'register') && "nav-link-clicked")}
+              className={"dropdown-toggle-item " + ((path === 'register') && "nav-link-clicked")}
             >
               Register
             </Dropdown.Item>
@@ -280,39 +280,40 @@ class NavBar extends React.Component {
 
     return (
       <Dropdown>
-        <Dropdown.Toggle variant="success" id="dropdown-basic">
+        <Dropdown.Toggle className="toggle" variant="success" id="dropdown-basic">
           <FontAwesomeIcon className="faBars" icon={faBars} />
         </Dropdown.Toggle>
         <Dropdown.Menu>
           <Dropdown.Item
             as={Link}
             to='/questions'
-            className={((path === 'questions') && "nav-link-clicked")}
+            className={"dropdown-toggle-item " + ((path === 'questions') && "nav-link-clicked")}
           >
             Problems
           </Dropdown.Item>
           <Dropdown.Item
             as={Link}
             to='/about'
-            className={((path === 'about') && "nav-link-clicked")}
+            className={"dropdown-toggle-item " + ((path === 'about') && "nav-link-clicked")}
           >
             About Us
           </Dropdown.Item>
           <Dropdown.Item
             as={Link}
             to='/notifications'
-            className={((path === 'notifications') && "nav-link-clicked")}
+            className={"dropdown-toggle-item " + ((path === 'notifications') && "nav-link-clicked")}
           >
             Notifications
           </Dropdown.Item>
           <Dropdown.Item
             as={Link}
             to='/profile/tp'
-            className={((path === 'profile') && "nav-link-clicked")}
+            className={"dropdown-toggle-item " + ((path === 'profile') && "nav-link-clicked")}
           >
             Profile
           </Dropdown.Item>
           <Dropdown.Item
+            className="dropdown-toggle-item"
             onClick={() => {
               this.props.history.push('/');
               firebase.logout();
