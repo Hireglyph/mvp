@@ -253,7 +253,8 @@ class PageTp extends React.Component {
       questId,
       replyFeedbackID,
       username,
-      date: Date()
+      date: Date(),
+      score: 0,
     };
     // notify the creator of the reply/feedback the user is replying to
     if (uid !== replyToCreator) {
@@ -313,6 +314,7 @@ class PageTp extends React.Component {
 
     updates[`/replies/${tpId}/${feedbackId}/${replyId}/users/${uid}`] = isUpvoted ? false : true;
     updates[`/replies/${tpId}/${feedbackId}/${replyId}/score`] = reply.score + diff;
+    updates[`/replyHistory/${uid}/${replyId}/score`] = reply.score + diff;
     firebase.update('/', updates);
   };
 

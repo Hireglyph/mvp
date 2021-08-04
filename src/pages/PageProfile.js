@@ -10,6 +10,11 @@ import { compose } from 'redux';
 import Latex from 'react-latex';
 import { ReactTitle } from 'react-meta-tags';
 import Moment from 'react-moment';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
+import { faExpandAlt, faCompressAlt, faAlignLeft,
+          faAngleRight, faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import { PieChart, Pie, Cell } from 'recharts';
 
 import { tags } from 'constants/Lists';
 import TpPreview from 'components/TpPreview';
@@ -17,163 +22,7 @@ import Loading from 'components/Loading';
 import { length } from 'constants/PrevLength';
 import { displayContent } from 'utils/display';
 import { tpDelete, feedbackDelete, replyDelete } from 'utils/delete';
-
-const ProfileSx = {
-  display: 'flex',
-
-  '.page-container': {
-    position: 'relative',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: '50px',
-    marginBottom: '50px',
-    width: '700px',
-    height: 'auto',
-    fontFamily: 'Open-Sans',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-
-  '.profile-box': {
-    width: '100%',
-    marginBottom: '10px',
-    backgroundColor: 'lightGrey',
-  },
-
-  '.profile-header': {
-    display: 'flex',
-    marginTop: '10px',
-    marginLeft: '10px',
-    marginRight: '20px',
-  },
-
-  '.profile-header-button': {
-    marginRight: '0px',
-    marginLeft: 'auto',
-  },
-
-  '.profile-box-bottom': {
-    display: 'flex',
-    float: 'right',
-    marginRight: '20px',
-    marginBottom: '5px',
-  },
-
-  '.profile-link': {
-    marginLeft: '10px',
-    textDecoration: 'none',
-  },
-
-  '.profile-onclick': {
-    fontFamily: 'Open-Sans',
-    fontSize: '12px',
-    height: '20px',
-    lineHeight: '20px',
-    width: 'auto',
-    paddingRight: '5px',
-    paddingLeft: '5px',
-    textAlign: 'center',
-    backgroundColor: 'orange',
-    color: 'black',
-    border: '1px solid black',
-    cursor: 'pointer',
-    '&:hover': {
-      backgroundColor: 'darkOrange',
-    },
-  },
-
-  '.profile-delete': {
-    cursor: 'pointer',
-    color: 'black',
-    fontSize: '12px',
-    lineHeight: '20px',
-    '&:hover': {
-      color: 'red',
-    },
-  },
-
-  '.profile-message': {
-    cursor: 'pointer',
-    color: 'black',
-    fontSize: '12px',
-    '&:hover': {
-      textDecoration: 'underline',
-    },
-  },
-
-  '.profile-box-content': {
-    display: 'flex',
-    marginTop: '5px',
-    marginBottom: '5px',
-    marginRight: '20px',
-  },
-
-  '.profile-box-interior': {
-    backgroundColor: 'white',
-    width: '100%',
-    padding: '5px',
-    fontFamily: 'Gotham-Book',
-    overflow: 'hidden',
-  },
-
-  '.format-text': {
-    whiteSpace: 'pre-wrap',
-  },
-
-  '.profile-box-score': {
-    textAlign: 'center',
-    width: '40px',
-  },
-
-  '.positive-score': {
-    color: '#27B12A',
-  },
-
-  '.negative-score': {
-    color: 'red',
-  },
-
-  '.profile-page-header': {
-    display: 'flex',
-    marginBottom: '10px',
-  },
-
-  '.profile-username': {
-    color: 'white',
-    fontSize: '25px',
-    marginBottom: '10px',
-  },
-
-  '.profile-page-buttons': {
-    width: '33.3%',
-    height: '35px',
-    backgroundColor: 'lightGrey',
-    border: 'none',
-    fontFamily: 'Open-Sans',
-    color: 'black',
-    cursor: 'pointer',
-    '&:hover': {
-      opacity: '0.8',
-    },
-    '&:disabled': {
-      backgroundColor: 'orange',
-      cursor: 'default',
-      opacity: '1.0',
-    },
-  },
-
-  '.message-section': {
-    width: '100%',
-    height: 'auto',
-    backgroundColor: 'lightGrey',
-    padding: '30px',
-    fontStyle: 'italic',
-  },
-
-  '.message-link': {
-    color: 'darkOrange',
-  },
-};
+import { ProfileSx } from 'theme/PageProfileStyle'
 
 class PageProfile extends React.Component {
   constructor(props) {
@@ -187,6 +36,7 @@ class PageProfile extends React.Component {
       netUpvotes: null,
       difficultyStats: {},
       tagStats: {},
+      showTpStats: true,
     };
   }
 
@@ -230,18 +80,20 @@ class PageProfile extends React.Component {
       return (
         <div
           onClick={() => this.changeExpand(true, id, type)}
-          className="profile-message"
+          className="expand-collapse-btn profile-btn"
         >
-          Expand
+          <FontAwesomeIcon icon={faExpandAlt} />
+          {'\xa0'} Expand
         </div>
       );
     }
     return (
       <div
         onClick={() => this.changeExpand(false, id, type)}
-        className="profile-message"
+        className="expand-collapse-btn profile-btn"
       >
-        Collapse
+        <FontAwesomeIcon icon={faCompressAlt} />
+        {'\xa0'} Collapse
       </div>
     );
   };
@@ -270,6 +122,10 @@ class PageProfile extends React.Component {
     this.props.history.push(`/profile/${historyParam}`);
   };
 
+  onStatsDropdownClick = () => {
+    this.setState({ showTpStats: !this.state.showTpStats });
+  };
+
   render() {
     const {
       feedbackHistory,
@@ -277,15 +133,24 @@ class PageProfile extends React.Component {
       tpHistory,
       replyHistory,
       username,
+      questions,
     } = this.props;
 
-    if (!isLoaded(tpHistory) || !isLoaded(feedbackHistory) || !isLoaded(replyHistory)) {
+    if (!isLoaded(tpHistory) || !isLoaded(feedbackHistory) 
+        || !isLoaded(replyHistory) || !isLoaded(questions)) {
       return <Loading />;
     }
 
     if (historyParam !== 'tp' && historyParam !== 'feedback' && historyParam !== 'reply') {
       return <Redirect to={`/profile/tp`} />;
     }
+
+    // for tp pie chart
+    const chartData = [
+      { name: 'Unsolved', value: questions.length },
+      { name: 'Solved', value: this.state.tpCount },
+    ];
+    const chartColors = ['#E0DBFE', '#5A3FFF'];
 
     /* display tpHistory: traverse thru all the tpIds in tpHistory,
       display header (tp info) + tp preview that user can expand/collapse */
@@ -299,55 +164,61 @@ class PageProfile extends React.Component {
           if (tp) {
             return (
               <div className="profile-box" key={tpId}>
-                <div className="profile-header">
-                  <div>Response to Question #{tp.questId}{' '}</div>
-                  <Moment fromNow>{tp.date}</Moment>
-                  <div className="profile-header-button">
-                    {((tp.initial && tp.initial.length > length) ||
-                      (tp.approach && tp.approach.length > length) ||
-                      (tp.solution && tp.solution.length > length))
-                     && this.generateMessage(isTpExpanded, tpId, 'tp')}
-                  </div>
+                <div
+                  className={
+                    (tp.total &&
+                      tp.total > 0
+                        ? "positive-score"
+                        : tp.total < 0 && "negative-score")
+                    + " profile-box-score"
+                  }
+                >
+                  {tp.total}
                 </div>
-                <div className="profile-box-content">
-                  <div
-                    className={
-                      (tp.total &&
-                        tp.total > 0
-                          ? "positive-score"
-                          : tp.total < 0 && "negative-score")
-                      + " profile-box-score"
-                    }
-                  >
-                    {tp.total}
+                <div className="profile-box-right">
+                  <div className="profile-header">
+                    <div className="profile-box-title">
+                      Your answer to <b>#{tp.questId}: {questions[tp.questId].title}</b>
+                    </div>
+                    <div className="profile-btn-block">
+                      <div>
+                        {((tp.initial && tp.initial.length > length) ||
+                          (tp.approach && tp.approach.length > length) ||
+                          (tp.solution && tp.solution.length > length))
+                        && this.generateMessage(isTpExpanded, tpId, 'tp')}
+                      </div>
+                      <Link
+                        className="profile-open-thread profile-btn"
+                        to={`/tp/${tp.questId}/${tpId}`}
+                      >
+                        <FontAwesomeIcon icon={faAlignLeft} />
+                        {'\xa0'} Open Thread
+                      </Link>
+                      <div
+                        className="profile-delete-btn profile-btn"
+                        onClick={() => tpDelete({
+                          firebase: this.props.firebase,
+                          questId: tp.questId,
+                          tpId,
+                          uid: this.props.uid,
+                        })}
+                      >
+                        <FontAwesomeIcon icon={faTrashAlt} />
+                        {'\xa0'}Delete
+                      </div>
+                    </div>
                   </div>
-                  <div className="profile-box-interior">
-                    <TpPreview
-                      initial={tp.initial}
-                      approach={tp.approach}
-                      solution={tp.solution}
-                      expanded={isTpExpanded}
-                    />
+                  <em className="moment-posted"><Moment fromNow>{tp.date}</Moment></em>
+                  <div className="profile-box-content">
+                    <div className="profile-box-interior">
+                      <TpPreview
+                        initial={tp.initial}
+                        approach={tp.approach}
+                        solution={tp.solution}
+                        expanded={isTpExpanded}
+                      />
+                    </div>
                   </div>
-                </div>
-                <div className="profile-box-bottom">
-                  <div
-                    className="profile-delete"
-                    onClick={() => tpDelete({
-                      firebase: this.props.firebase,
-                      questId: tp.questId,
-                      tpId,
-                      uid: this.props.uid,
-                    })}
-                  >
-                    Delete
-                  </div>
-                  <Link
-                    className="profile-link"
-                    to={`/tp/${tp.questId}/${tpId}`}
-                  >
-                    <div className="profile-onclick">Go to TP</div>
-                  </Link>
                 </div>
               </div>
             );
@@ -387,66 +258,68 @@ class PageProfile extends React.Component {
           if (feedback && username && questId && tpId) {
             return (
               <div className="profile-box" key={feedbackId}>
-                <div className="profile-header">
-                  <div>
-                    Feedback to @{username}'s TP to Question #{questId}{' '}
-                  </div>
-                  <Moment fromNow>{date}</Moment>
-                  <div className="profile-header-button">
-                    {feedback.length > length
-                      && this.generateMessage(
-                          isFeedbackExpanded,
-                          feedbackId,
-                          'feedback'
-                        )}
-                  </div>
+                <div className={
+                  (score &&
+                    score > 0
+                      ? "positive-score"
+                      : score < 0 && "negative-score")
+                  + " profile-box-score"
+                }>
+                  {score}
                 </div>
-                <div className="profile-box-content">
-                  <div className={
-                    (score &&
-                      score > 0
-                        ? "positive-score"
-                        : score < 0 && "negative-score")
-                    + " profile-box-score"
-                  }>
-                    {score}
-                  </div>
-                  <div
-                    className={
-                      "profile-box-interior" +
-                      (isFeedbackExpanded ? " format-text" : "")
-                    }
-                  >
-                    <Latex>
-                      {isFeedbackExpanded
-                        ? displayContent(feedback)
-                        : displayContent(
-                            feedback.slice(0, length + 1) +
-                            (feedback.length > length ? '...' : '')
-                      )}
-                    </Latex>
-                  </div>
-                </div>
-                <div className="profile-box-bottom">
-                  <div
-                    className="profile-delete"
-                    onClick={() => feedbackDelete({
-                      firebase: this.props.firebase,
-                      tpId,
-                      feedbackId,
-                      uid: this.props.uid,
-                    })}
-                  >
-                    Delete
-                  </div>
-                  <Link
-                    className="profile-link"
-                    smooth to={`/tp/${questId}/${tpId}#${feedbackId}`}
-                  >
-                    <div className="profile-onclick">
-                      Go to Feedback
+                <div className="profile-box-right">
+                  <div className="profile-header">
+                    <div className="profile-box-title">
+                      Feedback to @{username}'s TP to <b>#{questId}: {questions[questId].title}</b>{' '}
                     </div>
-                  </Link>
+                    <div className="profile-btn-block">
+                      <div>
+                        {feedback.length > length
+                          && this.generateMessage(
+                              isFeedbackExpanded,
+                              feedbackId,
+                              'feedback'
+                            )}
+                      </div>
+                      <Link
+                        className="profile-open-thread profile-btn"
+                        smooth to={`/tp/${questId}/${tpId}#${feedbackId}`}
+                      >
+                        <FontAwesomeIcon icon={faAlignLeft} />
+                        {'\xa0'} Open Thread
+                      </Link>
+                      <div
+                        className="profile-delete-btn profile-btn"
+                        onClick={() => feedbackDelete({
+                          firebase: this.props.firebase,
+                          tpId,
+                          feedbackId,
+                          uid: this.props.uid,
+                        })}
+                      >
+                        <FontAwesomeIcon icon={faTrashAlt} />
+                        {'\xa0'}Delete
+                      </div>
+                    </div>
+                  </div>
+                  <Moment fromNow className="moment-posted">{date}</Moment>
+                  <div className="profile-box-content">
+                    <div
+                      className={
+                        "profile-box-interior" +
+                        (isFeedbackExpanded ? " format-text" : "")
+                      }
+                    >
+                      <Latex>
+                        {isFeedbackExpanded
+                          ? displayContent(feedback)
+                          : displayContent(
+                              feedback.slice(0, length + 1) +
+                              (feedback.length > length ? '...' : '')
+                        )}
+                      </Latex>
+                    </div>
+                  </div>
                 </div>
               </div>
             );
@@ -478,67 +351,81 @@ class PageProfile extends React.Component {
             replyFeedbackID,
             tpId,
             username,
-            date
+            date,
           } = replyHistory[replyId];
 
+          const score = replyHistory[replyId].score;
           const isReplyExpanded = this.state.replyExpand.has(replyId);
 
           if (reply && replyFeedbackID && username && questId && tpId) {
             return (
               <div className="profile-box" key={replyId}>
-                <div className="profile-header">
-                  <div>
-                    Reply to to @{username} about a TP to Question #{questId}{' '}
-                  </div>
-                  <Moment fromNow>{date}</Moment>
-                  <div className="profile-header-button">
-                    {reply.length > length
-                      && this.generateMessage(
-                          isReplyExpanded,
-                          replyId,
-                          'reply'
-                        )}
-                  </div>
+                <div
+                  className={
+                    (score &&
+                      score > 0
+                        ? "positive-score"
+                        : score < 0 && "negative-score")
+                    + " profile-box-score"
+                  }
+                >
+                  {score}
                 </div>
-                <div className="profile-box-content">
-                  <div className="profile-box-score"/>
-                  <div
-                    className={
-                      "profile-box-interior" +
-                      (isReplyExpanded ? " format-text" : "")
-                    }
-                  >
-                    <Latex>
-                      {isReplyExpanded
-                        ? displayContent(reply)
-                        : displayContent(
-                            reply.slice(0, length + 1) +
-                            (reply.length > length ? '...' : '')
-                      )}
-                    </Latex>
-                  </div>
-                </div>
-                <div className="profile-box-bottom">
-                  <div
-                    className="profile-delete"
-                    onClick={() => replyDelete({
-                      firebase: this.props.firebase,
-                      tpId,
-                      replyFeedbackID,
-                      replyId,
-                      uid: this.props.uid,
-                    })}
-                  >
-                    Delete
-                  </div>
-                  <Link
-                    className="profile-link"
-                    smooth to={`/tp/${questId}/${tpId}#${replyId}`}
-                  >
-                    <div className="profile-onclick">
-                      Go to Reply
+                <div className="profile-box-right">
+                  <div className="profile-header">
+                    <div className="profile-box-title">
+                      Reply to @{username}{' • '}
+                      <em><Moment fromNow>{date}</Moment></em>
                     </div>
-                  </Link>
+                    <div className="profile-btn-block">
+                      <div>
+                        {reply.length > length
+                          && this.generateMessage(
+                              isReplyExpanded,
+                              replyId,
+                              'reply'
+                            )}
+                      </div>
+                      <Link
+                        className="profile-open-thread profile-btn"
+                        smooth to={`/tp/${questId}/${tpId}#${replyId}`}
+                      >
+                        <FontAwesomeIcon icon={faAlignLeft} />
+                        {'\xa0'} Open Thread
+                      </Link>
+                      <div
+                        className="profile-delete-btn profile-btn"
+                        onClick={() => replyDelete({
+                          firebase: this.props.firebase,
+                          tpId,
+                          replyFeedbackID,
+                          replyId,
+                          uid: this.props.uid,
+                        })}
+                      >
+                        <FontAwesomeIcon icon={faTrashAlt} />
+                        {'\xa0'} Delete 
+                      </div>
+                    </div>
+                  </div>
+                  <div className="moment-posted">In thread: TP for <span>Question #{questId}: {questions[questId].title}</span></div>
+                  <div className="profile-box-content">
+                    <div
+                      className={
+                        "profile-box-interior" +
+                        (isReplyExpanded ? " format-text" : "")
+                      }
+                    >
+                      <Latex>
+                        {isReplyExpanded
+                          ? displayContent(reply)
+                          : displayContent(
+                              reply.slice(0, length + 1) +
+                              (reply.length > length ? '...' : '')
+                        )}
+                      </Latex>
+                    </div>
+                  </div>
                 </div>
               </div>
             );
@@ -564,6 +451,30 @@ class PageProfile extends React.Component {
         ? feedbacks
         : replies;
 
+    const diffStats = Object.keys(this.state.difficultyStats).map((diff, i) => {
+      return (
+        <div className="tp-stats" key={i}>
+          <div className="tp-stats-label">{diff}</div>
+          <div 
+            className={"tp-stats-number tp-stats-" + diff}>
+            {this.state.difficultyStats[diff]}
+          </div>
+        </div>
+      );
+    });
+
+    const tagStats = Object.keys(this.state.tagStats).map((tag, i) => {
+      return (
+        <div className="tp-stats" key={i}>
+          <div className="tp-stats-label">{tag}</div>
+          <div 
+            className="tp-stats-number">
+            {this.state.tagStats[tag]}
+          </div>
+        </div>
+      );
+    });
+
     return (
       <div sx={ProfileSx}>
         <link
@@ -578,35 +489,108 @@ class PageProfile extends React.Component {
           }
         />
         <div className="page-container">
-          <div className="profile-username">
-            Your profile, @{username}
+          <div className="history-block">
+            <div className="history-header">
+              {historyParam === 'tp' && <h6>TP History</h6>}
+              {historyParam === 'feedback' && <h6>Feedback History</h6>}
+              {historyParam === 'reply' && <h6>Reply History</h6>}
+              {/* top buttons where users can change URL param */}
+              <div className="sort-btn-block">
+                <button
+                  className="sort-btn tp-sort-btn"
+                  disabled={historyParam === 'tp'}
+                  onClick={() => this.handleTps('tp')}
+                >
+                  TPs
+                </button>
+                <button
+                  className="sort-btn feedback-sort-btn"
+                  disabled={historyParam === 'feedback'}
+                  onClick={() => this.handleTps('feedback')}
+                >
+                  Feedback
+                </button>
+                <button
+                  className="sort-btn reply-sort-btn"
+                  disabled={historyParam === 'reply'}
+                  onClick={() => this.handleTps('reply')}
+                >
+                  Replies
+                </button>
+              </div>
+            </div>
+            {/* main display */}
+            {display}
           </div>
-          <div className="profile-page-header">
-            {/* top buttons where users can change URL param */}
-            <button
-              className="profile-page-buttons"
-              disabled={historyParam === 'tp'}
-              onClick={() => this.handleTps('tp')}
-            >
-              TPs Submitted
-            </button>
-            <button
-              className="profile-page-buttons"
-              disabled={historyParam === 'feedback'}
-              onClick={() => this.handleTps('feedback')}
-            >
-              Feedback Given
-            </button>
-            <button
-              className="profile-page-buttons"
-              disabled={historyParam === 'reply'}
-              onClick={() => this.handleTps('reply')}
-            >
-              Replies Given
-            </button>
+          <div className="profile-block">
+            <div className="profile-container">
+              <h6>Profile</h6>
+              <div className="profile-stats">
+                <div className="profile-stat">@{username}</div>
+                <div className="profile-stat">{this.state.netUpvotes} upvotes</div>
+              </div>
+              <div>
+                <div 
+                  className="tp-stats-header"
+                  onClick={this.onStatsDropdownClick}
+                >
+                  <div><b>{this.state.tpCount} TPs</b></div>
+                  <div>
+                    {this.state.showTpStats ?
+                      <FontAwesomeIcon icon={faAngleRight} />
+                      :
+                      <FontAwesomeIcon icon={faAngleDown} />
+                    }
+                  </div>
+                </div>
+                {this.state.showTpStats &&
+                  <div className="tp-stats-block">
+                    <div className="solved-tps-block">
+                      <div className="solved-tps-chart-label">Problems Solved</div>
+                      <div className="solved-tps-chart-block">
+                        <PieChart 
+                          width={180} 
+                          height={180} 
+                          onMouseEnter={this.onPieEnter}
+                          style={{transform: 'rotate(-90deg)'}}
+                        >
+                          <Pie
+                            data={chartData}
+                            cx={90}
+                            cy={80}
+                            innerRadius={50}
+                            outerRadius={80}
+                            fill="#8884d8"
+                            paddingAngle={3}
+                            dataKey="value"
+                          >
+                            {chartData.map((entry, index) => (
+                              <Cell 
+                                key={`cell-${index}`} 
+                                fill={chartColors[index % chartColors.length]} 
+                              />
+                            ))}
+                          </Pie>
+                        </PieChart>
+                        <div className="solved-tps-chart-center">
+                          <span style={{fontSize: '28px', fontFamily: 'Open-Sans-Bold'}}>{this.state.tpCount}</span> 
+                          <span style={{color: 'gray'}}> / {this.props.questions.length}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="tag-stats">
+                        {diffStats}
+                      </div>
+                      <div className="tag-stats">
+                        {tagStats}
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
           </div>
-          {/* main display */}
-          {display}
         </div>
       </div>
     );
