@@ -130,8 +130,7 @@ const NavBarSx = {
     color: 'black',
     width: '50px',
     backgroundColor: 'white !important',
-    border: '0',
-    border: '1px solid black !important',
+    border: '0 !important',
     '&:active': {
       backgroundColor: 'white !important',
       boxShadow: 'none !important',
