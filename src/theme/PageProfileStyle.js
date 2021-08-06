@@ -210,10 +210,6 @@ export const ProfileSx = {
   // profile block specific styles
 
   '.profile-block': {
-    //width: ['100%', '100%', '100%', '20%', '20%'],
-    //maxWidth: ['none', 'none', 'none', '413px', '413px'],
-    //minWidth: ['none', 'none', 'none', '350px', '350px'],
-
     minWidth: ['400px', '400px', '600px', '325px', '325px'],
     maxWidth: ['400px', '400px', '600px', '325px', '325px'],
     marginRight: 'auto',
