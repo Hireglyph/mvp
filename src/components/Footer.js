@@ -9,6 +9,13 @@ const FooterSx = {
   fontFamily: 'heading',
   margin: 'auto',
   marginBottom: '15px',
+  '@media(max-width: 640px)': {
+    fontSize: '10px',
+  },
+  '@media(max-width: 450px)': {
+    fontSize: '9px',
+    width: 'calc(100% - 40px)',
+  },
   
   '.hr': {
     marginTop: '0px',
@@ -20,6 +27,9 @@ const FooterSx = {
     color: 'mediumGray',
     padding: '2px 15px',
     borderRight: '1px solid lightGray',
+    '@media(max-width: 450px)': {
+      padding: '2px 10px',
+    },
   },
   
   '#first-footer-link': {
