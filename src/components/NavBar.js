@@ -333,7 +333,6 @@ class NavBar extends React.Component {
     const path = this.props.location.pathname.split('/')[1];
   
     // base navbar: Hireglyph logo (home) and link to questions
-    console.log(!navbarContent);
     return (
       <Navbar sx={NavBarSx}>
         <Navbar.Brand>
