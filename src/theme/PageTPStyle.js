@@ -214,4 +214,11 @@ export const TpSx = {
     '.cancel-btn': {
         backgroundColor: '#ff7373',
     },
+
+    '.anchor': {
+        display: 'block',
+        position: 'relative',
+        top: '-75px',
+        visibility: 'hidden',
+    },
 };

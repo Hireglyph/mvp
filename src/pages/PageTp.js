@@ -407,7 +407,8 @@ class PageTp extends React.Component {
               const isReplyUpvoted = repliesTo[replyId].users && repliesTo[replyId].users[uid];
               if (!replyDeleted) { 
                 return (
-                  <div key={replyId} id={replyId} sx={ThreadBoxSx}>
+                  <div key={replyId} sx={ThreadBoxSx}>
+                    <div className="anchor" id={replyId}/>
                     <div className="feedback-content-container reply-content-container">
                       {!replyDeleted && 
                         <div sx={ScoreArrowsSx}>
@@ -500,7 +501,8 @@ class PageTp extends React.Component {
 
           if (!deleted) {
             return (
-              <div className="feedback-block" key={feedbackId} id={`${feedbackId}`} sx={ThreadBoxSx}>
+              <div className="feedback-block" key={feedbackId} sx={ThreadBoxSx}>
+                <div className="anchor" id={`${feedbackId}`} />
                 <div className="feedback-content-container">
                   <div className="arrows-container">
                     {feedbackScoreArrows}
