@@ -147,14 +147,17 @@ const PageLandingSx = {
     },
   },
 
+  '.semibold': {
+    fontFamily: 'Gotham-SemiBold',
+  }
 };
 
 class PageAbout extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      faq1: true,
-      faq2: true,
+      faq1: false,
+      faq2: false,
     };
   }
 
@@ -204,11 +207,28 @@ class PageAbout extends React.Component {
                 </div>
               </div>
               {this.state.faq1 && <div className="answer-text">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                  Mauris pulvinar pretium ipsum, id efficitur libero 
-                  venenatis a. Duis at vestibulum ante. Nulla maximus dui 
-                  quis enim rutrum volutpat. Vivamus sit amet neque scelerisque
-                  erat placerat blandit.
+                  <p>A “thought process” is the written response you create when
+                  solving a practice problem. On “Easy” questions, your TP will
+                  have 1 part — the “final solution; on “Medium” and “Hard”
+                  questions, your TP will have 3 parts — “initial thoughts,”
+                  “approach(es),” and “final solution.”</p>
+
+                  <p>Solving questions and finding answers in a bubble is not
+                  the optimal way to prepare for quant interviews, because
+                  recruiters and interviewers often want to know
+                  <span className="semibold"> how you think </span>
+                  and <span className="semibold">how you get your answer </span>
+                  more than just your final answer. Furthermore, many quant
+                  interview questions (such as strategy problems) will not have
+                  a single correct answer, and are largely about understanding
+                  how you go about solving a problem.</p>
+
+                  <p>A TP enables you to communicate your thinking and methodology
+                  when solving a problem, helping you build the problem-solving
+                  skills you need to ace your quant interview. Writing TPs to
+                  questions also lets other users read exactly how you solved a
+                  practice problem, enabling them to give you feedback, and also
+                  lets you read and learn from other users’ TPs.</p>
                 </div>}
             </div>
             <div className="question">
@@ -225,11 +245,44 @@ class PageAbout extends React.Component {
                 </div>
               </div>
               {this.state.faq2 && <div className="answer-text">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                  Mauris pulvinar pretium ipsum, id efficitur libero 
-                  venenatis a. Duis at vestibulum ante. Nulla maximus dui 
-                  quis enim rutrum volutpat. Vivamus sit amet neque scelerisque
-                  erat placerat blandit.
+                  <p>The 3-box structure on “Medium” and “Hard” questions enables
+                  you to coherently break down your thought processes into
+                  distinct parts — your “initial thoughts,” “approach(es),” and
+                  “final solution.” This intuitive framework will guide you as
+                  you go about solving a problem. Let's break it down:</p>
+
+                  <ul>
+                    <li>
+                      <span className="semibold">Initial thoughts: </span>
+                      This is what you first think of when you read the problem:
+                      whether you’ve seen a similar problem before, whether you
+                      can think of any potential strategies off the top of your
+                      head, etc.
+                    </li>
+                    <li>
+                      <span className="semibold">Approaches: </span>
+                      These are the different ways you go about solving the
+                      problem, because solving a problem can often entail several
+                      different attempts involving different strategies. In this
+                      section, please do not hesitate to include strategies that
+                      did not ultimately work — it is inevitable that in quant
+                      interviews, you will sometimes start a problem-solving
+                      strategy that does not yield a final solution.
+                    </li>
+                    <li>
+                      <span className="semibold">Final solution: </span>
+                      This will include the process going from a successful
+                      problem-solving strategy to your final answer.
+                    </li>
+                  </ul>
+
+                  <p>We want to ensure that when solving a problem, you focus
+                  on the entire process, communicating your initial thoughts and
+                  different approaches as well as your final solution and answer.
+                  In your quant interviews, your interviewer
+                  <span className="semibold"> will</span> pay attention
+                  to your initial thoughts and all your different problem-solving
+                  approaches to understand how your brain works!</p>
                 </div>}
             </div>
           </div>
