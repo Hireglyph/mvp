@@ -470,6 +470,9 @@ class PageQuestion extends React.Component {
                 onMouseOver={
                   () => this.displayTooltip(true)
                 }
+                onClick={
+                  () => this.props.history.push('/about')
+                }
               >
                 We use this three-box structure in order to simulate how you would 
                 present your problem-solving in a real interview setting. Click to 
