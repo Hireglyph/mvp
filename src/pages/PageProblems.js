@@ -219,7 +219,7 @@ class PageProblems extends React.Component {
       hotQuestions
     } = this.props;
 
-    if (!isLoaded(questions) || !isLoaded(questionHistory) || !isLoaded(hotQuestions)) {
+    if (!isLoaded(questions) || !isLoaded(hotQuestions)) {
       return <Loading />;
     }
 
