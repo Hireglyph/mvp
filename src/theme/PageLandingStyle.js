@@ -37,7 +37,7 @@ export const PageLandingSx = {
     },
 
     '.main-image': {
-        marginLeft: '60px',
+        margin: '30px 0 0 60px',
         height: '350px',
         '@media(max-width: 1300px)': {
             height: '250px',
