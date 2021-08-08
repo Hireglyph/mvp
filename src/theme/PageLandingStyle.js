@@ -151,19 +151,17 @@ export const PageLandingSx = {
     },
 
     '.logo-box': {
-        marginTop: '20px',
+        margin: '20px 50px 40px 50px',
         display: 'flex',
         flexDirection: 'row',
         flexWrap: 'wrap',
-        marginLeft: '50px',
-        marginRight: '50px',
         justifyContent: 'center',
     },
 
     '.logo-banner': {
         backgroundColor: 'lightPurpleGrey',
         '@media(min-width: 1051px)': {
-        paddingTop: '40px',
+            paddingTop: '40px',
         },
     },
 
