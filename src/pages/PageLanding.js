@@ -59,14 +59,14 @@ const PageLandingSx = {
     marginTop: '60px',
     justifyContent: 'center',
     '@media(min-width: 1051px)': {
-      background: theme => `linear-gradient(to bottom left, transparent 0%, transparent 50%, ${theme.colors.lightPurpleGrey} 50%, ${theme.colors.lightPurpleGrey} 100%)`,
+      background: theme => `linear-gradient(to bottom left, transparent 0%, transparent 50%, ${theme.colors.lightPurpleGray} 50%, ${theme.colors.lightPurpleGray} 100%)`,
     },
   },
 
   '.aesthetic': {
     '@media(max-width: 1050px)': {
       height: '150px',
-      background: theme => `linear-gradient(to bottom left, transparent 0%, transparent 50%, ${theme.colors.lightPurpleGrey} 50%, ${theme.colors.lightPurpleGrey} 100%)`,
+      background: theme => `linear-gradient(to bottom left, transparent 0%, transparent 50%, ${theme.colors.lightPurpleGray} 50%, ${theme.colors.lightPurpleGray} 100%)`,
     },
     '@media(max-width: 720px)': {
       height: '100px',
@@ -173,7 +173,7 @@ const PageLandingSx = {
   },
 
   '.logo-banner': {
-    backgroundColor: 'lightPurpleGrey',
+    backgroundColor: 'lightPurpleGray',
     '@media(min-width: 1051px)': {
       paddingTop: '40px',
     },
@@ -332,10 +332,6 @@ class PageLanding extends React.Component {
                 <ul className="mailing-li">
                   <li>Get the latest quant finance internships right to your inbox</li>
                   <li>Learn tips and tricks about preparing for your interviews</li>
-                  <li>
-                    Be the first to find out about the Hireglyph platform when we
-                    launch this summer
-                  </li>
                 </ul>
                 <div className="center">
                   <Mailchimp
