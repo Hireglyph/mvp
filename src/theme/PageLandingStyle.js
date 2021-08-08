@@ -140,6 +140,7 @@ export const PageLandingSx = {
             lineHeight: '30px',
             marginTop: '15px',
             fontSize: '18px',
+            width: '400px',
         },
         '@media(max-width: 720px)': {
             width: '350px',
