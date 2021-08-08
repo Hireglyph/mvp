@@ -27,7 +27,6 @@ const PageLandingSx = {
     color: 'black',
     fontSize: '40px',
     lineHeight: '45px',
-    alignItems: 'center',
     textAlign: 'center',
     '@media(max-width: 475px)': {
       marginTop: '40px',
@@ -246,17 +245,6 @@ const PageLandingSx = {
     marginBottom: '30px',
   },
 
-  '.launch-banner': {
-    fontFamily: 'Open-Sans-Italic',
-    fontSize: '28px',
-    textAlign: 'center',
-    backgroundColor: 'lightPurpleGrey',
-    padding: '12px',
-    '@media(max-width: 475px)': {
-      fontSize: '20px',
-    },
-  },
-
   '.center': {
     textAlign: 'center'
   },
@@ -323,7 +311,7 @@ class PageLanding extends React.Component {
             Ace your next quant finance interview.
           </div>
           <div className="subline">
-            Join 800+ aspiring professionals at Harvard, Columbia, Berkeley, Michigan, Waterloo, and more.
+            Join 1200+ aspiring professionals at Harvard, Columbia, Berkeley, Michigan, Waterloo, and more.
           </div>
           <div className="main-box">
             <div>
@@ -417,9 +405,6 @@ class PageLanding extends React.Component {
                 </div>
               </div>
             </div>
-          </div>
-          <div className="launch-banner">
-            <b>Launching Summer 2021!</b>
           </div>
         </div>
       </div>
