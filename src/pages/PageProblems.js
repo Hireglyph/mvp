@@ -215,7 +215,6 @@ class PageProblems extends React.Component {
       diff,
       company,
       questions,
-      questionHistory,
       hotQuestions
     } = this.props;
 
