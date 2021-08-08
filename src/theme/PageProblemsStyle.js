@@ -83,7 +83,6 @@ export const PageProblemsSx = {
     },
     '.topic-tag': {
         color: 'purple',
-        backgroundColor: 'white',
         border: '1px solid #5A3FFF',
     },
     '.tag-btn:hover': {
@@ -232,7 +231,6 @@ export const PageProblemsSx = {
     '.no-company-tag': {
         width: '85px',
         color: 'white',
-        backgroundColor: 'white',
         marginRight: '50px',
         marginLeft: 'auto',
         '@media (max-width: 640px)': {
