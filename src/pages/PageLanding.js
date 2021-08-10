@@ -45,80 +45,82 @@ class PageLanding extends React.Component {
               <img src={landingMain} alt="landingMain" className="main-image" />
             </div>
           </div>
-          <div className="mailing-list-section">
-            <div>
-              <div className="join-mailing">
-                Also, join our mailing list!
-              </div>
-              <Mailchimp
-                action='https://hireglyph.us1.list-manage.com/subscribe/post?u=04e7de515f8682261e4fd1984&amp;id=d1db2890af'
-                fields={[
-                  {
-                    name: 'EMAIL',
-                    placeholder: 'Enter your email',
-                    type: 'email',
-                    required: true
-                  }
-                ]}
-                styles={{
-                  sendingMsg: {
-                    color: "#0652DD"
-                  },
-                  successMsg: {
-                    color: "#009432"
-                  },
-                  duplicateMsg: {
-                    color: "#EE5A24"
-                  },
-                  errorMsg: {
-                    color: "#ED4C67"
+          <div className="aesthetic"/>
+          <div className="purple-background">
+            <div className="mailing-list-section">
+              <div>
+                <div className="join-mailing">
+                  Also, join our mailing list!
+                </div>
+                <Mailchimp
+                  action='https://hireglyph.us1.list-manage.com/subscribe/post?u=04e7de515f8682261e4fd1984&amp;id=d1db2890af'
+                  fields={[
+                    {
+                      name: 'EMAIL',
+                      placeholder: 'Enter your email',
+                      type: 'email',
+                      required: true
+                    }
+                  ]}
+                  styles={{
+                    sendingMsg: {
+                      color: "#0652DD"
+                    },
+                    successMsg: {
+                      color: "#009432"
+                    },
+                    duplicateMsg: {
+                      color: "#EE5A24"
+                    },
+                    errorMsg: {
+                      color: "#ED4C67"
+                    }
                   }
                 }
-              }
-                className="mailchimp"
-                inputClassName="email-input"
-                buttonClassName="subscribe-button"
-                disabledClassName="disabled"
-              />
-                <div className="worry-message">
-                  Don’t worry, we won’t spam your inbox!
-                </div>
-            </div>
-            <div className="mailing-li">
-              <div>You'll get exclusive access to...</div>
-              <ul>
-                <li>Curated lists of finance internships</li>
-                <li>Tips and tricks about preparing for your interviews</li>
-              </ul>
-            </div>
-          </div>
-          <div className="aesthetic"/>
-          <div className="logo-banner">
-            <div className="logo-text">Hireglyph is backed by</div>
-            <div className="logo-box">
-              <img src={harvardIlab} alt="harvardIlab" className="logo" />
-              <img src={berkeleySkydeck} alt="berkeleySkydeck" className="logo" />
-            </div>
-          </div>
-          <div className="explain-banner">
-            <div className="explain-text">What we offer</div>
-            <div className="image-box">
-              <div>
-                <img src={accessQuestions} alt="accessQuestions" className="icon" />
-                <div className="icon-text" style={{ color: '#A4FFBE' }}>
-                  Access a Variety of Questions
-                </div>
+                  className="mailchimp"
+                  inputClassName="email-input"
+                  buttonClassName="subscribe-button"
+                  disabledClassName="disabled"
+                />
+                  <div className="worry-message">
+                    Don’t worry, we won’t spam your inbox!
+                  </div>
               </div>
-              <div>
-                <img src={joinCommunity} alt="joinCommunity" className="icon" />
-                <div className="icon-text" style={{ color: '#B8B8FF' }}>
-                  Join a Community of Problem-Solvers
-                </div>
+              <div className="mailing-li">
+                <div>You'll get exclusive access to...</div>
+                <ul>
+                  <li>Curated lists of finance internships</li>
+                  <li>Tips and tricks about preparing for your interviews</li>
+                </ul>
               </div>
-              <div>
-                <img src={receiveFeedback} alt="receiveFeedback" className="icon" />
-                <div className="icon-text" style={{ color: '#85D3FF' }}>
-                  Receive Feedback on Your Solutions
+            </div>
+            <div className="logo-banner">
+              <div className="logo-text">Hireglyph is backed by</div>
+              <div className="logo-box">
+                <img src={harvardIlab} alt="harvardIlab" className="logo" />
+                <img src={berkeleySkydeck} alt="berkeleySkydeck" className="logo" />
+              </div>
+            </div>
+            <div className="explain-banner">
+              <div className="explain-text">What we offer</div>
+              <div className="image-box">
+                <div>
+                  <img src={accessQuestions} alt="accessQuestions" className="icon" />
+                  <div className="icon-text" style={{ color: '#A4FFBE' }}>
+                    Access a Variety of Questions
+                  </div>
+                </div>
+                <div>
+                  <img src={joinCommunity} alt="joinCommunity" className="icon" />
+                  <div className="icon-text" style={{ color: '#B8B8FF' }}>
+                    Join a Community of Problem-Solvers
+                  </div>
+                </div>
+                <div>
+                  <img src={receiveFeedback} alt="receiveFeedback" className="icon" />
+                  <div className="icon-text" style={{ color: '#85D3FF' }}>
+                    Receive Feedback on Your Solutions
+                  </div>
                 </div>
               </div>
             </div>

@@ -21,19 +21,19 @@ export const PageLandingSx = {
         flexWrap: 'wrap',
         marginTop: '80px',
         justifyContent: 'center',
-        '@media(min-width: 1051px)': {
-            background: theme => `linear-gradient(to bottom left, transparent 0%, transparent 50%, ${theme.colors.lightPurpleGrey} 50%, ${theme.colors.lightPurpleGrey} 100%)`,
-        },
     },
 
     '.aesthetic': {
-        '@media(max-width: 1050px)': {
-            height: '150px',
-            background: theme => `linear-gradient(to bottom left, transparent 0%, transparent 50%, ${theme.colors.lightPurpleGrey} 50%, ${theme.colors.lightPurpleGrey} 100%)`,
-        },
+        background: theme => `linear-gradient(to bottom left, transparent 0%, transparent 50%, ${theme.colors.lightPurpleGray} 50%, ${theme.colors.lightPurpleGray} 100%)`,
+        height: '120px',
+
         '@media(max-width: 720px)': {
             height: '100px',
         },
+    },
+
+    '.purple-background': {
+        backgroundColor: 'lightPurpleGray',
     },
 
     '.main-image': {
@@ -107,7 +107,6 @@ export const PageLandingSx = {
         '@media(max-width: 1000px)': {
             flexDirection: 'column',
         },
-        margin: '80px 0 20px 0',
     },
 
     '.join-mailing': {
@@ -160,7 +159,6 @@ export const PageLandingSx = {
     },
 
     '.logo-banner': {
-        backgroundColor: 'lightPurpleGrey',
         '@media(min-width: 1051px)': {
             paddingTop: '40px',
         },
@@ -280,9 +278,4 @@ export const PageLandingSx = {
             fontSize: '12px',
         },
     },
-
-    '.highlight': {
-        background: theme => `linear-gradient(0deg, ${theme.colors.lightPurple} 50%, transparent 50%)`
-    },
-
 };
