@@ -6,6 +6,7 @@ export const PageLandingSx = {
     lineHeight: '30px',
 
     '.title': {
+        marginRight: '30px',
         fontFamily: 'Open-Sans-Bold',
         color: 'black',
         fontSize: '35px',
@@ -84,6 +85,7 @@ export const PageLandingSx = {
     '.sub-title': {
         fontFamily: 'Gotham-Book',
         fontSize: '18px',
+        marginRight: '30px',
         '@media(max-width: 1200px)': {
         fontSize: '14px',
         lineHeight: '20px',
@@ -128,6 +130,7 @@ export const PageLandingSx = {
 
     '.mailing-li': {
         margin: '15px 0 0 60px',
+        marginRight: '30px',
         fontFamily: 'Gotham-Book',
         fontSize: '18px',
         '@media(max-width: 1200px)': {
