@@ -29,7 +29,7 @@ class PageLanding extends React.Component {
                 Ace your next quant finance interview.
               </div>
               <div className="sub-title">
-                Join our community of 1200+ aspiring professionals at Harvard, Columbia, Berkeley, Michigan, Waterloo, and more.
+                Join our community of 1400+ aspiring professionals at Harvard, Columbia, Berkeley, Michigan, Waterloo, and more.
                 <br/> <br/>
                 Access the premier interview preparation platform for quant trading and research, along with curated newsletters to boost your career.
               </div>
