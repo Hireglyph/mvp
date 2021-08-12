@@ -114,8 +114,9 @@ class PageTp extends React.Component {
     updates[`/feedbacks/${tpId}/${feedbackId}`] = {
       feedback,
       creator: uid,
-      score: 0,
+      score: 1,
       username,
+      users: {[uid]: 1},
       date: Date()
     };
     updates[`/feedbackHistory/${uid}/${feedbackId}`] = {
@@ -123,7 +124,7 @@ class PageTp extends React.Component {
       feedback,
       questId,
       username: tp.username,
-      score: 0,
+      score: 1,
       date: Date()
     };
     // notify TP's creator if current user isn't the creator
@@ -244,7 +245,8 @@ class PageTp extends React.Component {
       replyToID,
       toUsername,
       username,
-      score: 0,
+      score: 1,
+      users: {[uid]: 1},
       date: Date()
     };
     updates[`/replyHistory/${uid}/${replyId}`] = {
@@ -254,7 +256,7 @@ class PageTp extends React.Component {
       replyFeedbackID,
       username,
       date: Date(),
-      score: 0,
+      score: 1,
     };
     // notify the creator of the reply/feedback the user is replying to
     if (uid !== replyToCreator) {
