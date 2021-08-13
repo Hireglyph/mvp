@@ -116,7 +116,7 @@ class PageTp extends React.Component {
       creator: uid,
       score: 1,
       username,
-      users: {[uid]: 1},
+      users: { [uid]: 1 },
       date: Date()
     };
     updates[`/feedbackHistory/${uid}/${feedbackId}`] = {
@@ -246,7 +246,7 @@ class PageTp extends React.Component {
       toUsername,
       username,
       score: 1,
-      users: {[uid]: 1},
+      users: { [uid]: 1 },
       date: Date()
     };
     updates[`/replyHistory/${uid}/${replyId}`] = {

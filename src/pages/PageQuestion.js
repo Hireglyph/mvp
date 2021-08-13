@@ -178,8 +178,24 @@ class PageQuestion extends React.Component {
     // only solution if "easy" question, otherwise initial/approach/solution
     const tp =
       difficulty === "easy"
-        ? { creator: uid, solution, total: 1, users: {[uid]: 1}, username, date: Date() }
-        : { approach, creator: uid, initial, solution, total: 1, users: {[uid]: 1}, username, date: Date() };
+        ? {
+            creator: uid,
+            solution,
+            total: 1,
+            users: { [uid]: 1 },
+            username,
+            date: Date(),
+          }
+        : {
+            approach,
+            creator: uid,
+            initial,
+            solution,
+            total: 1,
+            users: { [uid]: 1 },
+            username,
+            date: Date(),
+          };
     const profileTp =
       difficulty === "easy"
         ? { questId, solution, total: 1, date: Date() }
