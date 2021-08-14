@@ -18,7 +18,7 @@ class PageOnboard extends React.Component {
       username: '',
       error: '',
       subscribe: true,
-      select: "other",
+      select: "blank",
     };
   }
 
@@ -26,7 +26,6 @@ class PageOnboard extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
 
   formChange = (event) =>
-    //console.log({this.state.select});
     this.setState({select: event.target.value});
 
   handleCheck = () => {
@@ -107,12 +106,20 @@ class PageOnboard extends React.Component {
               handleCheck={this.handleCheck}
             />
           </div>
-          <div>
+          <div style={{marginTop: '10px', fontSize: '15px',}}>
             <label>
               How did you hear about us?
               <select value={this.state.select} onChange={this.formChange}>
-                <option value="social">Social Media</option>
+                <option value="blank" />
+                <option value="newsletter">Newsletter</option>
+                <option value="discord">Discord</option>
+                <option value="linkedin">LinkedIn</option>
+                <option value="facebook">Facebook</option>
+                <option value="instagram">Instagram</option>
+                <option value="reddit">Reddit</option>
+                <option value="social">Other Social Media</option>
                 <option value="google">Google Search</option>
+                <option value="club">University Club</option>
                 <option value="friend">Through a Friend</option>
                 <option value="other">Other</option>
               </select>
