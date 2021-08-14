@@ -18,11 +18,16 @@ class PageOnboard extends React.Component {
       username: '',
       error: '',
       subscribe: true,
+      select: "other",
     };
   }
 
   handleChange = (event) =>
     this.setState({ [event.target.name]: event.target.value });
+
+  formChange = (event) =>
+    //console.log({this.state.select});
+    this.setState({select: event.target.value});
 
   handleCheck = () => {
     this.setState({ subscribe: !this.state.subscribe });
@@ -56,6 +61,7 @@ class PageOnboard extends React.Component {
       admin: false,
     };
     updates[`/usernameIndex/${username}`] = true;
+    updates[`/userData/${this.state.select}/${uid}`] = true;
 
     this.props.firebase.update('/', updates);
 
@@ -100,6 +106,17 @@ class PageOnboard extends React.Component {
               checked={this.state.subscribe}
               handleCheck={this.handleCheck}
             />
+          </div>
+          <div>
+            <label>
+              How did you hear about us?
+              <select value={this.state.select} onChange={this.formChange}>
+                <option value="social">Social Media</option>
+                <option value="google">Google Search</option>
+                <option value="friend">Through a Friend</option>
+                <option value="other">Other</option>
+              </select>
+            </label>
           </div>
           <button
             className="form-btn"
