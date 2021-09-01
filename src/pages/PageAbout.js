@@ -324,11 +324,11 @@ class PageAbout extends React.Component {
                 </div>
                 <div className="bio-text">
                   At the Haas School at UC Berkeley, Blanchard is a double-major 
-                  in Business Administration and Data Science. He has experience 
-                  as a PwC Advisory intern and as the Financial Division Project 
-                  Manager at Berkeley Business Society. His expertise includes 
-                  business development, financial operations, and marketing 
-                  strategies.
+                  in Business Administration and Data Science. He will be interning
+                  at Jane Street next summer, and he has experience as a PwC
+                  Advisory intern and as the Financial Division Project Manager
+                  at Berkeley Business Society. His expertise includes business
+                  development, financial operations, and marketing strategies.
                 </div>
               </div>
             </div>
